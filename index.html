@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Service Portal</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --navy: #203265;
+            --lime: #A8C500;
+            --body-text: #2A2A2A;
+            --med-grey: #9C9C9C;
+            --light-grey: #D4D4D4;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes sweep {
+            0% { left: -60%; }
+            100% { left: 120%; }
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: transparent !important;
+            overflow: hidden;
+        }
+
+        .card {
+            width: 380px;
+            padding: 40px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.15); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: float 6s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -60%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: sweep 5s infinite;
+            pointer-events: none;
+        }
+
+        .header { text-align: center; margin-bottom: 32px; }
+        .header h2 { font-size: 1.7rem; font-weight: 700; color: var(--navy); letter-spacing: -0.02em; }
+        .header p { color: var(--med-grey); font-size: 0.9rem; margin-top: 6px; }
+
+        .input-group { margin-bottom: 20px; text-align: left; }
+        label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--navy); }
+        input { 
+            width: 100%; 
+            padding: 12px 16px; 
+            border-radius: 12px; 
+            border: 1.5px solid var(--light-grey); 
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--body-text); 
+            font-size: 0.95rem; 
+            outline: none; 
+        }
+        input:focus { border-color: var(--navy); box-shadow: 0 0 0 4px rgba(32, 50, 101, 0.1); }
+
+        button { 
+            width: 100%; 
+            padding: 14px; 
+            margin-top: 10px; 
+            border-radius: 12px; 
+            border: none; 
+            background: var(--lime); 
+            color: var(--navy); 
+            font-weight: 700; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(168, 197, 0, 0.2); 
+        }
+        button:hover { transform: scale(1.02); background: #96b000; }
+        button:disabled { background: var(--med-grey); cursor: not-allowed; }
+
+        .toggle { text-align: center; margin-top: 24px; font-size: 0.85rem; color: var(--med-grey); }
+        .toggle span { color: var(--navy); cursor: pointer; font-weight: 700; text-decoration: underline; }
+
+        .msg { margin-top: 20px; font-size: 0.85rem; text-align: center; padding: 12px; border-radius: 10px; display: none; line-height: 1.4; }
+        .error { display: block; border: 1px solid #feb2b2; color: #c53030; background: #fff5f5; }
+        .success { display: block; border: 1px solid #9ae6b4; color: #276749; background: #f0fff4; }
+    </style>
+</head>
+
+<body>
+
+    <div class="card" id="card">
+        <div class="header">
+            <h2 id="title">Service Portal</h2>
+            <p id="subtitle">Secure Employee Access</p>
+        </div>
+
+        <div class="input-group">
+            <label>Corporate Email</label>
+            <input type="email" id="email" placeholder="name@company.com">
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+
+        <button id="mainBtn" onclick="submitForm()">Login to Portal</button>
+
+        <div class="toggle">
+            <p id="toggleText">New User? <span onclick="switchMode()">Create Account</span></p>
+        </div>
+
+        <div id="msg" class="msg"></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCg251SA39YSg5p7lZ20Oe4BSzQFB4bm1E",
+            authDomain: "employee-service-portal-b753b.firebaseapp.com",
+            projectId: "employee-service-portal-b753b",
+            storageBucket: "employee-service-portal-b753b.firebasestorage.app",
+            messagingSenderId: "787703437938",
+            appId: "1:787703437938:web:383b6f148067a0590400eb",
+            measurementId: "G-DNMT4J7RGL"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        let mode = "login";
+
+        function switchMode() {
+            const title = document.getElementById("title");
+            const btn = document.getElementById("mainBtn");
+            const toggleText = document.getElementById("toggleText");
+            const msg = document.getElementById("msg");
+            msg.style.display = "none";
+
+            if (mode === "login") {
+                mode = "signup";
+                title.innerText = "Create Account";
+                btn.innerText = "Register Now";
+                toggleText.innerHTML = 'Already registered? <span onclick="switchMode()">Sign In</span>';
+            } else {
+                mode = "login";
+                title.innerText = "Service Portal";
+                btn.innerText = "Login to Portal";
+                toggleText.innerHTML = 'New User? <span onclick="switchMode()">Create Account</span>';
+            }
+        }
+
+        function submitForm() {
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const btn = document.getElementById("mainBtn");
+            
+            if (!email || !password) {
+                showMsg("Please enter both email and password", "error");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "Verifying...";
+
+            const targetURL = "https://sites.google.com/view/employeeserviceportal/welcome";
+
+            if (mode === "signup") {
+                auth.createUserWithEmailAndPassword(email, password)
+                    .then(() => {
+                        showMsg("Account created! Redirecting to Sign In...", "success");
+                        setTimeout(switchMode, 2000);
+                        btn.disabled = false;
+                        btn.innerText = "Register Now";
+                    })
+                    .catch(err => {
+                        showMsg(err.message, "error");
+                        btn.disabled = false;
+                        btn.innerText = "Register Now";
+                    });
+            } else {
+                auth.signInWithEmailAndPassword(email, password)
+                    .then(() => {
+                        showMsg("Authorized! Redirecting...", "success");
+                        
+                        setTimeout(() => {
+                            try {
+                                // Frame ko break karke redirect karne ki koshish
+                                window.top.location.href = targetURL;
+                            } catch (e) {
+                                // Agar frame lock ho, to naye tab mein khol dein (Grey icon se bachne ke liye)
+                                window.open(targetURL, '_blank');
+                            }
+                        }, 1000);
+                    })
+                    .catch(err => {
+                        showMsg("Login failed: " + err.message, "error");
+                        btn.disabled = false;
+                        btn.innerText = "Login to Portal";
+                    });
+            }
+        }
+
+        function showMsg(text, type) {
+            const msg = document.getElementById("msg");
+            msg.innerText = text;
+            msg.className = `msg ${type}`;
+            msg.style.display = "block";
+        }
+    </script>
+</body>
+</html>

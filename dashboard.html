@@ -3,365 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPAK Portal - Employee Dashboard</title>
+    <title>IPAK Portal - Dashboard</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --navy: #203265;
             --lime: #A8C500;
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-main: #2A2A2A;
-            --text-secondary: #6c757d;
+            --body-text: #2A2A2A;
+            --med-grey: #9C9C9C;
+            --light-grey: #D4D4D4;
+            --white: #FFFFFF;
             --emergency-red: #ff4757;
-            --glass-shadow: 0 8px 32px 0 rgba(32, 50, 101, 0.05);
         }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Inter', sans-serif;
-            cursor: none; /* Hide default cursor for custom one */
-        }
-        
-        body {
-            background-color: var(--bg-color);
-            color: var(--navy);
-            min-height: 100vh;
-            overflow-x: hidden;
-            background-image: radial-gradient(var(--navy) 0.5px, transparent 0.5px);
-            background-size: 30px 30px; /* Subtle pattern */
+            cursor: none; /* Custom cursor */
         }
 
-        /* --- Custom Cursor --- */
+        body {
+            background-color: #F5F7FA;
+            color: var(--navy);
+            height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- CUSTOM CURSOR --- */
         .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--lime);
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 9999;
-            pointer-events: none;
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--lime);
+            width: 8px; height: 8px; background-color: var(--lime);
+            position: fixed; z-index: 9999; pointer-events: none;
+            border-radius: 50%; box-shadow: 0 0 10px var(--lime);
         }
 
         .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--navy);
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 9999;
-            pointer-events: none;
-            border-radius: 50%;
-            transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
-            transform: translate(-50%, -50%); /* Center cursor */
+            width: 40px; height: 40px; border: 2px solid var(--navy);
+            position: fixed; z-index: 9999; pointer-events: none;
+            border-radius: 50%; transition: width 0.2s, height 0.2s, border-color 0.2s;
         }
 
         body.hovering .cursor-outline {
-            width: 60px;
-            height: 60px;
-            border-color: var(--lime);
+            width: 60px; height: 60px; border-color: var(--lime);
             background-color: rgba(168, 197, 0, 0.1);
         }
 
-        /* --- Layout --- */
-        .wrapper {
-            min-height: 100vh;
+        /* --- HEADER --- */
+        .top-bar {
+            background: var(--white);
+            height: 80px;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 40px 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        /* --- Header Section --- */
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-            animation: slideDown 0.8s ease-out;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 10px;
-            letter-spacing: -1px;
-        }
-
-        header h1 span { color: var(--lime); }
-
-        header p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-        }
-
-        /* --- Grid --- */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-        }
-
-        /* --- Cards --- */
-        .card {
-            background: var(--card-bg);
-            border: 1px solid rgba(0,0,0,0.05);
-            border-radius: 20px;
-            padding: 30px;
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
             justify-content: space-between;
-            min-height: 180px;
-            box-shadow: var(--glass-shadow);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            animation: fadeIn 0.6s ease-out forwards;
-            opacity: 0; /* Starts hidden for animation */
+            align-items: center;
+            padding: 0 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: fixed; top: 0; width: 100%; z-index: 100;
         }
 
-        /* Staggered Animation Delays */
-        .card:nth-child(1) { animation-delay: 0.1s; }
-        .card:nth-child(2) { animation-delay: 0.2s; }
-        .card:nth-child(3) { animation-delay: 0.3s; }
-        .card:nth-child(4) { animation-delay: 0.4s; }
-        .card:nth-child(5) { animation-delay: 0.5s; }
-        .card:nth-child(6) { animation-delay: 0.6s; }
-        .card:nth-child(7) { animation-delay: 0.7s; }
-        .card:nth-child(8) { animation-delay: 0.8s; }
-        .card:nth-child(9) { animation-delay: 0.9s; }
+        .logo-link img { width: 80px; height: auto; transition: transform 0.2s; }
+        .logo-link:hover img { transform: scale(1.05); }
 
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: var(--lime);
-            box-shadow: 0 20px 40px rgba(32, 50, 101, 0.12);
+        /* User & Logout Group */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px; /* Icon aur Button k darmiyan faasla */
+            gap: 20px;
         }
 
-        .card-icon {
-            font-size: 2rem;
-            color: var(--navy);
-            margin-bottom: 20px;
-            transition: 0.3s;
-        }
-
-        .card:hover .card-icon {
-            color: var(--lime);
-            transform: scale(1.1);
-        }
-
-        .card-content h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 5px;
-        }
-
-        .card-content p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            font-weight: 400;
-        }
-
-        .arrow-icon {
-            position: absolute;
-            bottom: 30px;
-            right: 30px;
-            color: var(--lime);
-            opacity: 0;
-            transform: translateX(-15px);
-            transition: 0.4s ease;
-        }
-
-        .card:hover .arrow-icon {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        /* Red Accent for Blood Bank */
-        .card.accent-red:hover { 
-            border-color: var(--emergency-red);
-            background-color: #fff5f6;
-        }
-        .card.accent-red .card-icon { color: var(--emergency-red); }
-        .card.accent-red:hover .arrow-icon { color: var(--emergency-red); }
-
-        /* --- Footer --- */
-        footer {
-            text-align: center;
-            margin-top: 60px;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 1.5px;
-            opacity: 0.7;
-        }
-
-        /* --- Animations --- */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- Mobile Responsive --- */
-        @media (max-width: 768px) {
-            .cursor-dot, .cursor-outline { display: none; }
-            * { cursor: auto; } /* Restore default cursor */
-            
-            header h1 { font-size: 2rem; }
-            .wrapper { padding-top: 20px; }
-            
-            .card:hover { transform: none; } /* Disable heavy hover effects on touch */
-            .arrow-icon { opacity: 1; transform: translateX(0); color: #dedede; } /* Always show arrow on mobile */
-        }
-    </style>
-</head>
-<body>
-
-    <div class="cursor-dot" data-cursor-dot></div>
-    <div class="cursor-outline" data-cursor-outline></div>
-
-    <div class="wrapper">
-        <div class="container">
-            
-            <header>
-                <h1>IPAK <span>PORTAL</span></h1>
-                <p>Employee Services & Resource Dashboard</p>
-            </header>
-
-            <div class="dashboard-grid">
-                <a href="https://sites.google.com/view/employeeserviceportal/newsletter" class="card">
-                    <i class="fas fa-newspaper card-icon"></i>
-                    <div class="card-content">
-                        <h3>Newsletter</h3>
-                        <p>Weekly Updates & Stories</p>
-                    </div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
-
-                <a href="https://sites.google.com/view/employeeserviceportal/policies" class="card">
-                    <i class="fas fa-scale-balanced card-icon"></i>
-                    <div class="card-content">
-                        <h3>Policies</h3>
-                        <p>HR & Company Guidelines</p>
-                    </div>
+        .user-icon {
+@@ -198,97 +198,97 @@
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
                 <a href="#" class="card">
+                <a href="https://ipak.smarthcm.com/ess/Account/Login.aspx?returnUrl=https://ipak.smarthcm.com/ess/Default.aspx" target="_blank" class="card">
                     <i class="fas fa-id-card card-icon"></i>
-                    <div class="card-content">
-                        <h3>ESS Portal</h3>
-                        <p>Leaves, Payslips & Profile</p>
-                    </div>
+                    <div><div class="card-title">ESS</div><div class="card-desc">Self Service</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
                 <a href="https://sites.google.com/view/employeeserviceportal/blood-bank" class="card accent-red">
                     <i class="fas fa-droplet card-icon"></i>
-                    <div class="card-content">
-                        <h3>Blood Bank</h3>
-                        <p>Emergency Donor Registry</p>
-                    </div>
+                    <div><div class="card-title">Blood Bank</div><div class="card-desc">Emergency Donor</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
                 <a href="https://sites.google.com/view/employeeserviceportal/ipak-e-books" class="card">
                     <i class="fas fa-book card-icon"></i>
-                    <div class="card-content">
-                        <h3>IPAK E-Books</h3>
-                        <p>Digital Learning Resources</p>
-                    </div>
+                    <div><div class="card-title">IPAK E-BOOKS</div><div class="card-desc">Digital Learning</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
                 <a href="https://sites.google.com/view/employeeserviceportal/audio-books" class="card">
                     <i class="fas fa-headphones card-icon"></i>
-                    <div class="card-content">
-                        <h3>Audio Library</h3>
-                        <p>Music & Audio Resources</p>
-                    </div>
+                    <div><div class="card-title">Audio Library</div><div class="card-desc">Music & Audio</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
                 <a href="https://sites.google.com/view/employeeserviceportal/media-of-events" class="card">
                     <i class="fas fa-photo-film card-icon"></i>
-                    <div class="card-content">
-                        <h3>Event Gallery</h3>
-                        <p>Highlights & Memories</p>
-                    </div>
+                    <div><div class="card-title">Media of Events</div><div class="card-desc">Gallery Highlights</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
                 <a href="https://sites.google.com/view/employeeserviceportal/admin" class="card">
                     <i class="fas fa-user-headset card-icon"></i>
-                    <div class="card-content">
-                        <h3>Admin Support</h3>
-                        <p>Complaints & Suggestions</p>
-                    </div>
+                    <div><div class="card-title">Admin Support</div><div class="card-desc">Complaints</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
                 <a href="https://sites.google.com/view/employeeserviceportal/podcast" class="card">
                     <i class="fas fa-microphone-lines card-icon"></i>
-                    <div class="card-content">
-                        <h3>Podcasts</h3>
-                        <p>IPAK Talks & Interviews</p>
-                    </div>
+                    <div><div class="card-title">Podcast</div><div class="card-desc">Talks & Interviews</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
+
             </div>
-            
-            <footer>
-                &copy; 2026 IPAK PORTAL | BRAND OS SYSTEM
-            </footer>
+            <footer>&copy; 2026 IPAK PORTAL | SECURE EMPLOYEE ACCESS</footer>
         </div>
     </div>
-    
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
     <script>
-        const cursorDot = document.querySelector('[data-cursor-dot]');
-        const cursorOutline = document.querySelector('[data-cursor-outline]');
-        
-        // Only activate custom cursor on non-touch devices
-        if (window.matchMedia("(pointer: fine)").matches) {
-            window.addEventListener('mousemove', (e) => {
-                const posX = e.clientX;
-                const posY = e.clientY;
+        const firebaseConfig = {
+            apiKey: "AIzaSyCg251SA39YSg5p7lZ20Oe4BSzQFB4bm1E",
+            authDomain: "employee-service-portal-b753b.firebaseapp.com",
+            projectId: "employee-service-portal-b753b",
+            storageBucket: "employee-service-portal-b753b.firebasestorage.app",
+            messagingSenderId: "787703437938",
+            appId: "1:787703437938:web:383b6f148067a0590400eb",
+            measurementId: "G-DNMT4J7RGL"
+        };
 
-                // Move dot instantly
-                cursorDot.style.left = `${posX}px`;
-                cursorDot.style.top = `${posY}px`;
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
 
-                // Move outline with delay (smooth)
-                cursorOutline.animate({
-                    left: `${posX}px`,
-                    top: `${posY}px`
-                }, { duration: 500, fill: "forwards" });
-            });
+        // Check Login
+        auth.onAuthStateChanged(user => {
+            if (!user) {
+                window.location.href = "index.html";
+            }
+        });
 
-            // Hover Effects
-            document.querySelectorAll('a').forEach(el => {
-                el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-                el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = "index.html";
             });
         }
+
+        // Cursor Logic
+        const cursorDot = document.querySelector('[data-cursor-dot]');
+        const cursorOutline = document.querySelector('[data-cursor-outline]');
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 400, fill: "forwards" });
+        });
+        document.querySelectorAll('a, button, i').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
     </script>
 </body>
 </html>

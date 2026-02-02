@@ -235,3 +235,61 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .ipak-header {
+            font-family: 'Fira Sans', sans-serif;
+            text-align: left;
+            background: transparent;
+            overflow: hidden; /* Ensures no scrollbars during animation */
+        }
+
+        .animate-ipak {
+            display: block;
+            opacity: 0;
+            transform: translateX(-25px);
+            animation: slideIn 0.8s ease-out forwards;
+        }
+
+        .line-1 {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #203265; /* IPAK Navy Blue */
+            line-height: 1.1;
+            animation-delay: 0.2s;
+        }
+
+        .line-2 {
+            font-size: 2.8rem;
+            font-weight: 400;
+            color: #A8C500; /* IPAK Lime Accent */
+            margin-top: 8px;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Mobile Optimized */
+        @media (max-width: 768px) {
+            .line-1 { font-size: 2.5rem; }
+            .line-2 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ipak-header">
+        <span class="animate-ipak line-1">Empowering Employees.</span>
+        <span class="animate-ipak line-2">Simplifying Services.</span>
+    </div>
+
+</body>
+</html>

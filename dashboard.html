@@ -68,6 +68,13 @@
             gap: 20px;
         }
 
+        .user-icon {
+            font-size: 1.8rem;
+            color: var(--navy);
+            transition: 0.3s;
+        }
+        .user-icon:hover { color: var(--lime); transform: scale(1.1); }
+
         .logout-btn {
             padding: 10px 20px;
             background: transparent;
@@ -79,7 +86,7 @@
         }
         .logout-btn:hover { background: var(--navy); color: var(--white); }
 
-        /* --- DASHBOARD GRID (4 COLUMNS) --- */
+        /* --- DASHBOARD GRID --- */
         .wrapper {
             padding-top: 120px; 
             padding-bottom: 50px;
@@ -140,9 +147,12 @@
 
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        @media (max-width: 1024px) { .dashboard-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { 
-            .dashboard-grid { grid-template-columns: 1fr; } 
+        @media (max-width: 1024px) {
+            .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .top-bar { padding: 0 20px; }
             .cursor-dot, .cursor-outline { display: none; }
             * { cursor: auto; }
         }

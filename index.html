@@ -1,298 +1,298 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Service Portal</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --navy: #203265;
-            --lime: #A8C500;
-            --body-text: #2A2A2A;
-            --light-grey: #D4D4D4;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Service Portal</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --navy: #203265;
+            --lime: #A8C500;
+            --body-text: #2A2A2A;
+            --light-grey: #D4D4D4;
+        }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #ffffff;
-            overflow: hidden;
-            font-family: 'Inter', sans-serif;
-            position: relative;
-        }
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #ffffff;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+        }
 
-        /* --- HEADER LOGO (Top Left - 80px) --- */
-        .top-bar {
-            position: absolute;
-            top: 30px;
-            left: 50px;
-            z-index: 10;
-        }
+        /* --- HEADER LOGO (Top Left - 80px) --- */
+        .top-bar {
+            position: absolute;
+            top: 30px;
+            left: 50px;
+            z-index: 10;
+        }
 
-        /* Logo Link Styling */
-        .logo-link {
-            display: inline-block;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-        .logo-link:hover {
-            transform: scale(1.05);
-        }
+        /* Logo Link Styling */
+        .logo-link {
+            display: inline-block;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .logo-link:hover {
+            transform: scale(1.05);
+        }
 
-        /* Logo Size 80px */
-        .header-logo {
-            width: 80px; 
-            height: auto;
-            display: block;
-            border: none;
-        }
+        /* Logo Size 80px */
+        .header-logo {
+            width: 80px; 
+            height: auto;
+            display: block;
+            border: none;
+        }
 
-        /* --- MAIN CONTAINER --- */
-        .main-container {
-            display: flex;
-            width: 100%;
-            max-width: 1100px;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 50px;
-            margin-top: 40px;
-        }
+        /* --- MAIN CONTAINER --- */
+        .main-container {
+            display: flex;
+            width: 100%;
+            max-width: 1100px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            margin-top: 40px;
+        }
 
-        /* Text Section Styling */
-        .text-section {
-            flex: 1;
-            padding-right: 50px;
-            font-family: 'Fira Sans', sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+        /* Text Section Styling */
+        .text-section {
+            flex: 1;
+            padding-right: 50px;
+            font-family: 'Fira Sans', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-        .animate-ipak {
-            display: block;
-            opacity: 0;
-            transform: translateX(-30px);
-            animation: slideIn 1s ease-out forwards;
-        }
+        .animate-ipak {
+            display: block;
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: slideIn 1s ease-out forwards;
+        }
 
-        .line-1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: var(--navy);
-            line-height: 1.1;
-            margin-bottom: 10px;
-            animation-delay: 0.2s;
-        }
+        .line-1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1.1;
+            margin-bottom: 10px;
+            animation-delay: 0.2s;
+        }
 
-        .line-2 {
-            font-size: 2.5rem;
-            font-weight: 400;
-            color: var(--lime);
-            animation-delay: 0.4s;
-        }
+        .line-2 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: var(--lime);
+            animation-delay: 0.4s;
+        }
 
-        @keyframes slideIn {
-            to { opacity: 1; transform: translateX(0); }
-        }
+        @keyframes slideIn {
+            to { opacity: 1; transform: translateX(0); }
+        }
 
-        /* --- RIGHT SIDE: LOGIN CARD --- */
-        .form-section { flex: 0 0 auto; }
+        /* --- RIGHT SIDE: LOGIN CARD --- */
+        .form-section { flex: 0 0 auto; }
 
-        .card {
-            width: 380px;
-            padding: 40px;
-            border-radius: 24px;
-            background: #ffffff;
-            border: 1px solid #f0f0f0;
-            box-shadow: 0 20px 50px rgba(32, 50, 101, 0.08);
-            text-align: center;
-            animation: float 6s ease-in-out infinite;
-        }
+        .card {
+            width: 380px;
+            padding: 40px;
+            border-radius: 24px;
+            background: #ffffff;
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 20px 50px rgba(32, 50, 101, 0.08);
+            text-align: center;
+            animation: float 6s ease-in-out infinite;
+        }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0px); }
-        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
 
-        .header h2 { font-size: 1.6rem; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
-        .header p { color: #888; font-size: 0.9rem; margin-bottom: 30px; }
+        .header h2 { font-size: 1.6rem; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+        .header p { color: #888; font-size: 0.9rem; margin-bottom: 30px; }
 
-        .input-group { margin-bottom: 18px; text-align: left; }
-        label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--navy); }
-        input { 
-            width: 100%; padding: 12px 16px; border-radius: 10px; 
-            border: 1.5px solid var(--light-grey); outline: none; font-size: 0.95rem;
-            background: #fff;
-            font-family: 'Inter', sans-serif;
-        }
-        input:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(32, 50, 101, 0.05); }
+        .input-group { margin-bottom: 18px; text-align: left; }
+        label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--navy); }
+        input { 
+            width: 100%; padding: 12px 16px; border-radius: 10px; 
+            border: 1.5px solid var(--light-grey); outline: none; font-size: 0.95rem;
+            background: #fff;
+            font-family: 'Inter', sans-serif;
+        }
+        input:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(32, 50, 101, 0.05); }
 
-        button { 
-            width: 100%; padding: 14px; border-radius: 10px; border: none; 
-            background: var(--lime); color: var(--navy); font-weight: 700; 
-            font-size: 1rem; cursor: pointer; transition: 0.3s; margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(168, 197, 0, 0.3);
-        }
-        button:hover { transform: translateY(-2px); background: #96b000; }
-        button:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; }
+        button { 
+            width: 100%; padding: 14px; border-radius: 10px; border: none; 
+            background: var(--lime); color: var(--navy); font-weight: 700; 
+            font-size: 1rem; cursor: pointer; transition: 0.3s; margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(168, 197, 0, 0.3);
+        }
+        button:hover { transform: translateY(-2px); background: #96b000; }
+        button:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; }
 
-        .toggle { margin-top: 20px; font-size: 0.85rem; color: #888; }
-        .toggle span { color: var(--navy); cursor: pointer; font-weight: 700; text-decoration: underline; }
+        .toggle { margin-top: 20px; font-size: 0.85rem; color: #888; }
+        .toggle span { color: var(--navy); cursor: pointer; font-weight: 700; text-decoration: underline; }
 
-        .msg { margin-top: 15px; font-size: 0.85rem; padding: 10px; border-radius: 8px; display: none; }
-        .error { background: #fff5f5; color: #c53030; border: 1px solid #feb2b2; }
-        .success { background: #f0fff4; color: #276749; border: 1px solid #9ae6b4; }
+        .msg { margin-top: 15px; font-size: 0.85rem; padding: 10px; border-radius: 8px; display: none; }
+        .error { background: #fff5f5; color: #c53030; border: 1px solid #feb2b2; }
+        .success { background: #f0fff4; color: #276749; border: 1px solid #9ae6b4; }
 
-        /* --- MOBILE RESPONSIVE --- */
-        @media (max-width: 900px) {
-            .top-bar { position: relative; top: 0; left: 0; margin-bottom: 20px; text-align: center; width: 100%; display: flex; justify-content: center; }
-            .main-container { flex-direction: column; padding: 20px; justify-content: center; margin-top: 10px; }
-            .text-section { text-align: center; margin-bottom: 40px; padding-right: 0; align-items: center; }
-            .line-1 { font-size: 2.2rem; }
-            .line-2 { font-size: 1.6rem; }
-            .card { width: 100%; max-width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        }
-    </style>
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .top-bar { position: relative; top: 0; left: 0; margin-bottom: 20px; text-align: center; width: 100%; display: flex; justify-content: center; }
+            .main-container { flex-direction: column; padding: 20px; justify-content: center; margin-top: 10px; }
+            .text-section { text-align: center; margin-bottom: 40px; padding-right: 0; align-items: center; }
+            .line-1 { font-size: 2.2rem; }
+            .line-2 { font-size: 1.6rem; }
+            .card { width: 100%; max-width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        }
+    </style>
 </head>
 
 <body>
 
-    <div class="top-bar">
-        <a href="index.html" class="logo-link">
-            <img src="logo.png" alt="IPAK Logo" class="header-logo">
-        </a>
-    </div>
+    <div class="top-bar">
+        <a href="index.html" class="logo-link">
+            <img src="logo.png" alt="IPAK Logo" class="header-logo">
+        </a>
+    </div>
 
-    <div class="main-container">
-        
-        <div class="text-section">
-            <span class="animate-ipak line-1">Empowering Employees.</span>
-            <span class="animate-ipak line-2">Simplifying Services.</span>
-        </div>
+    <div class="main-container">
+        
+        <div class="text-section">
+            <span class="animate-ipak line-1">Empowering Employees.</span>
+            <span class="animate-ipak line-2">Simplifying Services.</span>
+        </div>
 
-        <div class="form-section">
-            <div class="card">
-                <div class="header">
-                    <h2 id="title">Service Portal</h2>
-                    <p id="subtitle">Secure Employee Access</p>
-                </div>
+        <div class="form-section">
+            <div class="card">
+                <div class="header">
+                    <h2 id="title">Service Portal</h2>
+                    <p id="subtitle">Secure Employee Access</p>
+                </div>
 
-                <div class="input-group">
-                    <label>Corporate Email</label>
-                    <input type="email" id="email" placeholder="name@company.com">
-                </div>
+                <div class="input-group">
+                    <label>Corporate Email</label>
+                    <input type="email" id="email" placeholder="name@company.com">
+                </div>
 
-                <div class="input-group">
-                    <label>Password</label>
-                    <input type="password" id="password" placeholder="••••••••">
-                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="••••••••">
+                </div>
 
-                <button id="mainBtn" onclick="submitForm()">Login to Portal</button>
+                <button id="mainBtn" onclick="submitForm()">Login to Portal</button>
 
-                <div class="toggle">
-                    <p id="toggleText">New User? <span onclick="switchMode()">Create Account</span></p>
-                </div>
+                <div class="toggle">
+                    <p id="toggleText">New User? <span onclick="switchMode()">Create Account</span></p>
+                </div>
 
-                <div id="msg" class="msg"></div>
-            </div>
-        </div>
+                <div id="msg" class="msg"></div>
+            </div>
+        </div>
 
-    </div>
+    </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCg251SA39YSg5p7lZ20Oe4BSzQFB4bm1E",
-            authDomain: "employee-service-portal-b753b.firebaseapp.com",
-            projectId: "employee-service-portal-b753b",
-            storageBucket: "employee-service-portal-b753b.firebasestorage.app",
-            messagingSenderId: "787703437938",
-            appId: "1:787703437938:web:383b6f148067a0590400eb",
-            measurementId: "G-DNMT4J7RGL"
-        };
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCg251SA39YSg5p7lZ20Oe4BSzQFB4bm1E",
+            authDomain: "employee-service-portal-b753b.firebaseapp.com",
+            projectId: "employee-service-portal-b753b",
+            storageBucket: "employee-service-portal-b753b.firebasestorage.app",
+            messagingSenderId: "787703437938",
+            appId: "1:787703437938:web:383b6f148067a0590400eb",
+            measurementId: "G-DNMT4J7RGL"
+        };
 
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
 
-        let mode = "login";
+        let mode = "login";
 
-        function switchMode() {
-            const title = document.getElementById("title");
-            const btn = document.getElementById("mainBtn");
-            const toggleText = document.getElementById("toggleText");
-            const msg = document.getElementById("msg");
-            msg.style.display = "none";
+        function switchMode() {
+            const title = document.getElementById("title");
+            const btn = document.getElementById("mainBtn");
+            const toggleText = document.getElementById("toggleText");
+            const msg = document.getElementById("msg");
+            msg.style.display = "none";
 
-            if (mode === "login") {
-                mode = "signup";
-                title.innerText = "Create Account";
-                btn.innerText = "Register Now";
-                toggleText.innerHTML = 'Already registered? <span onclick="switchMode()">Sign In</span>';
-            } else {
-                mode = "login";
-                title.innerText = "Service Portal";
-                btn.innerText = "Login to Portal";
-                toggleText.innerHTML = 'New User? <span onclick="switchMode()">Create Account</span>';
-            }
-        }
+            if (mode === "login") {
+                mode = "signup";
+                title.innerText = "Create Account";
+                btn.innerText = "Register Now";
+                toggleText.innerHTML = 'Already registered? <span onclick="switchMode()">Sign In</span>';
+            } else {
+                mode = "login";
+                title.innerText = "Service Portal";
+                btn.innerText = "Login to Portal";
+                toggleText.innerHTML = 'New User? <span onclick="switchMode()">Create Account</span>';
+            }
+        }
 
-        function submitForm() {
-            const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value.trim();
-            const btn = document.getElementById("mainBtn");
-            
-            if (!email || !password) {
-                showMsg("Please enter both email and password", "error");
-                return;
-            }
+        function submitForm() {
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const btn = document.getElementById("mainBtn");
+            
+            if (!email || !password) {
+                showMsg("Please enter both email and password", "error");
+                return;
+            }
 
-            btn.disabled = true;
-            btn.innerText = "Processing...";
+            btn.disabled = true;
+            btn.innerText = "Processing...";
 
-            // Is page par Login k baad jaye ga
-            const targetURL = "dashboard.html"; 
+            // Is page par Login k baad jaye ga
+            const targetURL = "dashboard.html"; 
 
-            if (mode === "signup") {
-                auth.createUserWithEmailAndPassword(email, password)
-                    .then(() => {
-                        showMsg("Account created! Redirecting...", "success");
-                        setTimeout(() => { window.location.href = targetURL; }, 1500);
-                    })
-                    .catch(err => {
-                        showMsg(err.message, "error");
-                        btn.disabled = false;
-                        btn.innerText = "Register Now";
-                    });
-            } else {
-                auth.signInWithEmailAndPassword(email, password)
-                    .then(() => {
-                        showMsg("Authorized! Redirecting...", "success");
-                        setTimeout(() => { window.location.href = targetURL; }, 1000);
-                    })
-                    .catch(err => {
-                        showMsg("Invalid Credentials", "error");
-                        btn.disabled = false;
-                        btn.innerText = "Login to Portal";
-                    });
-            }
-        }
+            if (mode === "signup") {
+                auth.createUserWithEmailAndPassword(email, password)
+                    .then(() => {
+                        showMsg("Account created! Redirecting...", "success");
+                        setTimeout(() => { window.location.href = targetURL; }, 1500);
+                    })
+                    .catch(err => {
+                        showMsg(err.message, "error");
+                        btn.disabled = false;
+                        btn.innerText = "Register Now";
+                    });
+            } else {
+                auth.signInWithEmailAndPassword(email, password)
+                    .then(() => {
+                        showMsg("Authorized! Redirecting...", "success");
+                        setTimeout(() => { window.location.href = targetURL; }, 1000);
+                    })
+                    .catch(err => {
+                        showMsg("Invalid Credentials", "error");
+                        btn.disabled = false;
+                        btn.innerText = "Login to Portal";
+                    });
+            }
+        }
 
-        function showMsg(text, type) {
-            const msg = document.getElementById("msg");
-            msg.innerText = text;
-            msg.className = `msg ${type}`;
-            msg.style.display = "block";
-        }
-    </script>
+        function showMsg(text, type) {
+            const msg = document.getElementById("msg");
+            msg.innerText = text;
+            msg.className = `msg ${type}`;
+            msg.style.display = "block";
+        }
+    </script>
 </body>
 </html>

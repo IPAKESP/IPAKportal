@@ -1,266 +1,329 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPAK Portal - Dashboard</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --navy: #203265;
-            --lime: #A8C500;
-            --body-text: #2A2A2A;
-            --med-grey: #9C9C9C;
-            --light-grey: #D4D4D4;
-            --white: #FFFFFF;
-            --emergency-red: #ff4757;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPAK Portal - Blood Bank</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --navy: #203265;
+            --lime: #A8C500;
+            --body-text: #2A2A2A;
+            --med-grey: #9C9C9C;
+            --light-grey: #D4D4D4;
+            --white: #FFFFFF;
+            --emergency-red: #e74c3c;
+        }
 
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-            cursor: none; 
-        }
-        
-        body {
-            background-color: #F5F7FA;
-            color: var(--navy);
-            height: 100vh;
-            overflow-x: hidden;
-        }
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            cursor: none;
+        }
+        
+        body {
+            background-color: #F5F7FA;
+            color: var(--navy);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-        /* --- CUSTOM CURSOR --- */
-        .cursor-dot {
-            width: 8px; height: 8px; background-color: var(--lime);
-            position: fixed; z-index: 9999; pointer-events: none;
-            border-radius: 50%; box-shadow: 0 0 10px var(--lime);
-        }
+        /* --- CUSTOM CURSOR --- */
+        .cursor-dot {
+            width: 8px; height: 8px; background-color: var(--lime);
+            position: fixed; z-index: 9999; pointer-events: none;
+            border-radius: 50%; box-shadow: 0 0 10px var(--lime);
+        }
 
-        .cursor-outline {
-            width: 40px; height: 40px; border: 2px solid var(--navy);
-            position: fixed; z-index: 9999; pointer-events: none;
-            border-radius: 50%; transition: width 0.2s, height 0.2s, border-color 0.2s;
-        }
+        .cursor-outline {
+            width: 40px; height: 40px; border: 2px solid var(--navy);
+            position: fixed; z-index: 9999; pointer-events: none;
+            border-radius: 50%; transition: width 0.2s, height 0.2s, border-color 0.2s;
+        }
 
-        body.hovering .cursor-outline {
-            width: 60px; height: 60px; border-color: var(--lime);
-            background-color: rgba(168, 197, 0, 0.1);
-        }
+        body.hovering .cursor-outline {
+            width: 60px; height: 60px; border-color: var(--lime);
+            background-color: rgba(168, 197, 0, 0.1);
+        }
 
-        /* --- HEADER --- */
-        .top-bar {
-            background: var(--white);
-            height: 80px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 50px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            position: fixed; top: 0; width: 100%; z-index: 100;
-        }
+        /* --- HEADER (Dashboard Style) --- */
+        .top-bar {
+            background: var(--white);
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: fixed; top: 0; width: 100%; z-index: 100;
+        }
 
-        .logo-link img { width: 80px; height: auto; transition: transform 0.2s; }
-        .logo-link:hover img { transform: scale(1.05); }
+        .logo-link img { width: 80px; height: auto; transition: transform 0.2s; }
+        .logo-link:hover img { transform: scale(1.05); }
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
+        /* Back Button */
+        .back-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 2px solid var(--navy);
+            color: var(--navy);
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+        .back-btn:hover { background: var(--navy); color: var(--white); }
 
-        .user-icon { font-size: 1.8rem; color: var(--navy); transition: 0.3s; }
-        .user-icon:hover { color: var(--lime); transform: scale(1.1); }
+        /* --- LAYOUT SPACING --- */
+        .wrapper {
+            padding-top: 120px; 
+            padding-bottom: 50px;
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+        }
 
-        .logout-btn {
-            padding: 10px 20px; background: transparent; border: 2px solid var(--navy);
-            color: var(--navy); border-radius: 8px; font-weight: 600; transition: 0.3s;
-        }
-        .logout-btn:hover { background: var(--navy); color: var(--white); }
+        .container {
+            width: 100%; max-width: 1100px;
+            margin: 0 auto; padding: 0 20px;
+        }
 
-        /* --- DASHBOARD GRID --- */
-        .wrapper {
-            padding-top: 120px; padding-bottom: 50px; min-height: 100vh;
-            display: flex; flex-direction: column;
-        }
+        /* --- PAGE HEADER --- */
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: float 6s ease-in-out infinite;
+        }
+        .page-header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; color: var(--navy); }
+        .page-header p { color: var(--med-grey); letter-spacing: 1px; text-transform: uppercase; font-size: 0.9rem; }
 
-        .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
 
-        .dashboard-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px; animation: slideUp 0.8s ease-out;
-        }
+        /* --- SEARCH BOX --- */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 50px;
+        }
+        .search-box {
+            width: 100%;
+            padding: 15px 25px;
+            border-radius: 100px;
+            border: 1px solid rgba(0,0,0,0.1);
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+            color: var(--navy);
+            background: var(--white);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+        }
+        .search-box:focus {
+            border-color: var(--lime);
+            box-shadow: 0 10px 20px rgba(168, 197, 0, 0.1);
+        }
 
-        .card {
-            background: var(--white); border: 1px solid rgba(0,0,0,0.05); border-radius: 20px;
-            padding: 25px; text-decoration: none; transition: all 0.3s ease;
-            position: relative; overflow: hidden; display: flex; flex-direction: column;
-            justify-content: space-between; min-height: 160px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
-        }
+        /* --- DIRECTORY GRID --- */
+        .directory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
 
-        .card:hover {
-            transform: translateY(-5px); border-color: var(--lime);
-            box-shadow: 0 15px 30px rgba(32, 50, 101, 0.1);
-        }
+        .employee-card {
+            background: var(--white);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+        }
 
-        .card-icon {
-            font-size: 1.8rem; color: var(--navy); margin-bottom: 15px; transition: 0.3s;
-        }
-        .card:hover .card-icon { color: var(--lime); transform: scale(1.1); }
+        .employee-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--lime);
+            box-shadow: 0 20px 40px rgba(32, 50, 101, 0.08);
+        }
 
-        .card-title { font-weight: 700; color: var(--navy); font-size: 1.1rem; margin-bottom: 4px; }
-        .card-desc { color: var(--med-grey); font-size: 0.85rem; }
+        .blood-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--emergency-red);
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: 1px solid rgba(231, 76, 60, 0.2);
+        }
 
-        .arrow-icon {
-            position: absolute; bottom: 25px; right: 25px; color: var(--lime); opacity: 0;
-            transform: translateX(-10px); transition: 0.3s;
-        }
-        .card:hover .arrow-icon { opacity: 1; transform: translateX(0); }
+        .emp-name { font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+        .emp-designation { font-size: 0.9rem; font-weight: 600; color: var(--lime); text-transform: uppercase; margin-bottom: 15px; }
+        
+        .emp-info { 
+            display: flex; align-items: center; gap: 10px; 
+            color: var(--med-grey); font-size: 0.85rem; margin-bottom: 8px; 
+        }
+        .emp-info i { color: var(--navy); width: 16px; }
 
-        .card.accent-red:hover { border-color: var(--emergency-red); background-color: rgba(255, 71, 87, 0.05); }
-        .card.accent-red .card-icon { color: var(--emergency-red); }
+        .contact-btn {
+            margin-top: 20px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 12px;
+            background: var(--navy); color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600; font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .contact-btn:hover { background: var(--lime); color: var(--navy); }
 
-        footer {
-            text-align: center; margin-top: 50px; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px;
-        }
+        footer { text-align: center; margin-top: 60px; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 1px; }
 
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        @media (max-width: 768px) {
-            .cursor-dot, .cursor-outline { display: none; }
-            * { cursor: auto; }
-            .top-bar { padding: 0 20px; }
-        }
-    </style>
+        @media (max-width: 768px) {
+            .cursor-dot, .cursor-outline { display: none; }
+            * { cursor: auto; }
+            .top-bar { padding: 0 20px; }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="cursor-dot" data-cursor-dot></div>
-    <div class="cursor-outline" data-cursor-outline></div>
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
 
-    <nav class="top-bar">
-        <a href="index.html" class="logo-link">
-            <img src="logo.png" alt="IPAK Logo">
-        </a>
-        
-        <div class="header-actions">
-            <i class="fas fa-user-circle user-icon" title="My Profile"></i>
-            <button class="logout-btn" onclick="logout()">Logout</button>
-        </div>
-    </nav>
+    <nav class="top-bar">
+        <a href="index.html" class="logo-link">
+            <img src="logo.png" alt="IPAK Logo">
+        </a>
+        
+        <a href="dashboard.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+    </nav>
 
-    <div class="wrapper">
-        <div class="container">
-            <div class="dashboard-grid">
-                
-                <a href="https://sites.google.com/view/employeeserviceportal/newsletter" class="card">
-                    <i class="fas fa-newspaper card-icon"></i>
-                    <div><div class="card-title">Newsletter</div><div class="card-desc">Weekly Updates</div></div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
+    <div class="wrapper">
+        <div class="container">
+            
+            <div class="page-header">
+                <p>Emergency Contact List</p>
+                <h1>Blood Bank Directory</h1>
+            </div>
 
-                <a href="https://sites.google.com/view/employeeserviceportal/policies" class="card">
-                    <i class="fas fa-scale-balanced card-icon"></i>
-                    <div><div class="card-title">Policies</div><div class="card-desc">HR Guidelines</div></div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
+            <div class="search-container">
+                <input type="text" id="globalSearch" class="search-box" placeholder="Search by Name, Blood Group (e.g. B+), or Department">
+            </div>
 
-                <a href="https://ipak.smarthcm.com/ess/Account/Login.aspx?returnUrl=https://ipak.smarthcm.com/ess/Default.aspx" 
-                   target="_blank" 
-                   class="card"
-                   onclick="window.open('https://ipak.smarthcm.com/ess/Account/Login.aspx?returnUrl=https://ipak.smarthcm.com/ess/Default.aspx', '_blank'); return false;">
-                    <i class="fas fa-id-card card-icon"></i>
-                    <div><div class="card-title">ESS</div><div class="card-desc">Self Service</div></div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
+            <main class="directory-grid" id="empGrid">
+                <div class="employee-card">
+                    <div class="blood-tag">B+</div>
+                    <div class="emp-name">Athar Bukhari</div>
+                    <div class="emp-designation">CHRO</div>
+                    <div class="emp-info"><i class="fas fa-layer-group"></i> Human Resources</div>
+                    <a href="tel:3331234568" class="contact-btn"><i class="fas fa-phone"></i> Call Now</a>
+                </div>
 
-                <a href="bloodbank.html" class="card accent-red">
-                    <i class="fas fa-droplet card-icon"></i>
-                    <div><div class="card-title">Blood Bank</div><div class="card-desc">Emergency Donor</div></div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
+                <div class="employee-card">
+                    <div class="blood-tag">AB+</div>
+                    <div class="emp-name">Ghzanfar Ali Khan</div>
+                    <div class="emp-designation">Manager HR</div>
+                    <div class="emp-info"><i class="fas fa-layer-group"></i> Human Resources</div>
+                    <a href="tel:3331234567" class="contact-btn"><i class="fas fa-phone"></i> Call Now</a>
+                </div>
 
-                <a href="https://sites.google.com/view/employeeserviceportal/ipak-e-books" class="card">
-                    <i class="fas fa-book card-icon"></i>
-                    <div><div class="card-title">IPAK E-BOOKS</div><div class="card-desc">Digital Learning</div></div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
+                <div class="employee-card">
+                    <div class="blood-tag">O-</div>
+                    <div class="emp-name">Osama Adil</div>
+                    <div class="emp-designation">Manager OD</div>
+                    <div class="emp-info"><i class="fas fa-layer-group"></i> Human Resources</div>
+                    <a href="tel:3214567899" class="contact-btn"><i class="fas fa-phone"></i> Call Now</a>
+                </div>
 
-                <a href="https://sites.google.com/view/employeeserviceportal/audio-books" class="card">
-                    <i class="fas fa-headphones card-icon"></i>
-                    <div><div class="card-title">Audio Library</div><div class="card-desc">Music & Audio</div></div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
+                <div class="employee-card">
+                    <div class="blood-tag">O-</div>
+                    <div class="emp-name">Sameer Amjad</div>
+                    <div class="emp-designation">Manager Ops</div>
+                    <div class="emp-info"><i class="fas fa-layer-group"></i> Human Resources</div>
+                    <a href="tel:3214696969" class="contact-btn"><i class="fas fa-phone"></i> Call Now</a>
+                </div>
 
-                <a href="https://sites.google.com/view/employeeserviceportal/media-of-events" class="card">
-                    <i class="fas fa-photo-film card-icon"></i>
-                    <div><div class="card-title">Media of Events</div><div class="card-desc">Gallery Highlights</div></div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
+                <div class="employee-card">
+                    <div class="blood-tag">AB+</div>
+                    <div class="emp-name">Abdul Moeed</div>
+                    <div class="emp-designation">Asst. Manager HRBP</div>
+                    <div class="emp-info"><i class="fas fa-layer-group"></i> Human Resources</div>
+                    <a href="tel:3451234567" class="contact-btn"><i class="fas fa-phone"></i> Call Now</a>
+                </div>
 
-                <a href="https://sites.google.com/view/employeeserviceportal/admin" class="card">
-                    <i class="fas fa-user-headset card-icon"></i>
-                    <div><div class="card-title">Admin Support</div><div class="card-desc">Complaints</div></div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
+                <div class="employee-card">
+                    <div class="blood-tag">B+</div>
+                    <div class="emp-name">Adeem Hamza</div>
+                    <div class="emp-designation">Executive</div>
+                    <div class="emp-info"><i class="fas fa-layer-group"></i> Human Resources</div>
+                    <a href="tel:3078600020" class="contact-btn"><i class="fas fa-phone"></i> Call Now</a>
+                </div>
 
-                <a href="https://sites.google.com/view/employeeserviceportal/podcast" class="card">
-                    <i class="fas fa-microphone-lines card-icon"></i>
-                    <div><div class="card-title">Podcast</div><div class="card-desc">Talks & Interviews</div></div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
+                <div class="employee-card">
+                    <div class="blood-tag">B+</div>
+                    <div class="emp-name">Talha Shoukat</div>
+                    <div class="emp-designation">Sr. Officer</div>
+                    <div class="emp-info"><i class="fas fa-layer-group"></i> Human Resources</div>
+                    <a href="tel:3078600020" class="contact-btn"><i class="fas fa-phone"></i> Call Now</a>
+                </div>
+            </main>
 
-            </div>
-            <footer>&copy; 2026 IPAK PORTAL | SECURE EMPLOYEE ACCESS</footer>
-        </div>
-    </div>
+            <footer>&copy; 2026 IPAK PORTAL | SECURE PERSONNEL DATA</footer>
+        </div>
+    </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script>
+        // Cursor Logic
+        const cursorDot = document.querySelector('[data-cursor-dot]');
+        const cursorOutline = document.querySelector('[data-cursor-outline]');
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 400, fill: "forwards" });
+        });
 
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCg251SA39YSg5p7lZ20Oe4BSzQFB4bm1E",
-            authDomain: "employee-service-portal-b753b.firebaseapp.com",
-            projectId: "employee-service-portal-b753b",
-            storageBucket: "employee-service-portal-b753b.firebasestorage.app",
-            messagingSenderId: "787703437938",
-            appId: "1:787703437938:web:383b6f148067a0590400eb",
-            measurementId: "G-DNMT4J7RGL"
-        };
+        // Hover Effect
+        document.querySelectorAll('a, input, .employee-card, button').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
 
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
+        // Search Function
+        const searchInput = document.getElementById('globalSearch');
+        const cards = document.getElementsByClassName('employee-card');
 
-        // Check Login
-        auth.onAuthStateChanged(user => {
-            if (!user) {
-                window.location.href = "index.html";
-            }
-        });
-
-        function logout() {
-            auth.signOut().then(() => {
-                window.location.href = "index.html";
-            });
-        }
-
-        const cursorDot = document.querySelector('[data-cursor-dot]');
-        const cursorOutline = document.querySelector('[data-cursor-outline]');
-        window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 400, fill: "forwards" });
-        });
-        document.querySelectorAll('a, button, i').forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-        });
-    </script>
+        searchInput.addEventListener('keyup', function() {
+            const filter = searchInput.value.toLowerCase().trim();
+            Array.from(cards).forEach(card => {
+                const name = card.querySelector('.emp-name').textContent.toLowerCase();
+                const role = card.querySelector('.emp-designation').textContent.toLowerCase();
+                const blood = card.querySelector('.blood-tag').textContent.toLowerCase();
+                
+                if (name.includes(filter) || role.includes(filter) || blood.includes(filter)) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        });
+    </script>
 </body>
 </html>

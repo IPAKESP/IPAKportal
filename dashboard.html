@@ -4,211 +4,263 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPAK Portal - Dashboard</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --navy: #1a2a5a;
-            --lime: #98b400;
-            --bg-light: #f4f7f9;
-            --white: #ffffff;
-            --body-text: #2c3e50;
-            --med-grey: #7f8c8d;
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --navy: #203265;
+            --lime: #A8C500;
+            --body-text: #2A2A2A;
+            --med-grey: #9C9C9C;
+            --light-grey: #D4D4D4;
+            --white: #FFFFFF;
+            --emergency-red: #ff4757;
         }
 
         * {
             margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Inter', sans-serif;
+            cursor: none; 
         }
-
+        
         body {
-            background-color: var(--bg-light);
-            color: var(--body-text);
+            background-color: #F5F7FA;
+            color: var(--navy);
+            height: 100vh;
             overflow-x: hidden;
         }
 
-        /* --- SIDEBAR & NAV --- */
-        .navbar {
-            background: var(--navy);
-            padding: 1rem 5%;
+        /* --- CUSTOM CURSOR --- */
+        .cursor-dot {
+            width: 8px; height: 8px; background-color: var(--lime);
+            position: fixed; z-index: 9999; pointer-events: none;
+            border-radius: 50%; box-shadow: 0 0 10px var(--lime);
+        }
+
+        .cursor-outline {
+            width: 40px; height: 40px; border: 2px solid var(--navy);
+            position: fixed; z-index: 9999; pointer-events: none;
+            border-radius: 50%; transition: width 0.2s, height 0.2s, border-color 0.2s;
+        }
+
+        body.hovering .cursor-outline {
+            width: 60px; height: 60px; border-color: var(--lime);
+            background-color: rgba(168, 197, 0, 0.1);
+        }
+
+        /* --- HEADER --- */
+        .top-bar {
+            background: var(--white);
+            height: 80px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            padding: 0 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: fixed; top: 0; width: 100%; z-index: 100;
         }
 
-        .logo-area { font-weight: 700; font-size: 1.5rem; letter-spacing: 1px; }
-        .logo-area span { color: var(--lime); }
+        .logo-link img { width: 80px; height: auto; transition: transform 0.2s; }
+        .logo-link:hover img { transform: scale(1.05); }
 
-        /* --- HERO SECTION --- */
-        .hero {
-            padding: 60px 5%;
-            background: linear-gradient(135deg, var(--navy) 0%, #2c3e50 100%);
-            color: white;
-            text-align: center;
-            margin-bottom: -50px;
-        }
-
-        .hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
-        .hero p { opacity: 0.8; font-size: 1.1rem; }
-
-        /* --- MAIN CONTENT --- */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px 80px;
-        }
-
-        .grid-layout {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
-        }
-
-        /* --- CARDS STYLE --- */
-        .portal-card {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 35px 25px;
-            text-align: center;
-            text-decoration: none;
-            color: var(--body-text);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(0,0,0,0.02);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .portal-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-        }
-
-        .icon-box {
-            width: 70px;
-            height: 70px;
-            background: rgba(26, 42, 90, 0.05);
-            border-radius: 18px;
+        .header-actions {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: var(--navy);
-            transition: 0.3s;
+            gap: 20px;
         }
 
-        .portal-card:hover .icon-box {
-            background: var(--lime);
-            color: var(--navy);
-            transform: rotate(-10deg);
+        .user-icon { font-size: 1.8rem; color: var(--navy); transition: 0.3s; }
+        .user-icon:hover { color: var(--lime); transform: scale(1.1); }
+
+        .logout-btn {
+            padding: 10px 20px; background: transparent; border: 2px solid var(--navy);
+            color: var(--navy); border-radius: 8px; font-weight: 600; transition: 0.3s;
+        }
+        .logout-btn:hover { background: var(--navy); color: var(--white); }
+
+        /* --- DASHBOARD GRID --- */
+        .wrapper {
+            padding-top: 120px; padding-bottom: 50px; min-height: 100vh;
+            display: flex; flex-direction: column;
         }
 
-        .portal-card h3 { font-size: 1.3rem; font-weight: 700; color: var(--navy); }
-        .portal-card p { font-size: 0.9rem; color: var(--med-grey); line-height: 1.5; }
+        .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-        /* --- NEWSLETTER SECTION --- */
-        .newsletter-bar {
-            grid-column: 1 / -1;
-            background: var(--white);
-            padding: 30px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: var(--shadow);
-            margin-bottom: 20px;
-            border-left: 6px solid var(--lime);
+        .dashboard-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px; animation: slideUp 0.8s ease-out;
         }
 
-        .newsletter-content h4 { color: var(--navy); font-size: 1.2rem; }
-        
-        .btn-view {
-            padding: 10px 25px;
-            background: var(--navy);
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: 0.3s;
+        .card {
+            background: var(--white); border: 1px solid rgba(0,0,0,0.05); border-radius: 20px;
+            padding: 25px; text-decoration: none; transition: all 0.3s ease;
+            position: relative; overflow: hidden; display: flex; flex-direction: column;
+            justify-content: space-between; min-height: 160px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
         }
-        .btn-view:hover { background: var(--lime); color: var(--navy); }
 
-        footer { text-align: center; padding: 40px; color: var(--med-grey); font-size: 0.85rem; }
+        .card:hover {
+            transform: translateY(-5px); border-color: var(--lime);
+            box-shadow: 0 15px 30px rgba(32, 50, 101, 0.1);
+        }
+
+        .card-icon {
+            font-size: 1.8rem; color: var(--navy); margin-bottom: 15px; transition: 0.3s;
+        }
+        .card:hover .card-icon { color: var(--lime); transform: scale(1.1); }
+
+        .card-title { font-weight: 700; color: var(--navy); font-size: 1.1rem; margin-bottom: 4px; }
+        .card-desc { color: var(--med-grey); font-size: 0.85rem; }
+
+        .arrow-icon {
+            position: absolute; bottom: 25px; right: 25px; color: var(--lime); opacity: 0;
+            transform: translateX(-10px); transition: 0.3s;
+        }
+        .card:hover .arrow-icon { opacity: 1; transform: translateX(0); }
+
+        .card.accent-red:hover { border-color: var(--emergency-red); background-color: rgba(255, 71, 87, 0.05); }
+        .card.accent-red .card-icon { color: var(--emergency-red); }
+
+        footer {
+            text-align: center; margin-top: 50px; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px;
+        }
+
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         @media (max-width: 768px) {
-            .newsletter-bar { flex-direction: column; text-align: center; gap: 20px; }
+            .cursor-dot, .cursor-outline { display: none; }
+            * { cursor: auto; }
+            .top-bar { padding: 0 20px; }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="logo-area">IPAK<span>PORTAL</span></div>
-        <div class="user-info">
-            <i class="fas fa-user-circle"></i> Employee Access
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
+    <nav class="top-bar">
+        <a href="index.html" class="logo-link">
+            <img src="logo.png" alt="IPAK Logo">
+        </a>
+        
+        <div class="header-actions">
+            <i class="fas fa-user-circle user-icon" title="My Profile"></i>
+            <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
     </nav>
 
-    <header class="hero">
-        <h1>Welcome Back!</h1>
-        <p>Access your internal services and company resources.</p>
-    </header>
+    <div class="wrapper">
+        <div class="container">
+            <div class="dashboard-grid">
+                
+                <a href="https://sites.google.com/view/employeeserviceportal/newsletter" class="card">
+                    <i class="fas fa-newspaper card-icon"></i>
+                    <div><div class="card-title">Newsletter</div><div class="card-desc">Weekly Updates</div></div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
 
-    <div class="container">
-        
-        <div class="grid-layout">
-            
-            <div class="newsletter-bar">
-                <div class="newsletter-content">
-                    <h4><i class="fas fa-newspaper"></i> Monthly Newsletter - Jan 2026</h4>
-                    <p>Check out the latest company updates and employee spotlights.</p>
-                </div>
-                <a href="newsletter.pdf" target="_blank" class="btn-view">Read Now</a>
+                <a href="https://sites.google.com/view/employeeserviceportal/policies" class="card">
+                    <i class="fas fa-scale-balanced card-icon"></i>
+                    <div><div class="card-title">Policies</div><div class="card-desc">HR Guidelines</div></div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
+
+                <a href="https://ipak.smarthcm.com/ess/Account/Login.aspx?returnUrl=https://ipak.smarthcm.com/ess/Default.aspx" 
+                   target="_blank" 
+                   class="card"
+                   onclick="window.open('https://ipak.smarthcm.com/ess/Account/Login.aspx?returnUrl=https://ipak.smarthcm.com/ess/Default.aspx', '_blank'); return false;">
+                    <i class="fas fa-id-card card-icon"></i>
+                    <div><div class="card-title">ESS</div><div class="card-desc">Self Service</div></div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
+
+                <a href="bloodbank.html" class="card accent-red">
+                    <i class="fas fa-droplet card-icon"></i>
+                    <div><div class="card-title">Blood Bank</div><div class="card-desc">Emergency Donor</div></div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
+
+                <a href="https://sites.google.com/view/employeeserviceportal/ipak-e-books" class="card">
+                    <i class="fas fa-book card-icon"></i>
+                    <div><div class="card-title">IPAK E-BOOKS</div><div class="card-desc">Digital Learning</div></div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
+
+                <a href="https://sites.google.com/view/employeeserviceportal/audio-books" class="card">
+                    <i class="fas fa-headphones card-icon"></i>
+                    <div><div class="card-title">Audio Library</div><div class="card-desc">Music & Audio</div></div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
+
+                <a href="https://sites.google.com/view/employeeserviceportal/media-of-events" class="card">
+                    <i class="fas fa-photo-film card-icon"></i>
+                    <div><div class="card-title">Media of Events</div><div class="card-desc">Gallery Highlights</div></div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
+
+                <a href="https://sites.google.com/view/employeeserviceportal/admin" class="card">
+                    <i class="fas fa-user-headset card-icon"></i>
+                    <div><div class="card-title">Admin Support</div><div class="card-desc">Complaints</div></div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
+
+                <a href="https://sites.google.com/view/employeeserviceportal/podcast" class="card">
+                    <i class="fas fa-microphone-lines card-icon"></i>
+                    <div><div class="card-title">Podcast</div><div class="card-desc">Talks & Interviews</div></div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
+
             </div>
-
-            <a href="https://ess.ipak.com.pk" class="portal-card">
-                <div class="icon-box"><i class="fas fa-fingerprint"></i></div>
-                <h3>ESS Portal</h3>
-                <p>Manage your attendance, leaves, and salary slips in one place.</p>
-            </a>
-
-            <a href="directory.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-address-book"></i></div>
-                <h3>Personnel Directory</h3>
-                <p>Search for team members, roles, and contact information.</p>
-            </a>
-
-            <a href="Bloodbank.html" class="portal-card">
-                <div class="icon-box" style="color: #e74c3c;"><i class="fas fa-heartbeat"></i></div>
-                <h3>Blood Bank</h3>
-                <p>Emergency blood donor registry for IPAK employees.</p>
-            </a>
-
-            <a href="policies.html" class="portal-card">
-                <div class="icon-box"><i class="fas fa-file-invoice"></i></div>
-                <h3>Policy Manual</h3>
-                <p>Read company guidelines, HR policies, and code of conduct.</p>
-            </a>
-
-            <a href="mailto:it.support@ipak.com.pk" class="portal-card">
-                <div class="icon-box"><i class="fas fa-headset"></i></div>
-                <h3>IT Support</h3>
-                <p>Facing technical issues? Raise a ticket to the IT helpdesk.</p>
-            </a>
-
+            <footer>&copy; 2026 IPAK PORTAL | SECURE EMPLOYEE ACCESS</footer>
         </div>
-
-        <footer>
-            &copy; 2026 IPAK | Internal Service Portal v2.0
-        </footer>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCg251SA39YSg5p7lZ20Oe4BSzQFB4bm1E",
+            authDomain: "employee-service-portal-b753b.firebaseapp.com",
+            projectId: "employee-service-portal-b753b",
+            storageBucket: "employee-service-portal-b753b.firebasestorage.app",
+            messagingSenderId: "787703437938",
+            appId: "1:787703437938:web:383b6f148067a0590400eb",
+            measurementId: "G-DNMT4J7RGL"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Check Login
+        auth.onAuthStateChanged(user => {
+            if (!user) {
+                window.location.href = "index.html";
+            }
+        });
+
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = "index.html";
+            });
+        }
+
+        const cursorDot = document.querySelector('[data-cursor-dot]');
+        const cursorOutline = document.querySelector('[data-cursor-outline]');
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 400, fill: "forwards" });
+        });
+        document.querySelectorAll('a, button, i').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+    </script>
 </body>
 </html>

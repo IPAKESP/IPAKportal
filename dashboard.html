@@ -69,17 +69,140 @@
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 20px; /* Icon aur Button k darmiyan faasla */
             gap: 20px;
         }
 
         .user-icon {
-@@ -198,97 +198,97 @@
+            font-size: 1.8rem;
+            color: var(--navy);
+            transition: 0.3s;
+        }
+
+        .user-icon:hover {
+            color: var(--lime);
+            transform: scale(1.1);
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 2px solid var(--navy);
+            color: var(--navy);
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .logout-btn:hover { background: var(--navy); color: var(--white); }
+
+        /* --- DASHBOARD GRID --- */
+        .wrapper {
+            padding-top: 120px; 
+            padding-bottom: 50px;
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+        }
+
+        .container {
+            width: 100%; max-width: 1100px;
+            margin: 0 auto; padding: 0 20px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 20px;
+            padding: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: space-between;
+            min-height: 160px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--lime);
+            box-shadow: 0 15px 30px rgba(32, 50, 101, 0.1);
+        }
+
+        .card-icon {
+            font-size: 1.8rem; color: var(--navy);
+            margin-bottom: 15px; transition: 0.3s;
+        }
+        .card:hover .card-icon { color: var(--lime); transform: scale(1.1); }
+
+        .card-title { font-weight: 700; color: var(--navy); font-size: 1.1rem; margin-bottom: 4px; }
+        .card-desc { color: var(--med-grey); font-size: 0.85rem; }
+
+        .arrow-icon {
+            position: absolute; bottom: 25px; right: 25px;
+            color: var(--lime); opacity: 0;
+            transform: translateX(-10px); transition: 0.3s;
+        }
+        .card:hover .arrow-icon { opacity: 1; transform: translateX(0); }
+
+        .card.accent-red:hover { border-color: var(--emergency-red); background-color: rgba(255, 71, 87, 0.05); }
+        .card.accent-red .card-icon { color: var(--emergency-red); }
+
+        footer {
+            text-align: center; margin-top: 50px;
+            color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px;
+        }
+
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        @media (max-width: 768px) {
+            .cursor-dot, .cursor-outline { display: none; }
+            * { cursor: auto; }
+            .top-bar { padding: 0 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
+    <nav class="top-bar">
+        <a href="index.html" class="logo-link">
+            <img src="logo.png" alt="IPAK Logo">
+        </a>
+
+        <div class="header-actions">
+            <i class="fas fa-user-circle user-icon" title="My Profile"></i>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="wrapper">
+        <div class="container">
+            <div class="dashboard-grid">
+
+                <a href="https://sites.google.com/view/employeeserviceportal/newsletter" class="card">
+                    <i class="fas fa-newspaper card-icon"></i>
+                    <div><div class="card-title">Newsletter</div><div class="card-desc">Weekly Updates</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
-                <a href="#" class="card">
+                <a href="https://sites.google.com/view/employeeserviceportal/policies" class="card">
+                    <i class="fas fa-scale-balanced card-icon"></i>
+                    <div><div class="card-title">Policies</div><div class="card-desc">HR Guidelines</div></div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
+
                 <a href="https://ipak.smarthcm.com/ess/Account/Login.aspx?returnUrl=https://ipak.smarthcm.com/ess/Default.aspx" target="_blank" class="card">
+                <a href="https://ipak.smarthcm.com/ess/Account/Login.aspx?returnUrl=https://ipak.smarthcm.com/ess/Default.aspx" 
+                   target="_blank" 
+                   class="card"
+                   onclick="window.open('https://ipak.smarthcm.com/ess/Account/Login.aspx?returnUrl=https://ipak.smarthcm.com/ess/Default.aspx', '_blank'); return false;">
                     <i class="fas fa-id-card card-icon"></i>
                     <div><div class="card-title">ESS</div><div class="card-desc">Self Service</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>

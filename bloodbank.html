@@ -4,70 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPAK Portal - Personnel Directory</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --navy: #1a2a5a;
-            --lime: #98b400; /* Thoda dark shade for readability */
-            --bg-light: #f4f7f9;
-            --white: #ffffff;
-            --body-text: #333333;
-            --med-grey: #7f8c8d;
-            --light-grey: #e0e0e0;
-            --emergency-red: #d63031;
+            /* Standard Dashboard Colors */
+            --navy: #203265;
+            --lime: #A8C500;
+            --white: #FFFFFF;
+            --med-grey: #9C9C9C;
+            --light-grey: #D4D4D4;
+            --emergency-red: #ff4757;
+            --bg-color: #F5F7FA;
             --shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
 
         * {
             margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Inter', sans-serif;
+            cursor: none; 
         }
         
         body { 
-            color: var(--body-text); 
-            background: var(--bg-light); 
-            min-height: 100vh;
-            cursor: default; /* Cursor logic simplified for professional feel */
+            color: var(--navy); 
+            background: var(--bg-color); 
+            min-height: 100vh; 
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: var(--navy); border-radius: 10px; }
+        /* --- CUSTOM CURSOR --- */
+        .cursor-dot {
+            width: 8px; height: 8px; background: var(--lime);
+            position: fixed; pointer-events: none; z-index: 9999;
+            border-radius: 50%; box-shadow: 0 0 10px var(--lime);
+        }
+        .cursor-outline {
+            width: 40px; height: 40px; border: 2px solid var(--navy);
+            position: fixed; pointer-events: none; z-index: 9999;
+            border-radius: 50%; transition: width 0.2s, height 0.2s, background 0.2s;
+        }
+        body.hovering .cursor-outline {
+            width: 60px; height: 60px; border-color: var(--lime);
+            background: rgba(168, 197, 0, 0.1);
+        }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
-
-        /* --- NAVIGATION --- */
-        .nav-header {
+        /* --- STANDARD HEADER (Fixed) --- */
+        .top-bar {
+            background: var(--white);
+            height: 80px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 40px;
+            padding: 0 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: fixed; top: 0; width: 100%; z-index: 100;
         }
 
-        .back-btn {
+        .logo-link img { width: 80px; height: auto; transition: transform 0.2s; }
+        .logo-link:hover img { transform: scale(1.05); }
+
+        .header-actions {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: var(--white);
-            color: var(--navy);
-            text-decoration: none;
-            font-weight: 600;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            transition: 0.3s;
+            gap: 20px;
         }
 
+        .user-icon {
+            font-size: 1.8rem;
+            color: var(--navy);
+            transition: 0.3s;
+        }
+        .user-icon:hover { color: var(--lime); transform: scale(1.1); }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 2px solid var(--navy);
+            color: var(--navy);
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .logout-btn:hover { background: var(--navy); color: var(--white); }
+
+        /* --- MAIN LAYOUT --- */
+        .wrapper {
+            padding-top: 120px; 
+            padding-bottom: 50px;
+        }
+
+        .container {
+            width: 100%; max-width: 1200px;
+            margin: 0 auto; padding: 0 20px;
+        }
+
+        /* --- BACK BUTTON --- */
+        .back-nav { margin-bottom: 30px; }
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            text-decoration: none; color: var(--navy);
+            font-weight: 600; font-size: 1rem;
+            padding: 10px 20px; border-radius: 30px;
+            background: var(--white);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
         .back-btn:hover {
-            background: var(--navy);
-            color: var(--white);
+            background: var(--navy); color: var(--white);
             transform: translateX(-5px);
         }
 
-        /* --- HEADER --- */
+        /* --- PAGE HEADER --- */
         .page-header {
             text-align: center;
             margin-bottom: 40px;
@@ -80,13 +129,12 @@
             padding-bottom: 10px;
         }
         .page-header h1::after {
-            content: '';
-            position: absolute;
+            content: ''; position: absolute;
             bottom: 0; left: 25%; width: 50%;
             height: 4px; background: var(--lime);
             border-radius: 2px;
         }
-        .page-header p { color: var(--med-grey); margin-top: 10px; font-weight: 500; }
+        .page-header p { color: var(--med-grey); margin-top: 10px; font-weight: 600; letter-spacing: 1px; }
 
         /* --- SEARCH --- */
         .search-container {
@@ -107,14 +155,13 @@
         }
         .search-container i {
             position: absolute;
-            left: 25px;
-            top: 50%;
+            left: 25px; top: 50%;
             transform: translateY(-50%);
             color: var(--med-grey);
             font-size: 1.2rem;
         }
         .search-box:focus {
-            box-shadow: 0 0 0 3px rgba(152, 180, 0, 0.3);
+            box-shadow: 0 0 0 3px rgba(168, 197, 0, 0.3);
         }
 
         /* --- GRID & CARDS --- */
@@ -122,7 +169,10 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
+            animation: slideUp 0.8s ease-out;
         }
+
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         .employee-card {
             background: var(--white);
@@ -141,14 +191,12 @@
 
         .blood-tag {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(214, 48, 49, 0.1);
+            top: 15px; right: 15px;
+            background: rgba(255, 71, 87, 0.1);
             color: var(--emergency-red);
             padding: 4px 10px;
             border-radius: 6px;
-            font-size: 0.7rem;
-            font-weight: 800;
+            font-size: 0.7rem; font-weight: 800;
         }
 
         .emp-name { font-size: 1.25rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
@@ -162,31 +210,26 @@
 
         .contact-btn {
             margin-top: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 12px;
-            background: #f8f9fa;
-            color: var(--navy);
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 0.9rem;
+            display: flex; align-items: center; justify-content: center;
+            gap: 10px; padding: 12px;
+            background: #f8f9fa; color: var(--navy);
+            text-decoration: none; border-radius: 10px;
+            font-weight: 700; font-size: 0.9rem;
             border: 1px solid var(--light-grey);
             transition: 0.3s;
         }
 
         .contact-btn:hover {
-            background: var(--navy);
-            color: var(--white);
+            background: var(--navy); color: var(--white);
             border-color: var(--navy);
         }
 
-        footer { text-align: center; padding: 60px; color: var(--med-grey); font-size: 0.85rem; font-weight: 500; }
+        footer { text-align: center; margin-top: 60px; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px; }
 
-        /* Responsive */
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
+            .cursor-dot, .cursor-outline { display: none; }
+            * { cursor: auto; }
+            .top-bar { padding: 0 20px; }
             .page-header h1 { font-size: 1.8rem; }
             .directory-grid { grid-template-columns: 1fr; }
         }
@@ -194,81 +237,124 @@
 </head>
 <body>
 
-    <div class="container">
-        <div class="nav-header">
-            <a href="dashboard.html" class="back-btn">
-                <i class="fas fa-arrow-left"></i> Back
-            </a>
-            <img src="https://via.placeholder.com/100x40?text=IPAK+LOGO" alt="Logo" style="height: 35px; opacity: 0.8;">
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <nav class="top-bar">
+        <a href="dashboard.html" class="logo-link">
+            <img src="logo.png" alt="IPAK Logo">
+        </a>
+        <div class="header-actions">
+            <i class="fas fa-user-circle user-icon" title="My Profile"></i>
+            <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
+    </nav>
 
-        <div class="page-header">
-            <p>INTERNAL COMMUNICATION</p>
-            <h1>Personnel Directory</h1>
+    <div class="wrapper">
+        <div class="container">
+            
+            <div class="back-nav">
+                <a href="dashboard.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+
+            <div class="page-header">
+                <p>INTERNAL COMMUNICATION</p>
+                <h1>Personnel Directory</h1>
+            </div>
+
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="globalSearch" class="search-box" placeholder="Search by Name, Role, or Blood Group (e.g. B+)">
+            </div>
+
+            <main class="directory-grid" id="empGrid">
+                
+                <div class="employee-card" data-blood="B+">
+                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
+                    <div class="emp-name">Athar Bukhari</div>
+                    <div class="emp-designation">CHRO</div>
+                    <div class="emp-info"><i class="fas fa-building"></i> Human Resources</div>
+                    <a href="tel:3331234568" class="contact-btn"><i class="fas fa-phone-alt"></i> 0333-1234568</a>
+                </div>
+
+                <div class="employee-card" data-blood="AB+">
+                    <div class="blood-tag"><i class="fas fa-droplet"></i> AB+</div>
+                    <div class="emp-name">Ghzanfar Ali Khan</div>
+                    <div class="emp-designation">Manager HR</div>
+                    <div class="emp-info"><i class="fas fa-building"></i> Human Resources</div>
+                    <a href="tel:3331234567" class="contact-btn"><i class="fas fa-phone-alt"></i> 0333-1234567</a>
+                </div>
+
+                <div class="employee-card" data-blood="O-">
+                    <div class="blood-tag"><i class="fas fa-droplet"></i> O-</div>
+                    <div class="emp-name">Osama Adil</div>
+                    <div class="emp-designation">Manager OD</div>
+                    <div class="emp-info"><i class="fas fa-building"></i> Human Resources</div>
+                    <a href="tel:3214567899" class="contact-btn"><i class="fas fa-phone-alt"></i> 0321-4567899</a>
+                </div>
+
+                <div class="employee-card" data-blood="O-">
+                    <div class="blood-tag"><i class="fas fa-droplet"></i> O-</div>
+                    <div class="emp-name">Sameer Amjad</div>
+                    <div class="emp-designation">Manager Ops</div>
+                    <div class="emp-info"><i class="fas fa-building"></i> Human Resources</div>
+                    <a href="tel:3214696969" class="contact-btn"><i class="fas fa-phone-alt"></i> 0321-4696969</a>
+                </div>
+
+                <div class="employee-card" data-blood="AB+">
+                    <div class="blood-tag"><i class="fas fa-droplet"></i> AB+</div>
+                    <div class="emp-name">Abdul Moeed</div>
+                    <div class="emp-designation">Asst. Manager HRBP</div>
+                    <div class="emp-info"><i class="fas fa-building"></i> Human Resources</div>
+                    <a href="tel:3451234567" class="contact-btn"><i class="fas fa-phone-alt"></i> 0345-1234567</a>
+                </div>
+
+                <div class="employee-card" data-blood="B+">
+                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
+                    <div class="emp-name">Adeem Hamza</div>
+                    <div class="emp-designation">Executive</div>
+                    <div class="emp-info"><i class="fas fa-building"></i> Human Resources</div>
+                    <a href="tel:3078600020" class="contact-btn"><i class="fas fa-phone-alt"></i> 0307-8600020</a>
+                </div>
+
+            </main>
+
+            <footer>
+                &copy; 2026 IPAK PORTAL | SECURE PERSONNEL DATA SYSTEM
+            </footer>
         </div>
-
-        <div class="search-container">
-            <i class="fas fa-search"></i>
-            <input type="text" id="globalSearch" class="search-box" placeholder="Search by Name, Role, or Blood Group (e.g. B+)">
-        </div>
-
-        <main class="directory-grid" id="empGrid">
-            <div class="employee-card" data-blood="B+">
-                <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                <div class="emp-name">Athar Bukhari</div>
-                <div class="emp-designation">CHRO</div>
-                <div class="emp-info"><i class="fas fa-building"></i> Human Resources</div>
-                <a href="tel:3331234568" class="contact-btn"><i class="fas fa-phone-alt"></i> 0333-1234568</a>
-            </div>
-
-            <div class="employee-card" data-blood="AB+">
-                <div class="blood-tag"><i class="fas fa-droplet"></i> AB+</div>
-                <div class="emp-name">Ghzanfar Ali Khan</div>
-                <div class="emp-designation">Manager HR</div>
-                <div class="emp-info"><i class="fas fa-building"></i> Human Resources</div>
-                <a href="tel:3331234567" class="contact-btn"><i class="fas fa-phone-alt"></i> 0333-1234567</a>
-            </div>
-
-            <div class="employee-card" data-blood="O-">
-                <div class="blood-tag"><i class="fas fa-droplet"></i> O-</div>
-                <div class="emp-name">Osama Adil</div>
-                <div class="emp-designation">Manager OD</div>
-                <div class="emp-info"><i class="fas fa-building"></i> Human Resources</div>
-                <a href="tel:3214567899" class="contact-btn"><i class="fas fa-phone-alt"></i> 0321-4567899</a>
-            </div>
-
-            <div class="employee-card" data-blood="O-">
-                <div class="blood-tag"><i class="fas fa-droplet"></i> O-</div>
-                <div class="emp-name">Sameer Amjad</div>
-                <div class="emp-designation">Manager Ops</div>
-                <div class="emp-info"><i class="fas fa-building"></i> Human Resources</div>
-                <a href="tel:3214696969" class="contact-btn"><i class="fas fa-phone-alt"></i> 0321-4696969</a>
-            </div>
-
-            <div class="employee-card" data-blood="AB+">
-                <div class="blood-tag"><i class="fas fa-droplet"></i> AB+</div>
-                <div class="emp-name">Abdul Moeed</div>
-                <div class="emp-designation">Asst. Manager HRBP</div>
-                <div class="emp-info"><i class="fas fa-building"></i> Human Resources</div>
-                <a href="tel:3451234567" class="contact-btn"><i class="fas fa-phone-alt"></i> 0345-1234567</a>
-            </div>
-
-            <div class="employee-card" data-blood="B+">
-                <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                <div class="emp-name">Adeem Hamza</div>
-                <div class="emp-designation">Executive</div>
-                <div class="emp-info"><i class="fas fa-building"></i> Human Resources</div>
-                <a href="tel:3078600020" class="contact-btn"><i class="fas fa-phone-alt"></i> 0307-8600020</a>
-            </div>
-        </main>
-
-        <footer>
-            &copy; 2026 IPAK PORTAL | SECURE PERSONNEL DATA SYSTEM
-        </footer>
     </div>
 
     <script>
-        // --- SEARCH LOGIC ---
+        // LOGOUT LOGIC
+        function logout() {
+            window.location.href = "index.html";
+        }
+
+        // CURSOR LOGIC
+        const dot = document.querySelector('.cursor-dot');
+        const outline = document.querySelector('.cursor-outline');
+        
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            dot.style.left = `${posX}px`;
+            dot.style.top = `${posY}px`;
+            
+            outline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 400, fill: "forwards" });
+        });
+
+        document.querySelectorAll('a, button, input, .employee-card').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        // SEARCH LOGIC
         const searchInput = document.getElementById('globalSearch');
         const cards = document.getElementsByClassName('employee-card');
 

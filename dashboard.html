@@ -22,7 +22,7 @@
         * {
             margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Inter', sans-serif;
-            cursor: none; /* Custom cursor k liye default cursor chupaya */
+            cursor: none; /* Custom cursor */
         }
         
         body {
@@ -64,6 +64,24 @@
 
         .logo-link img { width: 80px; height: auto; transition: transform 0.2s; }
         .logo-link:hover img { transform: scale(1.05); }
+
+        /* User & Logout Group */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px; /* Icon aur Button k darmiyan faasla */
+        }
+
+        .user-icon {
+            font-size: 1.8rem;
+            color: var(--navy);
+            transition: 0.3s;
+        }
+        
+        .user-icon:hover {
+            color: var(--lime);
+            transform: scale(1.1);
+        }
 
         .logout-btn {
             padding: 10px 20px;
@@ -157,7 +175,11 @@
         <a href="index.html" class="logo-link">
             <img src="logo.png" alt="IPAK Logo">
         </a>
-        <button class="logout-btn" onclick="logout()">Logout</button>
+        
+        <div class="header-actions">
+            <i class="fas fa-user-circle user-icon" title="My Profile"></i>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
     </nav>
 
     <div class="wrapper">
@@ -243,7 +265,6 @@
         // Check Login
         auth.onAuthStateChanged(user => {
             if (!user) {
-                // Agar user login nahi hai to wapis Login page par
                 window.location.href = "index.html";
             }
         });
@@ -255,3 +276,19 @@
         }
 
         // Cursor Logic
+        const cursorDot = document.querySelector('[data-cursor-dot]');
+        const cursorOutline = document.querySelector('[data-cursor-outline]');
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 400, fill: "forwards" });
+        });
+        document.querySelectorAll('a, button, i').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+    </script>
+</body>
+</html>

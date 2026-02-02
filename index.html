@@ -12,19 +12,7 @@
             --navy: #203265;
             --lime: #A8C500;
             --body-text: #2A2A2A;
-            --med-grey: #9C9C9C;
             --light-grey: #D4D4D4;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        @keyframes sweep {
-            0% { left: -60%; }
-            100% { left: 120%; }
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
@@ -34,106 +22,130 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: transparent !important;
+            background: #f0f2f5; /* Halka grey background */
             overflow: hidden;
         }
 
-        .card {
-            width: 380px;
-            padding: 40px;
+        /* Main Container - Jo do hisson mein bata hua hai */
+        .main-container {
+            display: flex;
+            width: 900px;
+            height: 550px;
+            background: white;
             border-radius: 24px;
-            background: rgba(255, 255, 255, 0.15); 
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* Left Side - Login Form */
+        .login-section {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Right Side - Caption & Design */
+        .caption-section {
+            flex: 1;
+            background: linear-gradient(135deg, var(--navy), #162447);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
             position: relative;
             overflow: hidden;
-            animation: float 6s ease-in-out infinite;
-            z-index: 1;
         }
 
-        .card::after {
+        /* Design Element (Circle) */
+        .caption-section::before {
             content: "";
             position: absolute;
-            top: 0;
-            left: -60%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: sweep 5s infinite;
-            pointer-events: none;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: var(--lime);
+            border-radius: 50%;
+            opacity: 0.2;
         }
 
-        .header { text-align: center; margin-bottom: 32px; }
-        .header h2 { font-size: 1.7rem; font-weight: 700; color: var(--navy); letter-spacing: -0.02em; }
-        .header p { color: var(--med-grey); font-size: 0.9rem; margin-top: 6px; }
+        .header h2 { font-size: 1.8rem; color: var(--navy); margin-bottom: 10px; }
+        .header p { color: #666; font-size: 0.95rem; margin-bottom: 30px; }
 
-        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group { margin-bottom: 20px; }
         label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--navy); }
         input { 
-            width: 100%; 
-            padding: 12px 16px; 
-            border-radius: 12px; 
-            border: 1.5px solid var(--light-grey); 
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--body-text); 
-            font-size: 0.95rem; 
-            outline: none; 
+            width: 100%; padding: 12px 16px; border-radius: 12px; 
+            border: 1.5px solid var(--light-grey); outline: none; font-size: 0.95rem;
         }
-        input:focus { border-color: var(--navy); box-shadow: 0 0 0 4px rgba(32, 50, 101, 0.1); }
+        input:focus { border-color: var(--navy); }
 
         button { 
-            width: 100%; 
-            padding: 14px; 
-            margin-top: 10px; 
-            border-radius: 12px; 
-            border: none; 
-            background: var(--lime); 
-            color: var(--navy); 
-            font-weight: 700; 
-            font-size: 1rem; 
-            cursor: pointer; 
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(168, 197, 0, 0.2); 
+            width: 100%; padding: 14px; border-radius: 12px; border: none; 
+            background: var(--lime); color: var(--navy); font-weight: 700; 
+            cursor: pointer; transition: 0.3s; margin-top: 10px;
         }
-        button:hover { transform: scale(1.02); background: #96b000; }
-        button:disabled { background: var(--med-grey); cursor: not-allowed; }
+        button:hover { background: #96b000; }
 
-        .toggle { text-align: center; margin-top: 24px; font-size: 0.85rem; color: var(--med-grey); }
+        .toggle { margin-top: 20px; font-size: 0.85rem; text-align: center; color: #666; }
         .toggle span { color: var(--navy); cursor: pointer; font-weight: 700; text-decoration: underline; }
 
-        .msg { margin-top: 20px; font-size: 0.85rem; text-align: center; padding: 12px; border-radius: 10px; display: none; line-height: 1.4; }
-        .error { display: block; border: 1px solid #feb2b2; color: #c53030; background: #fff5f5; }
-        .success { display: block; border: 1px solid #9ae6b4; color: #276749; background: #f0fff4; }
+        /* Caption Text Styling */
+        .caption-content h3 { font-size: 2rem; margin-bottom: 15px; line-height: 1.2; }
+        .caption-content p { font-size: 1rem; opacity: 0.9; line-height: 1.5; }
+
+        .msg { margin-top: 15px; font-size: 0.85rem; text-align: center; padding: 10px; border-radius: 8px; display: none; }
+        .error { background: #ffe6e6; color: #d63031; border: 1px solid #fab1a0; }
+        .success { background: #e6fffa; color: #00b894; border: 1px solid #55efc4; }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .main-container { flex-direction: column; width: 90%; height: auto; }
+            .caption-section { display: none; } /* Mobile par caption chup jaye ga */
+            .login-section { padding: 30px; }
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="card" id="card">
-        <div class="header">
-            <h2 id="title">Service Portal</h2>
-            <p id="subtitle">Secure Employee Access</p>
+    <div class="main-container">
+        <div class="login-section">
+            <div class="header">
+                <h2 id="title">Welcome Back</h2>
+                <p id="subtitle">Please enter your details to login.</p>
+            </div>
+
+            <div class="input-group">
+                <label>Corporate Email</label>
+                <input type="email" id="email" placeholder="name@company.com">
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="••••••••">
+            </div>
+
+            <button id="mainBtn" onclick="submitForm()">Login</button>
+
+            <div class="toggle">
+                <p id="toggleText">New User? <span onclick="switchMode()">Create Account</span></p>
+            </div>
+            
+            <div id="msg" class="msg"></div>
         </div>
 
-        <div class="input-group">
-            <label>Corporate Email</label>
-            <input type="email" id="email" placeholder="name@company.com">
+        <div class="caption-section">
+            <div class="caption-content">
+                <h3>Empowering<br>Workforce</h3>
+                <p>Connect, Collaborate, and Create.<br>Your gateway to seamless operations.</p>
+            </div>
         </div>
-
-        <div class="input-group">
-            <label>Password</label>
-            <input type="password" id="password" placeholder="••••••••">
-        </div>
-
-        <button id="mainBtn" onclick="submitForm()">Login to Portal</button>
-
-        <div class="toggle">
-            <p id="toggleText">New User? <span onclick="switchMode()">Create Account</span></p>
-        </div>
-
-        <div id="msg" class="msg"></div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -157,6 +169,7 @@
 
         function switchMode() {
             const title = document.getElementById("title");
+            const sub = document.getElementById("subtitle");
             const btn = document.getElementById("mainBtn");
             const toggleText = document.getElementById("toggleText");
             const msg = document.getElementById("msg");
@@ -165,12 +178,14 @@
             if (mode === "login") {
                 mode = "signup";
                 title.innerText = "Create Account";
+                sub.innerText = "Join the team today.";
                 btn.innerText = "Register Now";
-                toggleText.innerHTML = 'Already registered? <span onclick="switchMode()">Sign In</span>';
+                toggleText.innerHTML = 'Already have an ID? <span onclick="switchMode()">Login Here</span>';
             } else {
                 mode = "login";
-                title.innerText = "Service Portal";
-                btn.innerText = "Login to Portal";
+                title.innerText = "Welcome Back";
+                sub.innerText = "Please enter your details to login.";
+                btn.innerText = "Login";
                 toggleText.innerHTML = 'New User? <span onclick="switchMode()">Create Account</span>';
             }
         }
@@ -181,22 +196,22 @@
             const btn = document.getElementById("mainBtn");
             
             if (!email || !password) {
-                showMsg("Please enter both email and password", "error");
+                showMsg("Please fill all fields", "error");
                 return;
             }
 
             btn.disabled = true;
-            btn.innerText = "Verifying...";
+            btn.innerText = "Processing...";
 
-            const targetURL = "https://sites.google.com/view/employeeserviceportal/welcome";
+            // Yahan Login ke baad jis page par jana hai uska naam likhein
+            // Agar Dashboard file banayi hai to "dashboard.html" likhein
+            const targetURL = "dashboard.html"; 
 
             if (mode === "signup") {
                 auth.createUserWithEmailAndPassword(email, password)
                     .then(() => {
-                        showMsg("Account created! Redirecting to Sign In...", "success");
-                        setTimeout(switchMode, 2000);
-                        btn.disabled = false;
-                        btn.innerText = "Register Now";
+                        showMsg("Account created! Redirecting...", "success");
+                        setTimeout(() => { window.location.href = targetURL; }, 1500);
                     })
                     .catch(err => {
                         showMsg(err.message, "error");
@@ -206,22 +221,13 @@
             } else {
                 auth.signInWithEmailAndPassword(email, password)
                     .then(() => {
-                        showMsg("Authorized! Redirecting...", "success");
-                        
-                        setTimeout(() => {
-                            try {
-                                // Frame ko break karke redirect karne ki koshish
-                                window.top.location.href = targetURL;
-                            } catch (e) {
-                                // Agar frame lock ho, to naye tab mein khol dein (Grey icon se bachne ke liye)
-                                window.open(targetURL, '_blank');
-                            }
-                        }, 1000);
+                        showMsg("Success! Redirecting...", "success");
+                        setTimeout(() => { window.location.href = targetURL; }, 1000);
                     })
                     .catch(err => {
-                        showMsg("Login failed: " + err.message, "error");
+                        showMsg("Invalid Credentials", "error");
                         btn.disabled = false;
-                        btn.innerText = "Login to Portal";
+                        btn.innerText = "Login";
                     });
             }
         }

@@ -3,235 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Service Portal</title>
+    <title>IPAK Portal - Dashboard</title>
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --navy: #203265;
             --lime: #A8C500;
-            --body-text: #2A2A2A;
-            --med-grey: #9C9C9C;
-            --light-grey: #D4D4D4;
+            --white: #FFFFFF;
+            --bg-color: #F5F7FA;
+            --text-grey: #8A94A6;
+            --emergency-red: #e74c3c;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; cursor: none; }
+        
+        body { background-color: var(--bg-color); color: var(--navy); min-height: 100vh; }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor-dot {
+            width: 8px; height: 8px; background-color: var(--lime);
+            position: fixed; z-index: 9999; pointer-events: none;
+            border-radius: 50%; box-shadow: 0 0 10px var(--lime);
+        }
+        .cursor-outline {
+            width: 40px; height: 40px; border: 2px solid var(--navy);
+            position: fixed; z-index: 9999; pointer-events: none;
+            border-radius: 50%; transition: width 0.2s, height 0.2s, border-color 0.2s;
+        }
+        body.hovering .cursor-outline {
+            width: 60px; height: 60px; border-color: var(--lime);
+            background-color: rgba(168, 197, 0, 0.1);
         }
 
-        @keyframes sweep {
-            0% { left: -60%; }
-            100% { left: 120%; }
+        /* --- HEADER --- */
+        .top-bar {
+            background: var(--white); height: 80px; display: flex;
+            justify-content: space-between; align-items: center;
+            padding: 0 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            margin-bottom: 50px;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        .logo-section { display: flex; flex-direction: column; line-height: 1; }
+        .logo-main { font-size: 1.8rem; font-weight: 800; color: var(--navy); letter-spacing: -1px; }
+        .logo-sub { font-size: 0.7rem; color: var(--text-grey); font-weight: 500; }
+        .logo-lime { color: var(--lime); }
 
-        body {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: transparent !important;
-            overflow: hidden;
+        .header-actions { display: flex; align-items: center; gap: 20px; }
+        .user-icon { font-size: 1.5rem; color: var(--navy); }
+        
+        .logout-btn {
+            padding: 8px 25px;
+            background: transparent;
+            border: 1px solid var(--navy);
+            border-radius: 6px;
+            color: var(--navy);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .logout-btn:hover { background: var(--navy); color: var(--white); }
+
+        /* --- DASHBOARD GRID --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px 50px; }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
         }
 
+        /* --- CARD DESIGN --- */
         .card {
-            width: 380px;
-            padding: 40px;
-            border-radius: 24px;
-            background: rgba(255, 255, 255, 0.15); 
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            animation: float 6s ease-in-out infinite;
-            z-index: 1;
-        }
-
-        .card::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -60%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: sweep 5s infinite;
-            pointer-events: none;
-        }
-
-        .header { text-align: center; margin-bottom: 32px; }
-        .header h2 { font-size: 1.7rem; font-weight: 700; color: var(--navy); letter-spacing: -0.02em; }
-        .header p { color: var(--med-grey); font-size: 0.9rem; margin-top: 6px; }
-
-        .input-group { margin-bottom: 20px; text-align: left; }
-        label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--navy); }
-        input { 
-            width: 100%; 
-            padding: 12px 16px; 
-            border-radius: 12px; 
-            border: 1.5px solid var(--light-grey); 
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--body-text); 
-            font-size: 0.95rem; 
-            outline: none; 
-        }
-        input:focus { border-color: var(--navy); box-shadow: 0 0 0 4px rgba(32, 50, 101, 0.1); }
-
-        button { 
-            width: 100%; 
-            padding: 14px; 
-            margin-top: 10px; 
-            border-radius: 12px; 
-            border: none; 
-            background: var(--lime); 
-            color: var(--navy); 
-            font-weight: 700; 
-            font-size: 1rem; 
-            cursor: pointer; 
+            background: var(--white);
+            border-radius: 16px;
+            padding: 35px 30px;
+            text-decoration: none;
+            display: flex; flex-direction: column; align-items: flex-start;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(168, 197, 0, 0.2); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+            min-height: 180px;
         }
-        button:hover { transform: scale(1.02); background: #96b000; }
-        button:disabled { background: var(--med-grey); cursor: not-allowed; }
 
-        .toggle { text-align: center; margin-top: 24px; font-size: 0.85rem; color: var(--med-grey); }
-        .toggle span { color: var(--navy); cursor: pointer; font-weight: 700; text-decoration: underline; }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(32, 50, 101, 0.08);
+        }
 
-        .msg { margin-top: 20px; font-size: 0.85rem; text-align: center; padding: 12px; border-radius: 10px; display: none; line-height: 1.4; }
-        .error { display: block; border: 1px solid #feb2b2; color: #c53030; background: #fff5f5; }
-        .success { display: block; border: 1px solid #9ae6b4; color: #276749; background: #f0fff4; }
+        .icon-box { font-size: 2rem; margin-bottom: 20px; color: var(--navy); }
+        
+        .blood-icon { color: var(--emergency-red); }
+
+        .card h3 { 
+            font-size: 1.1rem; font-weight: 700; color: var(--navy); 
+            margin-bottom: 5px; 
+        }
+        
+        .card p { 
+            font-size: 0.9rem; color: var(--text-grey); font-weight: 400; 
+        }
+
+        @media (max-width: 768px) {
+            .cursor-dot, .cursor-outline { display: none; }
+            * { cursor: auto; }
+            .top-bar { padding: 0 20px; }
+        }
     </style>
 </head>
-
 <body>
 
-    <div class="card" id="card">
-        <div class="header">
-            <h2 id="title">Service Portal</h2>
-            <p id="subtitle">Secure Employee Access</p>
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
+    <nav class="top-bar">
+        <div class="logo-section">
+            <span class="logo-main">IPAK<span class="logo-lime">///</span></span>
+            <span class="logo-sub">Bridging Innovation</span>
         </div>
-
-        <div class="input-group">
-            <label>Corporate Email</label>
-            <input type="email" id="email" placeholder="name@company.com">
+        
+        <div class="header-actions">
+            <i class="fas fa-circle-user user-icon"></i>
+            <button class="logout-btn">Logout</button>
         </div>
+    </nav>
 
-        <div class="input-group">
-            <label>Password</label>
-            <input type="password" id="password" placeholder="••••••••">
+    <div class="container">
+        <div class="menu-grid">
+            
+            <a href="newsletter.html" class="card">
+                <div class="icon-box"><i class="far fa-newspaper"></i></div>
+                <h3>Newsletter</h3>
+                <p>Weekly Updates</p>
+            </a>
+
+            <a href="#" class="card">
+                <div class="icon-box"><i class="fas fa-scale-balanced"></i></div>
+                <h3>Policies</h3>
+                <p>HR Guidelines</p>
+            </a>
+
+            <a href="ess.html" class="card">
+                <div class="icon-box"><i class="far fa-id-card"></i></div>
+                <h3>ESS</h3>
+                <p>Self Service</p>
+            </a>
+            <a href="bloodbank.html" class="card">
+                <div class="icon-box blood-icon"><i class="fas fa-droplet"></i></div>
+                <h3>Blood Bank</h3>
+                <p>Emergency Donor</p>
+            </a>
+
+            <a href="#" class="card">
+                <div class="icon-box"><i class="fas fa-book"></i></div>
+                <h3>IPAK E-BOOKS</h3>
+                <p>Digital Learning</p>
+            </a>
+
+            <a href="#" class="card">
+                <div class="icon-box"><i class="fas fa-headphones"></i></div>
+                <h3>Audio Library</h3>
+                <p>Music & Audio</p>
+            </a>
+
+            <a href="#" class="card">
+                <div class="icon-box"><i class="fas fa-images"></i></div>
+                <h3>Media of Events</h3>
+                <p>Gallery Highlights</p>
+            </a>
+
+            <a href="#" class="card">
+                <div class="icon-box"><i class="fas fa-headset"></i></div> 
+                <h3>Admin Support</h3>
+                <p>Complaints</p>
+            </a>
+
         </div>
-
-        <button id="mainBtn" onclick="submitForm()">Login to Portal</button>
-
-        <div class="toggle">
-            <p id="toggleText">New User? <span onclick="switchMode()">Create Account</span></p>
-        </div>
-
-        <div id="msg" class="msg"></div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCg251SA39YSg5p7lZ20Oe4BSzQFB4bm1E",
-            authDomain: "employee-service-portal-b753b.firebaseapp.com",
-            projectId: "employee-service-portal-b753b",
-            storageBucket: "employee-service-portal-b753b.firebasestorage.app",
-            messagingSenderId: "787703437938",
-            appId: "1:787703437938:web:383b6f148067a0590400eb",
-            measurementId: "G-DNMT4J7RGL"
-        };
+        // Cursor Logic
+        const cursorDot = document.querySelector('[data-cursor-dot]');
+        const cursorOutline = document.querySelector('[data-cursor-outline]');
+        
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 400, fill: "forwards" });
+        });
 
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
-        let mode = "login";
-
-        function switchMode() {
-            const title = document.getElementById("title");
-            const btn = document.getElementById("mainBtn");
-            const toggleText = document.getElementById("toggleText");
-            const msg = document.getElementById("msg");
-            msg.style.display = "none";
-
-            if (mode === "login") {
-                mode = "signup";
-                title.innerText = "Create Account";
-                btn.innerText = "Register Now";
-                toggleText.innerHTML = 'Already registered? <span onclick="switchMode()">Sign In</span>';
-            } else {
-                mode = "login";
-                title.innerText = "Service Portal";
-                btn.innerText = "Login to Portal";
-                toggleText.innerHTML = 'New User? <span onclick="switchMode()">Create Account</span>';
-            }
-        }
-
-        function submitForm() {
-            const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value.trim();
-            const btn = document.getElementById("mainBtn");
-            
-            if (!email || !password) {
-                showMsg("Please enter both email and password", "error");
-                return;
-            }
-
-            btn.disabled = true;
-            btn.innerText = "Verifying...";
-
-            const targetURL = "https://sites.google.com/view/employeeserviceportal/welcome";
-
-            if (mode === "signup") {
-                auth.createUserWithEmailAndPassword(email, password)
-                    .then(() => {
-                        showMsg("Account created! Redirecting to Sign In...", "success");
-                        setTimeout(switchMode, 2000);
-                        btn.disabled = false;
-                        btn.innerText = "Register Now";
-                    })
-                    .catch(err => {
-                        showMsg(err.message, "error");
-                        btn.disabled = false;
-                        btn.innerText = "Register Now";
-                    });
-            } else {
-                auth.signInWithEmailAndPassword(email, password)
-                    .then(() => {
-                        showMsg("Authorized! Redirecting...", "success");
-                        
-                        setTimeout(() => {
-                            try {
-                                // Frame ko break karke redirect karne ki koshish
-                                window.top.location.href = targetURL;
-                            } catch (e) {
-                                // Agar frame lock ho, to naye tab mein khol dein (Grey icon se bachne ke liye)
-                                window.open(targetURL, '_blank');
-                            }
-                        }, 1000);
-                    })
-                    .catch(err => {
-                        showMsg("Login failed: " + err.message, "error");
-                        btn.disabled = false;
-                        btn.innerText = "Login to Portal";
-                    });
-            }
-        }
-
-        function showMsg(text, type) {
-            const msg = document.getElementById("msg");
-            msg.innerText = text;
-            msg.className = `msg ${type}`;
-            msg.style.display = "block";
-        }
+        // Hover Effect
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
     </script>
+
 </body>
 </html>

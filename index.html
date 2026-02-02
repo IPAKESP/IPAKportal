@@ -22,12 +22,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #ffffff; /* Clean white background */
+            background: #ffffff;
             overflow: hidden;
             font-family: 'Inter', sans-serif;
         }
 
-        /* Container jo dono hisson ko pakar kar rakhay ga */
+        /* Main Container */
         .main-container {
             display: flex;
             width: 100%;
@@ -43,16 +43,17 @@
             padding-right: 50px;
             font-family: 'Fira Sans', sans-serif;
             display: flex;
-            flex-direction: column; /* Cheezon ko ooper-neechay rakhne k liye */
+            flex-direction: column;
             justify-content: center;
+            align-items: flex-start; /* Logo ko left align rakhne k liye */
         }
 
-        /* Logo Styling */
+        /* Logo Styling - Yahan se size control karein */
         .logo {
-            width: 180px; /* Logo ka size yahan se control karein */
+            width: 200px; /* Logo ka size */
             height: auto;
-            margin-bottom: 30px; /* Text aur Logo k darmiyan faasla */
-            animation-delay: 0s; /* Logo sab se pehlay aaye ga */
+            margin-bottom: 25px; /* Text se faasla */
+            display: block;
         }
 
         .animate-ipak {
@@ -68,14 +69,14 @@
             color: var(--navy);
             line-height: 1.1;
             margin-bottom: 10px;
-            animation-delay: 0.3s; /* Logo k baad */
+            animation-delay: 0.2s;
         }
 
         .line-2 {
             font-size: 2.5rem;
             font-weight: 400;
             color: var(--lime);
-            animation-delay: 0.6s; /* Sab se aakhir mein */
+            animation-delay: 0.4s;
         }
 
         @keyframes slideIn {
@@ -137,7 +138,7 @@
         @media (max-width: 900px) {
             .main-container { flex-direction: column; padding: 20px; justify-content: center; }
             .text-section { text-align: center; margin-bottom: 40px; padding-right: 0; align-items: center; }
-            .logo { width: 140px; margin-bottom: 20px; } /* Mobile par logo thora chota */
+            .logo { width: 150px; margin-bottom: 20px; margin-left: auto; margin-right: auto; }
             .line-1 { font-size: 2.2rem; }
             .line-2 { font-size: 1.6rem; }
             .card { width: 100%; max-width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
@@ -150,7 +151,7 @@
     <div class="main-container">
         
         <div class="text-section">
-            <img src="https://drive.google.com/uc?export=view&id=1sfm7ZgtfuWJG6s0MxD5-i2lBKTxkF5gy" alt="IPAK Logo" class="logo animate-ipak">
+            <img src="logo.png" alt="IPAK Logo" class="logo animate-ipak">
             
             <span class="animate-ipak line-1">Empowering Employees.</span>
             <span class="animate-ipak line-2">Simplifying Services.</span>
@@ -237,7 +238,7 @@
             btn.disabled = true;
             btn.innerText = "Processing...";
 
-            // Yahan Dashboard file ka naam hai
+            // Target page (After login)
             const targetURL = "dashboard.html"; 
 
             if (mode === "signup") {

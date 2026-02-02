@@ -22,7 +22,7 @@
         * {
             margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Inter', sans-serif;
-            cursor: none; 
+            cursor: none; /* Custom cursor k liye default cursor chupaya */
         }
         
         body {
@@ -62,7 +62,7 @@
             position: fixed; top: 0; width: 100%; z-index: 100;
         }
 
-        .logo-link img { width: 70px; height: auto; transition: transform 0.2s; }
+        .logo-link img { width: 80px; height: auto; transition: transform 0.2s; }
         .logo-link:hover img { transform: scale(1.05); }
 
         .logout-btn {
@@ -240,7 +240,7 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
 
-        // Check Login (Loader hata diya hai, agar login nahi to wapis bhej dega)
+        // Check Login
         auth.onAuthStateChanged(user => {
             if (!user) {
                 // Agar user login nahi hai to wapis Login page par
@@ -255,19 +255,3 @@
         }
 
         // Cursor Logic
-        const cursorDot = document.querySelector('[data-cursor-dot]');
-        const cursorOutline = document.querySelector('[data-cursor-outline]');
-        window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 400, fill: "forwards" });
-        });
-        document.querySelectorAll('a, button').forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-        });
-    </script>
-</body>
-</html>

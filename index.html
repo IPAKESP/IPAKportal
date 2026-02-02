@@ -22,7 +22,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #ffffff; /* Image ki tarah clean white background */
+            background: #ffffff; /* Clean white background */
             overflow: hidden;
             font-family: 'Inter', sans-serif;
         }
@@ -31,17 +31,28 @@
         .main-container {
             display: flex;
             width: 100%;
-            max-width: 1100px; /* Screen par faila hua */
+            max-width: 1100px;
             justify-content: space-between;
             align-items: center;
             padding: 0 50px;
         }
 
-        /* --- LEFT SIDE: TEXT ANIMATION --- */
+        /* --- LEFT SIDE: LOGO & TEXT --- */
         .text-section {
             flex: 1;
             padding-right: 50px;
             font-family: 'Fira Sans', sans-serif;
+            display: flex;
+            flex-direction: column; /* Cheezon ko ooper-neechay rakhne k liye */
+            justify-content: center;
+        }
+
+        /* Logo Styling */
+        .logo {
+            width: 180px; /* Logo ka size yahan se control karein */
+            height: auto;
+            margin-bottom: 30px; /* Text aur Logo k darmiyan faasla */
+            animation-delay: 0s; /* Logo sab se pehlay aaye ga */
         }
 
         .animate-ipak {
@@ -52,19 +63,19 @@
         }
 
         .line-1 {
-            font-size: 3.5rem; /* Size image k mutabiq */
+            font-size: 3.5rem;
             font-weight: 700;
             color: var(--navy);
             line-height: 1.1;
             margin-bottom: 10px;
-            animation-delay: 0.2s;
+            animation-delay: 0.3s; /* Logo k baad */
         }
 
         .line-2 {
             font-size: 2.5rem;
             font-weight: 400;
             color: var(--lime);
-            animation-delay: 0.5s;
+            animation-delay: 0.6s; /* Sab se aakhir mein */
         }
 
         @keyframes slideIn {
@@ -73,7 +84,7 @@
 
         /* --- RIGHT SIDE: LOGIN CARD --- */
         .form-section {
-            flex: 0 0 auto; /* Card ka size fix rahay */
+            flex: 0 0 auto;
         }
 
         .card {
@@ -82,7 +93,7 @@
             border-radius: 24px;
             background: #ffffff;
             border: 1px solid #f0f0f0;
-            box-shadow: 0 20px 50px rgba(32, 50, 101, 0.08); /* Soft shadow like image */
+            box-shadow: 0 20px 50px rgba(32, 50, 101, 0.08);
             text-align: center;
             animation: float 6s ease-in-out infinite;
         }
@@ -124,8 +135,9 @@
 
         /* --- MOBILE RESPONSIVE --- */
         @media (max-width: 900px) {
-            .main-container { flex-direction: column; padding: 20px; }
-            .text-section { text-align: center; margin-bottom: 40px; padding-right: 0; }
+            .main-container { flex-direction: column; padding: 20px; justify-content: center; }
+            .text-section { text-align: center; margin-bottom: 40px; padding-right: 0; align-items: center; }
+            .logo { width: 140px; margin-bottom: 20px; } /* Mobile par logo thora chota */
             .line-1 { font-size: 2.2rem; }
             .line-2 { font-size: 1.6rem; }
             .card { width: 100%; max-width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
@@ -138,6 +150,8 @@
     <div class="main-container">
         
         <div class="text-section">
+            <img src="https://drive.google.com/uc?export=view&id=1sfm7ZgtfuWJG6s0MxD5-i2lBKTxkF5gy" alt="IPAK Logo" class="logo animate-ipak">
+            
             <span class="animate-ipak line-1">Empowering Employees.</span>
             <span class="animate-ipak line-2">Simplifying Services.</span>
         </div>

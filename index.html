@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Service Portal</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -15,99 +15,120 @@
             --light-grey: #D4D4D4;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #f0f2f5; /* Halka grey background */
+            background: #ffffff; /* Image ki tarah clean white background */
             overflow: hidden;
+            font-family: 'Inter', sans-serif;
         }
 
-        /* Main Container - Jo do hisson mein bata hua hai */
+        /* Container jo dono hisson ko pakar kar rakhay ga */
         .main-container {
             display: flex;
-            width: 900px;
-            height: 550px;
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-
-        /* Left Side - Login Form */
-        .login-section {
-            flex: 1;
-            padding: 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        /* Right Side - Caption & Design */
-        .caption-section {
-            flex: 1;
-            background: linear-gradient(135deg, var(--navy), #162447);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            width: 100%;
+            max-width: 1100px; /* Screen par faila hua */
+            justify-content: space-between;
             align-items: center;
-            text-align: center;
+            padding: 0 50px;
+        }
+
+        /* --- LEFT SIDE: TEXT ANIMATION --- */
+        .text-section {
+            flex: 1;
+            padding-right: 50px;
+            font-family: 'Fira Sans', sans-serif;
+        }
+
+        .animate-ipak {
+            display: block;
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: slideIn 1s ease-out forwards;
+        }
+
+        .line-1 {
+            font-size: 3.5rem; /* Size image k mutabiq */
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1.1;
+            margin-bottom: 10px;
+            animation-delay: 0.2s;
+        }
+
+        .line-2 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: var(--lime);
+            animation-delay: 0.5s;
+        }
+
+        @keyframes slideIn {
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* --- RIGHT SIDE: LOGIN CARD --- */
+        .form-section {
+            flex: 0 0 auto; /* Card ka size fix rahay */
+        }
+
+        .card {
+            width: 380px;
             padding: 40px;
-            position: relative;
-            overflow: hidden;
+            border-radius: 24px;
+            background: #ffffff;
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 20px 50px rgba(32, 50, 101, 0.08); /* Soft shadow like image */
+            text-align: center;
+            animation: float 6s ease-in-out infinite;
         }
 
-        /* Design Element (Circle) */
-        .caption-section::before {
-            content: "";
-            position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 200px;
-            height: 200px;
-            background: var(--lime);
-            border-radius: 50%;
-            opacity: 0.2;
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
         }
 
-        .header h2 { font-size: 1.8rem; color: var(--navy); margin-bottom: 10px; }
-        .header p { color: #666; font-size: 0.95rem; margin-bottom: 30px; }
+        .header h2 { font-size: 1.6rem; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+        .header p { color: #888; font-size: 0.9rem; margin-bottom: 30px; }
 
-        .input-group { margin-bottom: 20px; }
+        .input-group { margin-bottom: 18px; text-align: left; }
         label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--navy); }
         input { 
-            width: 100%; padding: 12px 16px; border-radius: 12px; 
+            width: 100%; padding: 12px 16px; border-radius: 10px; 
             border: 1.5px solid var(--light-grey); outline: none; font-size: 0.95rem;
+            background: #fff;
+            font-family: 'Inter', sans-serif;
         }
-        input:focus { border-color: var(--navy); }
+        input:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(32, 50, 101, 0.05); }
 
         button { 
-            width: 100%; padding: 14px; border-radius: 12px; border: none; 
+            width: 100%; padding: 14px; border-radius: 10px; border: none; 
             background: var(--lime); color: var(--navy); font-weight: 700; 
-            cursor: pointer; transition: 0.3s; margin-top: 10px;
+            font-size: 1rem; cursor: pointer; transition: 0.3s; margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(168, 197, 0, 0.3);
         }
-        button:hover { background: #96b000; }
+        button:hover { transform: translateY(-2px); background: #96b000; }
+        button:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; }
 
-        .toggle { margin-top: 20px; font-size: 0.85rem; text-align: center; color: #666; }
+        .toggle { margin-top: 20px; font-size: 0.85rem; color: #888; }
         .toggle span { color: var(--navy); cursor: pointer; font-weight: 700; text-decoration: underline; }
 
-        /* Caption Text Styling */
-        .caption-content h3 { font-size: 2rem; margin-bottom: 15px; line-height: 1.2; }
-        .caption-content p { font-size: 1rem; opacity: 0.9; line-height: 1.5; }
+        .msg { margin-top: 15px; font-size: 0.85rem; padding: 10px; border-radius: 8px; display: none; }
+        .error { background: #fff5f5; color: #c53030; border: 1px solid #feb2b2; }
+        .success { background: #f0fff4; color: #276749; border: 1px solid #9ae6b4; }
 
-        .msg { margin-top: 15px; font-size: 0.85rem; text-align: center; padding: 10px; border-radius: 8px; display: none; }
-        .error { background: #ffe6e6; color: #d63031; border: 1px solid #fab1a0; }
-        .success { background: #e6fffa; color: #00b894; border: 1px solid #55efc4; }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .main-container { flex-direction: column; width: 90%; height: auto; }
-            .caption-section { display: none; } /* Mobile par caption chup jaye ga */
-            .login-section { padding: 30px; }
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .main-container { flex-direction: column; padding: 20px; }
+            .text-section { text-align: center; margin-bottom: 40px; padding-right: 0; }
+            .line-1 { font-size: 2.2rem; }
+            .line-2 { font-size: 1.6rem; }
+            .card { width: 100%; max-width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         }
     </style>
 </head>
@@ -115,37 +136,39 @@
 <body>
 
     <div class="main-container">
-        <div class="login-section">
-            <div class="header">
-                <h2 id="title">Welcome Back</h2>
-                <p id="subtitle">Please enter your details to login.</p>
-            </div>
-
-            <div class="input-group">
-                <label>Corporate Email</label>
-                <input type="email" id="email" placeholder="name@company.com">
-            </div>
-
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" id="password" placeholder="••••••••">
-            </div>
-
-            <button id="mainBtn" onclick="submitForm()">Login</button>
-
-            <div class="toggle">
-                <p id="toggleText">New User? <span onclick="switchMode()">Create Account</span></p>
-            </div>
-            
-            <div id="msg" class="msg"></div>
+        
+        <div class="text-section">
+            <span class="animate-ipak line-1">Empowering Employees.</span>
+            <span class="animate-ipak line-2">Simplifying Services.</span>
         </div>
 
-        <div class="caption-section">
-            <div class="caption-content">
-                <h3>Empowering<br>Workforce</h3>
-                <p>Connect, Collaborate, and Create.<br>Your gateway to seamless operations.</p>
+        <div class="form-section">
+            <div class="card">
+                <div class="header">
+                    <h2 id="title">Service Portal</h2>
+                    <p id="subtitle">Secure Employee Access</p>
+                </div>
+
+                <div class="input-group">
+                    <label>Corporate Email</label>
+                    <input type="email" id="email" placeholder="name@company.com">
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="••••••••">
+                </div>
+
+                <button id="mainBtn" onclick="submitForm()">Login to Portal</button>
+
+                <div class="toggle">
+                    <p id="toggleText">New User? <span onclick="switchMode()">Create Account</span></p>
+                </div>
+
+                <div id="msg" class="msg"></div>
             </div>
         </div>
+
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -169,7 +192,6 @@
 
         function switchMode() {
             const title = document.getElementById("title");
-            const sub = document.getElementById("subtitle");
             const btn = document.getElementById("mainBtn");
             const toggleText = document.getElementById("toggleText");
             const msg = document.getElementById("msg");
@@ -178,14 +200,12 @@
             if (mode === "login") {
                 mode = "signup";
                 title.innerText = "Create Account";
-                sub.innerText = "Join the team today.";
                 btn.innerText = "Register Now";
-                toggleText.innerHTML = 'Already have an ID? <span onclick="switchMode()">Login Here</span>';
+                toggleText.innerHTML = 'Already registered? <span onclick="switchMode()">Sign In</span>';
             } else {
                 mode = "login";
-                title.innerText = "Welcome Back";
-                sub.innerText = "Please enter your details to login.";
-                btn.innerText = "Login";
+                title.innerText = "Service Portal";
+                btn.innerText = "Login to Portal";
                 toggleText.innerHTML = 'New User? <span onclick="switchMode()">Create Account</span>';
             }
         }
@@ -196,15 +216,14 @@
             const btn = document.getElementById("mainBtn");
             
             if (!email || !password) {
-                showMsg("Please fill all fields", "error");
+                showMsg("Please enter both email and password", "error");
                 return;
             }
 
             btn.disabled = true;
             btn.innerText = "Processing...";
 
-            // Yahan Login ke baad jis page par jana hai uska naam likhein
-            // Agar Dashboard file banayi hai to "dashboard.html" likhein
+            // Yahan Dashboard file ka naam hai
             const targetURL = "dashboard.html"; 
 
             if (mode === "signup") {
@@ -221,13 +240,13 @@
             } else {
                 auth.signInWithEmailAndPassword(email, password)
                     .then(() => {
-                        showMsg("Success! Redirecting...", "success");
+                        showMsg("Authorized! Redirecting...", "success");
                         setTimeout(() => { window.location.href = targetURL; }, 1000);
                     })
                     .catch(err => {
                         showMsg("Invalid Credentials", "error");
                         btn.disabled = false;
-                        btn.innerText = "Login";
+                        btn.innerText = "Login to Portal";
                     });
             }
         }

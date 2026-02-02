@@ -18,7 +18,6 @@
             --bg-color: #F5F7FA;
         }
 
-        /* Basic Reset */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         
         body { 
@@ -26,28 +25,26 @@
             background: var(--bg-color); 
             min-height: 100vh; 
             overflow-x: hidden;
-            cursor: none; /* Custom cursor is enabled */
+            cursor: none; 
         }
 
         /* --- CUSTOM CURSOR --- */
         .cursor-dot {
             width: 8px; height: 8px; background: var(--lime);
-            position: fixed; pointer-events: none; z-index: 9999;
+            position: fixed; pointer-events: none; z-index: 10000;
             border-radius: 50%; box-shadow: 0 0 10px var(--lime);
-            left: 0; top: 0;
         }
         .cursor-outline {
             width: 40px; height: 40px; border: 2px solid var(--navy);
             position: fixed; pointer-events: none; z-index: 9999;
             border-radius: 50%; transition: width 0.2s, height 0.2s, background 0.2s;
-            left: 0; top: 0;
         }
         body.hovering .cursor-outline {
             width: 60px; height: 60px; border-color: var(--lime);
             background: rgba(168, 197, 0, 0.1);
         }
 
-        /* --- HEADER --- */
+        /* --- TOP BAR --- */
         .top-bar {
             background: var(--white);
             height: 80px;
@@ -61,48 +58,48 @@
         .logo-link img { width: 80px; height: auto; }
 
         .header-actions { display: flex; align-items: center; gap: 20px; }
-        .user-icon { font-size: 1.8rem; color: var(--navy); cursor: pointer; }
+        .user-icon { font-size: 1.8rem; color: var(--navy); }
         .logout-btn {
             padding: 10px 20px; background: transparent; border: 2px solid var(--navy);
-            color: var(--navy); border-radius: 8px; font-weight: 600; cursor: pointer;
+            color: var(--navy); border-radius: 8px; font-weight: 600; transition: 0.3s;
         }
+        .logout-btn:hover { background: var(--navy); color: var(--white); }
 
-        /* --- CONTENT WRAPPER --- */
+        /* --- LAYOUT --- */
         .wrapper { padding-top: 120px; padding-bottom: 50px; }
         .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* --- BACK BUTTON --- */
+        /* --- BACK BUTTON (Pointed to dashboard.html) --- */
         .back-nav { margin-bottom: 30px; }
         .back-btn {
             display: inline-flex; align-items: center; gap: 10px;
             text-decoration: none; color: var(--navy);
             font-weight: 600; padding: 10px 20px; border-radius: 30px;
-            background: var(--white); border: 1px solid rgba(0,0,0,0.1);
-            transition: 0.3s;
+            background: var(--white); border: 1px solid rgba(0,0,0,0.05);
+            transition: 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.03);
         }
-        .back-btn:hover { background: var(--navy); color: var(--white); }
+        .back-btn:hover { background: var(--navy); color: var(--white); transform: translateX(-5px); }
 
-        /* --- ANIMATIONS --- */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        .page-header { text-align: center; margin-bottom: 40px; animation: float 5s ease-in-out infinite; }
-        .page-header h1 { font-size: 2.5rem; color: var(--navy); }
-        .page-header p { color: var(--lime); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+        /* --- PAGE HEADER --- */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .page-header { text-align: center; margin-bottom: 50px; animation: float 6s ease-in-out infinite; }
+        .page-header h1 { font-size: 2.5rem; font-weight: 700; color: var(--navy); }
+        .page-header p { color: var(--lime); letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; font-weight: 700; }
 
-        /* --- SEARCH --- */
+        /* --- SEARCH BOX --- */
         .search-container { display: flex; justify-content: center; margin-bottom: 40px; }
         .search-box {
             width: 100%; max-width: 500px; padding: 15px 25px;
             border-radius: 50px; border: 1px solid var(--light-grey);
-            outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            outline: none; transition: 0.3s;
         }
+        .search-box:focus { border-color: var(--lime); box-shadow: 0 0 15px rgba(168, 197, 0, 0.1); }
 
-        /* --- CARDS & GRID --- */
+        /* --- GRID --- */
         .category-title {
-            display: flex; align-items: center; gap: 10px;
-            margin: 30px 0 20px; font-weight: 700; color: var(--navy);
+            color: var(--navy); font-size: 1.1rem; margin: 40px 0 20px;
+            text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
+            display: flex; align-items: center; gap: 15px;
         }
         .category-title::after { content: ''; flex-grow: 1; height: 1px; background: var(--light-grey); }
 
@@ -111,30 +108,27 @@
         }
 
         .audio-card {
-            background: var(--white); border-radius: 15px; padding: 20px;
-            display: flex; align-items: center; gap: 15px;
+            background: var(--white); border-radius: 20px; padding: 25px;
+            display: flex; align-items: center; gap: 20px;
             text-decoration: none; color: inherit;
-            transition: 0.3s; border: 1px solid rgba(0,0,0,0.05);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(0,0,0,0.05);
             position: relative; overflow: hidden;
         }
-        .audio-card:hover { transform: translateY(-5px); border-color: var(--lime); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .audio-card:hover { transform: translateY(-8px); border-color: var(--lime); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
 
-        .play-box {
-            width: 45px; height: 45px; background: var(--navy);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        .play-icon-box {
+            width: 50px; height: 50px; background: var(--navy);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
             flex-shrink: 0; color: white; transition: 0.3s;
         }
-        .audio-card:hover .play-box { background: var(--lime); color: var(--navy); transform: rotate(360deg); }
+        .audio-card:hover .play-icon-box { background: var(--lime); color: var(--navy); transform: rotate(360deg); }
 
-        .track-title { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
-        .track-meta { font-size: 0.8rem; color: var(--med-grey); }
+        .track-title { font-weight: 700; margin-bottom: 5px; }
+        .track-meta { color: var(--med-grey); font-size: 0.8rem; }
 
-        /* Featured Player */
-        #embed-container { width: 100%; display: none; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px; }
+        footer { text-align: center; margin-top: 80px; padding: 40px 0; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px; }
 
-        footer { text-align: center; padding: 50px 0; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 1px; }
-
-        /* Mobile Fix */
         @media (max-width: 768px) {
             body { cursor: auto; }
             .cursor-dot, .cursor-outline { display: none; }
@@ -148,12 +142,12 @@
     <div class="cursor-outline"></div>
 
     <nav class="top-bar">
-        <div class="logo-link">
-            <img src="logo.png" alt="IPAK">
-        </div>
+        <a href="dashboard.html" class="logo-link">
+            <img src="logo.png" alt="IPAK Logo">
+        </a>
         <div class="header-actions">
             <i class="fas fa-user-circle user-icon"></i>
-            <button class="logout-btn" onclick="alert('Logging out...')">Logout</button>
+            <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
         </div>
     </nav>
 
@@ -161,7 +155,9 @@
         <div class="container">
             
             <div class="back-nav">
-                <a href="#" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Portal</a>
+                <a href="dashboard.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
             </div>
 
             <div class="page-header">
@@ -170,83 +166,63 @@
             </div>
 
             <div class="search-container">
-                <input type="text" id="audioSearch" class="search-box" placeholder="Search tracks...">
+                <input type="text" id="audioSearch" class="search-box" placeholder="Search by title or category...">
             </div>
 
-            <div class="category-title"><i class="fas fa-star" style="color: var(--lime);"></i> Featured</div>
-            <div class="audio-card" id="featured-card" style="border: 2px solid var(--lime); flex-direction: column; align-items: flex-start;">
-                <div style="display: flex; align-items: center; gap: 15px; width: 100%;">
-                    <div class="play-box" id="play-trigger"><i class="fas fa-play"></i></div>
-                    <div>
-                        <div class="track-title">Rich Dad Poor Dad</div>
-                        <div class="track-meta">Robert Kiyosaki | 8h 12m</div>
+            <div class="category-section">
+                <div class="category-title"><i class="fas fa-headphones" style="color: var(--lime);"></i> Leadership Tracks</div>
+                <div class="audio-grid">
+                    <div class="audio-card">
+                        <div class="play-icon-box"><i class="fas fa-play"></i></div>
+                        <div>
+                            <div class="track-title">Team Management</div>
+                            <div class="track-meta">Duration: 18 min</div>
+                        </div>
                     </div>
-                </div>
-                <div id="embed-container"></div>
-            </div>
-
-            <div class="category-title"><i class="fas fa-headphones" style="color: var(--lime);"></i> Leadership</div>
-            <div class="audio-grid">
-                <div class="audio-card">
-                    <div class="play-box"><i class="fas fa-play"></i></div>
-                    <div>
-                        <div class="track-title">The Corporate Edge</div>
-                        <div class="track-meta">Management Series | 24 min</div>
-                    </div>
-                </div>
-                <div class="audio-card">
-                    <div class="play-box"><i class="fas fa-play"></i></div>
-                    <div>
-                        <div class="track-title">Skill Building</div>
-                        <div class="track-meta">HR Training | 15 min</div>
+                    <div class="audio-card">
+                        <div class="play-icon-box"><i class="fas fa-play"></i></div>
+                        <div>
+                            <div class="track-title">Strategic Growth</div>
+                            <div class="track-meta">Duration: 25 min</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <footer>&copy; 2026 IPAK PORTAL | SECURE ACCESS</footer>
+            <footer>&copy; 2026 IPAK PORTAL | SECURE EMPLOYEE ACCESS</footer>
         </div>
     </div>
 
     <script>
-        // Cursor Movement
+        // Smooth Custom Cursor logic
         const dot = document.querySelector('.cursor-dot');
         const outline = document.querySelector('.cursor-outline');
 
         window.addEventListener('mousemove', (e) => {
-            dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            dot.style.left = `${posX}px`;
+            dot.style.top = `${posY}px`;
+
             outline.animate({
-                transform: `translate(${e.clientX}px, ${e.clientY}px)`
-            }, { duration: 500, fill: "forwards" });
+                left: `${posX - 20}px`, // Centering the outline
+                top: `${posY - 20}px`
+            }, { duration: 400, fill: "forwards" });
         });
 
-        // Hover Effect
         document.querySelectorAll('a, button, input, .audio-card').forEach(el => {
             el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
         });
 
-        // Search Logic
+        // Simple Search
         document.getElementById('audioSearch').addEventListener('keyup', function() {
             let filter = this.value.toLowerCase();
             document.querySelectorAll('.audio-card').forEach(card => {
-                let text = card.innerText.toLowerCase();
-                card.style.display = text.includes(filter) ? "flex" : "none";
+                let title = card.innerText.toLowerCase();
+                card.style.display = title.includes(filter) ? "flex" : "none";
             });
-        });
-
-        // Player Toggle
-        document.getElementById('play-trigger').addEventListener('click', function() {
-            const container = document.getElementById('embed-container');
-            const icon = this.querySelector('i');
-            if(container.style.display === 'none' || container.innerHTML === '') {
-                container.innerHTML = '<iframe width="100%" height="150" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="autoplay"></iframe>';
-                container.style.display = 'block';
-                icon.className = 'fas fa-pause';
-            } else {
-                container.style.display = 'none';
-                container.innerHTML = '';
-                icon.className = 'fas fa-play';
-            }
         });
     </script>
 </body>

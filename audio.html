@@ -1,1 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPAK Portal - Audio Library</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --navy: #203265;
+            --lime: #A8C500;
+            --white: #FFFFFF;
+            --med-grey: #9C9C9C;
+            --light-grey: #D4D4D4;
+            --bg-color: #F5F7FA;
+        }
 
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            cursor: none; 
+        }
+        
+        body { 
+            color: var(--navy); 
+            background: var(--bg-color); 
+            min-height: 100vh; 
+            overflow-x: hidden;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor-dot {
+            width: 8px; height: 8px; background: var(--lime);
+            position: fixed; pointer-events: none; z-index: 9999;
+            border-radius: 50%; box-shadow: 0 0 10px var(--lime);
+        }
+        .cursor-outline {
+            width: 40px; height: 40px; border: 2px solid var(--navy);
+            position: fixed; pointer-events: none; z-index: 9999;
+            border-radius: 50%; transition: width 0.2s, height 0.2s, background 0.2s;
+        }
+        body.hovering .cursor-outline {
+            width: 60px; height: 60px; border-color: var(--lime);
+            background: rgba(168, 197, 0, 0.1);
+        }
+
+        /* --- TOP BAR --- */
+        .top-bar {
+            background: var(--white);
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: fixed; top: 0; width: 100%; z-index: 100;
+        }
+        .logo-link img { width: 80px; height: auto; transition: transform 0.2s; }
+        .logo-link:hover img { transform: scale(1.05); }
+
+        .header-actions { display: flex; align-items: center; gap: 20px; }
+        .user-icon { font-size: 1.8rem; color: var(--navy); transition: 0.3s; }
+        .logout-btn {
+            padding: 10px 20px; background: transparent; border: 2px solid var(--navy);
+            color: var(--navy); border-radius: 8px; font-weight: 600; transition: 0.3s;
+        }
+        .logout-btn:hover { background: var(--navy); color: var(--white); }
+
+        /* --- MAIN LAYOUT --- */
+        .wrapper { padding-top: 120px; padding-bottom: 50px; }
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- BACK BUTTON --- */
+        .back-nav { margin-bottom: 30px; }
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            text-decoration: none; color: var(--navy);
+            font-weight: 600; font-size: 1rem;
+            padding: 10px 20px; border-radius: 30px;
+            background: var(--white); border: 1px solid rgba(0,0,0,0.05);
+            transition: 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+        .back-btn:hover { background: var(--navy); color: var(--white); transform: translateX(-5px); }
+
+        /* --- PAGE HEADER --- */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .page-header {
+            text-align: center; margin-bottom: 50px;
+            animation: float 6s ease-in-out infinite;
+        }
+        .page-header h1 { font-size: 2.5rem; font-weight: 700; color: var(--navy); }
+        .page-header p { color: var(--lime); letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; font-weight: 700; }
+
+        /* --- SEARCH BOX --- */
+        .search-container { display: flex; justify-content: center; margin-bottom: 40px; }
+        .search-box {
+            width: 100%; max-width: 500px; padding: 15px 25px;
+            border-radius: 50px; border: 1px solid var(--light-grey);
+            outline: none; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        .search-box:focus { border-color: var(--lime); box-shadow: 0 0 15px rgba(168, 197, 0, 0.1); }
+
+        /* --- CATEGORY TITLES --- */
+        .category-title {
+            color: var(--navy); font-size: 1.1rem; margin: 40px 0 20px 0;
+            text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
+            display: flex; align-items: center; gap: 15px;
+        }
+        .category-title::after { content: ''; flex-grow: 1; height: 1px; background: var(--light-grey); }
+
+        /* --- AUDIO GRID --- */
+        .audio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* --- AUDIO CARDS --- */
+        .audio-card {
+            background: var(--white);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 20px; 
+            padding: 25px;
+            text-decoration: none;
+            color: var(--navy);
+            display: flex; align-items: center; gap: 20px;
+            position: relative; overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+
+        .audio-card::after {
+            content: ""; position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(168, 197, 0, 0.1), transparent);
+        }
+
+        .audio-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--lime);
+            box-shadow: 0 15px 30px rgba(32, 50, 101, 0.1);
+        }
+        .audio-card:hover::after { animation: sweep 1.5s; }
+        @keyframes sweep { 0% { left: -100%; } 100% { left: 200%; } }
+
+        .play-icon-box {
+            width: 50px; height: 50px; background: var(--navy);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            flex-shrink: 0; transition: 0.3s;
+        }
+        .play-icon-box i { color: #fff; font-size: 1.2rem; margin-left: 3px; }
+        .audio-card:hover .play-icon-box { background: var(--lime); transform: rotate(360deg); }
+        .audio-card:hover .play-icon-box i { color: var(--navy); }
+
+        .track-info { flex-grow: 1; }
+        .track-title { font-size: 1rem; font-weight: 700; margin-bottom: 5px; }
+        .track-meta { color: var(--med-grey); font-size: 0.8rem; display: flex; align-items: center; gap: 10px; }
+
+        /* --- FEATURED CARD --- */
+        .featured-section { margin-bottom: 40px; }
+        .featured-card {
+            border: 2px solid var(--lime);
+            background: rgba(168, 197, 0, 0.03);
+            flex-direction: column; align-items: flex-start;
+        }
+        .featured-header { display: flex; align-items: center; gap: 20px; width: 100%; }
+        #embed-container { width: 100%; display: none; margin-top: 20px; border-top: 1px solid var(--light-grey); padding-top: 20px; }
+
+        footer {
+            text-align: center; margin-top: 80px; padding: 40px 0;
+            color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .cursor-dot, .cursor-outline { display: none; }
+            * { cursor: auto; }
+            .top-bar { padding: 0 20px; }
+            .audio-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <nav class="top-bar">
+        <a href="dashboard.html" class="logo-link">
+            <img src="logo.png" alt="IPAK Logo">
+        </a>
+        <div class="header-actions">
+            <i class="fas fa-user-circle user-icon"></i>
+            <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div class="wrapper">
+        <div class="container">
+            
+            <div class="back-nav">
+                <a href="https://sites.google.com/view/employeeserviceportal/welcome" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Portal
+                </a>
+            </div>
+
+            <div class="page-header">
+                <p>Knowledge Base</p>
+                <h1>Audio Library</h1>
+            </div>
+
+            <div class="search-container">
+                <input type="text" id="audioSearch" class="search-box" placeholder="Search by title, author, or topic...">
+            </div>
+
+            <div class="featured-section">
+                <div class="category-title"><i class="fas fa-star" style="color: var(--lime);"></i> Featured Audiobook</div>
+                <div class="audio-card featured-card">
+                    <div class="featured-header">
+                        <div class="play-icon-box" id="play-rdpd-btn"><i class="fas fa-play"></i></div>
+                        <div class="track-info">
+                            <div class="track-title" style="font-size: 1.2rem;">Rich Dad Poor Dad</div>
+                            <div class="track-meta">
+                                <span><i class="fas fa-user-tie"></i> Robert Kiyosaki</span>
+                                <span>| Full Audiobook</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="embed-container"></div>
+                </div>
+            </div>
+
+            <div class="category-section">
+                <div class="category-title"><i class="fas fa-headphones" style="color: var(--lime);"></i> Leadership Series</div>
+                <div class="audio-grid">
+                    <a href="#" class="audio-card">
+                        <div class="play-icon-box"><i class="fas fa-play"></i></div>
+                        <div class="track-info">
+                            <div class="track-title">The Corporate Edge</div>
+                            <div class="track-meta"><span>24 min</span></div>
+                        </div>
+                    </a>
+                    <a href="#" class="audio-card">
+                        <div class="play-icon-box"><i class="fas fa-play"></i></div>
+                        <div class="track-info">
+                            <div class="track-title">Leaders at Every Level</div>
+                            <div class="track-meta"><span>18 min</span></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="category-section">
+                <div class="category-title"><i class="fas fa-bolt" style="color: var(--lime);"></i> Productivity Podcasts</div>
+                <div class="audio-grid">
+                    <a href="#" class="audio-card">
+                        <div class="play-icon-box"><i class="fas fa-play"></i></div>
+                        <div class="track-info">
+                            <div class="track-title">Peak Performance</div>
+                            <div class="track-meta"><span>20 min</span></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <footer>&copy; 2026 IPAK PORTAL | SECURE AUDIO KNOWLEDGE BASE</footer>
+        </div>
+    </div>
+
+    <script>
+        // Cursor Logic
+        const dot = document.querySelector('.cursor-dot');
+        const outline = document.querySelector('.cursor-outline');
+        window.addEventListener('mousemove', (e) => {
+            dot.style.left = `${e.clientX}px`; dot.style.top = `${e.clientY}px`;
+            outline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 400, fill: "forwards" });
+        });
+        document.querySelectorAll('a, button, input, .audio-card').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        // Search Filter
+        document.getElementById('audioSearch').addEventListener('keyup', function() {
+            let filter = this.value.toLowerCase();
+            let cards = document.querySelectorAll('.audio-card');
+            cards.forEach(card => {
+                let title = card.querySelector('.track-title').innerText.toLowerCase();
+                card.style.display = title.includes(filter) ? "flex" : "none";
+            });
+        });
+
+        // Featured Player
+        document.getElementById('play-rdpd-btn').addEventListener('click', function() {
+            const container = document.getElementById('embed-container');
+            const icon = this.querySelector('i');
+            if (container.style.display === 'none' || container.innerHTML === '') {
+                container.innerHTML = `<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/745959094&color=%23A8C500&auto_play=true"></iframe>`;
+                container.style.display = 'block';
+                icon.className = 'fas fa-pause';
+                this.style.background = 'var(--lime)';
+                icon.style.color = 'var(--navy)';
+            } else {
+                container.style.display = 'none';
+                container.innerHTML = '';
+                icon.className = 'fas fa-play';
+                this.style.background = 'var(--navy)';
+                icon.style.color = '#fff';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -87,7 +87,7 @@
         .page-header h1 { font-size: 2.5rem; color: var(--navy); }
         .page-header p { color: var(--lime); letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; font-weight: 700; }
 
-        /* --- ACTION BUTTONS (WhatsApp/Email) --- */
+        /* --- ACTION BUTTONS --- */
         .action-area {
             display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; flex-wrap: wrap;
         }
@@ -321,8 +321,6 @@
         function setView(mode) {
             document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
             event.currentTarget.classList.add('active');
-            // Logic for resizing iframe or container width can be added here if needed
-            // For now, it just toggles the button state visually
         }
         function openAdminPortal() { window.open('https://sites.google.com/view/ipakportal/login', '_blank'); }
         function openWhatsApp() { window.open('https://wa.me/923222818107', '_blank'); }

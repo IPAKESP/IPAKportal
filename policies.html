@@ -1,1 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPAK Portal - Policy Archive</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --navy: #203265;
+            --lime: #A8C500;
+            --white: #FFFFFF;
+            --med-grey: #9C9C9C;
+            --light-grey: #D4D4D4;
+            --bg-color: #F5F7FA;
+        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; cursor: none; }
+        
+        body { 
+            color: var(--navy); 
+            background: var(--bg-color); 
+            min-height: 100vh; 
+            overflow-x: hidden;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor-dot {
+            width: 8px; height: 8px; background: var(--lime);
+            position: fixed; pointer-events: none; z-index: 10000;
+            border-radius: 50%; box-shadow: 0 0 10px var(--lime);
+        }
+        .cursor-outline {
+            width: 40px; height: 40px; border: 2px solid var(--navy);
+            position: fixed; pointer-events: none; z-index: 9999;
+            border-radius: 50%; transition: width 0.2s, height 0.2s, background 0.2s;
+        }
+        body.hovering .cursor-outline {
+            width: 60px; height: 60px; border-color: var(--lime);
+            background: rgba(168, 197, 0, 0.1);
+        }
+
+        /* --- TOP BAR --- */
+        .top-bar {
+            background: var(--white);
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: fixed; top: 0; width: 100%; z-index: 100;
+        }
+        .logo-link img { width: 80px; height: auto; transition: 0.3s; }
+        .logo-link:hover img { transform: scale(1.1); }
+
+        .header-actions { display: flex; align-items: center; gap: 20px; }
+        .user-icon { font-size: 1.8rem; color: var(--navy); transition: 0.3s; }
+        .user-icon:hover { color: var(--lime); }
+        .logout-btn {
+            padding: 10px 20px; background: transparent; border: 2px solid var(--navy);
+            color: var(--navy); border-radius: 8px; font-weight: 600; transition: 0.3s;
+        }
+        .logout-btn:hover { background: var(--navy); color: var(--white); }
+
+        /* --- LAYOUT --- */
+        .wrapper { padding-top: 120px; padding-bottom: 50px; }
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        .back-nav { margin-bottom: 30px; }
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            text-decoration: none; color: var(--navy);
+            font-weight: 600; padding: 10px 20px; border-radius: 30px;
+            background: var(--white); border: 1px solid rgba(0,0,0,0.05);
+            transition: 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+        .back-btn:hover { background: var(--navy); color: var(--white); transform: translateX(-5px); }
+
+        /* --- HEADER & SEARCH --- */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .page-header { text-align: center; margin-bottom: 40px; animation: float 6s ease-in-out infinite; }
+        .page-header h1 { font-size: 2.5rem; color: var(--navy); }
+        .page-header p { color: var(--lime); letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; font-weight: 700; }
+
+        .search-container { display: flex; justify-content: center; margin-bottom: 50px; }
+        .search-box {
+            width: 100%; max-width: 600px; padding: 15px 25px;
+            border-radius: 50px; border: 1px solid var(--light-grey);
+            outline: none; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        .search-box:focus { border-color: var(--lime); box-shadow: 0 0 15px rgba(168, 197, 0, 0.1); }
+
+        /* --- POLICY GRID --- */
+        .policy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .policy-card {
+            background: var(--white);
+            border: 1px solid rgba(0,0,0,0.05);
+            padding: 18px 22px;
+            border-radius: 16px;
+            display: flex; align-items: center; gap: 15px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; overflow: hidden;
+        }
+
+        .policy-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--lime);
+            box-shadow: 0 10px 25px rgba(32, 50, 101, 0.08);
+        }
+
+        .policy-card i {
+            color: var(--navy); font-size: 1.2rem;
+            min-width: 25px; text-align: center; transition: 0.3s;
+        }
+        .policy-card:hover i { color: var(--lime); transform: scale(1.1); }
+
+        .policy-card span {
+            color: var(--navy); font-weight: 600; font-size: 0.85rem;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        footer { text-align: center; margin-top: 80px; padding: 40px 0; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px; }
+
+        @media (max-width: 768px) {
+            body { cursor: auto; }
+            .cursor-dot, .cursor-outline { display: none; }
+            .top-bar { padding: 0 20px; }
+            .policy-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <nav class="top-bar">
+        <a href="dashboard.html" class="logo-link">
+            <img src="logo.png" alt="IPAK">
+        </a>
+        <div class="header-actions">
+            <i class="fas fa-user-circle user-icon"></i>
+            <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div class="wrapper">
+        <div class="container">
+            
+            <div class="back-nav">
+                <a href="dashboard.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Portal
+                </a>
+            </div>
+
+            <div class="page-header">
+                <p>IPAK Governance</p>
+                <h1>Policy Archive</h1>
+            </div>
+
+            <div class="search-container">
+                <input type="text" id="policySearch" class="search-box" placeholder="Search for a policy (e.g. Leave, Laptop, Conduct)...">
+            </div>
+
+            <div class="policy-grid" id="policyGrid">
+                <a href="#" class="policy-card"><i class="fas fa-file-contract"></i><span>1. PREAMBLE</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-sitemap"></i><span>2. Grading Structure</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-gavel"></i><span>3. Code of Conduct</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-vial"></i><span>4. Substance Abuse Testing</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-scale-balanced"></i><span>5. Disciplinary Matter Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-hand-holding-heart"></i><span>6. Grievance Handling Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-bullhorn"></i><span>7. Whistle Blowing Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-money-bill-wave"></i><span>8. Remuneration Policy</span></a>
+                
+                <a href="#" class="policy-card"><i class="fas fa-envelope"></i><span>9. Email Usage Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-wifi"></i><span>10. Electronic Communication</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-laptop-code"></i><span>11. Laptop Security Policy</span></a>
+                
+                <a href="#" class="policy-card"><i class="fas fa-briefcase"></i><span>12. Employment at IPAK</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-graduation-cap"></i><span>13. Internship Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-user-minus"></i><span>14. Termination of Service</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-door-open"></i><span>15. Resignation Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-clock"></i><span>16. Retirement Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-file-invoice-dollar"></i><span>17. Final Settlement Policy</span></a>
+
+                <a href="#" class="policy-card"><i class="fas fa-fingerprint"></i><span>18. Attendance at Work</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-calendar-check"></i><span>19. Leave Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-user-tie"></i><span>20. Dress Code Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-chalkboard-user"></i><span>21. Training & Development</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-notes-medical"></i><span>22. Medical Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-piggy-bank"></i><span>23. EOBI Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-coins"></i><span>24. Gratuity Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-kaaba"></i><span>25. Hajj Balloting Policy</span></a>
+
+                <a href="#" class="policy-card"><i class="fas fa-car"></i><span>26. Employee Vehicle Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-ticket"></i><span>27. Vehicle Balloting Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-motorcycle"></i><span>28. Motorcycle Loan Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-bus"></i><span>29. Employee Pick & Drop</span></a>
+                
+                <a href="#" class="policy-card"><i class="fas fa-mobile-screen"></i><span>30. Mobile Handset Allowance</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-truck-moving"></i><span>31. Employee Relocation</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-hand-holding-dollar"></i><span>32. Loan & Advance Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-gas-pump"></i><span>33. Fuel Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-sim-card"></i><span>34. Cellular Connection</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-laptop"></i><span>35. Employee Laptop Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-plane"></i><span>36. Travel Policy</span></a>
+                
+                <a href="#" class="policy-card"><i class="fas fa-users-slash"></i><span>37. Anti-Nepotism Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-handshake-slash"></i><span>38. Conflict of Interest</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-shield-halved"></i><span>39. Anti Harassment Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-mobile"></i><span>40. Mobile Use Workplace</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-gift"></i><span>41. Employee Gift Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-id-card"></i><span>42. Driver Facility Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-house-laptop"></i><span>43. Work from Home Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-utensils"></i><span>44. Meal & Entertainment</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-money-bill-transfer"></i><span>45. Sales Force Advance</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-user-graduate"></i><span>46. Apprenticeship Policy</span></a>
+                
+                <a href="#" class="policy-card"><i class="fas fa-mug-hot"></i><span>47. Mess Operations Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-screwdriver-wrench"></i><span>48. Vehicle Maintenance</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-credit-card"></i><span>49. Corporate Credit Card</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-certificate"></i><span>50. Prof. Membership Fee</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-user-clock"></i><span>51. Visitor Management</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-boxes-stacked"></i><span>52. Material Management</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-trash-can"></i><span>53. Asset Disposal Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-hotel"></i><span>54. Executive Guest House</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-receipt"></i><span>55. Payroll Processing</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-moon"></i><span>56. Employee Late Sitting</span></a>
+                
+                <a href="#" class="policy-card"><i class="fas fa-hand-holding-heart"></i><span>57. Benevolent Fund Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-child-reaching"></i><span>58. Children Education</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-book-open-reader"></i><span>59. Education Assistance</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-bolt"></i><span>60. Utility Bill Reimburse</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-right-left"></i><span>61. Material IN-OUT</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-magnifying-glass-chart"></i><span>62. Theft Case Reporting</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-address-card"></i><span>63. Business Card Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-rocket"></i><span>64. LEAP Program</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-scale-unbalanced"></i><span>65. Professional Conduct</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-ban-smoking"></i><span>66. Smoking Policy</span></a>
+            </div>
+
+            <footer>&copy; 2026 IPAK PORTAL | SECURE DOCUMENTATION SYSTEM</footer>
+        </div>
+    </div>
+
+    <script>
+        // Smooth Cursor
+        const dot = document.querySelector('.cursor-dot');
+        const outline = document.querySelector('.cursor-outline');
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            dot.style.left = `${posX}px`;
+            dot.style.top = `${posY}px`;
+            outline.animate({ left: `${posX - 20}px`, top: `${posY - 20}px` }, { duration: 400, fill: "forwards" });
+        });
+
+        document.querySelectorAll('a, button, input, .policy-card').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        // Search Engine logic
+        const searchInput = document.getElementById('policySearch');
+        const cards = document.getElementsByClassName('policy-card');
+        
+        searchInput.addEventListener('input', () => {
+            let filter = searchInput.value.toLowerCase().trim();
+            for (let card of cards) {
+                let text = card.querySelector('span').textContent.toLowerCase();
+                card.style.display = text.includes(filter) ? "flex" : "none";
+            }
+        });
+    </script>
+</body>
+</html>

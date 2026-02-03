@@ -1,1 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPAK HelpDesk - Employee Services</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --navy: #203265;
+            --lime: #A8C500;
+            --white: #FFFFFF;
+            --med-grey: #9C9C9C;
+            --light-grey: #D4D4D4;
+            --bg-color: #F5F7FA;
+            --emergency-red: #ff4757;
+        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; cursor: none; }
+        
+        body { 
+            color: var(--navy); 
+            background: var(--bg-color); 
+            min-height: 100vh; 
+            overflow-x: hidden;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor-dot {
+            width: 8px; height: 8px; background: var(--lime);
+            position: fixed; pointer-events: none; z-index: 10000;
+            border-radius: 50%; box-shadow: 0 0 10px var(--lime);
+        }
+        .cursor-outline {
+            width: 40px; height: 40px; border: 2px solid var(--navy);
+            position: fixed; pointer-events: none; z-index: 9999;
+            border-radius: 50%; transition: width 0.2s, height 0.2s, background 0.2s;
+        }
+        body.hovering .cursor-outline {
+            width: 60px; height: 60px; border-color: var(--lime);
+            background: rgba(168, 197, 0, 0.1);
+        }
+
+        /* --- TOP BAR --- */
+        .top-bar {
+            background: var(--white);
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: fixed; top: 0; width: 100%; z-index: 100;
+        }
+        .logo-link img { width: 80px; height: auto; transition: 0.3s; }
+        .logo-link:hover img { transform: scale(1.1); }
+
+        .header-actions { display: flex; align-items: center; gap: 20px; }
+        .user-icon { font-size: 1.8rem; color: var(--navy); transition: 0.3s; }
+        .user-icon:hover { color: var(--lime); }
+        .logout-btn {
+            padding: 10px 20px; background: transparent; border: 2px solid var(--navy);
+            color: var(--navy); border-radius: 8px; font-weight: 600; transition: 0.3s;
+        }
+        .logout-btn:hover { background: var(--navy); color: var(--white); }
+
+        /* --- LAYOUT --- */
+        .wrapper { padding-top: 120px; padding-bottom: 50px; }
+        .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        .back-nav { margin-bottom: 30px; }
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            text-decoration: none; color: var(--navy);
+            font-weight: 600; padding: 10px 20px; border-radius: 30px;
+            background: var(--white); border: 1px solid rgba(0,0,0,0.05);
+            transition: 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+        .back-btn:hover { background: var(--navy); color: var(--white); transform: translateX(-5px); }
+
+        /* --- PAGE HEADER --- */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .page-header { text-align: center; margin-bottom: 40px; animation: float 6s ease-in-out infinite; }
+        .page-header h1 { font-size: 2.5rem; color: var(--navy); }
+        .page-header p { color: var(--lime); letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; font-weight: 700; }
+
+        /* --- ACTION BUTTONS (WhatsApp/Email) --- */
+        .action-area {
+            display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; flex-wrap: wrap;
+        }
+        .support-btn {
+            background: var(--navy); color: #fff; border: none;
+            padding: 12px 25px; border-radius: 100px;
+            font-weight: 600; font-size: 0.9rem;
+            display: inline-flex; align-items: center; gap: 10px;
+            transition: 0.3s; box-shadow: 0 5px 15px rgba(32, 50, 101, 0.2);
+        }
+        .support-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(32, 50, 101, 0.3); }
+        .btn-whatsapp { background: #25D366; }
+        .btn-whatsapp:hover { background: #1ebc57; }
+        .btn-email:hover { background: var(--lime); color: var(--navy); }
+
+        /* --- TOGGLE --- */
+        .view-toggle {
+            display: flex; background: var(--white);
+            width: fit-content; margin: 0 auto 30px; padding: 5px;
+            border-radius: 100px; border: 1px solid var(--light-grey);
+        }
+        .toggle-btn {
+            background: transparent; border: none;
+            padding: 8px 20px; border-radius: 100px;
+            color: var(--med-grey); font-size: 1rem; transition: 0.3s;
+        }
+        .toggle-btn.active { background: var(--navy); color: #fff; }
+
+        /* --- HELPDESK GRID --- */
+        .helpdesk-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;
+        }
+
+        .card {
+            background: var(--white); border-radius: 20px; overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05); transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+        }
+        .card:hover { transform: translateY(-5px); border-color: var(--lime); box-shadow: 0 15px 30px rgba(32, 50, 101, 0.1); }
+
+        .card-header {
+            background: rgba(32, 50, 101, 0.03); padding: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; align-items: center; gap: 10px;
+            font-weight: 700; color: var(--navy); font-size: 1.1rem;
+        }
+        .card-header i { color: var(--lime); }
+
+        .card-body { padding: 20px; }
+
+        .service-list { list-style: none; }
+        .service-list li {
+            padding: 15px; margin-bottom: 10px;
+            background: var(--white); border: 1px solid var(--light-grey);
+            border-radius: 12px; display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.9rem; font-weight: 500; transition: 0.3s;
+        }
+        .service-list li:hover {
+            border-color: var(--lime); background: rgba(168, 197, 0, 0.05);
+            padding-left: 20px; color: var(--navy);
+        }
+        .service-list li i { color: var(--med-grey); font-size: 0.8rem; transition: 0.3s; }
+        .service-list li:hover i { color: var(--lime); transform: translateX(5px); }
+
+        /* --- MODAL --- */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(32, 50, 101, 0.8); backdrop-filter: blur(5px); z-index: 10000;
+        }
+        .modal-content {
+            background: var(--white); margin: 3% auto; padding: 25px;
+            width: 90%; max-width: 1000px; height: 85vh;
+            border-radius: 24px; position: relative;
+            display: flex; flex-direction: column;
+        }
+        .close-modal {
+            position: absolute; top: 20px; right: 25px;
+            font-size: 28px; color: var(--navy); transition: 0.3s; cursor: pointer;
+        }
+        .close-modal:hover { color: var(--lime); }
+        .modal-iframe { width: 100%; flex-grow: 1; border: none; border-radius: 12px; background: #f9f9f9; }
+
+        footer { text-align: center; margin-top: 80px; padding: 40px 0; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px; }
+
+        @media (max-width: 768px) {
+            .cursor-dot, .cursor-outline { display: none; }
+            * { cursor: auto; }
+            .top-bar { padding: 0 20px; }
+            .helpdesk-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
+    <nav class="top-bar">
+        <a href="dashboard.html" class="logo-link">
+            <img src="logo.png" alt="IPAK">
+        </a>
+        <div class="header-actions">
+            <i class="fas fa-user-circle user-icon"></i>
+            <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div class="wrapper">
+        <div class="container">
+            
+            <div class="back-nav">
+                <a href="dashboard.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Portal
+                </a>
+            </div>
+
+            <div class="page-header">
+                <p>Employee Support</p>
+                <h1>Service HelpDesk</h1>
+            </div>
+
+            <div class="action-area">
+                <button class="support-btn btn-email" onclick="openEmail()">
+                    <i class="fas fa-envelope"></i> Email Support
+                </button>
+                <button class="support-btn btn-whatsapp" onclick="openWhatsApp()">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Support
+                </button>
+            </div>
+
+            <div class="view-toggle">
+                <button class="toggle-btn active" onclick="setView('mobile')"><i class="fas fa-mobile-alt"></i></button>
+                <button class="toggle-btn" onclick="setView('tablet')"><i class="fas fa-tablet-alt"></i></button>
+                <button class="toggle-btn" onclick="setView('desktop')"><i class="fas fa-desktop"></i></button>
+            </div>
+
+            <div class="helpdesk-grid">
+                <div class="card">
+                    <div class="card-header"><i class="fas fa-comment-dots"></i> Complaints</div>
+                    <div class="card-body">
+                        <ul class="service-list">
+                            <li onclick="openModal('IPAK | CPAK', 'https://docs.google.com/forms/d/e/1FAIpQLScuIvju-2HULZ6ngfwCzgCypQnq5NVWP2tCZNvT7nXZkPZrfQ/viewform?embedded=true')">
+                                <span>IPAK | CPAK</span> <i class="fas fa-arrow-right"></i>
+                            </li>
+                            <li onclick="openModal('PETPAK | GPAK', 'https://docs.google.com/forms/d/e/1FAIpQLSdP8faxqah1YZfdHxY-VITqvb1efvrs_i9plILBSCFOWuRB4w/viewform?embedded=true')">
+                                <span>PETPAK | GPAK</span> <i class="fas fa-arrow-right"></i>
+                            </li>
+                            <li onclick="openModal('IPAK | KARACHI', 'https://docs.google.com/forms/d/e/1FAIpQLSf1hsYgSD9MXyLj1-3vRTVXkMqoqIGgXnysswE7M5m4rMc7Aw/viewform?embedded=true')">
+                                <span>IPAK | KARACHI</span> <i class="fas fa-arrow-right"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header"><i class="fas fa-utensils"></i> Mess Menu</div>
+                    <div class="card-body">
+                        <ul class="service-list">
+                            <li onclick="openModal('Mess Menu', 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRb3QFm91agcU0mKGaqpqwp8aONXDV_mvxZI99m5kw93RSQoGZNOaexShhqytnP93UauIUQRvQy39kd/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false')">
+                                <span>View Today's Menu</span> <i class="fas fa-eye"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header"><i class="fas fa-bus"></i> Transport</div>
+                    <div class="card-body">
+                        <ul class="service-list">
+                            <li onclick="openModal('IPAK | CPAK Transport', 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQet1Zs0kq2VyVz_0wwsPVDNWKE3BwjIxxmLWukQjHtNjWJVlhBVAnkEdsG7BXBGdFUVxmfEDRtImSw/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false')">
+                                <span>IPAK Routes</span> <i class="fas fa-location-arrow"></i>
+                            </li>
+                            <li onclick="openModal('PETPAK | GPAK Transport', 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTm_O8yfFKbvPQRDFq6E3aszPwQKUz5kDpyKpDdUs2ufNerMPOc0CTndgo9QMywcvIC6pIlLOWNxi7p/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false')">
+                                <span>PETPAK Routes</span> <i class="fas fa-location-arrow"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header"><i class="fas fa-tools"></i> Admin</div>
+                    <div class="card-body">
+                        <ul class="service-list">
+                            <li onclick="openAdminPortal()">
+                                <span>Facility Dashboard</span> <i class="fas fa-lock"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <footer>&copy; 2026 IPAK PORTAL | EMPLOYEE HELP-DESK SYSTEM</footer>
+        </div>
+    </div>
+
+    <div id="contentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle" style="margin-bottom: 20px; color: var(--navy); font-size: 1.2rem; font-weight: 700;"></h2>
+            <iframe id="modalIframe" class="modal-iframe" src=""></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Smooth Cursor
+        const cursorDot = document.querySelector('[data-cursor-dot]');
+        const cursorOutline = document.querySelector('[data-cursor-outline]');
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 400, fill: "forwards" });
+        });
+
+        document.querySelectorAll('a, button, li, .card').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        // App Logic
+        function openModal(title, url) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalIframe').src = url;
+            document.getElementById('contentModal').style.display = 'block';
+        }
+        function closeModal() {
+            document.getElementById('contentModal').style.display = 'none';
+            document.getElementById('modalIframe').src = '';
+        }
+        function setView(mode) {
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            // Logic for resizing iframe or container width can be added here if needed
+            // For now, it just toggles the button state visually
+        }
+        function openAdminPortal() { window.open('https://sites.google.com/view/ipakportal/login', '_blank'); }
+        function openWhatsApp() { window.open('https://wa.me/923222818107', '_blank'); }
+        function openEmail() { window.location.href = 'mailto:hamza.farooq@ipak.com.pk'; }
+        
+        window.onclick = (e) => { if (e.target == document.getElementById('contentModal')) closeModal(); }
+    </script>
+</body>
+</html>

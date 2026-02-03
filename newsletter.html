@@ -1,1 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPAK Portal - Newsletter Archives</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --navy: #203265;
+            --lime: #A8C500;
+            --white: #FFFFFF;
+            --med-grey: #9C9C9C;
+            --light-grey: #D4D4D4;
+            --bg-color: #F5F7FA;
+        }
 
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            cursor: none; 
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--navy);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor-dot {
+            width: 8px; height: 8px; background-color: var(--lime);
+            position: fixed; z-index: 10000; pointer-events: none;
+            border-radius: 50%; box-shadow: 0 0 10px var(--lime);
+        }
+
+        .cursor-outline {
+            width: 40px; height: 40px; border: 2px solid var(--navy);
+            position: fixed; z-index: 9999; pointer-events: none;
+            border-radius: 50%; transition: width 0.2s, height 0.2s, border-color 0.2s;
+        }
+
+        body.hovering .cursor-outline {
+            width: 60px; height: 60px; border-color: var(--lime);
+            background-color: rgba(168, 197, 0, 0.1);
+        }
+
+        /* --- HEADER --- */
+        .top-bar {
+            background: var(--white);
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: fixed; top: 0; width: 100%; z-index: 100;
+        }
+
+        .logo-link img { width: 80px; height: auto; transition: transform 0.2s; }
+        .logo-link:hover img { transform: scale(1.05); }
+
+        .header-actions { display: flex; align-items: center; gap: 20px; }
+
+        .user-icon { font-size: 1.8rem; color: var(--navy); transition: 0.3s; }
+        .user-icon:hover { color: var(--lime); transform: scale(1.1); }
+
+        .logout-btn {
+            padding: 10px 20px; background: transparent; border: 2px solid var(--navy);
+            color: var(--navy); border-radius: 8px; font-weight: 600; transition: 0.3s;
+        }
+        .logout-btn:hover { background: var(--navy); color: var(--white); }
+
+        /* --- LAYOUT & HEADER --- */
+        .wrapper { padding-top: 120px; padding-bottom: 50px; }
+        .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        .back-nav { margin-bottom: 30px; }
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            text-decoration: none; color: var(--navy);
+            font-weight: 600; padding: 10px 20px; border-radius: 30px;
+            background: var(--white); border: 1px solid rgba(0,0,0,0.05);
+            transition: 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+        .back-btn:hover { background: var(--navy); color: var(--white); transform: translateX(-5px); }
+
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .page-header { text-align: center; margin-bottom: 60px; animation: float 6s ease-in-out infinite; }
+        .page-header h1 { font-size: 2.5rem; color: var(--navy); }
+        .page-header p { color: var(--lime); letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; font-weight: 700; }
+
+        /* --- NEWSLETTER GRID --- */
+        .newsletter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+            display: flex; flex-direction: column; gap: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+            min-height: 250px;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--lime);
+            box-shadow: 0 15px 30px rgba(32, 50, 101, 0.1);
+        }
+
+        .year-tag {
+            background: var(--navy); color: var(--lime);
+            padding: 6px 15px; border-radius: 100px;
+            font-size: 0.75rem; font-weight: 700; width: fit-content;
+        }
+
+        .card-title { font-size: 1.5rem; color: var(--navy); font-weight: 700; }
+        .card-desc { color: var(--med-grey); font-size: 0.95rem; line-height: 1.6; }
+
+        .btn-view {
+            display: flex; align-items: center; gap: 10px;
+            color: var(--navy); font-weight: 700; font-size: 0.9rem;
+            margin-top: auto; /* Pushes button to bottom */
+        }
+        .btn-view i { color: var(--lime); transition: 0.3s; }
+        .card:hover .btn-view i { transform: translateX(5px); }
+
+        .bg-icon {
+            position: absolute; right: -20px; bottom: -20px;
+            font-size: 10rem; color: rgba(32, 50, 101, 0.03);
+            transform: rotate(-15deg); transition: 0.3s;
+        }
+        .card:hover .bg-icon { transform: rotate(0deg) scale(1.1); }
+
+        footer {
+            text-align: center; margin-top: 80px; padding: 40px 0;
+            color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .cursor-dot, .cursor-outline { display: none; }
+            * { cursor: auto; }
+            .top-bar { padding: 0 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
+    <nav class="top-bar">
+        <a href="dashboard.html" class="logo-link">
+            <img src="logo.png" alt="IPAK Logo">
+        </a>
+        <div class="header-actions">
+            <i class="fas fa-user-circle user-icon" title="My Profile"></i>
+            <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div class="wrapper">
+        <div class="container">
+            
+            <div class="back-nav">
+                <a href="dashboard.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Portal
+                </a>
+            </div>
+
+            <div class="page-header">
+                <p>IPAK Archives</p>
+                <h1>Company Newsletters</h1>
+            </div>
+
+            <div class="newsletter-grid">
+                
+                <a href="https://heyzine.com/flip-book/bc2d19a6a9.html" target="_blank" class="card">
+                    <i class="fas fa-paper-plane bg-icon"></i>
+                    <div class="year-tag">NEW 2025</div>
+                    <div class="card-title">Edition 2025</div>
+                    <p class="card-desc">Stay updated with the latest company news, upcoming events, and achievements of the current year.</p>
+                    <div class="btn-view">View Newsletter <i class="fas fa-arrow-right"></i></div>
+                </a>
+
+                <a href="https://ipak.com.pk/wp-content/uploads/2024/08/IPAK-Journal-03_compressed-2.pdf" target="_blank" class="card">
+                    <i class="fas fa-box-archive bg-icon"></i>
+                    <div class="year-tag">ARCHIVE 2024</div>
+                    <div class="card-title">Edition 2024</div>
+                    <p class="card-desc">Browse through the complete collection of last year's newsletters and key milestones.</p>
+                    <div class="btn-view">View Newsletter <i class="fas fa-arrow-right"></i></div>
+                </a>
+
+            </div>
+
+            <footer>&copy; 2026 IPAK PORTAL | SECURE ACCESS</footer>
+        </div>
+    </div>
+
+    <script>
+        // Smooth Cursor
+        const cursorDot = document.querySelector('[data-cursor-dot]');
+        const cursorOutline = document.querySelector('[data-cursor-outline]');
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 400, fill: "forwards" });
+        });
+
+        document.querySelectorAll('a, button, i, .card').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+    </script>
+</body>
+</html>

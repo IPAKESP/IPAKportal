@@ -45,7 +45,7 @@
         
         .user-icon, .admin-lock { font-size: 1.5rem; color: var(--navy); transition: 0.3s; cursor: pointer; }
         .user-icon:hover, .admin-lock:hover { color: var(--lime); transform: scale(1.1); }
-        .admin-active { color: var(--danger) !important; } /* Red lock when admin is active */
+        .admin-active { color: var(--danger) !important; text-shadow: 0 0 10px rgba(255, 71, 87, 0.4); }
 
         .logout-btn {
             padding: 10px 20px; background: transparent; border: 2px solid var(--navy); color: var(--navy);
@@ -231,7 +231,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Seller Name (Your Name)</label>
+                    <label class="form-label">Seller Name</label>
                     <input type="text" id="adSeller" class="form-input" placeholder="e.g. Ali Ahmed (IT)" required>
                 </div>
                 <div class="form-group">
@@ -263,7 +263,7 @@
         function toggleAdmin() {
             if (!isAdmin) {
                 let pass = prompt("Enter Admin Password:");
-                if (pass === "1234") { // Simple simulation password
+                if (pass === "admin123") { // UPDATED PASSWORD
                     isAdmin = true;
                     document.body.classList.add('admin-mode');
                     document.querySelector('.admin-lock').classList.add('admin-active');

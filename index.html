@@ -28,7 +28,7 @@
             position: relative;
         }
 
-        /* --- HEADER LOGO (Top Left - 80px) --- */
+        /* --- HEADER LOGO --- */
         .top-bar {
             position: absolute;
             top: 30px;
@@ -36,17 +36,13 @@
             z-index: 10;
         }
 
-        /* Logo Link Styling */
         .logo-link {
             display: inline-block;
             cursor: pointer;
             transition: transform 0.2s ease;
         }
-        .logo-link:hover {
-            transform: scale(1.05);
-        }
+        .logo-link:hover { transform: scale(1.05); }
 
-        /* Logo Size 80px */
         .header-logo {
             width: 80px; 
             height: auto;
@@ -65,7 +61,6 @@
             margin-top: 40px;
         }
 
-        /* Text Section Styling */
         .text-section {
             flex: 1;
             padding-right: 50px;
@@ -82,27 +77,12 @@
             animation: slideIn 1s ease-out forwards;
         }
 
-        .line-1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: var(--navy);
-            line-height: 1.1;
-            margin-bottom: 10px;
-            animation-delay: 0.2s;
-        }
+        .line-1 { font-size: 3.5rem; font-weight: 700; color: var(--navy); line-height: 1.1; margin-bottom: 10px; animation-delay: 0.2s; }
+        .line-2 { font-size: 2.5rem; font-weight: 400; color: var(--lime); animation-delay: 0.4s; }
 
-        .line-2 {
-            font-size: 2.5rem;
-            font-weight: 400;
-            color: var(--lime);
-            animation-delay: 0.4s;
-        }
+        @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
 
-        @keyframes slideIn {
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* --- RIGHT SIDE: LOGIN CARD --- */
+        /* --- LOGIN CARD --- */
         .form-section { flex: 0 0 auto; }
 
         .card {
@@ -130,43 +110,22 @@
         input { 
             width: 100%; padding: 12px 16px; border-radius: 10px; 
             border: 1.5px solid var(--light-grey); outline: none; font-size: 0.95rem;
-            background: #fff;
-            font-family: 'Inter', sans-serif;
+            background: #fff; font-family: 'Inter', sans-serif;
         }
         input:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(32, 50, 101, 0.05); }
 
-        /* --- PASSWORD TOGGLE --- */
         .password-toggle {
-            position: absolute;
-            right: 15px;
-            top: 38px;
-            cursor: pointer;
-            color: #888;
-            font-size: 0.9rem;
-            user-select: none;
+            position: absolute; right: 15px; top: 38px; cursor: pointer;
+            color: #888; font-size: 0.9rem; user-select: none;
         }
         .password-toggle:hover { color: var(--navy); }
 
-        /* --- REMEMBER ME --- */
         .remember-box {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            margin-bottom: 15px;
-            font-size: 0.85rem;
-            color: #555;
+            display: flex; align-items: center; justify-content: flex-start;
+            margin-bottom: 15px; font-size: 0.85rem; color: #555;
         }
-        .remember-box input[type="checkbox"] {
-            width: auto;
-            margin-right: 8px;
-            cursor: pointer;
-        }
-        .remember-box label {
-            margin-bottom: 0;
-            color: #555;
-            font-weight: 400;
-            cursor: pointer;
-        }
+        .remember-box input[type="checkbox"] { width: auto; margin-right: 8px; cursor: pointer; }
+        .remember-box label { margin-bottom: 0; color: #555; font-weight: 400; cursor: pointer; }
 
         button { 
             width: 100%; padding: 14px; border-radius: 10px; border: none; 
@@ -186,44 +145,33 @@
 
         /* --- MODERN LOADER ANIMATION --- */
         .loader-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(8px);
-            z-index: 9999;
-            display: none; /* Hidden by default */
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px);
+            z-index: 9999; display: none;
+            justify-content: center; align-items: center; flex-direction: column;
             animation: fadeIn 0.3s ease-out;
         }
 
         .spinner {
-            width: 60px;
-            height: 60px;
+            width: 60px; height: 60px;
             border: 5px solid rgba(32, 50, 101, 0.2);
             border-top: 5px solid var(--navy);
             border-right: 5px solid var(--lime);
             border-radius: 50%;
-            animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+            animation: spin 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; /* Faster Spin */
             margin-bottom: 20px;
         }
 
         .loader-text {
-            font-family: 'Fira Sans', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--navy);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            animation: pulse 1.5s ease-in-out infinite;
+            font-family: 'Fira Sans', sans-serif; font-size: 1.2rem; font-weight: 700;
+            color: var(--navy); letter-spacing: 2px; text-transform: uppercase;
+            animation: pulse 1s ease-in-out infinite;
         }
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        /* --- MOBILE RESPONSIVE --- */
         @media (max-width: 900px) {
             .top-bar { position: relative; top: 0; left: 0; margin-bottom: 20px; text-align: center; width: 100%; display: flex; justify-content: center; }
             .main-container { flex-direction: column; padding: 20px; justify-content: center; margin-top: 10px; }
@@ -249,7 +197,6 @@
     </div>
 
     <div class="main-container">
-        
         <div class="text-section">
             <span class="animate-ipak line-1">Empowering Employees.</span>
             <span class="animate-ipak line-2">Simplifying Services.</span>
@@ -287,7 +234,6 @@
                 <div id="msg" class="msg"></div>
             </div>
         </div>
-
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -382,17 +328,15 @@
                         return auth.signInWithEmailAndPassword(email, password);
                     })
                     .then(() => {
-                        // --- SUCCESS LOGIC WITH ANIMATION ---
                         showMsg("Credentials Verified!", "success");
                         
-                        // Wait slightly to show the "Verified" msg, then trigger Loader
                         setTimeout(() => {
                             document.getElementById('loader').style.display = 'flex';
                             
-                            // Keep loader for 2 seconds, then redirect
+                            // CHANGED: 2000 to 1000 (1 Second)
                             setTimeout(() => {
                                 window.location.href = targetURL;
-                            }, 2000);
+                            }, 1000);
                         }, 500);
                     })
                     .catch(err => {

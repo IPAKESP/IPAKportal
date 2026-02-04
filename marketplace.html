@@ -1,1 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPAK Marketplace - Buy & Sell</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --navy: #203265;
+            --lime: #A8C500;
+            --white: #FFFFFF;
+            --med-grey: #9C9C9C;
+            --light-grey: #D4D4D4;
+            --bg-color: #F5F7FA;
+            --whatsapp-green: #25D366;
+        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; cursor: none; }
+        
+        body { 
+            color: var(--navy); 
+            background: var(--bg-color); 
+            min-height: 100vh; 
+            overflow-x: hidden;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor-dot {
+            width: 8px; height: 8px; background: var(--lime);
+            position: fixed; pointer-events: none; z-index: 10000;
+            border-radius: 50%; box-shadow: 0 0 10px var(--lime);
+        }
+        .cursor-outline {
+            width: 40px; height: 40px; border: 2px solid var(--navy);
+            position: fixed; pointer-events: none; z-index: 9999;
+            border-radius: 50%; transition: width 0.2s, height 0.2s, background 0.2s;
+        }
+        body.hovering .cursor-outline {
+            width: 60px; height: 60px; border-color: var(--lime);
+            background: rgba(168, 197, 0, 0.1);
+        }
+
+        /* --- TOP BAR --- */
+        .top-bar {
+            background: var(--white);
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: fixed; top: 0; width: 100%; z-index: 100;
+        }
+        .logo-link img { width: 80px; height: auto; transition: 0.3s; }
+        .logo-link:hover img { transform: scale(1.1); }
+
+        .header-actions { display: flex; align-items: center; gap: 20px; }
+        .user-icon { font-size: 1.8rem; color: var(--navy); transition: 0.3s; }
+        .user-icon:hover { color: var(--lime); }
+        .logout-btn {
+            padding: 10px 20px; background: transparent; border: 2px solid var(--navy);
+            color: var(--navy); border-radius: 8px; font-weight: 600; transition: 0.3s;
+        }
+        .logout-btn:hover { background: var(--navy); color: var(--white); }
+
+        /* --- LAYOUT --- */
+        .wrapper { padding-top: 120px; padding-bottom: 50px; }
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- PAGE HEADER --- */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .page-header { text-align: center; margin-bottom: 40px; animation: float 6s ease-in-out infinite; }
+        .page-header h1 { font-size: 2.5rem; color: var(--navy); }
+        .page-header p { color: var(--lime); letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; font-weight: 700; }
+
+        /* --- CONTROLS AREA --- */
+        .controls-area {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 40px; flex-wrap: wrap; gap: 20px;
+        }
+        
+        .search-container { flex: 1; max-width: 500px; position: relative; }
+        .search-input {
+            width: 100%; padding: 15px 25px; border-radius: 50px; 
+            border: 1px solid var(--light-grey); outline: none; 
+            transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        .search-input:focus { border-color: var(--lime); box-shadow: 0 0 15px rgba(168, 197, 0, 0.1); }
+
+        .sell-btn {
+            background: var(--lime); color: var(--navy);
+            padding: 15px 30px; border-radius: 50px; font-weight: 700;
+            border: none; display: flex; align-items: center; gap: 10px;
+            transition: 0.3s; box-shadow: 0 5px 15px rgba(168, 197, 0, 0.3);
+        }
+        .sell-btn:hover { transform: translateY(-3px); background: #96b000; }
+
+        /* --- MARKET GRID --- */
+        .market-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;
+        }
+
+        .item-card {
+            background: var(--white); border-radius: 20px; overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05); transition: 0.3s;
+            display: flex; flex-direction: column; position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+        .item-card:hover { transform: translateY(-10px); border-color: var(--lime); box-shadow: 0 20px 40px rgba(32, 50, 101, 0.1); }
+
+        .item-image {
+            width: 100%; height: 200px; background: #eee;
+            object-fit: cover; position: relative;
+        }
+        .price-tag {
+            position: absolute; top: 15px; left: 15px;
+            background: var(--lime); color: var(--navy);
+            padding: 5px 12px; border-radius: 8px; font-weight: 700;
+            font-size: 0.9rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .item-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 5px; color: var(--navy); }
+        .item-category { font-size: 0.8rem; color: var(--med-grey); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .seller-info { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 0.85rem; color: #555; }
+        .seller-icon { color: var(--lime); }
+
+        .whatsapp-btn {
+            margin-top: auto; width: 100%;
+            background: var(--whatsapp-green); color: white;
+            padding: 12px; border-radius: 10px; text-align: center;
+            text-decoration: none; font-weight: 600; display: flex;
+            justify-content: center; align-items: center; gap: 8px;
+            transition: 0.3s;
+        }
+        .whatsapp-btn:hover { background: #1ebe57; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); }
+
+        /* --- MODAL (SELL FORM) --- */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(32, 50, 101, 0.8); backdrop-filter: blur(5px); z-index: 10000;
+            justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background: var(--white); padding: 30px; width: 90%; max-width: 500px;
+            border-radius: 24px; position: relative; animation: slideUp 0.4s ease;
+        }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .close-modal {
+            position: absolute; top: 20px; right: 25px; font-size: 24px;
+            color: var(--med-grey); cursor: pointer; transition: 0.3s;
+        }
+        .close-modal:hover { color: var(--navy); }
+
+        .form-group { margin-bottom: 15px; }
+        .form-label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 5px; color: var(--navy); }
+        .form-input, .form-select {
+            width: 100%; padding: 12px; border-radius: 10px;
+            border: 1px solid var(--light-grey); outline: none; font-family: 'Inter', sans-serif;
+        }
+        .form-input:focus { border-color: var(--lime); }
+        
+        .submit-btn {
+            width: 100%; padding: 14px; background: var(--navy); color: white;
+            border: none; border-radius: 10px; font-weight: 700; margin-top: 10px;
+            cursor: pointer; transition: 0.3s;
+        }
+        .submit-btn:hover { background: var(--lime); color: var(--navy); }
+
+        footer { text-align: center; margin-top: 80px; padding: 40px 0; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px; }
+
+        @media (max-width: 768px) {
+            .cursor-dot, .cursor-outline { display: none; }
+            * { cursor: auto; }
+            .top-bar { padding: 0 20px; }
+            .controls-area { flex-direction: column; align-items: stretch; }
+            .market-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <nav class="top-bar">
+        <a href="dashboard.html" class="logo-link">
+            <img src="logo.png" alt="IPAK">
+        </a>
+        <div class="header-actions">
+            <a href="dashboard.html" style="text-decoration: none;">
+                <i class="fas fa-arrow-left user-icon" title="Back to Dashboard"></i>
+            </a>
+
+            <i class="fas fa-user-circle user-icon"></i>
+            <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div class="wrapper">
+        <div class="container">
+            
+            <div class="page-header">
+                <p>Employee Classifieds</p>
+                <h1>IPAK Marketplace</h1>
+            </div>
+
+            <div class="controls-area">
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search for cars, mobiles, furniture...">
+                </div>
+                <button class="sell-btn" onclick="openModal()">
+                    <i class="fas fa-plus-circle"></i> Sell an Item
+                </button>
+            </div>
+
+            <main class="market-grid" id="marketGrid">
+                </main>
+
+            <footer>&copy; 2026 IPAK PORTAL | INTERNAL MARKETPLACE</footer>
+        </div>
+    </div>
+
+    <div id="sellModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2 style="color: var(--navy); margin-bottom: 20px;">Post an Ad</h2>
+            
+            <form onsubmit="postAd(event)">
+                <div class="form-group">
+                    <label class="form-label">Item Title</label>
+                    <input type="text" id="adTitle" class="form-input" placeholder="e.g. iPhone 13 Pro" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Price (PKR)</label>
+                    <input type="number" id="adPrice" class="form-input" placeholder="e.g. 150000" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select id="adCategory" class="form-select">
+                        <option>Electronics</option>
+                        <option>Vehicles</option>
+                        <option>Furniture</option>
+                        <option>Fashion</option>
+                        <option>Others</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Your Phone Number (WhatsApp)</label>
+                    <input type="tel" id="adPhone" class="form-input" placeholder="e.g. 923001234567" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Post Ad Now</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // --- MOCK DATA (Starting Items) ---
+        let items = [
+            {
+                title: "Honda Civic 2018",
+                price: "3,500,000",
+                category: "Vehicles",
+                seller: "Ali Ahmed (IT)",
+                phone: "923001234567",
+                image: "https://images.unsplash.com/photo-1609529669235-c07e4e1bd6e9?auto=format&fit=crop&q=80&w=400"
+            },
+            {
+                title: "MacBook Air M1",
+                price: "180,000",
+                category: "Electronics",
+                seller: "Sarah Khan (HR)",
+                phone: "923219876543",
+                image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&q=80&w=400"
+            },
+            {
+                title: "Office Chair Ergonomic",
+                price: "15,000",
+                category: "Furniture",
+                seller: "Bilal (Admin)",
+                phone: "923335555555",
+                image: "https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?auto=format&fit=crop&q=80&w=400"
+            }
+        ];
+
+        // --- RENDER ITEMS ---
+        function renderItems(data) {
+            const grid = document.getElementById('marketGrid');
+            grid.innerHTML = "";
+            
+            data.forEach(item => {
+                // Create WhatsApp Link
+                const waMsg = `Hi, I saw your ad for *${item.title}* on IPAK Portal. Is it available?`;
+                const waLink = `https://wa.me/${item.phone}?text=${encodeURIComponent(waMsg)}`;
+
+                grid.innerHTML += `
+                    <div class="item-card">
+                        <img src="${item.image}" class="item-image" alt="${item.title}">
+                        <div class="price-tag">PKR ${item.price}</div>
+                        <div class="card-body">
+                            <div class="item-title">${item.title}</div>
+                            <div class="item-category">${item.category}</div>
+                            <div class="seller-info">
+                                <i class="fas fa-user-tag seller-icon"></i> ${item.seller}
+                            </div>
+                            <a href="${waLink}" target="_blank" class="whatsapp-btn">
+                                <i class="fab fa-whatsapp" style="font-size:1.2rem"></i> Connect on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // --- ADD NEW ITEM ---
+        function postAd(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('adTitle').value;
+            const price = document.getElementById('adPrice').value;
+            const category = document.getElementById('adCategory').value;
+            const phone = document.getElementById('adPhone').value;
+
+            // Add new item to top of array
+            items.unshift({
+                title: title,
+                price: parseInt(price).toLocaleString(),
+                category: category,
+                seller: "You (Employee)", // Static for demo
+                phone: phone,
+                image: "https://images.unsplash.com/photo-1526304640152-d4619684e484?auto=format&fit=crop&q=80&w=400" // Placeholder image for demo
+            });
+
+            renderItems(items);
+            closeModal();
+            e.target.reset(); // Clear form
+        }
+
+        // --- SEARCH FUNCTION ---
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            const filtered = items.filter(item => 
+                item.title.toLowerCase().includes(term) || 
+                item.category.toLowerCase().includes(term)
+            );
+            renderItems(filtered);
+        });
+
+        // --- MODAL LOGIC ---
+        function openModal() { document.getElementById('sellModal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('sellModal').style.display = 'none'; }
+        
+        // Close modal on outside click
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('sellModal')) {
+                closeModal();
+            }
+        }
+
+        // Initial Render
+        renderItems(items);
+
+        // --- SMOOTH CURSOR ---
+        const dot = document.querySelector('.cursor-dot');
+        const outline = document.querySelector('.cursor-outline');
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX; const posY = e.clientY;
+            dot.style.left = `${posX}px`; dot.style.top = `${posY}px`;
+            outline.animate({ left: `${posX - 20}px`, top: `${posY - 20}px` }, { duration: 400, fill: "forwards" });
+        });
+
+        // Hover Effects
+        document.querySelectorAll('a, button, input, .item-card').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+    </script>
+</body>
+</html>

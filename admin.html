@@ -71,16 +71,6 @@
         .wrapper { padding-top: 120px; padding-bottom: 50px; }
         .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-        .back-nav { margin-bottom: 30px; }
-        .back-btn {
-            display: inline-flex; align-items: center; gap: 10px;
-            text-decoration: none; color: var(--navy);
-            font-weight: 600; padding: 10px 20px; border-radius: 30px;
-            background: var(--white); border: 1px solid rgba(0,0,0,0.05);
-            transition: 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-        }
-        .back-btn:hover { background: var(--navy); color: var(--white); transform: translateX(-5px); }
-
         /* --- PAGE HEADER --- */
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .page-header { text-align: center; margin-bottom: 40px; animation: float 6s ease-in-out infinite; }
@@ -190,6 +180,10 @@
             <img src="logo.png" alt="IPAK">
         </a>
         <div class="header-actions">
+            <a href="dashboard.html" style="text-decoration: none;">
+                <i class="fas fa-arrow-left user-icon" title="Back to Dashboard"></i>
+            </a>
+
             <i class="fas fa-user-circle user-icon"></i>
             <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
         </div>
@@ -198,12 +192,6 @@
     <div class="wrapper">
         <div class="container">
             
-            <div class="back-nav">
-                <a href="dashboard.html" class="back-btn">
-                    <i class="fas fa-arrow-left"></i> Back to Portal
-                </a>
-            </div>
-
             <div class="page-header">
                 <p>Employee Support</p>
                 <h1>Service HelpDesk</h1>
@@ -246,7 +234,7 @@
                     <div class="card-header"><i class="fas fa-utensils"></i> Mess Menu</div>
                     <div class="card-body">
                         <ul class="service-list">
-                            <li onclick="openModal('Mess Menu', 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRb3QFm91agcU0mKGaqpqwp8aONXDV_mvxZI99m5kw93RSQoGZNOaexShhqytnP93UauIUQRvQy39kd/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false')">
+                            <li onclick="openModal('Mess Menu', 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRb3QFm91agcU0mKGaqpqwp8aONXDV_mvxZI99m5kw93RSQoGZNOaexShhqytnP93UauIUQRvQy39kd/pubhtml?gid=0&single=true&widget=true&headers=false')">
                                 <span>View Today's Menu</span> <i class="fas fa-eye"></i>
                             </li>
                         </ul>
@@ -257,10 +245,10 @@
                     <div class="card-header"><i class="fas fa-bus"></i> Transport</div>
                     <div class="card-body">
                         <ul class="service-list">
-                            <li onclick="openModal('IPAK | CPAK Transport', 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQet1Zs0kq2VyVz_0wwsPVDNWKE3BwjIxxmLWukQjHtNjWJVlhBVAnkEdsG7BXBGdFUVxmfEDRtImSw/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false')">
+                            <li onclick="openModal('IPAK | CPAK Transport', 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQet1Zs0kq2VyVz_0wwsPVDNWKE3BwjIxxmLWukQjHtNjWJVlhBVAnkEdsG7BXBGdFUVxmfEDRtImSw/pubhtml?gid=0&single=true&widget=true&headers=false')">
                                 <span>IPAK Routes</span> <i class="fas fa-location-arrow"></i>
                             </li>
-                            <li onclick="openModal('PETPAK | GPAK Transport', 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTm_O8yfFKbvPQRDFq6E3aszPwQKUz5kDpyKpDdUs2ufNerMPOc0CTndgo9QMywcvIC6pIlLOWNxi7p/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false')">
+                            <li onclick="openModal('PETPAK | GPAK Transport', 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTm_O8yfFKbvPQRDFq6E3aszPwQKUz5kDpyKpDdUs2ufNerMPOc0CTndgo9QMywcvIC6pIlLOWNxi7p/pubhtml?gid=0&single=true&widget=true&headers=false')">
                                 <span>PETPAK Routes</span> <i class="fas fa-location-arrow"></i>
                             </li>
                         </ul>

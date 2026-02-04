@@ -79,16 +79,8 @@
         .wrapper { padding-top: 120px; padding-bottom: 50px; }
         .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-        .back-nav { margin-bottom: 30px; }
-        .back-btn {
-            display: inline-flex; align-items: center; gap: 10px;
-            text-decoration: none; color: var(--navy);
-            font-weight: 600; padding: 10px 20px; border-radius: 30px;
-            background: var(--white); border: 1px solid rgba(0,0,0,0.05);
-            transition: 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-        }
-        .back-btn:hover { background: var(--navy); color: var(--white); transform: translateX(-5px); }
-
+        /* Removed .back-nav styles as element is deleted, but keeping CSS clean */
+        
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .page-header { text-align: center; margin-bottom: 60px; animation: float 6s ease-in-out infinite; }
         .page-header h1 { font-size: 2.5rem; color: var(--navy); }
@@ -166,6 +158,10 @@
             <img src="logo.png" alt="IPAK Logo">
         </a>
         <div class="header-actions">
+            <a href="dashboard.html" style="text-decoration: none;">
+                <i class="fas fa-home user-icon" title="Dashboard"></i>
+            </a>
+            
             <i class="fas fa-user-circle user-icon" title="My Profile"></i>
             <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
         </div>
@@ -174,12 +170,6 @@
     <div class="wrapper">
         <div class="container">
             
-            <div class="back-nav">
-                <a href="dashboard.html" class="back-btn">
-                    <i class="fas fa-arrow-left"></i> Back to Portal
-                </a>
-            </div>
-
             <div class="page-header">
                 <p>IPAK Archives</p>
                 <h1>Company Newsletters</h1>

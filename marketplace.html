@@ -20,18 +20,27 @@
             --danger: #ff4757;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; cursor: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         
         body { 
             color: var(--navy); 
             background: var(--bg-color); 
             min-height: 100vh; 
             overflow-x: hidden;
+            cursor: none; /* Custom cursor default */
+        }
+
+        /* --- CRITICAL FIX: Allow normal cursor on inputs/buttons --- */
+        input, button, select, a, textarea, .close-modal {
+            cursor: pointer !important; /* Force cursor visibility */
+        }
+        input[type="text"], input[type="number"], input[type="tel"], textarea {
+            cursor: text !important;
         }
 
         /* --- CUSTOM CURSOR --- */
-        .cursor-dot { width: 8px; height: 8px; background: var(--lime); position: fixed; pointer-events: none; z-index: 10000; border-radius: 50%; }
-        .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--navy); position: fixed; pointer-events: none; z-index: 9999; border-radius: 50%; transition: 0.15s ease-out; }
+        .cursor-dot { width: 8px; height: 8px; background: var(--lime); position: fixed; pointer-events: none; z-index: 20000; border-radius: 50%; }
+        .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--navy); position: fixed; pointer-events: none; z-index: 19999; border-radius: 50%; transition: 0.1s ease-out; }
         body.hovering .cursor-outline { width: 60px; height: 60px; border-color: var(--lime); background: rgba(168, 197, 0, 0.1); }
 
         /* --- TOP BAR --- */
@@ -43,9 +52,9 @@
         .logo-link:hover img { transform: scale(1.1); }
         .header-actions { display: flex; align-items: center; gap: 20px; }
         
-        .user-icon, .admin-lock { font-size: 1.5rem; color: var(--navy); transition: 0.3s; cursor: pointer; }
+        .user-icon, .admin-lock { font-size: 1.5rem; color: var(--navy); transition: 0.3s; }
         .user-icon:hover, .admin-lock:hover { color: var(--lime); transform: scale(1.1); }
-        .admin-active { color: var(--danger) !important; text-shadow: 0 0 10px rgba(255, 71, 87, 0.4); }
+        .admin-active { color: var(--danger) !important; filter: drop-shadow(0 0 5px rgba(255, 71, 87, 0.5)); }
 
         .logout-btn {
             padding: 10px 20px; background: transparent; border: 2px solid var(--navy); color: var(--navy);
@@ -74,7 +83,7 @@
         }
         .sell-btn:hover { transform: translateY(-3px); background: #96b000; }
 
-        /* --- MARKET GRID & CARDS --- */
+        /* --- MARKET GRID --- */
         .market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
 
         .item-card {
@@ -84,15 +93,14 @@
         }
         .item-card:hover { transform: translateY(-10px); border-color: var(--lime); box-shadow: 0 20px 40px rgba(32, 50, 101, 0.1); }
 
-        /* Delete Button (Hidden by default) */
+        /* Delete Button (Visible only in Admin Mode) */
         .delete-btn {
             position: absolute; top: 10px; right: 10px; background: var(--danger); color: white;
             width: 35px; height: 35px; border-radius: 50%; display: none; align-items: center; justify-content: center;
             cursor: pointer; z-index: 10; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4); transition: 0.2s;
         }
         .delete-btn:hover { transform: scale(1.1); background: #d63031; }
-        /* Show delete button when body has class 'admin-mode' */
-        body.admin-mode .delete-btn { display: flex; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        body.admin-mode .delete-btn { display: flex; animation: popIn 0.3s; }
         @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
 
         .item-image { width: 100%; height: 200px; background: #eee; object-fit: cover; position: relative; }
@@ -118,7 +126,7 @@
         /* --- MODAL --- */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(32, 50, 101, 0.8); backdrop-filter: blur(8px); z-index: 10000;
+            background: rgba(32, 50, 101, 0.8); backdrop-filter: blur(8px); z-index: 30000;
             justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s;
         }
         .modal.show { display: flex; opacity: 1; }
@@ -126,6 +134,7 @@
         .modal-content {
             background: var(--white); padding: 30px; width: 90%; max-width: 500px;
             border-radius: 24px; position: relative; transform: translateY(20px); transition: transform 0.3s;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
         }
         .modal.show .modal-content { transform: translateY(0); }
         
@@ -134,9 +143,21 @@
 
         .form-group { margin-bottom: 15px; }
         .form-label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 5px; color: var(--navy); }
-        .form-input, .form-select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--light-grey); outline: none; }
-        .form-input:focus { border-color: var(--lime); }
+        .form-input, .form-select { 
+            width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--light-grey); 
+            outline: none; font-size: 1rem; color: var(--navy);
+        }
+        .form-input:focus { border-color: var(--lime); box-shadow: 0 0 0 3px rgba(168, 197, 0, 0.1); }
         
+        /* File Input Styling */
+        .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; }
+        .file-input-wrapper input[type=file] { font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; }
+        .btn-file {
+            background-color: #f0f2f5; border: 2px dashed var(--light-grey); color: var(--med-grey);
+            padding: 15px; width: 100%; text-align: center; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.3s;
+        }
+        .btn-file:hover { border-color: var(--lime); color: var(--navy); background: rgba(168, 197, 0, 0.05); }
+
         .submit-btn {
             width: 100%; padding: 14px; background: var(--navy); color: white; border: none;
             border-radius: 10px; font-weight: 700; margin-top: 10px; cursor: pointer; transition: 0.3s;
@@ -146,7 +167,7 @@
         /* --- NOTIFICATION TOAST --- */
         #toast {
             visibility: hidden; min-width: 250px; background-color: var(--navy); color: #fff;
-            text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 10001;
+            text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 40000;
             left: 50%; bottom: 30px; transform: translateX(-50%); box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
@@ -155,6 +176,7 @@
 
         @media (max-width: 768px) {
             .cursor-dot, .cursor-outline { display: none; }
+            body { cursor: auto; }
             .top-bar { padding: 0 20px; }
             .controls-area { flex-direction: column; align-items: stretch; }
             .market-grid { grid-template-columns: 1fr; }
@@ -174,9 +196,8 @@
             <a href="dashboard.html" style="text-decoration: none;">
                 <i class="fas fa-arrow-left user-icon" title="Back to Dashboard"></i>
             </a>
-
-            <i class="fas fa-lock admin-lock" onclick="toggleAdmin()" title="Admin Mode"></i>
-
+            <i class="fas fa-lock admin-lock" onclick="toggleAdmin()" title="Admin Mode (Password: admin123)"></i>
+            
             <i class="fas fa-user-circle user-icon"></i>
             <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
         </div>
@@ -192,7 +213,7 @@
 
             <div class="controls-area">
                 <div class="search-container">
-                    <input type="text" id="searchInput" class="search-input" placeholder="Search for items...">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search for cars, mobiles, furniture...">
                 </div>
                 <button class="sell-btn" onclick="openModal()">
                     <i class="fas fa-plus-circle"></i> Sell an Item
@@ -230,6 +251,18 @@
                         <option>Others</option>
                     </select>
                 </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Upload Image</label>
+                    <div class="file-input-wrapper">
+                        <button class="btn-file" type="button" onclick="document.getElementById('adImage').click()">
+                            <i class="fas fa-camera"></i> Choose Photo
+                        </button>
+                        <input type="file" id="adImage" accept="image/*" onchange="previewImage(this)">
+                    </div>
+                    <small id="fileName" style="display:block; margin-top:5px; color:var(--lime);"></small>
+                </div>
+
                 <div class="form-group">
                     <label class="form-label">Seller Name</label>
                     <input type="text" id="adSeller" class="form-input" placeholder="e.g. Ali Ahmed (IT)" required>
@@ -246,28 +279,27 @@
     <div id="toast">Action Successful</div>
 
     <script>
-        // --- 1. DATA MANAGEMENT (LocalStorage) ---
-        // Default items if storage is empty
+        // --- 1. DATA MANAGEMENT ---
         const defaultItems = [
             { id: 1, title: "Honda Civic 2018", price: "3,500,000", category: "Vehicles", seller: "Ali Ahmed (IT)", phone: "923001234567", image: "https://images.unsplash.com/photo-1609529669235-c07e4e1bd6e9?w=400" },
             { id: 2, title: "MacBook Air M1", price: "180,000", category: "Electronics", seller: "Sarah Khan (HR)", phone: "923219876543", image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=400" },
             { id: 3, title: "Office Chair", price: "15,000", category: "Furniture", seller: "Bilal (Admin)", phone: "923335555555", image: "https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?w=400" }
         ];
 
-        // Load items from Storage OR use default
         let items = JSON.parse(localStorage.getItem('ipakMarketItems')) || defaultItems;
+        let currentImageBase64 = "https://images.unsplash.com/photo-1526304640152-d4619684e484?auto=format&fit=crop&q=80&w=400"; // Default placeholder
 
-        // --- 2. ADMIN LOGIC ---
+        // --- 2. ADMIN LOGIC (Password: admin123) ---
         let isAdmin = false;
 
         function toggleAdmin() {
             if (!isAdmin) {
                 let pass = prompt("Enter Admin Password:");
-                if (pass === "admin123") { // UPDATED PASSWORD
+                if (pass === "admin123") {
                     isAdmin = true;
                     document.body.classList.add('admin-mode');
                     document.querySelector('.admin-lock').classList.add('admin-active');
-                    showToast("Admin Mode Enabled");
+                    showToast("Admin Mode: ON");
                 } else {
                     showToast("Incorrect Password");
                 }
@@ -275,27 +307,26 @@
                 isAdmin = false;
                 document.body.classList.remove('admin-mode');
                 document.querySelector('.admin-lock').classList.remove('admin-active');
-                showToast("Admin Mode Disabled");
+                showToast("Admin Mode: OFF");
             }
         }
 
-        // --- 3. DELETE ITEM LOGIC ---
         function deleteItem(id) {
-            if (confirm("Are you sure you want to delete this ad?")) {
+            if (confirm("Delete this item?")) {
                 items = items.filter(item => item.id !== id);
-                localStorage.setItem('ipakMarketItems', JSON.stringify(items)); // Update Storage
+                localStorage.setItem('ipakMarketItems', JSON.stringify(items));
                 renderItems(items);
-                showToast("Ad Deleted Successfully");
+                showToast("Item Deleted");
             }
         }
 
-        // --- 4. RENDER ITEMS ---
+        // --- 3. RENDER ITEMS ---
         function renderItems(data) {
             const grid = document.getElementById('marketGrid');
             grid.innerHTML = "";
             
             if (data.length === 0) {
-                grid.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:#999;'>No items found.</p>";
+                grid.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:#999; margin-top:20px;'>No items available yet.</p>";
                 return;
             }
 
@@ -308,7 +339,6 @@
                         <div class="delete-btn" onclick="deleteItem(${item.id})">
                             <i class="fas fa-trash"></i>
                         </div>
-
                         <img src="${item.image}" class="item-image" alt="${item.title}">
                         <div class="price-tag">PKR ${item.price}</div>
                         <div class="card-body">
@@ -326,31 +356,44 @@
             });
         }
 
-        // --- 5. POST NEW AD ---
+        // --- 4. IMAGE HANDLING ---
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    currentImageBase64 = e.target.result;
+                    document.getElementById('fileName').innerText = "Selected: " + input.files[0].name;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // --- 5. POST AD ---
         function postAd(e) {
             e.preventDefault();
             
             const newItem = {
-                id: Date.now(), // Unique ID
+                id: Date.now(),
                 title: document.getElementById('adTitle').value,
                 price: parseInt(document.getElementById('adPrice').value).toLocaleString(),
                 category: document.getElementById('adCategory').value,
                 seller: document.getElementById('adSeller').value,
                 phone: document.getElementById('adPhone').value,
-                // Using a generic placeholder image for demo purposes
-                image: "https://images.unsplash.com/photo-1526304640152-d4619684e484?auto=format&fit=crop&q=80&w=400" 
+                image: currentImageBase64
             };
 
-            items.unshift(newItem); // Add to top
-            localStorage.setItem('ipakMarketItems', JSON.stringify(items)); // Save to Storage
+            items.unshift(newItem);
+            localStorage.setItem('ipakMarketItems', JSON.stringify(items));
             
             renderItems(items);
             closeModal();
             e.target.reset();
+            currentImageBase64 = "https://images.unsplash.com/photo-1526304640152-d4619684e484?w=400"; // Reset default
+            document.getElementById('fileName').innerText = "";
             showToast("Ad Posted Successfully!");
         }
 
-        // --- 6. UTILS (Search, Modal, Toast) ---
+        // --- 6. UTILITIES ---
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const term = e.target.value.toLowerCase();
             const filtered = items.filter(item => 
@@ -364,8 +407,12 @@
         function openModal() { 
             const modal = document.getElementById('sellModal');
             modal.style.display = 'flex';
-            setTimeout(() => modal.classList.add('show'), 10);
+            setTimeout(() => {
+                modal.classList.add('show');
+                document.getElementById('adTitle').focus(); // Auto focus on first input
+            }, 10);
         }
+        
         function closeModal() { 
             const modal = document.getElementById('sellModal');
             modal.classList.remove('show');
@@ -392,7 +439,8 @@
             outline.animate({ left: `${posX - 20}px`, top: `${posY - 20}px` }, { duration: 400, fill: "forwards" });
         });
 
-        document.querySelectorAll('a, button, input, .item-card').forEach(el => {
+        // Add hover classes for custom cursor scaling
+        document.querySelectorAll('a, button, input, select, .item-card').forEach(el => {
             el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
         });

@@ -15,6 +15,8 @@
             --white: #FFFFFF;
             --med-grey: #9C9C9C;
             --emergency-red: #ff4757;
+            --whatsapp-green: #25D366;
+            --linkedin-blue: #0077b5;
         }
 
         * {
@@ -116,18 +118,13 @@
             top: 0; left: 0;
             width: 100%; height: 100%;
             opacity: 0;
-            
-            /* START STATE: Shifted Right & Zoomed In */
             transform: translateX(80px) scale(1.1);
-            
-            /* TRANSITION: Custom Cubic Bezier for smooth "ease-out" feel */
             transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
             z-index: 0;
         }
 
         .banner-slide.active {
             opacity: 1;
-            /* END STATE: Center & Normal Scale */
             transform: translateX(0) scale(1);
             z-index: 1;
         }
@@ -138,7 +135,6 @@
             object-fit: cover;
         }
 
-        /* Overlay Text Animation */
         .banner-overlay {
             position: absolute;
             bottom: 0; left: 0; width: 100%;
@@ -146,14 +142,11 @@
             padding: 40px 30px 25px;
             color: white;
             z-index: 2;
-            
-            /* START STATE TEXT: Shifted Down */
             transform: translateY(30px);
             opacity: 0;
             transition: all 0.8s ease-out;
         }
 
-        /* Text animates IN slightly after the image */
         .banner-slide.active .banner-overlay {
             transform: translateY(0);
             opacity: 1;
@@ -203,7 +196,6 @@
         }
         .card:hover .arrow-icon { opacity: 1; transform: translateX(0); }
 
-        /* Red Accents for Specific Cards */
         .card.accent-red:hover { border-color: var(--emergency-red); background-color: rgba(255, 71, 87, 0.05); }
         .card.accent-red .card-icon { color: var(--emergency-red); }
 
@@ -211,6 +203,83 @@
             text-align: center; margin-top: 50px;
             color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px;
         }
+
+        /* --- CONTACT POPUP STYLES --- */
+        .contact-trigger {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            width: 60px; height: 60px;
+            background-color: var(--lime);
+            color: var(--navy);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 10px 25px rgba(168, 197, 0, 0.4);
+            border: none;
+            z-index: 2000;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .contact-trigger:hover { transform: scale(1.1) rotate(15deg); }
+        .contact-trigger i { transition: transform 0.3s; }
+        .contact-trigger.active i { transform: rotate(45deg); }
+
+        .contact-popup {
+            position: fixed;
+            bottom: 100px; right: 30px;
+            width: 320px;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(32, 50, 101, 0.15);
+            padding: 25px;
+            z-index: 1999;
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            pointer-events: none;
+            transform-origin: bottom right;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .contact-popup.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .contact-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px;
+        }
+        .contact-header h3 { font-size: 1.1rem; font-weight: 700; color: var(--navy); }
+        .close-popup { font-size: 1.2rem; color: var(--med-grey); transition: 0.2s; }
+        .close-popup:hover { color: var(--emergency-red); transform: scale(1.1); }
+
+        .contact-list { display: flex; flex-direction: column; gap: 15px; }
+
+        .contact-item {
+            display: flex; align-items: center;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 12px;
+            background: #F8F9FB;
+            transition: 0.3s;
+        }
+
+        .contact-item:hover { transform: translateX(5px); background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        
+        .contact-item-icon {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.2rem; margin-right: 15px;
+        }
+        
+        .whatsapp-bg { background: var(--whatsapp-green); }
+        .phone-bg { background: var(--navy); }
+        .linkedin-bg { background: var(--linkedin-blue); }
+
+        .contact-info div:first-child { font-weight: 600; color: var(--navy); font-size: 0.95rem; }
+        .contact-info div:last-child { font-size: 0.8rem; color: var(--med-grey); margin-top: 2px; }
 
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
@@ -224,6 +293,8 @@
             .cursor-dot, .cursor-outline { display: none; }
             * { cursor: auto; }
             .banner-container { height: 200px; }
+            .contact-trigger { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 20px; }
+            .contact-popup { right: 20px; bottom: 80px; width: calc(100% - 40px); }
         }
     </style>
 </head>
@@ -350,6 +421,40 @@
         </div>
     </div>
 
+    <div class="contact-popup" id="contactPopup">
+        <div class="contact-header">
+            <h3>Get in Touch</h3>
+            <i class="fas fa-times close-popup" onclick="toggleContact()"></i>
+        </div>
+        <div class="contact-list">
+            <a href="https://wa.me/923001234567" target="_blank" class="contact-item">
+                <div class="contact-item-icon whatsapp-bg"><i class="fab fa-whatsapp"></i></div>
+                <div class="contact-info">
+                    <div>WhatsApp Support</div>
+                    <div>Chat with Admin</div>
+                </div>
+            </a>
+            <a href="tel:+923001234567" class="contact-item">
+                <div class="contact-item-icon phone-bg"><i class="fas fa-phone-alt"></i></div>
+                <div class="contact-info">
+                    <div>Phone Call</div>
+                    <div>+92 300 123 4567</div>
+                </div>
+            </a>
+            <a href="https://linkedin.com/company/ipak" target="_blank" class="contact-item">
+                <div class="contact-item-icon linkedin-bg"><i class="fab fa-linkedin-in"></i></div>
+                <div class="contact-info">
+                    <div>LinkedIn</div>
+                    <div>Connect with us</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <button class="contact-trigger" id="contactTrigger" onclick="toggleContact()">
+        <i class="fas fa-headset"></i>
+    </button>
+
     <script>
         function logout() {
             window.location.href = "index.html";
@@ -365,23 +470,57 @@
             slides[currentSlide].classList.add('active');
         }
 
-        // Change slide every 3 seconds (3000ms)
         setInterval(nextSlide, 3000);
+
+        // --- CONTACT POPUP LOGIC ---
+        function toggleContact() {
+            const popup = document.getElementById('contactPopup');
+            const trigger = document.getElementById('contactTrigger');
+            
+            popup.classList.toggle('show');
+            trigger.classList.toggle('active');
+            
+            // Toggle icon from Headset to Times (X)
+            const icon = trigger.querySelector('i');
+            if (popup.classList.contains('show')) {
+                icon.classList.remove('fa-headset');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-headset');
+            }
+        }
+
+        // Close popup when clicking outside
+        document.addEventListener('click', function(event) {
+            const popup = document.getElementById('contactPopup');
+            const trigger = document.getElementById('contactTrigger');
+            
+            if (!popup.contains(event.target) && !trigger.contains(event.target) && popup.classList.contains('show')) {
+                toggleContact();
+            }
+        });
 
         // --- CURSOR LOGIC ---
         const cursorDot = document.querySelector('[data-cursor-dot]');
         const cursorOutline = document.querySelector('[data-cursor-outline]');
-        window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 400, fill: "forwards" });
-        });
-        document.querySelectorAll('a, button, i').forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-        });
+        
+        // Check if device has a mouse (not touch)
+        if (window.matchMedia("(pointer: fine)").matches) {
+            window.addEventListener('mousemove', (e) => {
+                const posX = e.clientX;
+                const posY = e.clientY;
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+                cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 400, fill: "forwards" });
+            });
+            
+            // Re-run listener attachment for new elements
+            document.querySelectorAll('a, button, i, .card').forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+            });
+        }
     </script>
 </body>
 </html>

@@ -106,7 +106,7 @@
             overflow: hidden;
             position: relative;
             margin-bottom: 30px;
-            box-shadow: 0 20px 40px rgba(32, 50, 101, 0.15); /* Deeper shadow for elegance */
+            box-shadow: 0 20px 40px rgba(32, 50, 101, 0.15);
             border: 1px solid rgba(255,255,255,0.5);
             background: #000;
         }
@@ -157,7 +157,7 @@
         .banner-slide.active .banner-overlay {
             transform: translateY(0);
             opacity: 1;
-            transition-delay: 0.4s; /* Delay for elegance */
+            transition-delay: 0.4s;
         }
 
         .banner-overlay h2 { font-size: 2rem; font-weight: 700; color: var(--lime); margin-bottom: 5px; letter-spacing: -0.5px; }
@@ -203,6 +203,7 @@
         }
         .card:hover .arrow-icon { opacity: 1; transform: translateX(0); }
 
+        /* Red Accents for Specific Cards */
         .card.accent-red:hover { border-color: var(--emergency-red); background-color: rgba(255, 71, 87, 0.05); }
         .card.accent-red .card-icon { color: var(--emergency-red); }
 
@@ -364,8 +365,8 @@
             slides[currentSlide].classList.add('active');
         }
 
-        // Change slide every 2 seconds
-        setInterval(nextSlide, 2000);
+        // Change slide every 3 seconds (3000ms)
+        setInterval(nextSlide, 3000);
 
         // --- CURSOR LOGIC ---
         const cursorDot = document.querySelector('[data-cursor-dot]');

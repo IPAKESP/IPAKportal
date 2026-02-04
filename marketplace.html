@@ -17,6 +17,7 @@
             --light-grey: #D4D4D4;
             --bg-color: #F5F7FA;
             --whatsapp-green: #25D366;
+            --danger: #ff4757;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; cursor: none; }
@@ -29,41 +30,26 @@
         }
 
         /* --- CUSTOM CURSOR --- */
-        .cursor-dot {
-            width: 8px; height: 8px; background: var(--lime);
-            position: fixed; pointer-events: none; z-index: 10000;
-            border-radius: 50%; box-shadow: 0 0 10px var(--lime);
-        }
-        .cursor-outline {
-            width: 40px; height: 40px; border: 2px solid var(--navy);
-            position: fixed; pointer-events: none; z-index: 9999;
-            border-radius: 50%; transition: width 0.2s, height 0.2s, background 0.2s;
-        }
-        body.hovering .cursor-outline {
-            width: 60px; height: 60px; border-color: var(--lime);
-            background: rgba(168, 197, 0, 0.1);
-        }
+        .cursor-dot { width: 8px; height: 8px; background: var(--lime); position: fixed; pointer-events: none; z-index: 10000; border-radius: 50%; }
+        .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--navy); position: fixed; pointer-events: none; z-index: 9999; border-radius: 50%; transition: 0.15s ease-out; }
+        body.hovering .cursor-outline { width: 60px; height: 60px; border-color: var(--lime); background: rgba(168, 197, 0, 0.1); }
 
         /* --- TOP BAR --- */
         .top-bar {
-            background: var(--white);
-            height: 80px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 50px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            position: fixed; top: 0; width: 100%; z-index: 100;
+            background: var(--white); height: 80px; display: flex; justify-content: space-between; align-items: center;
+            padding: 0 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); position: fixed; top: 0; width: 100%; z-index: 100;
         }
         .logo-link img { width: 80px; height: auto; transition: 0.3s; }
         .logo-link:hover img { transform: scale(1.1); }
-
         .header-actions { display: flex; align-items: center; gap: 20px; }
-        .user-icon { font-size: 1.8rem; color: var(--navy); transition: 0.3s; }
-        .user-icon:hover { color: var(--lime); }
+        
+        .user-icon, .admin-lock { font-size: 1.5rem; color: var(--navy); transition: 0.3s; cursor: pointer; }
+        .user-icon:hover, .admin-lock:hover { color: var(--lime); transform: scale(1.1); }
+        .admin-active { color: var(--danger) !important; } /* Red lock when admin is active */
+
         .logout-btn {
-            padding: 10px 20px; background: transparent; border: 2px solid var(--navy);
-            color: var(--navy); border-radius: 8px; font-weight: 600; transition: 0.3s;
+            padding: 10px 20px; background: transparent; border: 2px solid var(--navy); color: var(--navy);
+            border-radius: 8px; font-weight: 600; transition: 0.3s;
         }
         .logout-btn:hover { background: var(--navy); color: var(--white); }
 
@@ -71,56 +57,49 @@
         .wrapper { padding-top: 120px; padding-bottom: 50px; }
         .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* --- PAGE HEADER --- */
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        /* --- HEADER & CONTROLS --- */
         .page-header { text-align: center; margin-bottom: 40px; animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
         .page-header h1 { font-size: 2.5rem; color: var(--navy); }
         .page-header p { color: var(--lime); letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; font-weight: 700; }
 
-        /* --- CONTROLS AREA --- */
-        .controls-area {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 40px; flex-wrap: wrap; gap: 20px;
-        }
-        
+        .controls-area { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; flex-wrap: wrap; gap: 20px; }
         .search-container { flex: 1; max-width: 500px; position: relative; }
-        .search-input {
-            width: 100%; padding: 15px 25px; border-radius: 50px; 
-            border: 1px solid var(--light-grey); outline: none; 
-            transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-        }
+        .search-input { width: 100%; padding: 15px 25px; border-radius: 50px; border: 1px solid var(--light-grey); outline: none; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
         .search-input:focus { border-color: var(--lime); box-shadow: 0 0 15px rgba(168, 197, 0, 0.1); }
 
         .sell-btn {
-            background: var(--lime); color: var(--navy);
-            padding: 15px 30px; border-radius: 50px; font-weight: 700;
-            border: none; display: flex; align-items: center; gap: 10px;
-            transition: 0.3s; box-shadow: 0 5px 15px rgba(168, 197, 0, 0.3);
+            background: var(--lime); color: var(--navy); padding: 15px 30px; border-radius: 50px; font-weight: 700;
+            border: none; display: flex; align-items: center; gap: 10px; transition: 0.3s; box-shadow: 0 5px 15px rgba(168, 197, 0, 0.3);
         }
         .sell-btn:hover { transform: translateY(-3px); background: #96b000; }
 
-        /* --- MARKET GRID --- */
-        .market-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;
-        }
+        /* --- MARKET GRID & CARDS --- */
+        .market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
 
         .item-card {
-            background: var(--white); border-radius: 20px; overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.05); transition: 0.3s;
-            display: flex; flex-direction: column; position: relative;
+            background: var(--white); border-radius: 20px; overflow: hidden; border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; position: relative;
             box-shadow: 0 5px 15px rgba(0,0,0,0.03);
         }
         .item-card:hover { transform: translateY(-10px); border-color: var(--lime); box-shadow: 0 20px 40px rgba(32, 50, 101, 0.1); }
 
-        .item-image {
-            width: 100%; height: 200px; background: #eee;
-            object-fit: cover; position: relative;
+        /* Delete Button (Hidden by default) */
+        .delete-btn {
+            position: absolute; top: 10px; right: 10px; background: var(--danger); color: white;
+            width: 35px; height: 35px; border-radius: 50%; display: none; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 10; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4); transition: 0.2s;
         }
+        .delete-btn:hover { transform: scale(1.1); background: #d63031; }
+        /* Show delete button when body has class 'admin-mode' */
+        body.admin-mode .delete-btn { display: flex; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
+
+        .item-image { width: 100%; height: 200px; background: #eee; object-fit: cover; position: relative; }
         .price-tag {
-            position: absolute; top: 15px; left: 15px;
-            background: var(--lime); color: var(--navy);
-            padding: 5px 12px; border-radius: 8px; font-weight: 700;
-            font-size: 0.9rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            position: absolute; top: 15px; left: 15px; background: var(--lime); color: var(--navy);
+            padding: 5px 12px; border-radius: 8px; font-weight: 700; font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
         
         .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
@@ -130,53 +109,52 @@
         .seller-icon { color: var(--lime); }
 
         .whatsapp-btn {
-            margin-top: auto; width: 100%;
-            background: var(--whatsapp-green); color: white;
-            padding: 12px; border-radius: 10px; text-align: center;
-            text-decoration: none; font-weight: 600; display: flex;
-            justify-content: center; align-items: center; gap: 8px;
-            transition: 0.3s;
+            margin-top: auto; width: 100%; background: var(--whatsapp-green); color: white;
+            padding: 12px; border-radius: 10px; text-align: center; text-decoration: none; font-weight: 600;
+            display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.3s;
         }
         .whatsapp-btn:hover { background: #1ebe57; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); }
 
-        /* --- MODAL (SELL FORM) --- */
+        /* --- MODAL --- */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(32, 50, 101, 0.8); backdrop-filter: blur(5px); z-index: 10000;
-            justify-content: center; align-items: center;
+            background: rgba(32, 50, 101, 0.8); backdrop-filter: blur(8px); z-index: 10000;
+            justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s;
         }
+        .modal.show { display: flex; opacity: 1; }
+        
         .modal-content {
             background: var(--white); padding: 30px; width: 90%; max-width: 500px;
-            border-radius: 24px; position: relative; animation: slideUp 0.4s ease;
+            border-radius: 24px; position: relative; transform: translateY(20px); transition: transform 0.3s;
         }
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal.show .modal-content { transform: translateY(0); }
         
-        .close-modal {
-            position: absolute; top: 20px; right: 25px; font-size: 24px;
-            color: var(--med-grey); cursor: pointer; transition: 0.3s;
-        }
+        .close-modal { position: absolute; top: 20px; right: 25px; font-size: 24px; color: var(--med-grey); cursor: pointer; transition: 0.3s; }
         .close-modal:hover { color: var(--navy); }
 
         .form-group { margin-bottom: 15px; }
         .form-label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 5px; color: var(--navy); }
-        .form-input, .form-select {
-            width: 100%; padding: 12px; border-radius: 10px;
-            border: 1px solid var(--light-grey); outline: none; font-family: 'Inter', sans-serif;
-        }
+        .form-input, .form-select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--light-grey); outline: none; }
         .form-input:focus { border-color: var(--lime); }
         
         .submit-btn {
-            width: 100%; padding: 14px; background: var(--navy); color: white;
-            border: none; border-radius: 10px; font-weight: 700; margin-top: 10px;
-            cursor: pointer; transition: 0.3s;
+            width: 100%; padding: 14px; background: var(--navy); color: white; border: none;
+            border-radius: 10px; font-weight: 700; margin-top: 10px; cursor: pointer; transition: 0.3s;
         }
         .submit-btn:hover { background: var(--lime); color: var(--navy); }
 
-        footer { text-align: center; margin-top: 80px; padding: 40px 0; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px; }
+        /* --- NOTIFICATION TOAST --- */
+        #toast {
+            visibility: hidden; min-width: 250px; background-color: var(--navy); color: #fff;
+            text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 10001;
+            left: 50%; bottom: 30px; transform: translateX(-50%); box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
 
         @media (max-width: 768px) {
             .cursor-dot, .cursor-outline { display: none; }
-            * { cursor: auto; }
             .top-bar { padding: 0 20px; }
             .controls-area { flex-direction: column; align-items: stretch; }
             .market-grid { grid-template-columns: 1fr; }
@@ -197,6 +175,8 @@
                 <i class="fas fa-arrow-left user-icon" title="Back to Dashboard"></i>
             </a>
 
+            <i class="fas fa-lock admin-lock" onclick="toggleAdmin()" title="Admin Mode"></i>
+
             <i class="fas fa-user-circle user-icon"></i>
             <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
         </div>
@@ -212,7 +192,7 @@
 
             <div class="controls-area">
                 <div class="search-container">
-                    <input type="text" id="searchInput" class="search-input" placeholder="Search for cars, mobiles, furniture...">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search for items...">
                 </div>
                 <button class="sell-btn" onclick="openModal()">
                     <i class="fas fa-plus-circle"></i> Sell an Item
@@ -236,12 +216,10 @@
                     <label class="form-label">Item Title</label>
                     <input type="text" id="adTitle" class="form-input" placeholder="e.g. iPhone 13 Pro" required>
                 </div>
-                
                 <div class="form-group">
                     <label class="form-label">Price (PKR)</label>
                     <input type="number" id="adPrice" class="form-input" placeholder="e.g. 150000" required>
                 </div>
-
                 <div class="form-group">
                     <label class="form-label">Category</label>
                     <select id="adCategory" class="form-select">
@@ -252,58 +230,85 @@
                         <option>Others</option>
                     </select>
                 </div>
-
                 <div class="form-group">
-                    <label class="form-label">Your Phone Number (WhatsApp)</label>
+                    <label class="form-label">Seller Name (Your Name)</label>
+                    <input type="text" id="adSeller" class="form-input" placeholder="e.g. Ali Ahmed (IT)" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">WhatsApp Number</label>
                     <input type="tel" id="adPhone" class="form-input" placeholder="e.g. 923001234567" required>
                 </div>
-
                 <button type="submit" class="submit-btn">Post Ad Now</button>
             </form>
         </div>
     </div>
 
+    <div id="toast">Action Successful</div>
+
     <script>
-        // --- MOCK DATA (Starting Items) ---
-        let items = [
-            {
-                title: "Honda Civic 2018",
-                price: "3,500,000",
-                category: "Vehicles",
-                seller: "Ali Ahmed (IT)",
-                phone: "923001234567",
-                image: "https://images.unsplash.com/photo-1609529669235-c07e4e1bd6e9?auto=format&fit=crop&q=80&w=400"
-            },
-            {
-                title: "MacBook Air M1",
-                price: "180,000",
-                category: "Electronics",
-                seller: "Sarah Khan (HR)",
-                phone: "923219876543",
-                image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&q=80&w=400"
-            },
-            {
-                title: "Office Chair Ergonomic",
-                price: "15,000",
-                category: "Furniture",
-                seller: "Bilal (Admin)",
-                phone: "923335555555",
-                image: "https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?auto=format&fit=crop&q=80&w=400"
-            }
+        // --- 1. DATA MANAGEMENT (LocalStorage) ---
+        // Default items if storage is empty
+        const defaultItems = [
+            { id: 1, title: "Honda Civic 2018", price: "3,500,000", category: "Vehicles", seller: "Ali Ahmed (IT)", phone: "923001234567", image: "https://images.unsplash.com/photo-1609529669235-c07e4e1bd6e9?w=400" },
+            { id: 2, title: "MacBook Air M1", price: "180,000", category: "Electronics", seller: "Sarah Khan (HR)", phone: "923219876543", image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=400" },
+            { id: 3, title: "Office Chair", price: "15,000", category: "Furniture", seller: "Bilal (Admin)", phone: "923335555555", image: "https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?w=400" }
         ];
 
-        // --- RENDER ITEMS ---
+        // Load items from Storage OR use default
+        let items = JSON.parse(localStorage.getItem('ipakMarketItems')) || defaultItems;
+
+        // --- 2. ADMIN LOGIC ---
+        let isAdmin = false;
+
+        function toggleAdmin() {
+            if (!isAdmin) {
+                let pass = prompt("Enter Admin Password:");
+                if (pass === "1234") { // Simple simulation password
+                    isAdmin = true;
+                    document.body.classList.add('admin-mode');
+                    document.querySelector('.admin-lock').classList.add('admin-active');
+                    showToast("Admin Mode Enabled");
+                } else {
+                    showToast("Incorrect Password");
+                }
+            } else {
+                isAdmin = false;
+                document.body.classList.remove('admin-mode');
+                document.querySelector('.admin-lock').classList.remove('admin-active');
+                showToast("Admin Mode Disabled");
+            }
+        }
+
+        // --- 3. DELETE ITEM LOGIC ---
+        function deleteItem(id) {
+            if (confirm("Are you sure you want to delete this ad?")) {
+                items = items.filter(item => item.id !== id);
+                localStorage.setItem('ipakMarketItems', JSON.stringify(items)); // Update Storage
+                renderItems(items);
+                showToast("Ad Deleted Successfully");
+            }
+        }
+
+        // --- 4. RENDER ITEMS ---
         function renderItems(data) {
             const grid = document.getElementById('marketGrid');
             grid.innerHTML = "";
             
+            if (data.length === 0) {
+                grid.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:#999;'>No items found.</p>";
+                return;
+            }
+
             data.forEach(item => {
-                // Create WhatsApp Link
                 const waMsg = `Hi, I saw your ad for *${item.title}* on IPAK Portal. Is it available?`;
                 const waLink = `https://wa.me/${item.phone}?text=${encodeURIComponent(waMsg)}`;
 
                 grid.innerHTML += `
                     <div class="item-card">
+                        <div class="delete-btn" onclick="deleteItem(${item.id})">
+                            <i class="fas fa-trash"></i>
+                        </div>
+
                         <img src="${item.image}" class="item-image" alt="${item.title}">
                         <div class="price-tag">PKR ${item.price}</div>
                         <div class="card-body">
@@ -321,55 +326,64 @@
             });
         }
 
-        // --- ADD NEW ITEM ---
+        // --- 5. POST NEW AD ---
         function postAd(e) {
             e.preventDefault();
             
-            const title = document.getElementById('adTitle').value;
-            const price = document.getElementById('adPrice').value;
-            const category = document.getElementById('adCategory').value;
-            const phone = document.getElementById('adPhone').value;
+            const newItem = {
+                id: Date.now(), // Unique ID
+                title: document.getElementById('adTitle').value,
+                price: parseInt(document.getElementById('adPrice').value).toLocaleString(),
+                category: document.getElementById('adCategory').value,
+                seller: document.getElementById('adSeller').value,
+                phone: document.getElementById('adPhone').value,
+                // Using a generic placeholder image for demo purposes
+                image: "https://images.unsplash.com/photo-1526304640152-d4619684e484?auto=format&fit=crop&q=80&w=400" 
+            };
 
-            // Add new item to top of array
-            items.unshift({
-                title: title,
-                price: parseInt(price).toLocaleString(),
-                category: category,
-                seller: "You (Employee)", // Static for demo
-                phone: phone,
-                image: "https://images.unsplash.com/photo-1526304640152-d4619684e484?auto=format&fit=crop&q=80&w=400" // Placeholder image for demo
-            });
-
+            items.unshift(newItem); // Add to top
+            localStorage.setItem('ipakMarketItems', JSON.stringify(items)); // Save to Storage
+            
             renderItems(items);
             closeModal();
-            e.target.reset(); // Clear form
+            e.target.reset();
+            showToast("Ad Posted Successfully!");
         }
 
-        // --- SEARCH FUNCTION ---
+        // --- 6. UTILS (Search, Modal, Toast) ---
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const term = e.target.value.toLowerCase();
             const filtered = items.filter(item => 
                 item.title.toLowerCase().includes(term) || 
-                item.category.toLowerCase().includes(term)
+                item.category.toLowerCase().includes(term) ||
+                item.seller.toLowerCase().includes(term)
             );
             renderItems(filtered);
         });
 
-        // --- MODAL LOGIC ---
-        function openModal() { document.getElementById('sellModal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('sellModal').style.display = 'none'; }
+        function openModal() { 
+            const modal = document.getElementById('sellModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
+        }
+        function closeModal() { 
+            const modal = document.getElementById('sellModal');
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = 'none', 300);
+        }
         
-        // Close modal on outside click
-        window.onclick = function(event) {
-            if (event.target == document.getElementById('sellModal')) {
-                closeModal();
-            }
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.innerText = message;
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
         }
 
-        // Initial Render
+        window.onclick = (event) => { if (event.target == document.getElementById('sellModal')) closeModal(); }
+
+        // --- 7. CURSOR & INIT ---
         renderItems(items);
 
-        // --- SMOOTH CURSOR ---
         const dot = document.querySelector('.cursor-dot');
         const outline = document.querySelector('.cursor-outline');
         window.addEventListener('mousemove', (e) => {
@@ -378,7 +392,6 @@
             outline.animate({ left: `${posX - 20}px`, top: `${posY - 20}px` }, { duration: 400, fill: "forwards" });
         });
 
-        // Hover Effects
         document.querySelectorAll('a, button, input, .item-card').forEach(el => {
             el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));

@@ -98,7 +98,7 @@
             margin: 0 auto; padding: 0 20px;
         }
 
-        /* --- ANIMATED BANNER (Updated Animation) --- */
+        /* --- ELEGANT SLIDE ANIMATION --- */
         .banner-container {
             width: 100%;
             height: 350px;
@@ -106,8 +106,8 @@
             overflow: hidden;
             position: relative;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(32, 50, 101, 0.1);
-            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 20px 40px rgba(32, 50, 101, 0.15); /* Deeper shadow for elegance */
+            border: 1px solid rgba(255,255,255,0.5);
             background: #000;
         }
 
@@ -117,17 +117,18 @@
             width: 100%; height: 100%;
             opacity: 0;
             
-            /* NEW ANIMATION: Blur + Slide + Scale */
-            transform: scale(1.15) translateX(50px);
-            filter: blur(10px);
-            transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+            /* START STATE: Shifted Right & Zoomed In */
+            transform: translateX(80px) scale(1.1);
+            
+            /* TRANSITION: Custom Cubic Bezier for smooth "ease-out" feel */
+            transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
             z-index: 0;
         }
 
         .banner-slide.active {
             opacity: 1;
-            transform: scale(1) translateX(0);
-            filter: blur(0px);
+            /* END STATE: Center & Normal Scale */
+            transform: translateX(0) scale(1);
             z-index: 1;
         }
 
@@ -137,17 +138,30 @@
             object-fit: cover;
         }
 
-        /* Overlay Text */
+        /* Overlay Text Animation */
         .banner-overlay {
             position: absolute;
             bottom: 0; left: 0; width: 100%;
-            background: linear-gradient(to top, rgba(32, 50, 101, 0.9), transparent);
-            padding: 40px 30px 20px;
+            background: linear-gradient(to top, rgba(32, 50, 101, 0.95), transparent);
+            padding: 40px 30px 25px;
             color: white;
             z-index: 2;
+            
+            /* START STATE TEXT: Shifted Down */
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.8s ease-out;
         }
-        .banner-overlay h2 { font-size: 1.8rem; font-weight: 700; color: var(--lime); margin-bottom: 5px; }
-        .banner-overlay p { font-size: 1rem; color: #eee; }
+
+        /* Text animates IN slightly after the image */
+        .banner-slide.active .banner-overlay {
+            transform: translateY(0);
+            opacity: 1;
+            transition-delay: 0.4s; /* Delay for elegance */
+        }
+
+        .banner-overlay h2 { font-size: 2rem; font-weight: 700; color: var(--lime); margin-bottom: 5px; letter-spacing: -0.5px; }
+        .banner-overlay p { font-size: 1rem; color: #eee; font-weight: 400; opacity: 0.9; }
 
         /* --- DASHBOARD GRID --- */
         .dashboard-grid {
@@ -189,7 +203,6 @@
         }
         .card:hover .arrow-icon { opacity: 1; transform: translateX(0); }
 
-        /* Red Accents for Specific Cards */
         .card.accent-red:hover { border-color: var(--emergency-red); background-color: rgba(255, 71, 87, 0.05); }
         .card.accent-red .card-icon { color: var(--emergency-red); }
 
@@ -351,7 +364,7 @@
             slides[currentSlide].classList.add('active');
         }
 
-        // Change slide every 2 seconds (2000ms)
+        // Change slide every 2 seconds
         setInterval(nextSlide, 2000);
 
         // --- CURSOR LOGIC ---

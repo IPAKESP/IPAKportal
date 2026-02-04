@@ -34,178 +34,93 @@
         }
 
         /* --- CUSTOM CURSOR --- */
-        .cursor-dot {
-            width: 8px; height: 8px; background: var(--lime);
-            position: fixed; pointer-events: none; z-index: 9999;
-            border-radius: 50%; box-shadow: 0 0 10px var(--lime);
-        }
-        .cursor-outline {
-            width: 40px; height: 40px; border: 2px solid var(--navy);
-            position: fixed; pointer-events: none; z-index: 9999;
-            border-radius: 50%; transition: width 0.2s, height 0.2s, background 0.2s;
-        }
-        body.hovering .cursor-outline {
-            width: 60px; height: 60px; border-color: var(--lime);
-            background: rgba(168, 197, 0, 0.1);
-        }
+        .cursor-dot { width: 8px; height: 8px; background: var(--lime); position: fixed; pointer-events: none; z-index: 9999; border-radius: 50%; box-shadow: 0 0 10px var(--lime); }
+        .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--navy); position: fixed; pointer-events: none; z-index: 9999; border-radius: 50%; transition: width 0.2s, height 0.2s, background 0.2s; }
+        body.hovering .cursor-outline { width: 60px; height: 60px; border-color: var(--lime); background: rgba(168, 197, 0, 0.1); }
 
         /* --- STANDARD HEADER (Fixed) --- */
         .top-bar {
-            background: var(--white);
-            height: 80px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 50px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            position: fixed; top: 0; width: 100%; z-index: 100;
+            background: var(--white); height: 80px; display: flex; justify-content: space-between; align-items: center;
+            padding: 0 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); position: fixed; top: 0; width: 100%; z-index: 100;
         }
-
         .logo-link img { width: 80px; height: auto; transition: transform 0.2s; }
         .logo-link:hover img { transform: scale(1.05); }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .user-icon {
-            font-size: 1.8rem;
-            color: var(--navy);
-            transition: 0.3s;
-        }
+        .header-actions { display: flex; align-items: center; gap: 20px; }
+        .user-icon { font-size: 1.8rem; color: var(--navy); transition: 0.3s; }
         .user-icon:hover { color: var(--lime); transform: scale(1.1); }
-
         .logout-btn {
-            padding: 10px 20px;
-            background: transparent;
-            border: 2px solid var(--navy);
-            color: var(--navy);
-            border-radius: 8px;
-            font-weight: 600;
-            transition: 0.3s;
+            padding: 10px 20px; background: transparent; border: 2px solid var(--navy); color: var(--navy);
+            border-radius: 8px; font-weight: 600; transition: 0.3s;
         }
         .logout-btn:hover { background: var(--navy); color: var(--white); }
 
         /* --- MAIN LAYOUT --- */
-        .wrapper {
-            padding-top: 120px; 
-            padding-bottom: 50px;
-        }
-
-        .container {
-            width: 100%; max-width: 1200px;
-            margin: 0 auto; padding: 0 20px;
-        }
+        .wrapper { padding-top: 120px; padding-bottom: 50px; }
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
         /* --- PAGE HEADER --- */
-        .page-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+        .page-header { text-align: center; margin-bottom: 30px; }
         .page-header h1 { 
-            font-size: 2.2rem; 
-            color: var(--navy); 
-            position: relative;
-            display: inline-block;
-            padding-bottom: 10px;
+            font-size: 2.2rem; color: var(--navy); position: relative; display: inline-block; padding-bottom: 10px;
         }
         .page-header h1::after {
-            content: ''; position: absolute;
-            bottom: 0; left: 25%; width: 50%;
-            height: 4px; background: var(--lime);
-            border-radius: 2px;
+            content: ''; position: absolute; bottom: 0; left: 25%; width: 50%; height: 4px; background: var(--lime); border-radius: 2px;
         }
         .page-header p { color: var(--med-grey); margin-top: 10px; font-weight: 600; letter-spacing: 1px; }
 
         /* --- SEARCH --- */
-        .search-container {
-            max-width: 700px;
-            margin: 0 auto 50px;
-            position: relative;
-        }
+        .search-container { max-width: 700px; margin: 0 auto 30px; position: relative; }
         .search-box {
-            width: 100%;
-            padding: 18px 30px;
-            padding-left: 60px;
-            border-radius: 15px;
-            border: none;
-            font-size: 1rem;
-            box-shadow: var(--shadow);
-            outline: none;
-            transition: 0.3s;
+            width: 100%; padding: 18px 30px; padding-left: 60px; border-radius: 15px; border: none;
+            font-size: 1rem; box-shadow: var(--shadow); outline: none; transition: 0.3s;
         }
-        .search-container i {
-            position: absolute;
-            left: 25px; top: 50%;
-            transform: translateY(-50%);
-            color: var(--med-grey);
-            font-size: 1.2rem;
+        .search-container i { position: absolute; left: 25px; top: 50%; transform: translateY(-50%); color: var(--med-grey); font-size: 1.2rem; }
+        .search-box:focus { box-shadow: 0 0 0 3px rgba(168, 197, 0, 0.3); }
+
+        /* --- BLOOD FILTER TABS (NEW) --- */
+        .blood-filter-container {
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 40px;
         }
-        .search-box:focus {
-            box-shadow: 0 0 0 3px rgba(168, 197, 0, 0.3);
+        .blood-btn {
+            padding: 8px 20px; border-radius: 50px; border: 1px solid var(--light-grey);
+            background: var(--white); color: var(--med-grey); font-weight: 600; font-size: 0.9rem;
+            transition: all 0.3s ease; cursor: pointer;
+        }
+        .blood-btn:hover { transform: translateY(-2px); border-color: var(--navy); color: var(--navy); }
+        .blood-btn.active {
+            background: var(--navy); color: var(--white); border-color: var(--navy);
+            box-shadow: 0 5px 15px rgba(32, 50, 101, 0.2);
         }
 
         /* --- GRID & CARDS --- */
         .directory-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            animation: slideUp 0.8s ease-out;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; animation: slideUp 0.8s ease-out;
         }
-
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .employee-card {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 30px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            border-bottom: 5px solid transparent;
-            box-shadow: var(--shadow);
+            background: var(--white); border-radius: 20px; padding: 30px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; border-bottom: 5px solid transparent; box-shadow: var(--shadow);
         }
-
-        .employee-card:hover {
-            transform: translateY(-10px);
-            border-bottom-color: var(--lime);
-        }
+        .employee-card:hover { transform: translateY(-10px); border-bottom-color: var(--lime); }
 
         .blood-tag {
-            position: absolute;
-            top: 15px; right: 15px;
-            background: rgba(255, 71, 87, 0.1);
-            color: var(--emergency-red);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.7rem; font-weight: 800;
+            position: absolute; top: 15px; right: 15px; background: rgba(255, 71, 87, 0.1); color: var(--emergency-red);
+            padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 800;
         }
 
         .emp-name { font-size: 1.25rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
         .emp-designation { font-size: 0.85rem; font-weight: 700; color: var(--lime); text-transform: uppercase; margin-bottom: 15px; }
-        
-        .emp-info { 
-            display: flex; align-items: center; gap: 12px; 
-            color: #555; font-size: 0.9rem; margin-bottom: 10px; 
-        }
+        .emp-info { display: flex; align-items: center; gap: 12px; color: #555; font-size: 0.9rem; margin-bottom: 10px; }
         .emp-info i { color: var(--navy); width: 18px; text-align: center; }
 
         .contact-btn {
-            margin-top: 15px;
-            display: flex; align-items: center; justify-content: center;
-            gap: 10px; padding: 12px;
-            background: #f8f9fa; color: var(--navy);
-            text-decoration: none; border-radius: 10px;
-            font-weight: 700; font-size: 0.9rem;
-            border: 1px solid var(--light-grey);
-            transition: 0.3s;
+            margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px;
+            background: #f8f9fa; color: var(--navy); text-decoration: none; border-radius: 10px; font-weight: 700;
+            font-size: 0.9rem; border: 1px solid var(--light-grey); transition: 0.3s;
         }
-
-        .contact-btn:hover {
-            background: var(--navy); color: var(--white);
-            border-color: var(--navy);
-        }
+        .contact-btn:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
 
         footer { text-align: center; margin-top: 60px; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px; }
 
@@ -247,7 +162,19 @@
 
             <div class="search-container">
                 <i class="fas fa-search"></i>
-                <input type="text" id="globalSearch" class="search-box" placeholder="Search by Name, Role, or Blood Group (e.g. B+)">
+                <input type="text" id="globalSearch" class="search-box" placeholder="Search by Name or Designation...">
+            </div>
+
+            <div class="blood-filter-container">
+                <button class="blood-btn active" onclick="filterByBlood('All', this)">All</button>
+                <button class="blood-btn" onclick="filterByBlood('A+', this)">A+</button>
+                <button class="blood-btn" onclick="filterByBlood('A-', this)">A-</button>
+                <button class="blood-btn" onclick="filterByBlood('B+', this)">B+</button>
+                <button class="blood-btn" onclick="filterByBlood('B-', this)">B-</button>
+                <button class="blood-btn" onclick="filterByBlood('O+', this)">O+</button>
+                <button class="blood-btn" onclick="filterByBlood('O-', this)">O-</button>
+                <button class="blood-btn" onclick="filterByBlood('AB+', this)">AB+</button>
+                <button class="blood-btn" onclick="filterByBlood('AB-', this)">AB-</button>
             </div>
 
             <main class="directory-grid" id="empGrid">
@@ -309,7 +236,6 @@
     </div>
 
     <script>
-        // LOGOUT LOGIC
         function logout() {
             window.location.href = "index.html";
         }
@@ -323,29 +249,52 @@
             const posY = e.clientY;
             dot.style.left = `${posX}px`;
             dot.style.top = `${posY}px`;
-            
-            outline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 400, fill: "forwards" });
+            outline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 400, fill: "forwards" });
         });
 
+        // Add hover effect to interactive elements including buttons
         document.querySelectorAll('a, button, input, .employee-card').forEach(el => {
             el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
         });
 
-        // SEARCH LOGIC
+        // --- FILTERING LOGIC ---
+        const cards = document.querySelectorAll('.employee-card');
         const searchInput = document.getElementById('globalSearch');
-        const cards = document.getElementsByClassName('employee-card');
 
+        // 1. Filter by Blood Group Tabs
+        function filterByBlood(bloodGroup, btnElement) {
+            // Visual Update for Buttons
+            document.querySelectorAll('.blood-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            // Reset Search Box to avoid confusion
+            searchInput.value = '';
+
+            // Filter Cards
+            cards.forEach(card => {
+                const cardBlood = card.getAttribute('data-blood');
+                
+                if (bloodGroup === 'All' || cardBlood === bloodGroup) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeIn 0.5s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // 2. Filter by Search Text (Name/Role)
         searchInput.addEventListener('input', function() {
             const filter = searchInput.value.toLowerCase().trim();
             
-            Array.from(cards).forEach(card => {
+            // Reset Blood Tabs visual state to 'All' conceptually (optional, but cleaner UI)
+            document.querySelectorAll('.blood-btn').forEach(btn => btn.classList.remove('active'));
+            
+            cards.forEach(card => {
                 const name = card.querySelector('.emp-name').textContent.toLowerCase();
                 const role = card.querySelector('.emp-designation').textContent.toLowerCase();
-                const blood = card.querySelector('.blood-tag').textContent.toLowerCase();
+                const blood = card.querySelector('.blood-tag').textContent.toLowerCase(); // Also search text within blood tag
                 
                 if (name.includes(filter) || role.includes(filter) || blood.includes(filter)) {
                     card.style.display = "block";

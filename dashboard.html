@@ -184,8 +184,15 @@
         }
 
         .card-icon { font-size: 1.8rem; color: var(--navy); margin-bottom: 15px; transition: 0.3s; }
-        /* Adjusted for images used as icons */
+        
+        /* Default size for image icons */
         img.card-icon { width: 35px; height: 35px; object-fit: contain; }
+
+        /* Specific size for Sehat Kahani logo (approx. 30% bigger than 35px) */
+        #sehat-kahani-logo {
+            width: 46px;
+            height: 46px;
+        }
         
         .card:hover .card-icon { color: var(--lime); transform: scale(1.1); }
 
@@ -420,7 +427,7 @@
                 </a>
 
                 <a href="sehatkahani.html" class="card">
-                    <img src="Sehat kahani.png" alt="Sehat Kahani" class="card-icon">
+                    <img src="Sehat kahani.png" alt="Sehat Kahani" class="card-icon" id="sehat-kahani-logo">
                     <div><div class="card-title">Sehat Kahani</div><div class="card-desc">Online Healthcare</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>

@@ -188,11 +188,7 @@
         /* Default size for image icons */
         img.card-icon { width: 35px; height: 35px; object-fit: contain; }
 
-        /* Specific size for Sehat Kahani logo (50% bigger than standard 35px) */
-        #sehat-kahani-logo {
-            width: 53px;
-            height: 53px;
-        }
+        /* Removed the specific CSS for #sehat-kahani-logo as it is no longer an image */
         
         .card:hover .card-icon { color: var(--lime); transform: scale(1.1); }
 
@@ -427,7 +423,7 @@
                 </a>
 
                 <a href="https://corp.sehatkahani.com/auth/login" target="_blank" class="card">
-                    <img src="Sehat kahani.png" alt="Sehat Kahani" class="card-icon" id="sehat-kahani-logo">
+                    <i class="fas fa-heartbeat card-icon"></i>
                     <div><div class="card-title">Sehat Kahani</div><div class="card-desc">Online Healthcare</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>

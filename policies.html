@@ -16,7 +16,6 @@
             --med-grey: #9C9C9C;
             --light-grey: #D4D4D4;
             --bg-color: #F5F7FA;
-            --text-dark: #333333;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; cursor: none; }
@@ -82,7 +81,6 @@
             width: 100%; max-width: 600px; padding: 15px 25px;
             border-radius: 50px; border: 1px solid var(--light-grey);
             outline: none; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            font-size: 1rem;
         }
         .search-box:focus { border-color: var(--lime); box-shadow: 0 0 15px rgba(168, 197, 0, 0.1); }
 
@@ -121,64 +119,6 @@
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
-        /* --- MODAL (POPUP) STYLES --- */
-        .modal-overlay {
-            display: none;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(32, 50, 101, 0.6);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s ease;
-        }
-        .modal-overlay.active { opacity: 1; }
-
-        .modal-content {
-            background: var(--white);
-            width: 90%; max-width: 800px;
-            max-height: 85vh;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            display: flex; flex-direction: column;
-            transform: translateY(20px); transition: transform 0.3s ease;
-            position: relative;
-        }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
-
-        .modal-header {
-            padding: 25px 30px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            display: flex; justify-content: space-between; align-items: center;
-            background: var(--navy); color: var(--white);
-            border-radius: 20px 20px 0 0;
-        }
-        .modal-header h2 { font-size: 1.4rem; font-weight: 600; margin: 0; }
-        .close-btn {
-            background: none; border: none; color: var(--white); font-size: 1.8rem;
-            transition: 0.3s; cursor: pointer !important; /* Force pointer for UX */
-        }
-        .close-btn:hover { color: var(--lime); transform: scale(1.1); }
-
-        .modal-body {
-            padding: 30px;
-            overflow-y: auto;
-            color: var(--text-dark);
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-        
-        /* Typography inside Modal */
-        .modal-body h3 { color: var(--navy); margin-top: 20px; margin-bottom: 10px; font-size: 1.1rem; }
-        .modal-body h3:first-child { margin-top: 0; }
-        .modal-body p { margin-bottom: 15px; }
-        .modal-body ul { margin-bottom: 15px; padding-left: 20px; }
-        .modal-body li { margin-bottom: 8px; }
-        
-        /* Tables inside Modal */
-        .modal-body table { width: 100%; border-collapse: collapse; margin-bottom: 20px; margin-top: 10px; }
-        .modal-body th, .modal-body td { border: 1px solid var(--light-grey); padding: 10px 15px; text-align: left; }
-        .modal-body th { background: #f0f3f8; color: var(--navy); font-weight: 600; }
-
         footer { text-align: center; margin-top: 80px; padding: 40px 0; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px; }
 
         @media (max-width: 768px) {
@@ -186,8 +126,6 @@
             .cursor-dot, .cursor-outline { display: none; }
             .top-bar { padding: 0 20px; }
             .policy-grid { grid-template-columns: 1fr; }
-            .modal-content { width: 95%; max-height: 90vh; }
-            .modal-header, .modal-body { padding: 20px; }
         }
     </style>
 </head>
@@ -198,7 +136,7 @@
 
     <nav class="top-bar">
         <a href="dashboard.html" class="logo-link">
-            <img src="logo.png" alt="IPAK Logo" style="height:40px; width:auto; font-weight:bold; color:var(--navy);">
+            <img src="logo.png" alt="IPAK">
         </a>
         <div class="header-actions">
             <a href="dashboard.html" style="text-decoration: none;">
@@ -223,40 +161,28 @@
             </div>
 
             <div class="policy-grid" id="policyGrid">
-                <a href="javascript:void(0)" class="policy-card" onclick="openModal('grading')"><i class="fas fa-sitemap"></i><span title="INTERNATIONAL PACKAGING FILMS LTD. GRADING STRUCTURE">1. IPAK Grading Structure</span></a>
-                <a href="javascript:void(0)" class="policy-card" onclick="openModal('substance')"><i class="fas fa-vial"></i><span title="SUBSTANCE ABUSE TESTING">2. Substance Abuse Testing</span></a>
-                <a href="javascript:void(0)" class="policy-card" onclick="openModal('disciplinary')"><i class="fas fa-scale-balanced"></i><span title="DISCIPLINARY MATTERS POLICY">3. Disciplinary Matters Policy</span></a>
-                <a href="javascript:void(0)" class="policy-card" onclick="openModal('email')"><i class="fas fa-envelope"></i><span title="EMAIL USAGE POLICY">4. Email Usage Policy</span></a>
-                <a href="javascript:void(0)" class="policy-card" onclick="openModal('electronic')"><i class="fas fa-wifi"></i><span title="ELECTRONIC COMMUNICATION USAGE POLICY">5. Electronic Comm. Policy</span></a>
-                <a href="javascript:void(0)" class="policy-card" onclick="openModal('laptop')"><i class="fas fa-laptop-code"></i><span title="LAPTOP SECURITY POLICY">6. Laptop Security Policy</span></a>
-                <a href="javascript:void(0)" class="policy-card" onclick="openModal('internship')"><i class="fas fa-graduation-cap"></i><span title="INTERNSHIP POLICY">7. Internship Policy</span></a>
-                
-                <a href="javascript:void(0)" class="policy-card" onclick="openModal('retirement')"><i class="fas fa-person-cane"></i><span title="RETIREMENT POLICY">8. Retirement Policy</span></a>
-                <a href="javascript:void(0)" class="policy-card" onclick="openModal('dress')"><i class="fas fa-user-tie"></i><span title="DRESS CODE POLICY">9. Dress Code Policy</span></a>
-                <a href="javascript:void(0)" class="policy-card" onclick="openModal('training')"><i class="fas fa-chalkboard-user"></i><span title="TRAINING & DEVELOPMENT POLICY">10. Training & Development</span></a>
-                <a href="javascript:void(0)" class="policy-card" onclick="openModal('eobi')"><i class="fas fa-piggy-bank"></i><span title="EOBI POLICY">11. EOBI Policy</span></a>
-                <a href="javascript:void(0)" class="policy-card" onclick="openModal('gratuity')"><i class="fas fa-coins"></i><span title="GRATUITY POLICY">12. Gratuity Policy</span></a>
-                <a href="javascript:void(0)" class="policy-card" onclick="openModal('hajj')"><i class="fas fa-kaaba"></i><span title="HAJJ BALLOTING POLICY">13. Hajj Balloting Policy</span></a>
-                <a href="javascript:void(0)" class="policy-card" onclick="openModal('vehicle')"><i class="fas fa-car"></i><span title="VEHICLE BALLOTING POLICY">14. Vehicle Balloting Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-sitemap"></i><span title="INTERNATIONAL PACKAGING FILMS LTD. GRADING STRUCTURE">1. IPAK Grading Structure</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-vial"></i><span title="SUBSTANCE ABUSE TESTING">2. Substance Abuse Testing</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-scale-balanced"></i><span title="DISCIPLINARY MATTERS POLICY">3. Disciplinary Matters Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-envelope"></i><span title="EMAIL USAGE POLICY">4. Email Usage Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-wifi"></i><span title="ELECTRONIC COMMUNICATION USAGE POLICY">5. Electronic Comm. Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-laptop-code"></i><span title="LAPTOP SECURITY POLICY">6. Laptop Security Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-graduation-cap"></i><span title="INTERNSHIP POLICY">7. Internship Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-person-cane"></i><span title="RETIREMENT POLICY">8. Retirement Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-user-tie"></i><span title="DRESS CODE POLICY">9. Dress Code Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-chalkboard-user"></i><span title="TRAINING & DEVELOPMENT POLICY">10. Training & Development</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-piggy-bank"></i><span title="EOBI POLICY">11. EOBI Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-coins"></i><span title="GRATUITY POLICY">12. Gratuity Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-kaaba"></i><span title="HAJJ BALLOTING POLICY">13. Hajj Balloting Policy</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-car"></i><span title="VEHICLE BALLOTING POLICY">14. Vehicle Balloting Policy</span></a>
             </div>
 
             <footer>&copy; 2026 IPAK PORTAL | SECURE DOCUMENTATION SYSTEM</footer>
         </div>
     </div>
 
-    <div class="modal-overlay" id="policyModal" onclick="closeModalOnOutsideClick(event)">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modalTitle">Policy Title</h2>
-                <button class="close-btn" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body" id="modalBody">
-                </div>
-        </div>
-    </div>
-
     <script>
-        // --- CURSOR LOGIC ---
+        // Smooth Cursor
         const dot = document.querySelector('.cursor-dot');
         const outline = document.querySelector('.cursor-outline');
         window.addEventListener('mousemove', (e) => {
@@ -267,202 +193,24 @@
             outline.animate({ left: `${posX - 20}px`, top: `${posY - 20}px` }, { duration: 400, fill: "forwards" });
         });
 
-        document.querySelectorAll('a, button, input, .policy-card, .close-btn').forEach(el => {
+        document.querySelectorAll('a, button, input, .policy-card').forEach(el => {
             el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
         });
 
-        // --- SEARCH LOGIC ---
+        // Search Engine logic
         const searchInput = document.getElementById('policySearch');
         const cards = document.getElementsByClassName('policy-card');
         
         searchInput.addEventListener('input', () => {
             let filter = searchInput.value.toLowerCase().trim();
             for (let card of cards) {
-                let titleAttr = card.querySelector('span').getAttribute('title').toLowerCase();
+                // Now checking the title attribute as well so full names are searchable
+                let text = card.querySelector('span').getAttribute('title').toLowerCase();
                 let spanText = card.querySelector('span').textContent.toLowerCase();
-                card.style.display = (titleAttr.includes(filter) || spanText.includes(filter)) ? "flex" : "none";
+                card.style.display = (text.includes(filter) || spanText.includes(filter)) ? "flex" : "none";
             }
         });
-
-        // --- MODAL / POPUP LOGIC ---
-        
-        // Policy Database (Extracted from your Word Documents)
-        const policyData = {
-            'grading': {
-                title: "INTERNATIONAL PACKAGING FILMS LTD. GRADING STRUCTURE",
-                content: `
-                    <h3>Objective</h3>
-                    <p>The objective of the Grading Structure is to identify the position levels in the organization and how the structure of different departments will operate.</p>
-                    <h3>Career Track At IPAK</h3>
-                    <p>To have a successful career at IPAK, important factors are sustained performance, education level and experience. The year of service and education will not define the success of the employee only, but a sustained performance will define the growth based on available position in the organization.</p>
-                    <h3>Grading Structure</h3>
-                    <table>
-                        <tr><th>Position Level</th><th>Grade</th></tr>
-                        <tr><td>Strategic Management (CEO)</td><td>SM-1</td></tr>
-                        <tr><td>Strategic Management (COO)</td><td>SM-2</td></tr>
-                        <tr><td>Strategic Management (Director)</td><td>SM-3</td></tr>
-                        <tr><td>Strategic Management (Deputy Director)</td><td>SM-4</td></tr>
-                        <tr><td>Senior Management (Head of Function/Division)</td><td>SM-5, SM-6, SM-7</td></tr>
-                    </table>
-                    <h3>New Position & Grading</h3>
-                    <ul>
-                        <li>In case of the requirement of any new position, the position will be evaluated.</li>
-                        <li>The evaluation will define the grade of the position in the organization.</li>
-                        <li>The grade will define the related compensation and benefits of the position.</li>
-                    </ul>
-                `
-            },
-            'substance': {
-                title: "SUBSTANCE ABUSE TESTING",
-                content: `
-                    <h3>Objective</h3>
-                    <p>IPAK maintains a strict policy against the use of unlawful/prohibited drugs while at work or on company premises. The objective of this policy is to define the complete guidelines on the substance abuse testing for the guidelines of the Employees and Line Managers.</p>
-                    <h3>Policy Details</h3>
-                    <ul>
-                        <li>To facilitate the administration and enforcement of this policy, IPAK may require or request employees to submit drug or substance abuse testing under certain circumstances.</li>
-                        <li>In cases where an employee’s manager has reasonable suspicion to believe that the employee possesses or is under the influence of drugs and/or related substances... substance or drug screening may be ordered.</li>
-                        <li>This suspicion must be based on any objective symptoms, such as factors related to the employee’s appearance, behavior, speech and/or other factors.</li>
-                        <li>If an employee is on medically prescribed medication, it is the employee’s responsibility to advise his/her supervisor of this fact before reporting to work.</li>
-                    </ul>
-                    <h3>Grading Disciplinary Action</h3>
-                    <p>The Management shall examine any such findings and decide which action should be taken against the accused. In case of any criminal breach, the company reserves the right to refer the matter to state authorities for an appropriate action in accordance with law.</p>
-                `
-            },
-            'disciplinary': {
-                title: "DISCIPLINARY MATTERS POLICY",
-                content: `
-                    <h3>Objective</h3>
-                    <p>The objective of the policy is to describe the standards of discipline/conduct to be observed by the employees and in case of in-discipline/misconduct, lays down the process to be followed to ensure a fair and transparent process of handling in-discipline /misconduct cases.</p>
-                    <h3>Disciplinary Action</h3>
-                    <p>The Management shall examine the inquiry findings and decide which of the following action should be taken against the accused:</p>
-                    <ul>
-                        <li>Warning / Reprimand</li>
-                        <li>Demotion to a lower position</li>
-                        <li>Stoppage of one-year increment</li>
-                        <li>Seizure/reduction of perks & benefits</li>
-                        <li>Dismissal from service</li>
-                    </ul>
-                    <p>In case of any criminal breach, the company reserves the right to refer the matter to state authorities for an appropriate action in accordance with law. The disciplinary action may be in writing and given to the accused. If the allegations are not proven, the matter will be dropped.</p>
-                `
-            },
-            'email': {
-                title: "EMAIL USAGE POLICY",
-                content: `
-                    <h3>Objective</h3>
-                    <p>The objective of this policy is to provide guidelines to ensure the proper use of IPAK’s email system and make users aware of what International Packaging Ltd. deems as acceptable or unacceptable use of its email system.</p>
-                    <h3>Rules & Requirements</h3>
-                    <p>Email is a business communication tool and users are obliged to use this tool in a responsible, effective, and lawful manner. Although by its nature email seems to be less formal than other written communication, however, the same laws apply.</p>
-                    <h3>Email Quota & Accounts</h3>
-                    <ul>
-                        <li>All users are provided a specific mailbox space on the exchange server and must maintain their mailbox size at a level to avoid an ‘out of storage space’ situation.</li>
-                        <li>All email accounts maintained on our email systems are the property of IPAK. Passwords should not be given to other people.</li>
-                    </ul>
-                    <h3>System Monitoring</h3>
-                    <p>Users of the company’s email system expressly waive any right of privacy in anything they create, store, send or receive on the company’s computer system. IPAK may monitor emails without prior notification.</p>
-                `
-            },
-            'electronic': {
-                title: "ELECTRONIC COMMUNICATION USAGE POLICY",
-                content: `
-                    <h3>Objective</h3>
-                    <p>IPAK has established the Internet, Intranet, e-mail, and electronic communication policy to make certain that employees utilize electronic communications devices in a legal, ethical, and appropriate manner.</p>
-                    <h3>Cell Phone Usage at Office</h3>
-                    <p>The company generally allows employees to use their cell phones on company premises; however, employees are expected to exercise prudent judgment in keeping personal calls to a minimum.</p>
-                    <ul>
-                        <li>Loud and/or fancy ring tones can be offensive and inappropriate in the workplace. Keep ring tones at minimum volume.</li>
-                        <li>Camera phones must not be used in or around the workplace to capture images without prior consent.</li>
-                        <li>In-Person conversations should not be interrupted for cell phone calls.</li>
-                        <li>The company will not be liable for the loss of personal cell phones brought into the workplace.</li>
-                    </ul>
-                    <h3>Compliance</h3>
-                    <p>Employees who violate any respect of this policy or who demonstrate poor judgment in the way they use electronic communications devices will be subject to disciplinary action.</p>
-                `
-            },
-            'laptop': {
-                title: "LAPTOP SECURITY POLICY",
-                content: `
-                    <h3>Objective</h3>
-                    <p>This objective of this policy is to define the policy for security of a company provided laptop computer that includes the device as well as the business systems and data residing upon it. The asset belongs to the organization and is assigned to the employee for business use only.</p>
-                    <h3>Laptop Security Guidelines</h3>
-                    <ul>
-                        <li>The employee shall not leave the laptop unattended without proper locking (screen lock).</li>
-                        <li>The employee is accountable for any action taken by his/her user ID. Therefore, employee will not share username and password.</li>
-                        <li>IT Department will ensure that only that software is installed which are required to perform the assigned job only.</li>
-                        <li>The employee shall take a backup of business-critical information on allocated space on the network to avoid any business loss in case the laptop is stolen.</li>
-                        <li>The assigned laptop machine shall not be used for any kind of unlawful activity (e.g., software piracy, fraudulent activity).</li>
-                    </ul>
-                    <h3>Enforcement</h3>
-                    <p>Any employee found to have violated this policy may be subject to disciplinary action.</p>
-                `
-            },
-            'internship': {
-                title: "INTERNSHIP POLICY",
-                content: `
-                    <h3>Objective</h3>
-                    <p>This objective of this policy is to provide an opportunity to students to explore IPAK; its working methods and corporate culture through mutually benefitting relationship with students and Educational Institutions.</p>
-                    <h3>Policy Guidelines</h3>
-                    <ul>
-                        <li>Building a Talent Pipeline; identify potential candidates for the future hiring.</li>
-                        <li>Employer Branding through creating awareness about the employment experience at IPAK.</li>
-                        <li>Internship period will generally not exceed 45 Days unless approved by the Head of HR.</li>
-                    </ul>
-                    <h3>Stipend Structure</h3>
-                    <table>
-                        <tr><th>Education</th><th>Stipend per Month</th><th>Education</th><th>Stipend per Month</th></tr>
-                        <tr><td>BSc Engineering</td><td>PKR 20,000/-</td><td>BS Management</td><td>PKR 20,000/-</td></tr>
-                        <tr><td>MSc Engineering</td><td>PKR 25,000/-</td><td>MS Management</td><td>PKR 25,000/-</td></tr>
-                        <tr><td>DAE</td><td>PKR 15,000/-</td><td>ACCA & Others</td><td>PKR 20,000/-</td></tr>
-                    </table>
-                    <h3>Internship Report & Clearance</h3>
-                    <p>At the end of the internship, the Intern will submit a report to the Line Manager. HR Department will archive the report, initiate the clearance process, issue the Internship Letter, and process the monthly stipend payment.</p>
-                `
-            },
-            // Placeholders for the remaining policies
-            'retirement': { title: "RETIREMENT POLICY", content: "<p>Policy details will be updated soon. Please contact HR for more information.</p>" },
-            'dress': { title: "DRESS CODE POLICY", content: "<p>Policy details will be updated soon. Please contact HR for more information.</p>" },
-            'training': { title: "TRAINING & DEVELOPMENT POLICY", content: "<p>Policy details will be updated soon. Please contact HR for more information.</p>" },
-            'eobi': { title: "EOBI POLICY", content: "<p>Policy details will be updated soon. Please contact HR for more information.</p>" },
-            'gratuity': { title: "GRATUITY POLICY", content: "<p>Policy details will be updated soon. Please contact HR for more information.</p>" },
-            'hajj': { title: "HAJJ BALLOTING POLICY", content: "<p>Policy details will be updated soon. Please contact HR for more information.</p>" },
-            'vehicle': { title: "VEHICLE BALLOTING POLICY", content: "<p>Policy details will be updated soon. Please contact HR for more information.</p>" }
-        };
-
-        const modalOverlay = document.getElementById('policyModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalBody = document.getElementById('modalBody');
-
-        function openModal(policyKey) {
-            const data = policyData[policyKey];
-            if(data) {
-                modalTitle.innerHTML = data.title;
-                modalBody.innerHTML = data.content;
-                
-                modalOverlay.style.display = 'flex';
-                // slight delay to allow display:flex to apply before adding opacity class for animation
-                setTimeout(() => {
-                    modalOverlay.classList.add('active');
-                }, 10);
-                
-                // Disable scrolling on body
-                document.body.style.overflow = 'hidden';
-            }
-        }
-
-        function closeModal() {
-            modalOverlay.classList.remove('active');
-            setTimeout(() => {
-                modalOverlay.style.display = 'none';
-                // Re-enable scrolling on body
-                document.body.style.overflow = 'auto';
-            }, 300); // matches CSS transition time
-        }
-
-        function closeModalOnOutsideClick(event) {
-            if (event.target === modalOverlay) {
-                closeModal();
-            }
-        }
     </script>
 </body>
 </html>

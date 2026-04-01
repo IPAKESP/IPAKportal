@@ -121,11 +121,78 @@
 
         footer { text-align: center; margin-top: 80px; padding: 40px 0; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px; }
 
+        /* --- MODAL / A4 POPUP STYLES --- */
+        .modal-overlay {
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; right: 0; bottom: 0; 
+            background: rgba(32, 50, 101, 0.8); /* Translucent navy backdrop */
+            z-index: 9999; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .a4-document {
+            background: var(--white);
+            width: 100%;
+            max-width: 794px; /* Standard A4 width pixel ratio */
+            height: 90vh; /* Responsive height */
+            border-radius: 8px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+            position: relative;
+            overflow-y: auto;
+            padding: 50px 60px; /* Document margins */
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .a4-document::-webkit-scrollbar { width: 8px; }
+        .a4-document::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        .a4-document::-webkit-scrollbar-thumb { background: var(--med-grey); border-radius: 4px; }
+        .a4-document::-webkit-scrollbar-thumb:hover { background: var(--navy); }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: var(--navy);
+            transition: 0.3s;
+        }
+        .close-modal:hover { color: var(--lime); transform: scale(1.1); }
+
+        /* Document Typography */
+        .doc-title { text-align: center; color: var(--navy); margin-bottom: 30px; text-transform: uppercase; border-bottom: 2px solid var(--lime); padding-bottom: 10px; }
+        .doc-section { margin-bottom: 20px; }
+        .doc-section h2 { font-size: 1.2rem; color: var(--navy); margin-bottom: 10px; }
+        .doc-section h3 { font-size: 1.05rem; color: var(--navy); margin-bottom: 8px; margin-top: 15px; }
+        .doc-section p, .doc-section ul, .doc-section ol { font-size: 0.95rem; margin-bottom: 10px; text-align: justify; }
+        .doc-section ul, .doc-section ol { padding-left: 25px; margin-bottom: 15px; }
+        .doc-section li { margin-bottom: 5px; }
+        .doc-note { background: var(--bg-color); padding: 15px; border-left: 4px solid var(--lime); font-style: italic; margin: 15px 0; font-size: 0.9rem; }
+        
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            padding-top: 20px;
+        }
+        .sign-block { text-align: center; }
+        .sign-line { width: 200px; border-top: 1px solid #333; margin-bottom: 5px; }
+        .sign-title { font-weight: 600; font-size: 0.9rem; color: var(--navy); }
+        .sign-sub { font-size: 0.8rem; color: var(--med-grey); }
+
         @media (max-width: 768px) {
             body { cursor: auto; }
             .cursor-dot, .cursor-outline { display: none; }
             .top-bar { padding: 0 20px; }
             .policy-grid { grid-template-columns: 1fr; }
+            .a4-document { padding: 30px 20px; height: 95vh; }
+            .signatures { flex-direction: column; gap: 40px; align-items: center; }
         }
     </style>
 </head>
@@ -163,7 +230,7 @@
             <div class="policy-grid" id="policyGrid">
                 <a href="#" class="policy-card"><i class="fas fa-sitemap"></i><span title="INTERNATIONAL PACKAGING FILMS LTD. GRADING STRUCTURE">1. IPAK Grading Structure</span></a>
                 <a href="#" class="policy-card"><i class="fas fa-vial"></i><span title="SUBSTANCE ABUSE TESTING">2. Substance Abuse Testing</span></a>
-                <a href="#" class="policy-card"><i class="fas fa-scale-balanced"></i><span title="DISCIPLINARY MATTERS POLICY">3. Disciplinary Matters Policy</span></a>
+                <a href="#" class="policy-card" id="btn-disciplinary"><i class="fas fa-scale-balanced"></i><span title="DISCIPLINARY MATTERS POLICY">3. Disciplinary Matters Policy</span></a>
                 <a href="#" class="policy-card"><i class="fas fa-envelope"></i><span title="EMAIL USAGE POLICY">4. Email Usage Policy</span></a>
                 <a href="#" class="policy-card"><i class="fas fa-wifi"></i><span title="ELECTRONIC COMMUNICATION USAGE POLICY">5. Electronic Comm. Policy</span></a>
                 <a href="#" class="policy-card"><i class="fas fa-laptop-code"></i><span title="LAPTOP SECURITY POLICY">6. Laptop Security Policy</span></a>
@@ -181,6 +248,112 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="disciplinaryModal">
+        <div class="a4-document">
+            <button class="close-modal" id="closeModalBtn"><i class="fas fa-times"></i></button>
+            
+            <h1 class="doc-title">Disciplinary Matters Policy</h1>
+
+            <div class="doc-section">
+                <h2>1. About Policy</h2>
+                
+                <h3>1.1. Objective</h3>
+                <p>The objective of the policy is to describe the standards of discipline/conduct to be observed by the employees and in case of in-discipline/misconduct, lays down the process to be followed to ensure a fair and transparent process of handling in-discipline /misconduct cases.</p>
+
+                <h3>1.2. Scope</h3>
+                <p>This policy is applicable to all the employees of International Packaging Films Ltd.</p>
+
+                <h3>1.3. Exception</h3>
+                <p>All the exceptions of the policy will be approved by the Head of HR.</p>
+
+                <h3>1.4. Frequency of Review</h3>
+                <p>This policy will be reviewed on need basis if any changes are required.</p>
+
+                <h3>1.5. Authority</h3>
+                <p>The Company reserves the right to amend this policy or withdraw it in full at any time without assigning any reason.</p>
+
+                <h3>1.6. Applicability</h3>
+                <p>This policy is applicable with effect from Jan 01, 2026.</p>
+            </div>
+
+            <div class="doc-section">
+                <h2>2. Policy Guidelines</h2>
+                
+                <h3>2.1. Discipline</h3>
+                <p>Employee discipline or standard conduct means those standards which employee is expected to observe. Standards of conduct have been embodied in the:</p>
+                <ol type="a">
+                    <li>IPAK Code of Conduct</li>
+                    <li>Applicable laws or government regulations</li>
+                    <li>IPAK Policy Manuals & SOPs</li>
+                    <li>Any other policy of IPAK</li>
+                </ol>
+                <p>Violation of these standards shall be treated as misconduct.</p>
+
+                <h3>2.2. Examples Of Misconduct</h3>
+                <ol type="a">
+                    <li>Willful in-subordination or disobedience, whether alone or in combination with others, to any lawful and reasonable directions of a Line Manager or Management.</li>
+                    <li>Theft, Fraud, or dishonesty in connection IPAK’s business or property.</li>
+                    <li>Taking or giving bribes or any illegal gratification.</li>
+                    <li>Riotous or disorderly behavior during working hours at the establishment or ay act subversive of discipline.</li>
+                    <li>Malingering/faking illness or other incapability to avoid duty or work.</li>
+                    <li>Harassment of other employees.</li>
+                    <li>Habitual absence without leave.</li>
+                    <li>Habitual late attendance.</li>
+                    <li>Habitual breach of any law applicable to the establishment.</li>
+                    <li>Habitual negligence or neglect of work.</li>
+                </ol>
+
+                <div class="doc-note">
+                    <strong>Note:</strong> Cases of sexual Harassment will be dealt with as defined in the law, “The Protection against Harassment of Women at the Workplace Act 2010”. The inquiry Committee constituted by the Company shall follow the process as defined in the law.
+                </div>
+
+                <h3>2.3. Disciplinary Matters Procedure</h3>
+                <ol type="a">
+                    <li>When a Line Manager/ HR Manager receives report about the alleged misconduct on the part of an employee, he/she shall examine the situation for authenticity of facts within 48 hours of such report and determine whether the allegations amount to misconduct. Line Manager may take advice from HR Department.</li>
+                    <li>If the allegation amounts to misconduct, then “Show Cause Notice” shall be issued by HR Department.</li>
+                    <li>The accused should be given 3 calendar days (72 hours) to submit his/her written explanation.</li>
+                    <li>The show cause shall be served personally upon the employee concerned. In case the employee is absent, it shall be sent to him by post on the last available address.</li>
+                    <li>In case, the employee is present but avoids receiving the show cause, the statement of the person who was deputed to serve the show cause and of two other witnesses shall be recorded in writing and thereafter the Show Cause shall be sent to him at the last available address by post.</li>
+                    <li>On receipt of the written explanation by the accused employee, it shall be examined to see whether the explanation is satisfactory or not. If the explanation is found to be satisfactory, the matter will be dropped, and the accused shall be informed accordingly. If it is such that it does not call for any action except advice, the accused shall be issued Advisory letter.</li>
+                    <li>In case the explanation is not found satisfactory, or the accused fails to submit his explanation, then formal inquiry into the matter would be initiated.</li>
+                    <li>Head of HR after consultation with the Management, would finalize either such inquiry would be conducted “on job” or “to suspend from services till facts are clear”.</li>
+                    <li>Any person in the management cadre, employed at any location of the company, who is neither witness to the occurrence of the act of misconduct in question nor is concerned with charge in question, can be appointed as an Inquiry Officer by Head of HR after consultation with the Management.</li>
+                    <li>The Inquiry Officer shall write down all the proceedings in English or Urdu and get the signature of the accused.</li>
+                    <li>The inquiry officer shall, after giving due opportunity of hearing and cross examination, submit his/her findings/report to the Management.</li>
+                </ol>
+
+                <h3>2.4. Disciplinary Action</h3>
+                <p>The Management shall examine the inquiry findings and decide which of the following action should be taken against the accused:</p>
+                <ol type="a">
+                    <li>Warning / Reprimand</li>
+                    <li>Demotion to a lower position</li>
+                    <li>Stoppage of one-year increment</li>
+                    <li>Seizure/reduction of perks & benefits</li>
+                    <li>Dismissal from service</li>
+                </ol>
+
+                <h3>2.5. Criminal Breach</h3>
+                <p>In case of any criminal breach, the company reserves the right to refer the matter to state authorities for an appropriate action in accordance with law.</p>
+                
+                <h3>2.6. Resolution</h3>
+                <p>The disciplinary action may be in writing and given to the accused. If the allegations are not proven, the matter will be dropped, and the accused shall be informed accordingly.</p>
+            </div>
+
+            <div class="signatures">
+                <div class="sign-block">
+                    <div class="sign-line"></div>
+                    <div class="sign-title">Chief Human Resource Officer</div>
+                    <div class="sign-sub">(CHRO)</div>
+                </div>
+                <div class="sign-block">
+                    <div class="sign-line"></div>
+                    <div class="sign-title">Chief Executive Officer</div>
+                    <div class="sign-sub">(CEO)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Smooth Cursor
         const dot = document.querySelector('.cursor-dot');
@@ -193,7 +366,8 @@
             outline.animate({ left: `${posX - 20}px`, top: `${posY - 20}px` }, { duration: 400, fill: "forwards" });
         });
 
-        document.querySelectorAll('a, button, input, .policy-card').forEach(el => {
+        // Add hover classes for custom cursor targets including modal buttons
+        document.querySelectorAll('a, button, input, .policy-card, .close-modal').forEach(el => {
             el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
         });
@@ -205,10 +379,32 @@
         searchInput.addEventListener('input', () => {
             let filter = searchInput.value.toLowerCase().trim();
             for (let card of cards) {
-                // Now checking the title attribute as well so full names are searchable
                 let text = card.querySelector('span').getAttribute('title').toLowerCase();
                 let spanText = card.querySelector('span').textContent.toLowerCase();
                 card.style.display = (text.includes(filter) || spanText.includes(filter)) ? "flex" : "none";
+            }
+        });
+
+        // --- MODAL POPUP LOGIC ---
+        const modal = document.getElementById('disciplinaryModal');
+        const openBtn = document.getElementById('btn-disciplinary');
+        const closeBtn = document.getElementById('closeModalBtn');
+
+        // Open Modal
+        openBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default link behavior
+            modal.style.display = 'flex';
+        });
+
+        // Close Modal via Button
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Close Modal when clicking outside the A4 document
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
             }
         });
     </script>

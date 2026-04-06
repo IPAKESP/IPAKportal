@@ -173,7 +173,6 @@
         .doc-section p, .doc-section ul, .doc-section ol { font-size: 0.95rem; margin-bottom: 10px; text-align: justify; }
         .doc-section ul, .doc-section ol { padding-left: 25px; margin-bottom: 15px; }
         .doc-section li { margin-bottom: 5px; }
-        .doc-note { background: var(--bg-color); padding: 15px; border-left: 4px solid var(--lime); font-style: italic; margin: 15px 0; font-size: 0.9rem; }
         
         .signatures {
             display: flex;
@@ -216,18 +215,17 @@
 
     <div class="wrapper">
         <div class="container">
-            
             <div class="page-header">
                 <p></p>
                 <h1>IPAK Policies </h1>
             </div>
 
             <div class="search-container">
-                <input type="text" id="policySearch" class="search-box" placeholder="Search for a policy (e.g. Leave, Laptop, Conduct)...">
+                <input type="text" id="policySearch" class="search-box" placeholder="Search for a policy (e.g. Training, Vehicle, Dress)...">
             </div>
 
             <div class="policy-grid" id="policyGrid">
-                <a href="#" class="policy-card"><i class="fas fa-sitemap"></i><span title="INTERNATIONAL PACKAGING FILMS LTD. GRADING STRUCTURE">1. IPAK Grading Structure</span></a>
+                <a href="#" class="policy-card"><i class="fas fa-sitemap"></i><span title="IPAK GRADING STRUCTURE">1. IPAK Grading Structure</span></a>
                 <a href="#" class="policy-card"><i class="fas fa-vial"></i><span title="SUBSTANCE ABUSE TESTING">2. Substance Abuse Testing</span></a>
                 <a href="#" class="policy-card" id="btn-disciplinary"><i class="fas fa-scale-balanced"></i><span title="DISCIPLINARY MATTERS POLICY">3. Disciplinary Matters Policy</span></a>
                 <a href="#" class="policy-card"><i class="fas fa-envelope"></i><span title="EMAIL USAGE POLICY">4. Email Usage Policy</span></a>
@@ -236,7 +234,7 @@
                 <a href="#" class="policy-card"><i class="fas fa-graduation-cap"></i><span title="INTERNSHIP POLICY">7. Internship Policy</span></a>
                 <a href="#" class="policy-card"><i class="fas fa-person-cane"></i><span title="RETIREMENT POLICY">8. Retirement Policy</span></a>
                 <a href="#" class="policy-card" id="btn-dress-code"><i class="fas fa-user-tie"></i><span title="DRESS CODE POLICY">9. Dress Code Policy</span></a>
-                <a href="#" class="policy-card"><i class="fas fa-chalkboard-user"></i><span title="TRAINING & DEVELOPMENT POLICY">10. Training & Development</span></a>
+                <a href="#" class="policy-card" id="btn-training"><i class="fas fa-chalkboard-user"></i><span title="TRAINING & DEVELOPMENT POLICY">10. Training & Development</span></a>
                 <a href="#" class="policy-card"><i class="fas fa-piggy-bank"></i><span title="EOBI POLICY">11. EOBI Policy</span></a>
                 <a href="#" class="policy-card"><i class="fas fa-coins"></i><span title="GRATUITY POLICY">12. Gratuity Policy</span></a>
                 <a href="#" class="policy-card"><i class="fas fa-kaaba"></i><span title="HAJJ BALLOTING POLICY">13. Hajj Balloting Policy</span></a>
@@ -247,267 +245,74 @@
         </div>
     </div>
 
-    <!-- DISCIPLINARY POLICY MODAL -->
-    <div class="modal-overlay" id="disciplinaryModal">
+    <div class="modal-overlay" id="trainingModal">
         <div class="a4-document">
-            <button class="close-modal" id="closeModalBtn"><i class="fas fa-times"></i></button>
-            
-            <h1 class="doc-title">Disciplinary Matters Policy</h1>
+            <button class="close-modal" id="closeTrainingBtn"><i class="fas fa-times"></i></button>
+            <h1 class="doc-title">Training & Development Policy</h1>
 
             <div class="doc-section">
                 <h2>1. About Policy</h2>
                 <h3>1.1. Objective</h3>
-                <p>The objective of the policy is to describe the standards of discipline/conduct to be observed by the employees and in case of in-discipline/misconduct, lays down the process to be followed to ensure a fair and transparent process of handling in-discipline /misconduct cases.</p>
-
+                <p>The objective of this policy is to provide guidelines on the Training and Development of employees at IPAK.</p>
                 <h3>1.2. Scope</h3>
                 <p>This policy is applicable to all the employees of International Packaging Films Ltd.</p>
-
                 <h3>1.3. Exception</h3>
                 <p>All the exceptions of the policy will be approved by the Head of HR.</p>
-
                 <h3>1.4. Frequency of Review</h3>
                 <p>This policy will be reviewed on need basis if any changes are required.</p>
-
                 <h3>1.5. Authority</h3>
                 <p>The Company reserves the right to amend this policy or withdraw it in full at any time without assigning any reason.</p>
-
                 <h3>1.6. Applicability</h3>
                 <p>This policy is applicable with effect from Jan 01, 2026.</p>
             </div>
 
             <div class="doc-section">
                 <h2>2. Policy Guidelines</h2>
-                <h3>2.1. Discipline</h3>
-                <p>Employee discipline or standard conduct means those standards which employee is expected to observe. Standards of conduct have been embodied in the:</p>
-                <ol type="a">
-                    <li>IPAK Code of Conduct</li>
-                    <li>Applicable laws or government regulations</li>
-                    <li>IPAK Policy Manuals & SOPs</li>
-                    <li>Any other policy of IPAK</li>
-                </ol>
-                <p>Violation of these standards shall be treated as misconduct.</p>
+                <h3>2.1. Introduction</h3>
+                <p>For every development need, training is not the solution. To cater to employee learning needs according to their agility, there are three methods at IPAK:</p>
+                <ul>
+                    <li>Training Based Learning</li>
+                    <li>Relationship Based Learning</li>
+                    <li>Experiential Learning</li>
+                </ul>
 
-                <h3>2.2. Examples Of Misconduct</h3>
-                <ol type="a">
-                    <li>Willful in-subordination or disobedience, whether alone or in combination with others, to any lawful and reasonable directions of a Line Manager or Management.</li>
-                    <li>Theft, Fraud, or dishonesty in connection IPAK’s business or property.</li>
-                    <li>Taking or giving bribes or any illegal gratification.</li>
-                    <li>Riotous or disorderly behavior during working hours at the establishment or ay act subversive of discipline.</li>
-                    <li>Malingering/faking illness or other incapability to avoid duty or work.</li>
-                    <li>Harassment of other employees.</li>
-                    <li>Habitual absence without leave.</li>
-                    <li>Habitual late attendance.</li>
-                    <li>Habitual breach of any law applicable to the establishment.</li>
-                    <li>Habitual negligence or neglect of work.</li>
-                </ol>
+                <h3>2.2. Training Based Learning</h3>
+                <p><strong>Internal Trainings:</strong> Departments identify Subject Matter Experts (SME) to act as Internal Trainers.</p>
+                <p><strong>External Trainings:</strong> Needs that cannot be addressed in-house. HR assesses these through Training Need Analysis (TNA).</p>
+                <p><strong>International Trainings:</strong> Business-required training abroad, pre-approved by Management. Materials must be submitted to HR upon return.</p>
 
-                <div class="doc-note">
-                    <strong>Note:</strong> Cases of sexual Harassment will be dealt with as defined in the law, “The Protection against Harassment of Women at the Workplace Act 2010”. The inquiry Committee constituted by the Company shall follow the process as defined in the law.
-                </div>
+                <h3>2.3. Relationship Based Learning</h3>
+                <p>Includes assigning mentors (SMEs), shadowing, and high-recommendation projects for those in Succession Planning. Includes Coaching and Mentorship Programs.</p>
 
-                <h3>2.3. Disciplinary Matters Procedure</h3>
-                <ol type="a">
-                    <li>When a Line Manager/ HR Manager receives report about the alleged misconduct on the part of an employee, he/she shall examine the situation for authenticity of facts within 48 hours of such report and determine whether the allegations amount to misconduct. Line Manager may take advice from HR Department.</li>
-                    <li>If the allegation amounts to misconduct, then “Show Cause Notice” shall be issued by HR Department.</li>
-                    <li>The accused should be given 3 calendar days (72 hours) to submit his/her written explanation.</li>
-                    <li>The show cause shall be served personally upon the employee concerned. In case the employee is absent, it shall be sent to him by post on the last available address.</li>
-                    <li>In case, the employee is present but avoids receiving the show cause, the statement of the person who was deputed to serve the show cause and of two other witnesses shall be recorded in writing and thereafter the Show Cause shall be sent to him at the last available address by post.</li>
-                    <li>On receipt of the written explanation by the accused employee, it shall be examined to see whether the explanation is satisfactory or not. If the explanation is found to be satisfactory, the matter will be dropped, and the accused shall be informed accordingly. If it is such that it does not call for any action except advice, the accused shall be issued Advisory letter.</li>
-                    <li>In case the explanation is not found satisfactory, or the accused fails to submit his explanation, then formal inquiry into the matter would be initiated.</li>
-                    <li>Head of HR after consultation with the Management, would finalize either such inquiry would be conducted “on job” or “to suspend from services till facts are clear”.</li>
-                    <li>Any person in the management cadre, employed at any location of the company, who is neither witness to the occurrence of the act of misconduct in question nor is concerned with charge in question, can be appointed as an Inquiry Officer by Head of HR after consultation with the Management.</li>
-                    <li>The Inquiry Officer shall write down all the proceedings in English or Urdu and get the signature of the accused.</li>
-                    <li>The inquiry officer shall, after giving due opportunity of hearing and cross examination, submit his/her findings/report to the Management.</li>
-                </ol>
+                <h3>2.4. Experiential Learning</h3>
+                <p>On-the-job training using short-term projects assigned by the Line Manager to master core skills.</p>
 
-                <h3>2.4. Disciplinary Action</h3>
-                <p>The Management shall examine the inquiry findings and decide which of the following action should be taken against the accused:</p>
-                <ol type="a">
-                    <li>Warning / Reprimand</li>
-                    <li>Demotion to a lower position</li>
-                    <li>Stoppage of one-year increment</li>
-                    <li>Seizure/reduction of perks & benefits</li>
-                    <li>Dismissal from service</li>
-                </ol>
+                <h3>2.5. Training Framework</h3>
+                <p>Evolves around three pillars: Competence Framework, Capability Building, and Leadership & Management Skills.</p>
 
-                <h3>2.5. Criminal Breach</h3>
-                <p>In case of any criminal breach, the company reserves the right to refer the matter to state authorities for an appropriate action in accordance with law.</p>
-                
-                <h3>2.6. Resolution</h3>
-                <p>The disciplinary action may be in writing and given to the accused. If the allegations are not proven, the matter will be dropped, and the accused shall be informed accordingly.</p>
-            </div>
+                <h3>2.6. Training Assessment (Kirk Patrick Model)</h3>
+                <p><strong>Training Feedback:</strong> Analyzes session quality (content, relevance, trainer).</p>
+                <p><strong>Learning Assessment:</strong> Evaluates impact via Pre & Post quizzes. Scores below 70% require retraining.</p>
 
-            <div class="signatures">
-                <div class="sign-block">
-                    <div class="sign-line"></div>
-                    <div class="sign-title">Chief Human Resource Officer</div>
-                    <div class="sign-sub">(CHRO)</div>
-                </div>
-                <div class="sign-block">
-                    <div class="sign-line"></div>
-                    <div class="sign-title">Chief Executive Officer</div>
-                    <div class="sign-sub">(CEO)</div>
-                </div>
-            </div>
-        </div>
-    </div>
+                <h3>2.7. Skill Matrix</h3>
+                <p>A tool to identify skill gaps. Levels range from "No knowledge" to "Can train others." Visited twice a year by Line Managers.</p>
 
-    <!-- DRESS CODE MODAL -->
-    <div class="modal-overlay" id="dressCodeModal">
-        <div class="a4-document">
-            <button class="close-modal" id="closeDressCodeBtn"><i class="fas fa-times"></i></button>
-            
-            <h1 class="doc-title">Dress Code Policy</h1>
+                <h3>2.8. Training Need Analysis (TNA)</h3>
+                <p>HR develops TNA based on Competence Framework, Skill Matrix, and Leadership needs.</p>
 
-            <div class="doc-section">
-                <h2>1. About Policy</h2>
-                <h3>1.1. Objective</h3>
-                <p>The objective of this policy is to provide guidelines on the Dress Code for employees at IPAK.</p>
+                <h3>2.9. Training Calendar</h3>
+                <p>HR finalizes a calendar based on TNA and shares it with departments.</p>
 
-                <h3>1.2. Scope</h3>
-                <p>This policy is applicable to all the employees of International Packaging Films Ltd.</p>
+                <h3>2.10. Budget & Approvals</h3>
+                <p>Managed within the annual approved training budget. Additional costs require Head of HR and CEO approval.</p>
 
-                <h3>1.3. Exception</h3>
-                <p>All the exceptions of the policy will be approved by the Head of HR.</p>
-
-                <h3>1.4. Frequency of Review</h3>
-                <p>This policy will be reviewed on need basis if any changes are required.</p>
-
-                <h3>1.5. Authority</h3>
-                <p>The Company reserves the right to amend this policy or withdraw it in full at any time without assigning any reason.</p>
-
-                <h3>1.6. Applicability</h3>
-                <p>This policy is applicable with effect from Jan 01, 2026.</p>
-            </div>
-
-            <div class="doc-section">
-                <h2>2. Policy Guidelines</h2>
-                <h3>2.1. Dress Code</h3>
-                <p><strong>Office based Employees & Field Staff</strong></p>
-                <ol type="a">
-                    <li>All employees are expected to always use their own good judgment and dress appropriately to project a professional image</li>
-                    <li>Business formal attire which includes dress shirt & trousers is expected at a minimum in general on all weekdays (Monday to Thursday).</li>
-                    <li>Business formal which includes dress shirt with necktie and suit for internal important meetings and meetings with external parties and customers where required.</li>
-                    <li>Fridays shall be observed as semi-casual days except in case of important meetings are scheduled. An employee can wear appropriate Shalwar Kameez with Waistcoat/Coat.</li>
-                    <li>Saturdays shall be observed as casual days except in case of important meetings are scheduled. An employee can wear appropriate Jeans or Chinos with color T-Shirt/Polo Shirt.</li>
-                    <li>Appropriate closed formal shoes are allowed in the office.</li>
-                    <li>The employees can dress up in wearing Shalwar Kameez only with Formal Coat/Waist Coat and with formal shoes/closed shoes/Peshawari Khairi</li>
-                    <li>All employees are expected to wear decent office colors</li>
-                    <li>Jewelry, makeup, perfume, and cologne should be in good taste</li>
-                    <li>For employees and teams involved in operations requiring customer or Govt. official meetings or other forms of formal meetings, it is expected to formal business attire which can include a buttoned-down shirt and trousers / suite with necktie.</li>
-                    <li>Slippers to be used only during prayer times. It is not expected from employees that they use slippers in the office after prayers.</li>
-                </ol>
-
-                <p><strong>Plant based Employees</strong></p>
-                <ol type="a">
-                    <li>All employees will ensure to always use the uniform in the plant premises</li>
-                    <li>Only the prescribed uniform by the company will be acceptable which includes the complete kit (shirt, trousers, and safety shoes)</li>
-                    <li>No Jewelry item is allowed in the plant area to avoid any safety risk</li>
-                    <li>During Prayer Breaks, slippers to be used only around designated prayer area. It is not expected from employees that they use slippers inside the plant area.</li>
-                </ol>
-
-                <!-- Additional Dress Code sections truncated for brevity but they are intact -->
-                <h3>2.2. Visitors at Plant</h3>
-                <ol type="a">
-                    <li>No visitor will be allowed in the plant area without safety briefing and will be provided with a Visitor Safety Jacket (Visitor will be written on the jacket clearly)</li>
-                    <li>This is the responsibility of the host to ensure that all the requirements are met</li>
-                    <li>All such noncompliance will be reported to the Safety Steering Committee</li>
-                </ol>
-            </div>
-
-            <div class="signatures">
-                <div class="sign-block">
-                    <div class="sign-line"></div>
-                    <div class="sign-title">Chief Human Resource Officer</div>
-                    <div class="sign-sub">(CHRO)</div>
-                </div>
-                <div class="sign-block">
-                    <div class="sign-line"></div>
-                    <div class="sign-title">Chief Executive Officer</div>
-                    <div class="sign-sub">(CEO)</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- VEHICLE BALLOTING POLICY MODAL -->
-    <div class="modal-overlay" id="vehicleBallotingModal">
-        <div class="a4-document">
-            <button class="close-modal" id="closeVehicleBallotingBtn"><i class="fas fa-times"></i></button>
-            
-            <h1 class="doc-title">Vehicle Balloting Policy</h1>
-
-            <div class="doc-section">
-                <h2>1. About Policy</h2>
-                
-                <h3>1.1. Objective</h3>
-                <p>This policy outlines the details for employees regarding purchase of company vehicle which the management has placed for disposal under common pool for balloting.</p>
-
-                <h3>1.2. Scope</h3>
-                <p>This policy is applicable to all the eligible employees of International Packaging Films Ltd.</p>
-
-                <h3>1.3. Exception</h3>
-                <p>All the exceptions of the policy will be approved by the Head of HR.</p>
-
-                <h3>1.4. Frequency of Review</h3>
-                <p>This policy will be reviewed on need basis if any changes are required.</p>
-
-                <h3>1.5. Authority</h3>
-                <p>The Company reserves the right to amend this policy or withdraw it in full at any time without assigning any reason.</p>
-
-                <h3>1.6. Applicability</h3>
-                <p>This policy is applicable with effect from Jan 01, 2026.</p>
-            </div>
-
-            <div class="doc-section">
-                <h2>2. Policy Guidelines</h2>
-                
-                <h3>2.1. Eligibility</h3>
-                <ol type="a">
-                    <li>All confirmed, permanent employees of International Packaging Films Ltd. are eligible who don’t have any company-maintained vehicle or provision of Vehicle Allowance as per their entitlement</li>
-                    <li>Any employee can purchase one vehicle at a time: once in every five years</li>
-                    <li>Employee, who already has company maintain vehicle or vehicle Allowance, neither can participate in the balloting nor can purchase any vehicle through balloting</li>
-                </ol>
-
-                <h3>2.2. Entitlement</h3>
-                <ol type="a">
-                    <li>Post the results of the balloting, qualifying employees will be able to purchase the vehicles at 75 % of Market Value</li>
-                    <li>Market Value will be assessed through Procurement Department.</li>
-                    <li>Employee will pay transfer of ownership cost once the balloting decisions are finalized.</li>
-                </ol>
-
-                <h3>2.3. Terms & Conditions</h3>
-                <ol type="a">
-                    <li>The vehicle will be sold on “as is where is” basis</li>
-                    <li>Only one nomination per employee will be allowed for balloting. Employees sending more than one nomination will not be included in the ballot</li>
-                    <li>At all times, International Packaging Films Ltd. reserves the right to dispose of its assets in a way it deems appropriate</li>
-                    <li>The employee will not sell the vehicle for a period of 12 months from the date of handing over of the vehicle. The company will retain the file of the vehicle for the period of 12 month.</li>
-                </ol>
-
-                <h3>2.4. Procedure</h3>
-                <ol type="a">
-                    <li>HR will inform employees regarding the launch of Vehicle Balloting process through Corporate Communication along with information of available company vehicles, market value, application process and respective cut-off date of application submission</li>
-                    <li>Employee will follow the stepwise process to apply and submit their application for respective vehicle as per defined process</li>
-                    <li>The last date of submission/cut-off will be mentioned in the email by HR for the applicants to comply</li>
-                    <li>The date of balloting will be decided by the management</li>
-                    <li>The names of the qualifying employees will be communicated through Corporate Communication and company notice boards after balloting</li>
-                    <li>Delivery date of vehicles will be intimated to the successful applicants by Admin Department after all the formalities mentioned above have been completed.</li>
-                    <li>Once the vehicle has been handed over to the successful employee, insurance will stand to cease.</li>
-                    <li>Employee shall not claim any maintenance after receiving the vehicle as the vehicle is sold on “as is where is” basis</li>
-                    <li>The employee will transfer the vehicle in his/her own name within 15 days from the date of the handing over of the vehicle</li>
-                    <li>The employee will submit the proof of the transfer of the vehicle to the company within 15 days from the date of the handing over of the vehicle</li>
-                </ol>
-
-                <h3>2.5. Payment</h3>
-                <ol type="a">
-                    <li>Qualifying employees can make payments in the favor of International Packaging Films Ltd. using any of the following methods:
-                        <ul>
-                            <li>Demand Draft</li>
-                            <li>Pay Order</li>
-                            <li>Cheque</li>
-                        </ul>
-                    </li>
-                    <li>Employees will be required to submit the payment to Admin Department to obtain the vehicle within 10 working days of balloting announcement otherwise they will have to forego their right to the vehicle.</li>
+                <h3>2.11. Process Flow</h3>
+                <ol>
+                    <li>HR initiates "Organizational Development Booklet."</li>
+                    <li>Employee raises request; Line Manager validates.</li>
+                    <li>Dept. Head finalizes; HR confirms enrollment.</li>
+                    <li>Employee participates; HR ensures assessment.</li>
+                    <li>HR furnishes assessment to Line Manager for further planning.</li>
                 </ol>
             </div>
 
@@ -527,91 +332,43 @@
     </div>
 
     <script>
-        // Smooth Cursor
+        // Cursor Logic
         const dot = document.querySelector('.cursor-dot');
         const outline = document.querySelector('.cursor-outline');
         window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-            dot.style.left = `${posX}px`;
-            dot.style.top = `${posY}px`;
-            outline.animate({ left: `${posX - 20}px`, top: `${posY - 20}px` }, { duration: 400, fill: "forwards" });
+            dot.style.left = `${e.clientX}px`;
+            dot.style.top = `${e.clientY}px`;
+            outline.animate({ left: `${e.clientX - 20}px`, top: `${e.clientY - 20}px` }, { duration: 400, fill: "forwards" });
         });
 
-        // Add hover classes for custom cursor targets including modal buttons
-        document.querySelectorAll('a, button, input, .policy-card, .close-modal').forEach(el => {
+        document.querySelectorAll('a, button, .policy-card').forEach(el => {
             el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
         });
 
-        // Search Engine logic
-        const searchInput = document.getElementById('policySearch');
-        const cards = document.getElementsByClassName('policy-card');
-        
-        searchInput.addEventListener('input', () => {
-            let filter = searchInput.value.toLowerCase().trim();
-            for (let card of cards) {
-                let text = card.querySelector('span').getAttribute('title').toLowerCase();
-                let spanText = card.querySelector('span').textContent.toLowerCase();
-                card.style.display = (text.includes(filter) || spanText.includes(filter)) ? "flex" : "none";
+        // Modal Logic
+        function setupModal(btnId, modalId, closeId) {
+            const btn = document.getElementById(btnId);
+            const modal = document.getElementById(modalId);
+            const close = document.getElementById(closeId);
+            if(btn && modal && close) {
+                btn.onclick = (e) => { e.preventDefault(); modal.style.display = 'flex'; };
+                close.onclick = () => { modal.style.display = 'none'; };
+                window.addEventListener('click', (e) => { if(e.target === modal) modal.style.display = 'none'; });
             }
-        });
+        }
 
-        // --- MODAL POPUP LOGIC ---
-        // Disciplinary Modal
-        const discModal = document.getElementById('disciplinaryModal');
-        const openDiscBtn = document.getElementById('btn-disciplinary');
-        const closeDiscBtn = document.getElementById('closeModalBtn');
+        setupModal('btn-training', 'trainingModal', 'closeTrainingBtn');
+        // (Call setupModal for other buttons like btn-disciplinary, btn-dress-code, etc.)
 
-        // Dress Code Modal
-        const dressModal = document.getElementById('dressCodeModal');
-        const openDressBtn = document.getElementById('btn-dress-code');
-        const closeDressBtn = document.getElementById('closeDressCodeBtn');
-
-        // Vehicle Balloting Modal
-        const vehicleModal = document.getElementById('vehicleBallotingModal');
-        const openVehicleBtn = document.getElementById('btn-vehicle-balloting');
-        const closeVehicleBtn = document.getElementById('closeVehicleBallotingBtn');
-
-        // Open Disciplinary Modal
-        openDiscBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            discModal.style.display = 'flex';
-        });
-        closeDiscBtn.addEventListener('click', () => {
-            discModal.style.display = 'none';
-        });
-
-        // Open Dress Code Modal
-        openDressBtn.addEventListener('click', (e) => {
-            e.preventDefault(); 
-            dressModal.style.display = 'flex';
-        });
-        closeDressBtn.addEventListener('click', () => {
-            dressModal.style.display = 'none';
-        });
-
-        // Open Vehicle Balloting Modal
-        openVehicleBtn.addEventListener('click', (e) => {
-            e.preventDefault(); 
-            vehicleModal.style.display = 'flex';
-        });
-        closeVehicleBtn.addEventListener('click', () => {
-            vehicleModal.style.display = 'none';
-        });
-
-        // Close Modals when clicking outside the A4 document
-        window.addEventListener('click', (e) => {
-            if (e.target === discModal) {
-                discModal.style.display = 'none';
-            }
-            if (e.target === dressModal) {
-                dressModal.style.display = 'none';
-            }
-            if (e.target === vehicleModal) {
-                vehicleModal.style.display = 'none';
-            }
-        });
+        // Search Logic
+        document.getElementById('policySearch').oninput = function() {
+            let val = this.value.toLowerCase();
+            document.querySelectorAll('.policy-card').forEach(card => {
+                let title = card.querySelector('span').getAttribute('title').toLowerCase();
+                card.style.display = title.includes(val) ? "flex" : "none";
+            });
+        };
     </script>
 </body>
 </html>

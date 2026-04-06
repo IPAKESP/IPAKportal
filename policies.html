@@ -227,8 +227,8 @@
             </div>
 
             <div class="policy-grid" id="policyGrid">
-                <a href="#" class="policy-card"><i class="fas fa-sitemap"></i><span title="INTERNATIONAL PACKAGING FILMS LTD. GRADING STRUCTURE">1. IPAK Grading Structure</span></a>
-                <a href="#" class="policy-card"><i class="fas fa-vial"></i><span title="SUBSTANCE ABUSE TESTING">2. Substance Abuse Testing</span></a>
+                <a href="#" class="policy-card" id="btn-grading"><i class="fas fa-sitemap"></i><span title="INTERNATIONAL PACKAGING FILMS LTD. GRADING STRUCTURE">1. IPAK Grading Structure</span></a>
+                <a href="#" class="policy-card" id="btn-substance"><i class="fas fa-vial"></i><span title="SUBSTANCE ABUSE TESTING">2. Substance Abuse Testing</span></a>
                 <a href="#" class="policy-card" id="btn-disciplinary"><i class="fas fa-scale-balanced"></i><span title="DISCIPLINARY MATTERS POLICY">3. Disciplinary Matters Policy</span></a>
                 <a href="#" class="policy-card" id="btn-email"><i class="fas fa-envelope"></i><span title="EMAIL USAGE POLICY">4. Email Usage Policy</span></a>
                 <a href="#" class="policy-card" id="btn-electronic-comm"><i class="fas fa-wifi"></i><span title="ELECTRONIC COMMUNICATION USAGE POLICY">5. Electronic Comm. Policy</span></a>
@@ -236,14 +236,275 @@
                 <a href="#" class="policy-card" id="btn-internship"><i class="fas fa-graduation-cap"></i><span title="INTERNSHIP POLICY">7. Internship Policy</span></a>
                 <a href="#" class="policy-card" id="btn-retirement"><i class="fas fa-person-cane"></i><span title="RETIREMENT POLICY">8. Retirement Policy</span></a>
                 <a href="#" class="policy-card" id="btn-dress-code"><i class="fas fa-user-tie"></i><span title="DRESS CODE POLICY">9. Dress Code Policy</span></a>
-                <a href="#" class="policy-card"><i class="fas fa-chalkboard-user"></i><span title="TRAINING & DEVELOPMENT POLICY">10. Training & Development</span></a>
+                <a href="#" class="policy-card" id="btn-training"><i class="fas fa-chalkboard-user"></i><span title="TRAINING & DEVELOPMENT POLICY">10. Training & Development</span></a>
                 <a href="#" class="policy-card" id="btn-eobi"><i class="fas fa-piggy-bank"></i><span title="EOBI POLICY">11. EOBI Policy</span></a>
                 <a href="#" class="policy-card" id="btn-gratuity"><i class="fas fa-coins"></i><span title="GRATUITY POLICY">12. Gratuity Policy</span></a>
-                <a href="#" class="policy-card"><i class="fas fa-kaaba"></i><span title="HAJJ BALLOTING POLICY">13. Hajj Balloting Policy</span></a>
+                <a href="#" class="policy-card" id="btn-hajj"><i class="fas fa-kaaba"></i><span title="HAJJ BALLOTING POLICY">13. Hajj Balloting Policy</span></a>
                 <a href="#" class="policy-card" id="btn-vehicle-balloting"><i class="fas fa-car"></i><span title="VEHICLE BALLOTING POLICY">14. Vehicle Balloting Policy</span></a>
             </div>
 
             <footer>&copy; 2026 IPAK PORTAL | SECURE DOCUMENTATION SYSTEM</footer>
+        </div>
+    </div>
+
+    <!-- IPAK GRADING STRUCTURE MODAL -->
+    <div class="modal-overlay" id="gradingModal">
+        <div class="a4-document">
+            <button class="close-modal" id="closeGradingBtn"><i class="fas fa-times"></i></button>
+
+            <h1 class="doc-title">IPAK Grading Structure</h1>
+
+            <div class="doc-section">
+                <h2>1. About Policy</h2>
+
+                <h3>1.1. Objective</h3>
+                <p>The objective of the Grading Structure is to identify the position levels in the organization and how the structure of different departments will operate.</p>
+
+                <h3>1.2. Scope</h3>
+                <p>This policy is applicable to all the employees of International Packaging Films Ltd.</p>
+
+                <h3>1.3. Exception</h3>
+                <p>All the exceptions of the policy will be approved by the CEO.</p>
+
+                <h3>1.4. Frequency of Review</h3>
+                <p>This policy will be reviewed on need basis if any changes are required.</p>
+
+                <h3>1.5. Authority</h3>
+                <p>The Company reserves the right to amend this policy or withdraw it in full at any time without assigning any reason.</p>
+
+                <h3>1.6. Applicability</h3>
+                <p>This policy is applicable with effect from Jan 01, 2026.</p>
+            </div>
+
+            <div class="doc-section">
+                <h2>2. Policy Guidelines</h2>
+
+                <h3>2.1. Grading Structure</h3>
+                <table style="width:100%; border-collapse:collapse; font-size:0.9rem; margin-top:10px; margin-bottom:20px;">
+                    <thead>
+                        <tr style="background:var(--navy); color:var(--white);">
+                            <th style="padding:10px 14px; text-align:center; border:1px solid var(--light-grey); width:30%;" colspan="2">Position Level</th>
+                            <th style="padding:10px 14px; text-align:center; border:1px solid var(--light-grey); width:20%;">Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Strategic Management -->
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); font-weight:600; color:var(--navy); text-align:center; font-style:italic; background:#eef1f8;" rowspan="4">Strategic Management</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">CEO</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">SM-1</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">COO</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">SM-2</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">Director</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">SM-3</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">Deputy Director</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">SM-4</td>
+                        </tr>
+                        <!-- Senior Management: Head of Function/Division spans SM-5 to MM-3 (6 rows) -->
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); font-weight:600; color:var(--navy); text-align:center; font-style:italic; background:#eef1f8;" rowspan="3">Senior Management</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:left;" rowspan="6">Head of Function/Division</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">SM-5</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">SM-6</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">SM-7</td>
+                        </tr>
+                        <!-- Management: MM-1 to MM-3 share Head of Function/Division, then named titles -->
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); font-weight:600; color:var(--navy); text-align:center; font-style:italic; background:#eef1f8;" rowspan="8">Management</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">MM-1</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">MM-2</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">MM-3</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">Senior Manager</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">MM-4</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">Manager</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">MM-5</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">Deputy Manager</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">MM-6</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">Senior Assistant Manager</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">MM-7</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">Assistant Manager</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">MM-8</td>
+                        </tr>
+                        <!-- Junior Management -->
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); font-weight:600; color:var(--navy); text-align:center; font-style:italic; background:#eef1f8;" rowspan="9">Junior Management</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">Senior Executive</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">JM-1</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">Executive</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">JM-2</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">Specialist</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">JM-3</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">Senior Officer</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">JM-4</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">Officer I</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">JM-5</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">Officer II</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">JM-6</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">Junior Officer I</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">JM-7</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">Junior Officer II</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">JM-8</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey);">Junior Officer III</td>
+                            <td style="padding:9px 14px; border:1px solid var(--light-grey); text-align:center; font-style:italic; font-weight:600;">JM-9</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>2.2. Grading Structure &amp; Job Evaluation Process</h3>
+                <ol type="a">
+                    <li>All the departments will follow the approved Grading Structure only.</li>
+                    <li>All the positions will be assessed through Job Evaluation and based on the results, the specific Grade will be assigned.</li>
+                    <li>To assess the position in the organization, HR Department will assess the position based on the following factors:
+                        <ul style="margin-top:8px;">
+                            <li><strong>Impact:</strong> This factor will determine the size of the organization and the impact that a position has on the organization within the context of its contribution.</li>
+                            <li><strong>Communication:</strong> This factor will determine the nature of the position's communication responsibility, both within and outside the organization.</li>
+                            <li><strong>Innovation:</strong> This factor will determine the expected level of innovation from the position and the complexity of the innovation activity. This factor relates to the requirements of the position to identify and make improvement to procedures, services, or products as well as to develop new ideas, methods, techniques, services, and products.</li>
+                            <li><strong>Knowledge:</strong> This factor relates to the level of knowledge required in the job to accomplish objectives and create value and the application of knowledge in teams and in groups and cultures and environments the position operates.</li>
+                        </ul>
+                    </li>
+                    <li>All the positions in the organization will be assessed before adding in the organizational structure and the recommendations will be shared with the Management.</li>
+                </ol>
+
+                <h3>2.3. Career Track at IPAK</h3>
+                <ol type="a">
+                    <li>To have a successful career at IPAK, important factors are sustained performance, education level and experience. The year of service and education will not define the success of the employee only, but sustained performance will define the growth based on available positions in the organization.</li>
+                    <li>The requirements to identify the grade level of a position for hiring and promotion will be based on the Career Mapping Sheet developed by HR Department based on internal and external equity.</li>
+                </ol>
+
+                <h3>2.4. Grading Structure &amp; Position Titles</h3>
+                <ol type="a">
+                    <li>Position title can be different, but the grade will remain the same.</li>
+                    <li>Through Job Evaluations, the recommendations will be provided to the Management on the placement of the position in the relevant grade.</li>
+                    <li>Line Manager will consult the HR Department for the addition of a position title in the organization.</li>
+                    <li>Benefits are linked to Grades and position titles cannot determine the Compensation &amp; Benefits.</li>
+                </ol>
+
+                <h3>2.5. New Position &amp; Grading</h3>
+                <ol type="a">
+                    <li>In case of the requirement of any new position, the position will be evaluated.</li>
+                    <li>The evaluation will define the grade of the position in the organization.</li>
+                    <li>The grade will define the related compensation and benefits of the position.</li>
+                </ol>
+            </div>
+
+            <div class="signatures">
+                <div class="sign-block">
+                    <div class="sign-line"></div>
+                    <div class="sign-title">Chief Human Resource Officer</div>
+                    <div class="sign-sub">(CHRO)</div>
+                </div>
+                <div class="sign-block">
+                    <div class="sign-line"></div>
+                    <div class="sign-title">Chief Executive Officer</div>
+                    <div class="sign-sub">(CEO)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUBSTANCE ABUSE TESTING POLICY MODAL -->
+    <div class="modal-overlay" id="substanceModal">
+        <div class="a4-document">
+            <button class="close-modal" id="closeSubstanceBtn"><i class="fas fa-times"></i></button>
+
+            <h1 class="doc-title">Substance Abuse Testing Policy</h1>
+
+            <div class="doc-section">
+                <h2>1. About Policy</h2>
+
+                <h3>1.1. Objective</h3>
+                <p>IPAK maintains a strict policy against the use of unlawful/prohibited drugs while at work or on company premises. The objective of this policy is to define the complete guidelines on the substance abuse testing for the guidelines of the Employees and Line Managers.</p>
+
+                <h3>1.2. Scope</h3>
+                <p>This policy is applicable to all the employees of International Packaging Films Ltd.</p>
+
+                <h3>1.3. Exception</h3>
+                <p>All the exceptions of the policy will be approved by the Head of HR.</p>
+
+                <h3>1.4. Frequency of Review</h3>
+                <p>This policy will be reviewed on need basis if any changes are required.</p>
+
+                <h3>1.5. Authority</h3>
+                <p>The Company reserves the right to amend this policy or withdraw it in full at any time without assigning any reason.</p>
+
+                <h3>1.6. Applicability</h3>
+                <p>This policy is applicable with effect from Jan 01, 2026.</p>
+            </div>
+
+            <div class="doc-section">
+                <h2>2. Policy Guidelines</h2>
+
+                <h3>2.1. Policy Details</h3>
+                <ol type="a">
+                    <li>To facilitate the administration and enforcement of this policy, IPAK may require or request employees to submit drug or substance abuse testing under certain circumstances.</li>
+                    <li>In cases where an employee's manager has reasonable suspicion to believe that the employee possesses or is under the influence of drugs and/or related substances and such use or influence may adversely affect the employee's job performance, or the safety of the employee or co-workers, substance or drug screening may be ordered.</li>
+                    <li>HOD will inform HR Department for such related matters to proceed with the required actions according to the policy.</li>
+                    <li>This suspicion must be based on any objective symptoms, such as factors related to the employee's appearance, behavior, speech and/or other factors.</li>
+                    <li>If an employee is on medically prescribed medication, it is the employee's responsibility to advise his/her supervisor of this fact before he or she reports to work.</li>
+                    <li>Testing may also be required if an employee is found to be in possession of physical substances — either on their person or at their workstation or locker — that could relate to the use of an illicit drug.</li>
+                    <li>Such evidence includes, but is not limited to drugs, drug paraphernalia or alcohol.</li>
+                    <li>It should be emphasized that possession of drugs or alcohol on IPAK's property is prohibited whether or not it is determined that the employee also used such substances.</li>
+                </ol>
+
+                <h3>2.2. Grading Disciplinary Action</h3>
+                <ol type="a">
+                    <li>The Management shall examine any such findings and decide which action should be taken against the accused.</li>
+                    <li>In case of any criminal breach, the company reserves the right to refer the matter to state authorities for an appropriate action in accordance with law.</li>
+                </ol>
+            </div>
+
+            <div class="signatures">
+                <div class="sign-block">
+                    <div class="sign-line"></div>
+                    <div class="sign-title">Chief Human Resource Officer</div>
+                    <div class="sign-sub">(CHRO)</div>
+                </div>
+                <div class="sign-block">
+                    <div class="sign-line"></div>
+                    <div class="sign-title">Chief Executive Officer</div>
+                    <div class="sign-sub">(CEO)</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1056,6 +1317,303 @@
         </div>
     </div>
 
+    <!-- HAJJ BALLOTING POLICY MODAL -->
+    <div class="modal-overlay" id="hajjModal">
+        <div class="a4-document">
+            <button class="close-modal" id="closeHajjBtn"><i class="fas fa-times"></i></button>
+
+            <h1 class="doc-title">Hajj Balloting Policy</h1>
+
+            <div class="doc-section">
+                <h2>1. About Policy</h2>
+
+                <h3>1.1. Objective</h3>
+                <p>The objective of this policy is to provide guidelines on Hajj balloting for the employees at IPAK.</p>
+
+                <h3>1.2. Scope</h3>
+                <p>This policy is applicable to all the eligible employees of International Packaging Films Ltd.</p>
+
+                <h3>1.3. Exception</h3>
+                <p>All the exceptions of the policy will be approved by the CEO.</p>
+
+                <h3>1.4. Frequency of Review</h3>
+                <p>This policy will be reviewed on need basis if any changes are required.</p>
+
+                <h3>1.5. Authority</h3>
+                <p>The Company reserves the right to amend this policy or withdraw it in full at any time without assigning any reason.</p>
+
+                <h3>1.6. Applicability</h3>
+                <p>This policy is applicable with effect from Jan 01, 2026.</p>
+            </div>
+
+            <div class="doc-section">
+                <h2>2. Policy Guidelines</h2>
+
+                <h3>2.1. Introduction</h3>
+                <ol type="a">
+                    <li>The International Packaging Films Ltd. will sponsor Hajj for two (2) permanent employees through balloting every year.</li>
+                    <li>Employees who have completed their 05 years of service will be eligible for the Hajj Balloting.</li>
+                    <li>Employees from JM9 to MM6 will be eligible for balloting.</li>
+                    <li>Employees who have performed Hajj earlier under this policy will not be eligible for the balloting.</li>
+                    <li>To be eligible for the balloting, the duration of the employment with the organization should be without any gap or intervals.</li>
+                    <li>Employees with reported misconducts or inquiries will be subject to the approval of the management either to add such employees in the balloting or not.</li>
+                    <li>Hajj Balloting will be arranged based upon Government announcement for Hajj registration.</li>
+                    <li>If the employee refuses to proceed for Hajj, then the balloting will be conducted again, and the new employee will be announced.</li>
+                    <li>The amount of Hajj Package cannot be claimed in cash in any case.</li>
+                    <li>The results of the balloting cannot be transferred in the name of another employee.</li>
+                </ol>
+
+                <h3>2.2. Hajj Package</h3>
+                <ol type="a">
+                    <li>Hajj booking will be processed under Government Scheme only.</li>
+                    <li>The Management may decide to change the package to private.</li>
+                    <li>If an employee wants to perform Hajj on private arrangements, the company will only pay the amount prescribed by Government Scheme and the differential will be paid upfront by the employee.</li>
+                    <li>If any employee wants to perform Hajj on private arrangement, such arrangements will be arranged by the Commercial Department and the employee will select the suitable option.</li>
+                    <li>If the name of the employee is not drawn in the Government policy, the employee will submit the application next year.</li>
+                    <li>The package will include Qurbani and other related expenses.</li>
+                </ol>
+
+                <h3>2.3. Hajj Leaves</h3>
+                <p>Hajj Leaves will be managed through the applicable Leave Policy.</p>
+
+                <h3>2.4. Financial Assistance</h3>
+                <ol type="a">
+                    <li>IPAK will provide all necessary assistance to the employee for obtaining Visa.</li>
+                    <li>Fee and processing charges for Visa and passport will be paid by the company.</li>
+                    <li>The employee will ensure that his/her all documents are completed in all respects to facilitate early issue of Visa.</li>
+                    <li>Other than ticket arrangement, company will pay one basic salary for the personal expenses of the employee to support the employee in expenses related to his/her travel.</li>
+                </ol>
+
+                <h3>2.5. Travelling Guidelines</h3>
+                <ol type="a">
+                    <li>As a general principle, travelling expenses paid to an employee is intended to cover his/her actual expenses and should not be a source of income.</li>
+                    <li>All travel requirements will be completed by the traveler prior to the application submission for Hajj to Administration Department.</li>
+                    <li>Air tickets will be arranged through company appointed/approved travel agencies or as prescribed by Government Authorities or Tour Agents. No advance will be allowed if any amount is outstanding in respect of previous travelling.</li>
+                    <li>Travelling will be admissible based on journey by the shortest route, that is to say, the route by which an employee can reach his/her destination in the shortest possible time by approved mode of travel.</li>
+                    <li>The employee will ensure that he/she is in possession of a valid passport, and if not, then to obtain the passport well in time.</li>
+                    <li>The Company will not pay for any personal baggage which exceeds the limits provided by the carrier.</li>
+                    <li>The Company will not be responsible if any contraband item is found in the personal baggage being carried by the employee. The employee will personally ensure that his/her personal baggage and the company baggage handed over to him/her is packed in his/her presence and does not contain any contraband item.</li>
+                    <li>Temporary health insurance shall be arranged by the Company for the period of stay abroad.</li>
+                    <li>Hajj arrangements will be managed by Administration Department after authorization by competent/controlling authority.</li>
+                </ol>
+            </div>
+
+            <div class="signatures">
+                <div class="sign-block">
+                    <div class="sign-line"></div>
+                    <div class="sign-title">Chief Human Resource Officer</div>
+                    <div class="sign-sub">(CHRO)</div>
+                </div>
+                <div class="sign-block">
+                    <div class="sign-line"></div>
+                    <div class="sign-title">Chief Executive Officer</div>
+                    <div class="sign-sub">(CEO)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRAINING & DEVELOPMENT POLICY MODAL -->
+    <div class="modal-overlay" id="trainingModal">
+        <div class="a4-document">
+            <button class="close-modal" id="closeTrainingBtn"><i class="fas fa-times"></i></button>
+
+            <h1 class="doc-title">Training & Development Policy</h1>
+
+            <div class="doc-section">
+                <h2>1. About Policy</h2>
+
+                <h3>1.1. Objective</h3>
+                <p>The objective of this policy is to provide guidelines on the Training and Development of employees at IPAK.</p>
+
+                <h3>1.2. Scope</h3>
+                <p>This policy is applicable to all the employees of International Packaging Films Ltd.</p>
+
+                <h3>1.3. Exception</h3>
+                <p>All the exceptions of the policy will be approved by the Head of HR.</p>
+
+                <h3>1.4. Frequency of Review</h3>
+                <p>This policy will be reviewed on need basis if any changes are required.</p>
+
+                <h3>1.5. Authority</h3>
+                <p>The Company reserves the right to amend this policy or withdraw it in full at any time without assigning any reason.</p>
+
+                <h3>1.6. Applicability</h3>
+                <p>This policy is applicable with effect from Jan 01, 2026.</p>
+            </div>
+
+            <div class="doc-section">
+                <h2>2. Policy Guidelines</h2>
+
+                <h3>2.1. Introduction</h3>
+                <p>This is important to provide the right source of learning to the employee according to his/her learning agility. For every development need, training is not the solution. So to cater the employee learning needs according to his/her learning agility, there are three methods at IPAK for the development of the employee:</p>
+                <ul>
+                    <li>Training Based Learning</li>
+                    <li>Relationship Based Learning</li>
+                    <li>Experiential Learning</li>
+                </ul>
+
+                <h3>2.2. Training Based Learning</h3>
+                <p>Training is an important source of employee's development. There can be two sources of employee's training:</p>
+                <ul>
+                    <li>Internal Training</li>
+                    <li>External Training</li>
+                    <li>International Training</li>
+                </ul>
+
+                <p><strong>Internal Trainings</strong></p>
+                <p>This is important to have internal resources to cater the basic development needs of the employee. The departments will identify the Subject Matter Experts (SME) for certain skills. These Subject Matter Experts will act as Internal Trainers who will facilitate the process by training employees internally on the skills related to their job roles.</p>
+
+                <p><strong>External Trainings</strong></p>
+                <p>For all such development needs which cannot be addressed in house, will be managed externally. Human Resource Department will assess the training needs which cannot be addressed internally. On the basis of such Training Need Analysis, following arrangements can be made:</p>
+                <ol type="a">
+                    <li>Employees can be sent to some external programs related to certain skills.</li>
+                    <li>External trainer can be engaged to deliver training in house on specific subject matter.</li>
+                    <li>On completion of an external training, the employee will submit a copy of the training material to Human Resource Department.</li>
+                </ol>
+
+                <p><strong>International Trainings</strong></p>
+                <ol type="a">
+                    <li>In case of any business requirements, the employee can be sent abroad for training. All such trainings will be pre-approved by the Management.</li>
+                    <li>On completion of an international training, the employee will submit a copy of the training material to Human Resource Department.</li>
+                    <li>Human Resource Department will archive all such records for future reference and study.</li>
+                </ol>
+
+                <h3>2.3. Relationship Based Learning</h3>
+                <ol type="a">
+                    <li>In some cases, employee can be assigned to a relationship-based learning where he/she can be assigned a mentor who is the Subject Matter Expert. The employee will shadow the Mentor to understand the process and learn the skill set.</li>
+                    <li>An employee can be assigned a project where he/she can interact with other teams and learn the processes. Such projects are highly recommended for those employees who are part of Succession Planning, and the management sees them in bigger roles in future.</li>
+                    <li>Line Manager will decide to engage the employee in any of such Relationship Based Learning.</li>
+                    <li>The employee can be engaged in Coaching and Mentorship Program as well.</li>
+                </ol>
+
+                <h3>2.4. Experiential Learning</h3>
+                <p>Experiential Learning is an on job training which can be applied to the employee who have newly joined the organization or is working in the same capacity for some time. Line Manager will assign short term projects within his/her job role to strengthen the skill set. This will help the employee to focus on one skill at a time to master the core skill required in his/her job.</p>
+
+                <h3>2.5. Training Framework</h3>
+                <p>At IPAK, Training Framework is the base of employee development and his/her career growth. This is expected of every employee to live by the Framework to achieve organization's vision and personal development. Training Framework evolves around the following pillars:</p>
+                <ul>
+                    <li>Competence Framework</li>
+                    <li>Capability Building</li>
+                    <li>Leadership &amp; Management Skills</li>
+                </ul>
+
+                <p><strong>Competence Framework</strong></p>
+                <ol type="a">
+                    <li>The Competence Framework defines the competencies and key behaviors that embody our corporate values and form the basis of our growth and the development of the employees.</li>
+                    <li>Our prime focus is to ensure that all the employees are well versed with the Values, Vision &amp; Mission, Core Competencies, and behaviors related to the Core Competencies.</li>
+                    <li>Human Resource Department will initiate the trainings for the employees to enhance the understanding and development of the employees.</li>
+                </ol>
+
+                <p><strong>Capability Building</strong></p>
+                <ol type="a">
+                    <li>This is important to enhance the capability to perform the job of an employee. IPAK provides the way forward for the employees to understand their job and to fill gaps in accordance to Skill Matrix.</li>
+                    <li>These skills comprise of two elements:
+                        <ul style="margin-top:6px;">
+                            <li>Capabilities required to perform according to the Job Description of the employee</li>
+                            <li>Day to Day job knowledge</li>
+                        </ul>
+                    </li>
+                    <li>This is important to provide opportunities of learning to the employee to master the competencies to perform his/her job. These competencies are related to the Core job of the employee.</li>
+                </ol>
+
+                <p><strong>Leadership &amp; Management Development</strong></p>
+                <ol type="a">
+                    <li>This is important for any organization to develop its current and future leadership and IPAK encourages its employees to develop themselves to take senior roles.</li>
+                    <li>Human Resource Department will initiate Leadership Programs for employee development.</li>
+                    <li>All such programs will be for the Senior positions and for employees who manage teams to develop their Management Skills.</li>
+                </ol>
+
+                <h3>2.6. Training Assessment</h3>
+                <p>This is important to assess the training to evaluate the impact and to plan better for future. At IPAK, we follow two levels of assessment following the Kirkpatrick Model:</p>
+                <ul>
+                    <li>Training Feedback</li>
+                    <li>Learning Assessment</li>
+                </ul>
+
+                <p><strong>Training Feedback</strong></p>
+                <p>This assessment analyses the quality of the training session conducted. This assessment is based on the following points:</p>
+                <ul>
+                    <li>Quality of Content</li>
+                    <li>Relevance of the content</li>
+                    <li>Trainer's assessment</li>
+                    <li>Duration of training</li>
+                    <li>Facilitation</li>
+                </ul>
+
+                <p><strong>Learning Assessment</strong></p>
+                <ol type="a">
+                    <li>Learning Assessment is a process to evaluate the impact of the training on the employee's "Learning Curve".</li>
+                    <li>Where applicable, the trainer will have a Pre &amp; Post quiz on the content of the training. The Learning Curve will be evaluated based on Pre &amp; Post Quiz results.</li>
+                    <li>If any employee scores less than 70% in a post quiz, then he/she is recommended for retraining.</li>
+                </ol>
+
+                <h3>2.7. Skill Matrix</h3>
+                <ol type="a">
+                    <li>Skill Matrix is the tool to identify the skill gap to manage the training needs of the employee.</li>
+                    <li>The concerned department will identify the Core Skills of every position for capability building to perform in the job role.</li>
+                    <li>On the defined competencies, Line Manager will assess the employee against each competence on one of the following levels:
+                        <ul style="margin-top:6px;">
+                            <li>No knowledge</li>
+                            <li>Basic knowledge but no skill</li>
+                            <li>Can practice with help</li>
+                            <li>Can do alone</li>
+                            <li>Can train others</li>
+                        </ul>
+                    </li>
+                    <li>All such assessments will be discussed and shared with the employee.</li>
+                    <li>Human Resource Department will keep a track of the skill matrix and its execution for all the employees.</li>
+                    <li>Line Manager will visit Skill Matrix twice a year to assess the skill level and the improvement curve to plan the future development plans for the employee.</li>
+                    <li>The purpose of the skill matrix is to identify the skill gaps, and this is not a source for the employee's Annual Assessment. For Assessment, the basis will be the objectives assigned to the employee through Performance Management System.</li>
+                </ol>
+
+                <h3>2.8. Training Need Analysis</h3>
+                <p>Human Resource Department will develop a Training Need Analysis based on:</p>
+                <ul>
+                    <li>Competence Framework</li>
+                    <li>Skill Matrix</li>
+                    <li>Leadership Development needs</li>
+                </ul>
+                <p>This analysis will cover the overall organization's training needs.</p>
+
+                <h3>2.9. Training Calendar</h3>
+                <p>Based on the TNA, Human Resource Department will finalize a Training Calendar and escalate to the concerned Departments.</p>
+
+                <h3>2.10. Budget &amp; Approvals</h3>
+                <ol type="a">
+                    <li>At the time of annual budgeting, Training budget for the next year will be approved. All the training activities will be managed within the budget.</li>
+                    <li>Any additional cost will be approved by Head of HR and CEO.</li>
+                </ol>
+
+                <h3>2.11. Process Flow</h3>
+                <ol type="a">
+                    <li>Based on TNA, Human Resource Department will initiate the "Organizational Development Booklet" which will have the details of upcoming training courses and Training Calendar.</li>
+                    <li>Employee will raise the request for required training based on the feedback received from the Line Manager.</li>
+                    <li>Line Manager will validate the training request based on employee's development needs.</li>
+                    <li>Department Head will finalize the training participation and send the details to Human Resource Department.</li>
+                    <li>Human Resource Department will book the employee in the upcoming trainings available in the calendar and training enrollment confirmation will be sent to the Employee and the Line Manager.</li>
+                    <li>Line Manager will ensure that the employee participates in the training on the given time, date and venue.</li>
+                    <li>The Employee will participate in the training session.</li>
+                    <li>Human Resource Department will ensure the Training Assessments.</li>
+                    <li>Human Resource Department will furnish training assessment to the Line Manager to plan further employee's development.</li>
+                </ol>
+            </div>
+
+            <div class="signatures">
+                <div class="sign-block">
+                    <div class="sign-line"></div>
+                    <div class="sign-title">Chief Human Resource Officer</div>
+                    <div class="sign-sub">(CHRO)</div>
+                </div>
+                <div class="sign-block">
+                    <div class="sign-line"></div>
+                    <div class="sign-title">Chief Executive Officer</div>
+                    <div class="sign-sub">(CEO)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- VEHICLE BALLOTING POLICY MODAL -->
     <div class="modal-overlay" id="vehicleBallotingModal">
         <div class="a4-document">
@@ -1090,38 +1648,38 @@
                 
                 <h3>2.1. Eligibility</h3>
                 <ol type="a">
-                    <li>All confirmed, permanent employees of International Packaging Films Ltd. are eligible who don't have any company-maintained vehicle or provision of Vehicle Allowance as per their entitlement</li>
-                    <li>Any employee can purchase one vehicle at a time: once in every five years</li>
-                    <li>Employee, who already has company maintain vehicle or vehicle Allowance, neither can participate in the balloting nor can purchase any vehicle through balloting</li>
+                    <li>All confirmed, permanent employees of International Packaging Films Ltd. are eligible who don't have any company-maintained vehicle or provision of Vehicle Allowance as per their entitlement.</li>
+                    <li>Any employee can purchase one vehicle at a time: once in every five years.</li>
+                    <li>Employee, who already has company maintained vehicle or vehicle Allowance, neither can participate in the balloting nor can purchase any vehicle through balloting.</li>
                 </ol>
 
                 <h3>2.2. Entitlement</h3>
                 <ol type="a">
-                    <li>Post the results of the balloting, qualifying employees will be able to purchase the vehicles at 75 % of Market Value</li>
+                    <li>Post the results of the balloting, qualifying employees will be able to purchase the vehicles at 75% of Market Value.</li>
                     <li>Market Value will be assessed through Procurement Department.</li>
                     <li>Employee will pay transfer of ownership cost once the balloting decisions are finalized.</li>
                 </ol>
 
-                <h3>2.3. Terms & Conditions</h3>
+                <h3>2.3. Terms &amp; Conditions</h3>
                 <ol type="a">
-                    <li>The vehicle will be sold on "as is where is" basis</li>
-                    <li>Only one nomination per employee will be allowed for balloting. Employees sending more than one nomination will not be included in the ballot</li>
-                    <li>At all times, International Packaging Films Ltd. reserves the right to dispose of its assets in a way it deems appropriate</li>
-                    <li>The employee will not sell the vehicle for a period of 12 months from the date of handing over of the vehicle. The company will retain the file of the vehicle for the period of 12 month.</li>
+                    <li>The vehicle will be sold on "as is where is" basis.</li>
+                    <li>Only one nomination per employee will be allowed for balloting. Employees sending more than one nomination will not be included in the ballot.</li>
+                    <li>At all times, International Packaging Films Ltd. reserves the right to dispose of its assets in a way it deems appropriate.</li>
+                    <li>The employee will not sell the vehicle for a period of 12 months from the date of handing over of the vehicle. The company will retain the file of the vehicle for the period of 12 months.</li>
                 </ol>
 
                 <h3>2.4. Procedure</h3>
                 <ol type="a">
-                    <li>HR will inform employees regarding the launch of Vehicle Balloting process through Corporate Communication along with information of available company vehicles, market value, application process and respective cut-off date of application submission</li>
-                    <li>Employee will follow the stepwise process to apply and submit their application for respective vehicle as per defined process</li>
-                    <li>The last date of submission/cut-off will be mentioned in the email by HR for the applicants to comply</li>
-                    <li>The date of balloting will be decided by the management</li>
-                    <li>The names of the qualifying employees will be communicated through Corporate Communication and company notice boards after balloting</li>
+                    <li>HR will inform employees regarding the launch of Vehicle Balloting process through Corporate Communication along with information of available company vehicles, market value, application process and respective cut-off date of application submission.</li>
+                    <li>Employee will follow the stepwise process to apply and submit their application for respective vehicle as per defined process.</li>
+                    <li>The last date of submission/cut-off will be mentioned in the email by HR for the applicants to comply.</li>
+                    <li>The date of balloting will be decided by the management.</li>
+                    <li>The names of the qualifying employees will be communicated through Corporate Communication and company notice boards after balloting.</li>
                     <li>Delivery date of vehicles will be intimated to the successful applicants by Admin Department after all the formalities mentioned above have been completed.</li>
                     <li>Once the vehicle has been handed over to the successful employee, insurance will stand to cease.</li>
-                    <li>Employee shall not claim any maintenance after receiving the vehicle as the vehicle is sold on "as is where is" basis</li>
-                    <li>The employee will transfer the vehicle in his/her own name within 15 days from the date of the handing over of the vehicle</li>
-                    <li>The employee will submit the proof of the transfer of the vehicle to the company within 15 days from the date of the handing over of the vehicle</li>
+                    <li>Employee shall not claim any maintenance after receiving the vehicle as the vehicle is sold on "as is where is" basis.</li>
+                    <li>The employee will transfer the vehicle in his/her own name within 15 days from the date of the handing over of the vehicle.</li>
+                    <li>The employee will submit the proof of the transfer of the vehicle to the company within 15 days from the date of the handing over of the vehicle.</li>
                 </ol>
 
                 <h3>2.5. Payment</h3>
@@ -1184,159 +1742,39 @@
         });
 
         // --- MODAL POPUP LOGIC ---
-        // Disciplinary Modal
-        const discModal = document.getElementById('disciplinaryModal');
-        const openDiscBtn = document.getElementById('btn-disciplinary');
-        const closeDiscBtn = document.getElementById('closeModalBtn');
 
-        // Dress Code Modal
-        const dressModal = document.getElementById('dressCodeModal');
-        const openDressBtn = document.getElementById('btn-dress-code');
-        const closeDressBtn = document.getElementById('closeDressCodeBtn');
+        // Helper function to wire up modal open/close
+        function setupModal(openBtnId, modalId, closeBtnId) {
+            const modal = document.getElementById(modalId);
+            const openBtn = document.getElementById(openBtnId);
+            const closeBtn = document.getElementById(closeBtnId);
 
-        // Retirement Modal
-        const retirementModal = document.getElementById('retirementModal');
-        const openRetirementBtn = document.getElementById('btn-retirement');
-        const closeRetirementBtn = document.getElementById('closeRetirementBtn');
+            openBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                modal.style.display = 'flex';
+            });
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) modal.style.display = 'none';
+            });
+        }
 
-        // Vehicle Balloting Modal
-        const vehicleModal = document.getElementById('vehicleBallotingModal');
-        const openVehicleBtn = document.getElementById('btn-vehicle-balloting');
-        const closeVehicleBtn = document.getElementById('closeVehicleBallotingBtn');
-
-        // Email Modal
-        const emailModal = document.getElementById('emailModal');
-        const openEmailBtn = document.getElementById('btn-email');
-        const closeEmailBtn = document.getElementById('closeEmailBtn');
-
-        // Electronic Communication Modal
-        const electronicCommModal = document.getElementById('electronicCommModal');
-        const openElectronicCommBtn = document.getElementById('btn-electronic-comm');
-        const closeElectronicCommBtn = document.getElementById('closeElectronicCommBtn');
-
-        // Internship Modal
-        const internshipModal = document.getElementById('internshipModal');
-        const openInternshipBtn = document.getElementById('btn-internship');
-        const closeInternshipBtn = document.getElementById('closeInternshipBtn');
-
-        // Laptop Modal
-        const laptopModal = document.getElementById('laptopModal');
-        const openLaptopBtn = document.getElementById('btn-laptop');
-        const closeLaptopBtn = document.getElementById('closeLaptopBtn');
-
-        // Open Email Modal
-        openEmailBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            emailModal.style.display = 'flex';
-        });
-        closeEmailBtn.addEventListener('click', () => {
-            emailModal.style.display = 'none';
-        });
-
-        // Open Electronic Communication Modal
-        openElectronicCommBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            electronicCommModal.style.display = 'flex';
-        });
-        closeElectronicCommBtn.addEventListener('click', () => {
-            electronicCommModal.style.display = 'none';
-        });
-
-        // Open Internship Modal
-        openInternshipBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            internshipModal.style.display = 'flex';
-        });
-        closeInternshipBtn.addEventListener('click', () => {
-            internshipModal.style.display = 'none';
-        });
-
-        // Open Laptop Modal
-        openLaptopBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            laptopModal.style.display = 'flex';
-        });
-        closeLaptopBtn.addEventListener('click', () => {
-            laptopModal.style.display = 'none';
-        });
-
-        // Gratuity Modal
-        const gratuityModal = document.getElementById('gratuityModal');
-        const openGratuityBtn = document.getElementById('btn-gratuity');
-        const closeGratuityBtn = document.getElementById('closeGratuityBtn');
-
-        // Open Gratuity Modal
-        openGratuityBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            gratuityModal.style.display = 'flex';
-        });
-        closeGratuityBtn.addEventListener('click', () => {
-            gratuityModal.style.display = 'none';
-        });
-
-        // EOBI Modal
-        const eobiModal = document.getElementById('eobiModal');
-        const openEobiBtn = document.getElementById('btn-eobi');
-        const closeEobiBtn = document.getElementById('closeEobiBtn');
-
-        // Open EOBI Modal
-        openEobiBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            eobiModal.style.display = 'flex';
-        });
-        closeEobiBtn.addEventListener('click', () => {
-            eobiModal.style.display = 'none';
-        });
-
-        // Open Disciplinary Modal
-        openDiscBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            discModal.style.display = 'flex';
-        });
-        closeDiscBtn.addEventListener('click', () => {
-            discModal.style.display = 'none';
-        });
-
-        // Open Dress Code Modal
-        openDressBtn.addEventListener('click', (e) => {
-            e.preventDefault(); 
-            dressModal.style.display = 'flex';
-        });
-        closeDressBtn.addEventListener('click', () => {
-            dressModal.style.display = 'none';
-        });
-
-        // Open Retirement Modal
-        openRetirementBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            retirementModal.style.display = 'flex';
-        });
-        closeRetirementBtn.addEventListener('click', () => {
-            retirementModal.style.display = 'none';
-        });
-
-        // Open Vehicle Balloting Modal
-        openVehicleBtn.addEventListener('click', (e) => {
-            e.preventDefault(); 
-            vehicleModal.style.display = 'flex';
-        });
-        closeVehicleBtn.addEventListener('click', () => {
-            vehicleModal.style.display = 'none';
-        });
-
-        // Close Modals when clicking outside the A4 document
-        window.addEventListener('click', (e) => {
-            if (e.target === gratuityModal) gratuityModal.style.display = 'none';
-            if (e.target === eobiModal) eobiModal.style.display = 'none';
-            if (e.target === emailModal) emailModal.style.display = 'none';
-            if (e.target === electronicCommModal) electronicCommModal.style.display = 'none';
-            if (e.target === internshipModal) internshipModal.style.display = 'none';
-            if (e.target === laptopModal) laptopModal.style.display = 'none';
-            if (e.target === discModal) discModal.style.display = 'none';
-            if (e.target === dressModal) dressModal.style.display = 'none';
-            if (e.target === retirementModal) retirementModal.style.display = 'none';
-            if (e.target === vehicleModal) vehicleModal.style.display = 'none';
-        });
+        setupModal('btn-grading',         'gradingModal',           'closeGradingBtn');
+        setupModal('btn-substance',        'substanceModal',         'closeSubstanceBtn');
+        setupModal('btn-disciplinary',    'disciplinaryModal',      'closeModalBtn');
+        setupModal('btn-dress-code',      'dressCodeModal',         'closeDressCodeBtn');
+        setupModal('btn-retirement',      'retirementModal',        'closeRetirementBtn');
+        setupModal('btn-email',           'emailModal',             'closeEmailBtn');
+        setupModal('btn-electronic-comm', 'electronicCommModal',    'closeElectronicCommBtn');
+        setupModal('btn-internship',      'internshipModal',        'closeInternshipBtn');
+        setupModal('btn-laptop',          'laptopModal',            'closeLaptopBtn');
+        setupModal('btn-gratuity',        'gratuityModal',          'closeGratuityBtn');
+        setupModal('btn-eobi',            'eobiModal',              'closeEobiBtn');
+        setupModal('btn-training',        'trainingModal',          'closeTrainingBtn');
+        setupModal('btn-hajj',            'hajjModal',              'closeHajjBtn');
+        setupModal('btn-vehicle-balloting','vehicleBallotingModal', 'closeVehicleBallotingBtn');
     </script>
 </body>
 </html>

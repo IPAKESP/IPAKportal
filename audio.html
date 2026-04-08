@@ -54,8 +54,8 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             position: fixed; top: 0; width: 100%; z-index: 100;
         }
-        .logo-link img { width: 80px; height: auto; transition: 0.3s; }
-        .logo-link:hover img { transform: scale(1.1); }
+        .logo-link { text-decoration: none; }
+        .logo-link:hover h2 { transform: scale(1.05); transition: 0.3s; }
 
         .header-actions { display: flex; align-items: center; gap: 20px; }
         .user-icon { font-size: 1.8rem; color: var(--navy); transition: 0.3s; }
@@ -70,13 +70,13 @@
         .wrapper { padding-top: 120px; padding-bottom: 50px; }
         .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* --- HEADER & SEARCH --- */
+        /* --- HEADER --- */
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .page-header { text-align: center; margin-bottom: 40px; animation: float 6s ease-in-out infinite; }
         .page-header h1 { font-size: 2.5rem; color: var(--navy); }
         .page-header p { color: var(--lime); letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; font-weight: 700; }
 
-        /* --- AUDIO CARDS --- */
+        /* --- AUDIO SECTION --- */
         .category-title {
             color: var(--navy); font-size: 1rem; margin: 40px 0 20px;
             text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
@@ -84,48 +84,13 @@
         }
         .category-title::after { content: ''; flex-grow: 1; height: 1px; background: var(--light-grey); }
 
-        .audio-card {
-            background: var(--white); border-radius: 20px; padding: 25px;
-            display: flex; align-items: center; gap: 20px;
-            text-decoration: none; color: inherit;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(0,0,0,0.05);
-            position: relative; overflow: hidden;
-            max-width: 600px; /* Kept it neat for a single book */
+        .spotify-wrapper {
+            max-width: 600px;
+            transition: 0.4s;
         }
-
-        .audio-card::after {
-            content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(168, 197, 0, 0.1), transparent);
+        .spotify-wrapper:hover {
+            transform: translateY(-5px);
         }
-        .audio-card:hover::after { animation: sweep 1.5s; }
-        @keyframes sweep { 0% { left: -100%; } 100% { left: 200%; } }
-
-        .audio-card:hover { transform: translateY(-8px); border-color: var(--lime); box-shadow: 0 15px 30px rgba(32, 50, 101, 0.1); }
-
-        .play-icon-box {
-            width: 50px; height: 50px; background: var(--navy);
-            border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            flex-shrink: 0; color: white; transition: 0.3s;
-        }
-        .audio-card:hover .play-icon-box { background: var(--lime); color: var(--navy); transform: scale(1.1); }
-
-        .track-info { flex-grow: 1; }
-        .track-title { font-weight: 700; margin-bottom: 5px; color: var(--navy); font-size: 1.2rem; }
-        .track-meta { color: var(--med-grey); font-size: 0.9rem; display: flex; align-items: center; gap: 15px; }
-
-        /* EQUALIZER */
-        @keyframes eqJump { 0% { height: 2px; } 100% { height: 12px; background: var(--lime); } }
-        .mini-equalizer { display: flex; gap: 2px; align-items: flex-end; height: 12px; opacity: 0; transition: 0.3s; }
-        .eq-bar { width: 3px; background: var(--navy); height: 2px; }
-        
-        /* Activate equalizer when playing */
-        .audio-card.playing .mini-equalizer { opacity: 1; }
-        .audio-card.playing .eq-bar { animation: eqJump 0.6s infinite ease-in-out alternate; }
-        .audio-card.playing .eq-bar:nth-child(1) { animation-delay: 0.1s; }
-        .audio-card.playing .eq-bar:nth-child(2) { animation-delay: 0.3s; }
-
-        .featured-card { border: 2px solid var(--lime); background: rgba(168, 197, 0, 0.03); }
 
         footer { text-align: center; margin-top: 80px; padding: 40px 0; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px; }
 
@@ -162,20 +127,13 @@
                 <h1>Audio Library</h1>
             </div>
 
-            <div class="category-title"><i class="fas fa-star" style="color: var(--lime);"></i> Featured Audiobook</div>
+            <div class="category-title"><i class="fab fa-spotify" style="color: #1DB954;"></i> Featured Audiobook</div>
             
-            <div class="audio-card featured-card" id="featured-card">
-                <div class="play-icon-box" id="play-trigger"><i class="fas fa-play"></i></div>
-                <div class="track-info">
-                    <div class="track-title">Think and Grow Rich</div>
-                    <div class="track-meta">
-                        <span><i class="fas fa-user-tie"></i> Napoleon Hill</span>
-                        <span>| Full Audiobook</span>
-                        <div class="mini-equalizer"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>
-                    </div>
-                </div>
-                <a href="https://www.learnoutloud.com/Free-Audio-Video/Business/Wealth/Think-and-Grow-Rich/42902" target="_blank" style="color: var(--med-grey); text-decoration: none;" title="View Source"><i class="fas fa-external-link-alt"></i></a>
+            <!-- SPOTIFY EMBED START -->
+            <div class="spotify-wrapper">
+                <iframe data-testid="embed-iframe" style="border-radius:12px; box-shadow: 0 10px 20px rgba(32, 50, 101, 0.1);" src="https://open.spotify.com/embed/album/3IO9AF3OdJZvMjPf7wx2tW?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
+            <!-- SPOTIFY EMBED END -->
 
             <footer>&copy; 2026 IPAK PORTAL | SECURE ACCESS</footer>
         </div>
@@ -191,58 +149,10 @@
             outline.animate({ left: `${posX - 20}px`, top: `${posY - 20}px` }, { duration: 400, fill: "forwards" });
         });
 
-        document.querySelectorAll('a, button, input, .audio-card').forEach(el => {
+        // Hover effect for cursor
+        document.querySelectorAll('a, button, iframe, .spotify-wrapper').forEach(el => {
             el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-        });
-
-        // PURE AUDIO PLAYBACK LOGIC
-        let audioPlayer = null;
-        let isPlaying = false;
-
-        document.getElementById('play-trigger').addEventListener('click', function(e) {
-            e.preventDefault(); // Prevent accidental navigation
-            
-            const icon = this.querySelector('i');
-            const card = document.getElementById('featured-card');
-
-            // Initialize audio object only on first click
-            if (!audioPlayer) {
-                // IMPORTANT: Yahan aapko direct .mp3 file ka link dalna hoga. 
-                // Webpage ka link audio player mein nahi chalta.
-                const directMp3Link = "DIRECT_MP3_LINK_HERE.mp3"; 
-                
-                audioPlayer = new Audio(directMp3Link);
-                
-                // Jab audio khatam ho jaye toh button wapis play par aa jaye
-                audioPlayer.onended = function() {
-                    isPlaying = false;
-                    icon.className = 'fas fa-play';
-                    this.style.background = 'var(--navy)';
-                    icon.style.color = 'white';
-                    card.classList.remove('playing');
-                };
-            }
-
-            if (isPlaying) {
-                // Pause Logic
-                audioPlayer.pause();
-                icon.className = 'fas fa-play';
-                this.style.background = 'var(--navy)';
-                icon.style.color = 'white';
-                card.classList.remove('playing'); // Stops equalizer animation
-                isPlaying = false;
-            } else {
-                // Play Logic
-                audioPlayer.play().catch(error => {
-                    alert("Please insert a valid direct MP3 URL in the code for the audio to play.");
-                });
-                icon.className = 'fas fa-pause';
-                this.style.background = 'var(--lime)';
-                icon.style.color = 'var(--navy)';
-                card.classList.add('playing'); // Starts equalizer animation
-                isPlaying = true;
-            }
         });
     </script>
 </body>

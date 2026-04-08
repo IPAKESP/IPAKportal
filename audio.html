@@ -78,18 +78,63 @@
 
         /* --- AUDIO SECTION --- */
         .category-title {
-            color: var(--navy); font-size: 1rem; margin: 40px 0 20px;
+            color: var(--navy); font-size: 1rem; margin: 40px 0 30px 0;
             text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
             display: flex; align-items: center; gap: 15px;
         }
         .category-title::after { content: ''; flex-grow: 1; height: 1px; background: var(--light-grey); }
 
-        .spotify-wrapper {
-            max-width: 600px;
-            transition: 0.4s;
+        /* --- GRID SYSTEM FOR MULTIPLE BOOKS --- */
+        .audio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            width: 100%;
         }
+
+        /* --- THE DUAL COLOR JUGAAD --- */
+        .spotify-wrapper {
+            width: 100%;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1.5px solid var(--lime); 
+            border-radius: 12px;
+            padding: 8px; 
+            background: linear-gradient(135deg, var(--white) 0%, #f9f9f9 100%); 
+            position: relative;
+            box-shadow: 0 8px 15px rgba(32, 50, 101, 0.05);
+        }
+
+        /* Book Title Style */
+        .book-title {
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--navy);
+            margin: 5px 0 10px 0;
+            transition: 0.3s;
+            letter-spacing: 0.5px;
+        }
+        
+        .spotify-wrapper iframe {
+            filter: sepia(100%) hue-rotate(190deg) saturate(350%) brightness(55%) contrast(1.1); 
+            border-radius: 8px !important;
+            transition: 0.5s;
+            display: block; 
+            background: var(--navy); 
+        }
+        
+        .spotify-wrapper:hover iframe {
+            filter: sepia(0%) hue-rotate(0deg) saturate(100%) brightness(100%) contrast(1);
+        }
+
         .spotify-wrapper:hover {
+            border-color: var(--navy);
             transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(32, 50, 101, 0.15);
+        }
+
+        .spotify-wrapper:hover .book-title {
+            color: var(--lime); 
         }
 
         footer { text-align: center; margin-top: 80px; padding: 40px 0; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px; }
@@ -98,6 +143,7 @@
             body { cursor: auto; }
             .cursor-dot, .cursor-outline { display: none; }
             .top-bar { padding: 0 20px; }
+            .audio-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -127,20 +173,42 @@
                 <h1>Audio Library</h1>
             </div>
 
-            <div class="category-title"><i class="fab fa-spotify" style="color: #1DB954;"></i> Featured Audiobook</div>
+            <div class="category-title"><i class="fas fa-headphones-alt" style="color: var(--lime);"></i> Featured Audiobooks Collection</div>
             
-            <!-- SPOTIFY EMBED START -->
-            <div class="spotify-wrapper">
-                <iframe data-testid="embed-iframe" style="border-radius:12px; box-shadow: 0 10px 20px rgba(32, 50, 101, 0.1);" src="https://open.spotify.com/embed/album/3IO9AF3OdJZvMjPf7wx2tW?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
-            <!-- SPOTIFY EMBED END -->
+            <div class="audio-grid">
+                
+                <div class="spotify-wrapper">
+                    <div class="book-title">Think and Grow Rich</div>
+                    <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/1OhFcrYUfgEN4u6FffYFIe?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
 
-            <footer>&copy; 2026 IPAK PORTAL | SECURE ACCESS</footer>
+                <div class="spotify-wrapper">
+                    <div class="book-title">Rich Dad Poor Dad</div>
+                    <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/68QIMi3O4RCqLB5hX495sq?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <div class="book-title">Psychology 101</div>
+                    <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/5MIjkMBop7WqfrNZMO4Guj?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <div class="book-title">The Power of Subconscious Mind</div>
+                    <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/2bQDr4saIJ6pIqiqvYnVNA?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <div class="book-title">Stories of the Prophets</div>
+                    <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/7xkM1Xr79qGrCaPC2LP3bR?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+            </div>
+            <footer>© 2026 IPAK PORTAL | SECURE ACCESS</footer>
         </div>
     </div>
 
     <script>
-        // Smooth Cursor
+        // Smooth Cursor Logic
         const dot = document.querySelector('.cursor-dot');
         const outline = document.querySelector('.cursor-outline');
         window.addEventListener('mousemove', (e) => {
@@ -149,7 +217,7 @@
             outline.animate({ left: `${posX - 20}px`, top: `${posY - 20}px` }, { duration: 400, fill: "forwards" });
         });
 
-        // Hover effect for cursor
+        // Hover effect trigger for custom cursor
         document.querySelectorAll('a, button, iframe, .spotify-wrapper').forEach(el => {
             el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));

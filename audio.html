@@ -54,8 +54,9 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             position: fixed; top: 0; width: 100%; z-index: 100;
         }
-        .logo-link { text-decoration: none; }
-        .logo-link:hover h2 { transform: scale(1.05); transition: 0.3s; }
+        .logo-link { text-decoration: none; display: flex; align-items: center; }
+        .logo-link img { width: 80px; height: auto; transition: transform 0.3s ease; }
+        .logo-link:hover img { transform: scale(1.08); }
 
         .header-actions { display: flex; align-items: center; gap: 20px; }
         .user-icon { font-size: 1.8rem; color: var(--navy); transition: 0.3s; }
@@ -70,11 +71,22 @@
         .wrapper { padding-top: 120px; padding-bottom: 50px; }
         .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* --- HEADER --- */
+        /* --- HEADER & SEARCH --- */
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        .page-header { text-align: center; margin-bottom: 40px; animation: float 6s ease-in-out infinite; }
+        .page-header { text-align: center; margin-bottom: 30px; animation: float 6s ease-in-out infinite; }
         .page-header h1 { font-size: 2.5rem; color: var(--navy); }
         .page-header p { color: var(--lime); letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; font-weight: 700; }
+
+        /* Search Bar Styles */
+        .search-container { display: flex; justify-content: center; margin-bottom: 50px; }
+        .search-box {
+            width: 100%; max-width: 500px; padding: 15px 25px;
+            border-radius: 50px; border: 1.5px solid var(--light-grey);
+            outline: none; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            font-size: 1rem; color: var(--navy);
+        }
+        .search-box::placeholder { color: var(--med-grey); }
+        .search-box:focus { border-color: var(--lime); box-shadow: 0 0 15px rgba(168, 197, 0, 0.15); }
 
         /* --- AUDIO SECTION --- */
         .category-title {
@@ -92,7 +104,7 @@
             width: 100%;
         }
 
-        /* --- THE DUAL COLOR JUGAAD --- */
+        /* --- THE DUAL COLOR JUGAAD (SLEEK VERSION) --- */
         .spotify-wrapper {
             width: 100%;
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -154,7 +166,7 @@
 
     <nav class="top-bar">
         <a href="dashboard.html" class="logo-link">
-            <h2 style="color: var(--navy);">IPAK</h2>
+            <img src="logo.png" alt="IPAK">
         </a>
         <div class="header-actions">
             <a href="dashboard.html" style="text-decoration: none;">
@@ -173,9 +185,14 @@
                 <h1>Audio Library</h1>
             </div>
 
+            <!-- SEARCH BAR -->
+            <div class="search-container">
+                <input type="text" id="bookSearch" class="search-box" placeholder="Search for books...">
+            </div>
+
             <div class="category-title"><i class="fas fa-headphones-alt" style="color: var(--lime);"></i> Featured Audiobooks Collection</div>
             
-            <div class="audio-grid">
+            <div class="audio-grid" id="audioContainer">
                 
                 <div class="spotify-wrapper">
                     <div class="book-title">Think and Grow Rich</div>
@@ -218,9 +235,27 @@
         });
 
         // Hover effect trigger for custom cursor
-        document.querySelectorAll('a, button, iframe, .spotify-wrapper').forEach(el => {
+        document.querySelectorAll('a, button, input, iframe, .spotify-wrapper').forEach(el => {
             el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        // Live Search Filter Logic
+        document.getElementById('bookSearch').addEventListener('input', function() {
+            let filterValue = this.value.toLowerCase();
+            let bookCards = document.querySelectorAll('.spotify-wrapper');
+
+            bookCards.forEach(function(card) {
+                // Book ka title check karega
+                let titleText = card.querySelector('.book-title').innerText.toLowerCase();
+                
+                // Agar search wala lafz title mein hai toh dikhaye, warna hide kar de
+                if(titleText.includes(filterValue)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         });
     </script>
 </body>

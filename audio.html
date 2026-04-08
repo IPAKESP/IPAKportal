@@ -76,14 +76,6 @@
         .page-header h1 { font-size: 2.5rem; color: var(--navy); }
         .page-header p { color: var(--lime); letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; font-weight: 700; }
 
-        .search-container { display: flex; justify-content: center; margin-bottom: 50px; }
-        .search-box {
-            width: 100%; max-width: 500px; padding: 15px 25px;
-            border-radius: 50px; border: 1px solid var(--light-grey);
-            outline: none; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-        }
-        .search-box:focus { border-color: var(--lime); box-shadow: 0 0 15px rgba(168, 197, 0, 0.1); }
-
         /* --- AUDIO CARDS --- */
         .category-title {
             color: var(--navy); font-size: 1rem; margin: 40px 0 20px;
@@ -92,10 +84,6 @@
         }
         .category-title::after { content: ''; flex-grow: 1; height: 1px; background: var(--light-grey); }
 
-        .audio-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;
-        }
-
         .audio-card {
             background: var(--white); border-radius: 20px; padding: 25px;
             display: flex; align-items: center; gap: 20px;
@@ -103,6 +91,7 @@
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 1px solid rgba(0,0,0,0.05);
             position: relative; overflow: hidden;
+            max-width: 600px; /* Kept it neat for a single book */
         }
 
         .audio-card::after {
@@ -119,24 +108,24 @@
             border-radius: 50%; display: flex; justify-content: center; align-items: center;
             flex-shrink: 0; color: white; transition: 0.3s;
         }
-        .audio-card:hover .play-icon-box { background: var(--lime); color: var(--navy); transform: rotate(360deg); }
+        .audio-card:hover .play-icon-box { background: var(--lime); color: var(--navy); transform: scale(1.1); }
 
         .track-info { flex-grow: 1; }
-        .track-title { font-weight: 700; margin-bottom: 5px; color: var(--navy); font-size: 1rem; }
-        .track-meta { color: var(--med-grey); font-size: 0.8rem; display: flex; align-items: center; gap: 8px; }
+        .track-title { font-weight: 700; margin-bottom: 5px; color: var(--navy); font-size: 1.2rem; }
+        .track-meta { color: var(--med-grey); font-size: 0.9rem; display: flex; align-items: center; gap: 15px; }
 
         /* EQUALIZER */
         @keyframes eqJump { 0% { height: 2px; } 100% { height: 12px; background: var(--lime); } }
         .mini-equalizer { display: flex; gap: 2px; align-items: flex-end; height: 12px; opacity: 0; transition: 0.3s; }
         .eq-bar { width: 3px; background: var(--navy); height: 2px; }
-        .audio-card:hover .mini-equalizer { opacity: 1; }
-        .audio-card:hover .eq-bar { animation: eqJump 0.6s infinite ease-in-out alternate; }
-        .audio-card:hover .eq-bar:nth-child(1) { animation-delay: 0.1s; }
-        .audio-card:hover .eq-bar:nth-child(2) { animation-delay: 0.3s; }
+        
+        /* Activate equalizer when playing */
+        .audio-card.playing .mini-equalizer { opacity: 1; }
+        .audio-card.playing .eq-bar { animation: eqJump 0.6s infinite ease-in-out alternate; }
+        .audio-card.playing .eq-bar:nth-child(1) { animation-delay: 0.1s; }
+        .audio-card.playing .eq-bar:nth-child(2) { animation-delay: 0.3s; }
 
-        /* FEATURED */
-        .featured-card { border: 2px solid var(--lime); background: rgba(168, 197, 0, 0.03); flex-direction: column; align-items: flex-start; }
-        #embed-container { width: 100%; display: none; margin-top: 20px; border-top: 1px solid var(--light-grey); padding-top: 20px; }
+        .featured-card { border: 2px solid var(--lime); background: rgba(168, 197, 0, 0.03); }
 
         footer { text-align: center; margin-top: 80px; padding: 40px 0; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px; }
 
@@ -144,7 +133,6 @@
             body { cursor: auto; }
             .cursor-dot, .cursor-outline { display: none; }
             .top-bar { padding: 0 20px; }
-            .audio-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -155,13 +143,12 @@
 
     <nav class="top-bar">
         <a href="dashboard.html" class="logo-link">
-            <img src="logo.png" alt="IPAK">
+            <h2 style="color: var(--navy);">IPAK</h2>
         </a>
         <div class="header-actions">
             <a href="dashboard.html" style="text-decoration: none;">
                 <i class="fas fa-arrow-left user-icon" title="Back to Dashboard"></i>
             </a>
-
             <i class="fas fa-user-circle user-icon"></i>
             <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
         </div>
@@ -175,85 +162,19 @@
                 <h1>Audio Library</h1>
             </div>
 
-            <div class="search-container">
-                <input type="text" id="audioSearch" class="search-box" placeholder="Search for books, podcasts or series...">
-            </div>
-
             <div class="category-title"><i class="fas fa-star" style="color: var(--lime);"></i> Featured Audiobook</div>
+            
             <div class="audio-card featured-card" id="featured-card">
-                <div style="display: flex; align-items: center; gap: 20px; width: 100%;">
-                    <div class="play-icon-box" id="play-trigger"><i class="fas fa-play"></i></div>
-                    <div class="track-info">
-                        <div class="track-title" style="font-size: 1.2rem;">Rich Dad Poor Dad</div>
-                        <div class="track-meta">
-                            <span><i class="fas fa-user-tie"></i> Robert Kiyosaki</span>
-                            <span>| Full Audiobook</span>
-                        </div>
+                <div class="play-icon-box" id="play-trigger"><i class="fas fa-play"></i></div>
+                <div class="track-info">
+                    <div class="track-title">Think and Grow Rich</div>
+                    <div class="track-meta">
+                        <span><i class="fas fa-user-tie"></i> Napoleon Hill</span>
+                        <span>| Full Audiobook</span>
+                        <div class="mini-equalizer"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>
                     </div>
                 </div>
-                <div id="embed-container"></div>
-            </div>
-
-            <div class="category-title"><i class="fas fa-briefcase" style="color: var(--lime);"></i> Business & Leadership</div>
-            <div class="audio-grid">
-                <div class="audio-card">
-                    <div class="play-icon-box"><i class="fas fa-play"></i></div>
-                    <div class="track-info">
-                        <div class="track-title">The 7 Habits of Highly Effective People</div>
-                        <div class="track-meta">Stephen Covey | 12h 45m 
-                            <div class="mini-equalizer"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="audio-card">
-                    <div class="play-icon-box"><i class="fas fa-play"></i></div>
-                    <div class="track-info">
-                        <div class="track-title">Extreme Ownership</div>
-                        <div class="track-meta">Jocko Willink | 9h 30m
-                            <div class="mini-equalizer"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="audio-card">
-                    <div class="play-icon-box"><i class="fas fa-play"></i></div>
-                    <div class="track-info">
-                        <div class="track-title">Start With Why</div>
-                        <div class="track-meta">Simon Sinek | 7h 12m
-                            <div class="mini-equalizer"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="category-title"><i class="fas fa-bolt" style="color: var(--lime);"></i> Productivity & Growth</div>
-            <div class="audio-grid">
-                <div class="audio-card">
-                    <div class="play-icon-box"><i class="fas fa-play"></i></div>
-                    <div class="track-info">
-                        <div class="track-title">Atomic Habits</div>
-                        <div class="track-meta">James Clear | 5h 35m
-                            <div class="mini-equalizer"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="audio-card">
-                    <div class="play-icon-box"><i class="fas fa-play"></i></div>
-                    <div class="track-info">
-                        <div class="track-title">Deep Work</div>
-                        <div class="track-meta">Cal Newport | 7h 44m
-                            <div class="mini-equalizer"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="audio-card">
-                    <div class="play-icon-box"><i class="fas fa-play"></i></div>
-                    <div class="track-info">
-                        <div class="track-title">The 5 AM Club</div>
-                        <div class="track-meta">Robin Sharma | 11h 00m
-                            <div class="mini-equalizer"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>
-                        </div>
-                    </div>
-                </div>
+                <a href="https://www.learnoutloud.com/Free-Audio-Video/Business/Wealth/Think-and-Grow-Rich/42902" target="_blank" style="color: var(--med-grey); text-decoration: none;" title="View Source"><i class="fas fa-external-link-alt"></i></a>
             </div>
 
             <footer>&copy; 2026 IPAK PORTAL | SECURE ACCESS</footer>
@@ -275,32 +196,52 @@
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
         });
 
-        // Search Filter
-        document.getElementById('audioSearch').addEventListener('keyup', function() {
-            let filter = this.value.toLowerCase();
-            document.querySelectorAll('.audio-card').forEach(card => {
-                let text = card.innerText.toLowerCase();
-                card.style.display = text.includes(filter) ? "flex" : "none";
-            });
-        });
+        // PURE AUDIO PLAYBACK LOGIC
+        let audioPlayer = null;
+        let isPlaying = false;
 
-        // Player Toggle for Featured
-        document.getElementById('play-trigger').addEventListener('click', function() {
-            const container = document.getElementById('embed-container');
+        document.getElementById('play-trigger').addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent accidental navigation
+            
             const icon = this.querySelector('i');
-            if(container.style.display === 'none' || container.innerHTML === '') {
-                // Replace with your actual audio/video link
-                container.innerHTML = `<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/745959094&color=%23A8C500&auto_play=true"></iframe>`;
-                container.style.display = 'block';
+            const card = document.getElementById('featured-card');
+
+            // Initialize audio object only on first click
+            if (!audioPlayer) {
+                // IMPORTANT: Yahan aapko direct .mp3 file ka link dalna hoga. 
+                // Webpage ka link audio player mein nahi chalta.
+                const directMp3Link = "DIRECT_MP3_LINK_HERE.mp3"; 
+                
+                audioPlayer = new Audio(directMp3Link);
+                
+                // Jab audio khatam ho jaye toh button wapis play par aa jaye
+                audioPlayer.onended = function() {
+                    isPlaying = false;
+                    icon.className = 'fas fa-play';
+                    this.style.background = 'var(--navy)';
+                    icon.style.color = 'white';
+                    card.classList.remove('playing');
+                };
+            }
+
+            if (isPlaying) {
+                // Pause Logic
+                audioPlayer.pause();
+                icon.className = 'fas fa-play';
+                this.style.background = 'var(--navy)';
+                icon.style.color = 'white';
+                card.classList.remove('playing'); // Stops equalizer animation
+                isPlaying = false;
+            } else {
+                // Play Logic
+                audioPlayer.play().catch(error => {
+                    alert("Please insert a valid direct MP3 URL in the code for the audio to play.");
+                });
                 icon.className = 'fas fa-pause';
                 this.style.background = 'var(--lime)';
                 icon.style.color = 'var(--navy)';
-            } else {
-                container.style.display = 'none';
-                container.innerHTML = '';
-                icon.className = 'fas fa-play';
-                this.style.background = 'var(--navy)';
-                icon.style.color = '#fff';
+                card.classList.add('playing'); // Starts equalizer animation
+                isPlaying = true;
             }
         });
     </script>

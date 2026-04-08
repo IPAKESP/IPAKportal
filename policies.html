@@ -134,6 +134,24 @@
             backdrop-filter: blur(5px);
         }
 
+        /* 🔴 NEW: MOBILE WATERMARK PROTECTION 🔴 */
+        /* Yeh watermark screenshot lene par usme print ho jayega */
+        .modal-overlay::after {
+            content: 'CONFIDENTIAL - IPAK USER ID: 98765';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: clamp(2rem, 5vw, 5rem);
+            color: rgba(0, 0, 0, 0.07); /* Semi-transparent */
+            pointer-events: none; /* Clicking se block nahi karega */
+            z-index: 10000;
+            user-select: none;
+            white-space: nowrap;
+            font-weight: 900;
+            letter-spacing: 5px;
+        }
+
         .a4-document {
             background: var(--white);
             width: 100%;
@@ -146,6 +164,7 @@
             padding: 50px 60px;
             color: #333;
             line-height: 1.6;
+            z-index: 10001;
         }
 
         .a4-document::-webkit-scrollbar { width: 8px; }
@@ -162,6 +181,7 @@
             font-size: 1.8rem;
             color: var(--navy);
             transition: 0.3s;
+            z-index: 10002;
         }
         .close-modal:hover { color: var(--lime); transform: scale(1.1); }
 
@@ -247,7 +267,6 @@
         </div>
     </div>
 
-    <!-- IPAK GRADING STRUCTURE MODAL -->
     <div class="modal-overlay" id="gradingModal">
         <div class="a4-document">
             <button class="close-modal" id="closeGradingBtn"><i class="fas fa-times"></i></button>
@@ -430,7 +449,6 @@
         </div>
     </div>
 
-    <!-- SUBSTANCE ABUSE TESTING POLICY MODAL -->
     <div class="modal-overlay" id="substanceModal">
         <div class="a4-document">
             <button class="close-modal" id="closeSubstanceBtn"><i class="fas fa-times"></i></button>
@@ -470,7 +488,6 @@
         </div>
     </div>
 
-    <!-- DISCIPLINARY POLICY MODAL -->
     <div class="modal-overlay" id="disciplinaryModal">
         <div class="a4-document">
             <button class="close-modal" id="closeModalBtn"><i class="fas fa-times"></i></button>
@@ -527,7 +544,6 @@
         </div>
     </div>
 
-    <!-- DRESS CODE MODAL -->
     <div class="modal-overlay" id="dressCodeModal">
         <div class="a4-document">
             <button class="close-modal" id="closeDressCodeBtn"><i class="fas fa-times"></i></button>
@@ -573,7 +589,6 @@
         </div>
     </div>
 
-    <!-- RETIREMENT POLICY MODAL -->
     <div class="modal-overlay" id="retirementModal">
         <div class="a4-document">
             <button class="close-modal" id="closeRetirementBtn"><i class="fas fa-times"></i></button>
@@ -605,7 +620,6 @@
         </div>
     </div>
 
-    <!-- EMAIL USAGE POLICY MODAL -->
     <div class="modal-overlay" id="emailModal">
         <div class="a4-document">
             <button class="close-modal" id="closeEmailBtn"><i class="fas fa-times"></i></button>
@@ -655,7 +669,6 @@
         </div>
     </div>
 
-    <!-- ELECTRONIC COMMUNICATION USAGE POLICY MODAL -->
     <div class="modal-overlay" id="electronicCommModal">
         <div class="a4-document">
             <button class="close-modal" id="closeElectronicCommBtn"><i class="fas fa-times"></i></button>
@@ -698,7 +711,6 @@
         </div>
     </div>
 
-    <!-- INTERNSHIP POLICY MODAL -->
     <div class="modal-overlay" id="internshipModal">
         <div class="a4-document">
             <button class="close-modal" id="closeInternshipBtn"><i class="fas fa-times"></i></button>
@@ -745,7 +757,6 @@
         </div>
     </div>
 
-    <!-- LAPTOP SECURITY POLICY MODAL -->
     <div class="modal-overlay" id="laptopModal">
         <div class="a4-document">
             <button class="close-modal" id="closeLaptopBtn"><i class="fas fa-times"></i></button>
@@ -782,7 +793,6 @@
         </div>
     </div>
 
-    <!-- GRATUITY POLICY MODAL -->
     <div class="modal-overlay" id="gratuityModal">
         <div class="a4-document">
             <button class="close-modal" id="closeGratuityBtn"><i class="fas fa-times"></i></button>
@@ -825,7 +835,6 @@
         </div>
     </div>
 
-    <!-- EOBI POLICY MODAL -->
     <div class="modal-overlay" id="eobiModal">
         <div class="a4-document">
             <button class="close-modal" id="closeEobiBtn"><i class="fas fa-times"></i></button>
@@ -861,7 +870,6 @@
         </div>
     </div>
 
-    <!-- HAJJ BALLOTING POLICY MODAL -->
     <div class="modal-overlay" id="hajjModal">
         <div class="a4-document">
             <button class="close-modal" id="closeHajjBtn"><i class="fas fa-times"></i></button>
@@ -904,7 +912,6 @@
         </div>
     </div>
 
-    <!-- TRAINING & DEVELOPMENT POLICY MODAL -->
     <div class="modal-overlay" id="trainingModal">
         <div class="a4-document">
             <button class="close-modal" id="closeTrainingBtn"><i class="fas fa-times"></i></button>
@@ -941,7 +948,6 @@
         </div>
     </div>
 
-    <!-- VEHICLE BALLOTING POLICY MODAL -->
     <div class="modal-overlay" id="vehicleBallotingModal">
         <div class="a4-document">
             <button class="close-modal" id="closeVehicleBallotingBtn"><i class="fas fa-times"></i></button>
@@ -986,11 +992,6 @@
         </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════
-         SCREENSHOT & SCREEN RECORDING PROTECTION MODULE
-         Place this BEFORE the closing </body> tag.
-         All 8 protection layers are embedded below.
-    ═══════════════════════════════════════════════════════ -->
     <script>
     (function IPAKScreenshotProtection() {
         'use strict';

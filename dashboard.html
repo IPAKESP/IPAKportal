@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>IPAK Portal - Dashboard</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -29,8 +29,8 @@
         body {
             background-color: var(--light-bg);
             color: var(--navy);
-            height: 100vh; /* Fixed height for single screen view */
-            overflow: hidden; /* Scrolling hide kardi */
+            height: 100vh;
+            overflow: hidden; 
         }
 
         /* --- CUSTOM CURSOR --- */
@@ -55,7 +55,7 @@
         .top-bar {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            height: 70px; /* Thoda chota kar diya */
+            height: 70px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -64,12 +64,15 @@
             position: fixed; top: 0; width: 100%; z-index: 100;
         }
 
-        .logo-link img { width: 70px; height: auto; transition: transform 0.2s; }
-        .logo-link:hover img { transform: scale(1.05); }
+        /* Professional subtle hover for logo (opacity instead of scale) */
+        .logo-link img { width: 70px; height: auto; transition: opacity 0.3s; }
+        .logo-link:hover img { opacity: 0.8; }
 
         .header-actions { display: flex; align-items: center; gap: 20px; }
+        
+        /* Subtle color change only */
         .user-icon { font-size: 1.6rem; color: var(--navy); transition: 0.3s; }
-        .user-icon:hover { color: var(--lime); transform: scale(1.1); }
+        .user-icon:hover { color: var(--lime); }
 
         .logout-btn {
             padding: 8px 18px; background: transparent;
@@ -79,10 +82,10 @@
         }
         .logout-btn:hover { background: var(--navy); color: var(--white); }
 
-        /* --- COMPACT BENTO BOX DASHBOARD --- */
+        /* --- DASHBOARD WRAPPER --- */
         .wrapper {
-            padding-top: 85px; /* Compact padding */
-            padding-bottom: 15px; /* Thoda tight kar diya neechay se */
+            padding-top: 85px; 
+            padding-bottom: 15px; 
             display: flex; flex-direction: column;
             height: 100vh;
         }
@@ -94,46 +97,47 @@
             height: 100%;
         }
 
-        /* BENTO GRID - DYNAMIC SIZES */
+        /* BENTO GRID */
         .bento-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            /* Yahan fixed ki jagah dynamic fractional units use kiye hain screen pe fit hone ke liye */
             grid-template-rows: repeat(5, minmax(0, 1fr)); 
             gap: 15px; 
             grid-auto-flow: dense;
             animation: slideUp 0.8s ease-out;
-            flex-grow: 1; /* Space dynamically use karne ke liye */
-            min-height: 0; /* Taki grid overflowing ki wajah se expand na ho */
+            flex-grow: 1; 
+            min-height: 0; 
         }
 
         .span-2-col { grid-column: span 2; }
         .span-2-row { grid-row: span 2; }
         .span-2x2 { grid-column: span 2; grid-row: span 2; }
 
-        /* CARD STYLING */
+        /* CARD STYLING - PROFESSIONAL */
         .card {
             background: var(--white);
-            border: 1px solid rgba(0,0,0,0.03);
-            border-radius: 18px; 
-            padding: 15px 20px; /* Padding adjust ki hai choti screens ke liye */
+            border: 1px solid rgba(0,0,0,0.04);
+            border-radius: 16px; 
+            padding: 15px 20px; 
             text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative; overflow: hidden;
             display: flex; flex-direction: column; justify-content: space-between;
             box-shadow: 0 4px 10px rgba(0,0,0,0.02);
             min-height: 0;
         }
 
+        /* Removed scaling, added refined shadow and subtle lift */
         .card:hover {
-            transform: translateY(-3px) scale(1.02);
-            border-color: var(--lime);
-            box-shadow: 0 10px 25px rgba(32, 50, 101, 0.08);
+            transform: translateY(-4px);
+            border-color: rgba(168, 197, 0, 0.5);
+            box-shadow: 0 12px 24px rgba(32, 50, 101, 0.08);
             z-index: 10;
         }
 
-        .card-icon { font-size: 1.5rem; color: var(--navy); margin-bottom: 5px; transition: 0.4s; }
-        .card:hover .card-icon { color: var(--lime); transform: scale(1.1) translateY(-3px); }
+        /* Icon styling - Smooth transition without resizing */
+        .card-icon { font-size: 1.5rem; color: var(--navy); margin-bottom: 5px; transition: color 0.3s ease; }
+        .card:hover .card-icon { color: var(--lime); }
 
         .card-title { font-weight: 700; color: var(--navy); font-size: 0.95rem; margin-bottom: 2px; letter-spacing: -0.2px; }
         .card-desc { color: var(--med-grey); font-size: 0.75rem; font-weight: 500; line-height: 1.2; }
@@ -145,12 +149,12 @@
         }
         .card:hover .arrow-icon { opacity: 1; transform: translateX(0); }
 
-        .card.accent-red:hover { border-color: var(--emergency-red); background-color: rgba(255, 71, 87, 0.03); }
-        .card.accent-red .card-icon { color: var(--emergency-red); }
+        .card.accent-red:hover { border-color: rgba(255, 71, 87, 0.3); background-color: rgba(255, 71, 87, 0.02); }
+        .card.accent-red:hover .card-icon { color: var(--emergency-red); }
 
         /* BANNER INSIDE GRID */
         .banner-card { padding: 0; border: none; background: #000; }
-        .banner-card:hover { transform: scale(1.01); border-color: transparent; }
+        .banner-card:hover { transform: translateY(-4px); border-color: transparent; } /* Removed scale */
 
         .banner-slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -180,27 +184,27 @@
             background-color: var(--lime); color: var(--navy); border-radius: 50%;
             display: flex; align-items: center; justify-content: center; font-size: 20px;
             box-shadow: 0 10px 25px rgba(168, 197, 0, 0.4); border: none; z-index: 2000;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .contact-trigger:hover { transform: scale(1.1) rotate(15deg); }
-        .contact-trigger.active i { transform: rotate(45deg); }
+        .contact-trigger:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(168, 197, 0, 0.5); } /* Replaced scaling with lift */
+        .contact-trigger.active i { transform: rotate(45deg); transition: 0.3s; }
 
         .contact-popup {
             position: fixed; bottom: 85px; right: 25px; width: 280px;
             background: var(--white); border-radius: 18px; box-shadow: 0 10px 30px rgba(32, 50, 101, 0.15);
-            padding: 20px; z-index: 1999; opacity: 0; transform: translateY(20px) scale(0.9);
-            pointer-events: none; transform-origin: bottom right; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 20px; z-index: 1999; opacity: 0; transform: translateY(20px);
+            pointer-events: none; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .contact-popup.show { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        .contact-popup.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
 
         .contact-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
         .contact-header h3 { font-size: 1rem; font-weight: 700; color: var(--navy); }
-        .close-popup { font-size: 1.1rem; color: var(--med-grey); transition: 0.2s; }
-        .close-popup:hover { color: var(--emergency-red); transform: scale(1.1); }
+        .close-popup { font-size: 1.1rem; color: var(--med-grey); transition: color 0.2s; }
+        .close-popup:hover { color: var(--emergency-red); }
 
         .contact-list { display: flex; flex-direction: column; gap: 10px; }
-        .contact-item { display: flex; align-items: center; text-decoration: none; padding: 10px; border-radius: 10px; background: #F8F9FB; transition: 0.3s; }
-        .contact-item:hover { transform: translateX(5px); background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .contact-item { display: flex; align-items: center; text-decoration: none; padding: 10px; border-radius: 10px; background: #F8F9FB; transition: background 0.3s; }
+        .contact-item:hover { background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); } /* Removed side-translation */
         
         .contact-item-icon { width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1rem; margin-right: 12px; }
         .whatsapp-bg { background: var(--whatsapp-green); } .phone-bg { background: var(--navy); } .linkedin-bg { background: var(--linkedin-blue); }
@@ -210,14 +214,14 @@
 
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        /* RESPONSIVE (Fallback for small screens) */
+        /* RESPONSIVE */
         @media (max-width: 1024px) {
             body { overflow-y: auto; height: auto; }
             .wrapper { height: auto; padding-bottom: 50px; }
             .bento-grid { 
                 grid-template-columns: repeat(3, 1fr); 
-                grid-template-rows: none; /* Removed dynamic sizing for smaller devices */
-                grid-auto-rows: 140px; /* Fallback height when scrolled */
+                grid-template-rows: none; 
+                grid-auto-rows: 140px; 
             }
             .span-2x2 { grid-column: span 3; }
         }

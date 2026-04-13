@@ -82,7 +82,7 @@
         /* --- COMPACT BENTO BOX DASHBOARD --- */
         .wrapper {
             padding-top: 85px; /* Compact padding */
-            padding-bottom: 20px;
+            padding-bottom: 15px; /* Thoda tight kar diya neechay se */
             display: flex; flex-direction: column;
             height: 100vh;
         }
@@ -94,21 +94,17 @@
             height: 100%;
         }
 
-        .page-title {
-            font-size: 1.4rem;
-            font-weight: 700; color: var(--navy);
-            margin-bottom: 15px; letter-spacing: -0.5px;
-        }
-
-        /* BENTO GRID - COMPACT SIZES */
+        /* BENTO GRID - DYNAMIC SIZES */
         .bento-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            grid-auto-rows: 125px; /* Pehle 200px tha, ab view chota kardia */
-            gap: 15px; /* Gaps chote kardiye */
+            /* Yahan fixed ki jagah dynamic fractional units use kiye hain screen pe fit hone ke liye */
+            grid-template-rows: repeat(5, minmax(0, 1fr)); 
+            gap: 15px; 
             grid-auto-flow: dense;
             animation: slideUp 0.8s ease-out;
             flex-grow: 1; /* Space dynamically use karne ke liye */
+            min-height: 0; /* Taki grid overflowing ki wajah se expand na ho */
         }
 
         .span-2-col { grid-column: span 2; }
@@ -119,13 +115,14 @@
         .card {
             background: var(--white);
             border: 1px solid rgba(0,0,0,0.03);
-            border-radius: 18px; /* Slightly smaller radius */
-            padding: 20px; /* Padding kam kardi */
+            border-radius: 18px; 
+            padding: 15px 20px; /* Padding adjust ki hai choti screens ke liye */
             text-decoration: none;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative; overflow: hidden;
             display: flex; flex-direction: column; justify-content: space-between;
             box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            min-height: 0;
         }
 
         .card:hover {
@@ -135,14 +132,14 @@
             z-index: 10;
         }
 
-        .card-icon { font-size: 1.6rem; color: var(--navy); margin-bottom: 8px; transition: 0.4s; }
+        .card-icon { font-size: 1.5rem; color: var(--navy); margin-bottom: 5px; transition: 0.4s; }
         .card:hover .card-icon { color: var(--lime); transform: scale(1.1) translateY(-3px); }
 
-        .card-title { font-weight: 700; color: var(--navy); font-size: 1rem; margin-bottom: 3px; letter-spacing: -0.2px; }
+        .card-title { font-weight: 700; color: var(--navy); font-size: 0.95rem; margin-bottom: 2px; letter-spacing: -0.2px; }
         .card-desc { color: var(--med-grey); font-size: 0.75rem; font-weight: 500; line-height: 1.2; }
 
         .arrow-icon {
-            position: absolute; bottom: 20px; right: 20px;
+            position: absolute; bottom: 15px; right: 15px;
             color: var(--lime); opacity: 0;
             transform: translateX(-10px); transition: 0.4s; font-size: 1rem;
         }
@@ -165,12 +162,12 @@
         .banner-overlay {
             position: absolute; bottom: 0; left: 0; width: 100%;
             background: linear-gradient(to top, rgba(32, 50, 101, 0.95), transparent);
-            padding: 25px 20px 15px; /* Compact padding */
+            padding: 20px 20px 15px; 
             color: white; z-index: 2; transform: translateY(20px); opacity: 0; transition: all 0.8s ease-out;
         }
         .banner-slide.active .banner-overlay { transform: translateY(0); opacity: 1; transition-delay: 0.3s; }
-        .banner-overlay h2 { font-size: 1.4rem; font-weight: 700; color: var(--lime); margin-bottom: 3px; letter-spacing: -0.5px; }
-        .banner-overlay p { font-size: 0.85rem; color: #eee; font-weight: 400; opacity: 0.9; }
+        .banner-overlay h2 { font-size: 1.3rem; font-weight: 700; color: var(--lime); margin-bottom: 2px; letter-spacing: -0.5px; }
+        .banner-overlay p { font-size: 0.8rem; color: #eee; font-weight: 400; opacity: 0.9; }
 
         footer {
             text-align: center; margin-top: auto; padding-top: 15px;
@@ -217,7 +214,11 @@
         @media (max-width: 1024px) {
             body { overflow-y: auto; height: auto; }
             .wrapper { height: auto; padding-bottom: 50px; }
-            .bento-grid { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 140px; }
+            .bento-grid { 
+                grid-template-columns: repeat(3, 1fr); 
+                grid-template-rows: none; /* Removed dynamic sizing for smaller devices */
+                grid-auto-rows: 140px; /* Fallback height when scrolled */
+            }
             .span-2x2 { grid-column: span 3; }
         }
         @media (max-width: 768px) {
@@ -344,7 +345,7 @@
 
             </div>
             
-            <footer>&copy; 2026 IPAK PORTAL | DESIGNED BY TEAM HR</footer>
+            <footer>&copy; 2026 IPAK PORTAL | DESIGNED FOR EXCELLENCE</footer>
         </div>
     </div>
 

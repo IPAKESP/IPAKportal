@@ -6,18 +6,19 @@
     <title>IPAK Portal - Dashboard</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --navy: #203265;
-            --lime: #A8C500;
+            --navy: #1B2640; /* Slightly darker, more muted navy for professional look */
+            --lime: #9CB500; /* Slightly toned down lime */
             --white: #FFFFFF;
-            --med-grey: #9C9C9C;
-            --light-bg: #F5F7FA;
-            --emergency-red: #ff4757;
+            --med-grey: #6B7280; /* Sleeker tailwind gray */
+            --light-bg: #F9FAFB; /* Softer background */
+            --emergency-red: #EF4444;
             --whatsapp-green: #25D366;
             --linkedin-blue: #0077b5;
+            --border-light: #E5E7EB;
         }
 
         * {
@@ -31,68 +32,67 @@
             color: var(--navy);
             height: 100vh;
             overflow: hidden; 
+            -webkit-font-smoothing: antialiased; /* Makes fonts look sharper */
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* --- CUSTOM CURSOR --- */
         .cursor-dot {
             width: 8px; height: 8px; background-color: var(--lime);
             position: fixed; z-index: 9999; pointer-events: none;
-            border-radius: 50%; box-shadow: 0 0 10px var(--lime);
+            border-radius: 50%; box-shadow: 0 0 10px rgba(156, 181, 0, 0.4);
         }
 
         .cursor-outline {
-            width: 40px; height: 40px; border: 2px solid var(--navy);
+            width: 32px; height: 32px; border: 1.5px solid var(--navy);
             position: fixed; z-index: 9999; pointer-events: none;
             border-radius: 50%; transition: width 0.2s, height 0.2s, border-color 0.2s;
         }
 
         body.hovering .cursor-outline {
-            width: 60px; height: 60px; border-color: var(--lime);
-            background-color: rgba(168, 197, 0, 0.1);
+            width: 45px; height: 45px; border-color: var(--lime);
+            background-color: rgba(156, 181, 0, 0.05);
         }
 
         /* --- HEADER --- */
         .top-bar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            height: 70px;
+            background: rgba(255, 255, 255, 0.98);
+            border-bottom: 1px solid var(--border-light);
+            height: 64px; /* Standard professional navbar height */
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 40px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            padding: 0 32px;
             position: fixed; top: 0; width: 100%; z-index: 100;
         }
 
-        /* Professional subtle hover for logo (opacity instead of scale) */
-        .logo-link img { width: 70px; height: auto; transition: opacity 0.3s; }
+        .logo-link img { width: 65px; height: auto; transition: opacity 0.2s; }
         .logo-link:hover img { opacity: 0.8; }
 
-        .header-actions { display: flex; align-items: center; gap: 20px; }
+        .header-actions { display: flex; align-items: center; gap: 16px; }
         
-        /* Subtle color change only */
-        .user-icon { font-size: 1.6rem; color: var(--navy); transition: 0.3s; }
+        .user-icon { font-size: 22px; color: var(--navy); transition: color 0.2s; }
         .user-icon:hover { color: var(--lime); }
 
         .logout-btn {
-            padding: 8px 18px; background: transparent;
-            border: 1.5px solid var(--navy); color: var(--navy);
-            border-radius: 50px; font-weight: 600; font-size: 0.9rem;
-            transition: 0.3s;
+            padding: 6px 16px; background: transparent;
+            border: 1px solid var(--border-light); color: var(--navy);
+            border-radius: 6px; font-weight: 500; font-size: 13px;
+            transition: all 0.2s;
         }
-        .logout-btn:hover { background: var(--navy); color: var(--white); }
+        .logout-btn:hover { border-color: var(--navy); background: #f3f4f6; }
 
         /* --- DASHBOARD WRAPPER --- */
         .wrapper {
-            padding-top: 85px; 
-            padding-bottom: 15px; 
+            padding-top: 80px; 
+            padding-bottom: 16px; 
             display: flex; flex-direction: column;
             height: 100vh;
         }
 
         .container {
             width: 100%; max-width: 1100px;
-            margin: 0 auto; padding: 0 20px;
+            margin: 0 auto; padding: 0 24px;
             display: flex; flex-direction: column;
             height: 100%;
         }
@@ -102,9 +102,9 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             grid-template-rows: repeat(5, minmax(0, 1fr)); 
-            gap: 15px; 
+            gap: 12px; /* Tighter gap for a composed look */
             grid-auto-flow: dense;
-            animation: slideUp 0.8s ease-out;
+            animation: slideUp 0.6s ease-out;
             flex-grow: 1; 
             min-height: 0; 
         }
@@ -113,106 +113,104 @@
         .span-2-row { grid-row: span 2; }
         .span-2x2 { grid-column: span 2; grid-row: span 2; }
 
-        /* CARD STYLING - PROFESSIONAL */
+        /* CARD STYLING - STRICT PROFESSIONAL */
         .card {
             background: var(--white);
-            border: 1px solid rgba(0,0,0,0.04);
-            border-radius: 16px; 
-            padding: 15px 20px; 
+            border: 1px solid var(--border-light);
+            border-radius: 12px; /* Less rounded, more corporate */
+            padding: 16px; 
             text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.2s ease;
             position: relative; overflow: hidden;
             display: flex; flex-direction: column; justify-content: space-between;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02); /* Very subtle base shadow */
             min-height: 0;
         }
 
-        /* Removed scaling, added refined shadow and subtle lift */
         .card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(168, 197, 0, 0.5);
-            box-shadow: 0 12px 24px rgba(32, 50, 101, 0.08);
+            border-color: rgba(156, 181, 0, 0.4);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Soft professional elevation */
             z-index: 10;
         }
 
-        /* Icon styling - Smooth transition without resizing */
-        .card-icon { font-size: 1.5rem; color: var(--navy); margin-bottom: 5px; transition: color 0.3s ease; }
+        /* Icon & Text styling - Fixed Pixels for zoom stability */
+        .card-icon { font-size: 20px; color: var(--navy); margin-bottom: 8px; transition: color 0.2s ease; }
         .card:hover .card-icon { color: var(--lime); }
 
-        .card-title { font-weight: 700; color: var(--navy); font-size: 0.95rem; margin-bottom: 2px; letter-spacing: -0.2px; }
-        .card-desc { color: var(--med-grey); font-size: 0.75rem; font-weight: 500; line-height: 1.2; }
+        .card-title { font-weight: 600; color: var(--navy); font-size: 14px; margin-bottom: 2px; }
+        .card-desc { color: var(--med-grey); font-size: 12px; font-weight: 400; line-height: 1.3; }
 
         .arrow-icon {
-            position: absolute; bottom: 15px; right: 15px;
+            position: absolute; bottom: 16px; right: 16px;
             color: var(--lime); opacity: 0;
-            transform: translateX(-10px); transition: 0.4s; font-size: 1rem;
+            transform: translateX(-5px); transition: 0.3s ease; font-size: 14px;
         }
         .card:hover .arrow-icon { opacity: 1; transform: translateX(0); }
 
-        .card.accent-red:hover { border-color: rgba(255, 71, 87, 0.3); background-color: rgba(255, 71, 87, 0.02); }
+        .card.accent-red:hover { border-color: rgba(239, 68, 68, 0.3); background-color: rgba(239, 68, 68, 0.01); }
         .card.accent-red:hover .card-icon { color: var(--emergency-red); }
 
         /* BANNER INSIDE GRID */
-        .banner-card { padding: 0; border: none; background: #000; }
-        .banner-card:hover { transform: translateY(-4px); border-color: transparent; } /* Removed scale */
+        .banner-card { padding: 0; border: none; background: #000; overflow: hidden; }
+        .banner-card:hover { border-color: transparent; box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
 
         .banner-slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; transform: scale(1.05); transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1); z-index: 0;
+            opacity: 0; transition: opacity 1s ease-in-out; z-index: 0;
         }
-        .banner-slide.active { opacity: 1; transform: scale(1); z-index: 1; }
+        .banner-slide.active { opacity: 1; z-index: 1; }
         .banner-slide img { width: 100%; height: 100%; object-fit: cover; }
 
         .banner-overlay {
             position: absolute; bottom: 0; left: 0; width: 100%;
-            background: linear-gradient(to top, rgba(32, 50, 101, 0.95), transparent);
-            padding: 20px 20px 15px; 
-            color: white; z-index: 2; transform: translateY(20px); opacity: 0; transition: all 0.8s ease-out;
+            background: linear-gradient(to top, rgba(27, 38, 64, 0.95), transparent);
+            padding: 24px 20px 16px; 
+            color: white; z-index: 2; 
         }
-        .banner-slide.active .banner-overlay { transform: translateY(0); opacity: 1; transition-delay: 0.3s; }
-        .banner-overlay h2 { font-size: 1.3rem; font-weight: 700; color: var(--lime); margin-bottom: 2px; letter-spacing: -0.5px; }
-        .banner-overlay p { font-size: 0.8rem; color: #eee; font-weight: 400; opacity: 0.9; }
+        .banner-overlay h2 { font-size: 18px; font-weight: 600; color: var(--lime); margin-bottom: 4px; }
+        .banner-overlay p { font-size: 13px; color: #E5E7EB; font-weight: 400; opacity: 0.9; }
 
         footer {
-            text-align: center; margin-top: auto; padding-top: 15px;
-            color: var(--med-grey); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+            text-align: center; margin-top: auto; padding-top: 16px;
+            color: #9CA3AF; font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
         }
 
         /* --- CONTACT POPUP STYLES --- */
         .contact-trigger {
-            position: fixed; bottom: 25px; right: 25px; width: 50px; height: 50px;
-            background-color: var(--lime); color: var(--navy); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 20px;
-            box-shadow: 0 10px 25px rgba(168, 197, 0, 0.4); border: none; z-index: 2000;
-            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: fixed; bottom: 24px; right: 24px; width: 48px; height: 48px;
+            background-color: var(--white); color: var(--navy); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); border: 1px solid var(--border-light); z-index: 2000;
+            transition: all 0.2s ease;
         }
-        .contact-trigger:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(168, 197, 0, 0.5); } /* Replaced scaling with lift */
+        .contact-trigger:hover { box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); color: var(--lime); }
         .contact-trigger.active i { transform: rotate(45deg); transition: 0.3s; }
 
         .contact-popup {
-            position: fixed; bottom: 85px; right: 25px; width: 280px;
-            background: var(--white); border-radius: 18px; box-shadow: 0 10px 30px rgba(32, 50, 101, 0.15);
-            padding: 20px; z-index: 1999; opacity: 0; transform: translateY(20px);
-            pointer-events: none; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: fixed; bottom: 84px; right: 24px; width: 260px;
+            background: var(--white); border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-light);
+            padding: 16px; z-index: 1999; opacity: 0; transform: translateY(10px);
+            pointer-events: none; transition: all 0.2s ease;
         }
         .contact-popup.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
 
-        .contact-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
-        .contact-header h3 { font-size: 1rem; font-weight: 700; color: var(--navy); }
-        .close-popup { font-size: 1.1rem; color: var(--med-grey); transition: color 0.2s; }
+        .contact-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border-light); padding-bottom: 8px; }
+        .contact-header h3 { font-size: 14px; font-weight: 600; color: var(--navy); }
+        .close-popup { font-size: 14px; color: var(--med-grey); transition: color 0.2s; }
         .close-popup:hover { color: var(--emergency-red); }
 
-        .contact-list { display: flex; flex-direction: column; gap: 10px; }
-        .contact-item { display: flex; align-items: center; text-decoration: none; padding: 10px; border-radius: 10px; background: #F8F9FB; transition: background 0.3s; }
-        .contact-item:hover { background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); } /* Removed side-translation */
+        .contact-list { display: flex; flex-direction: column; gap: 8px; }
+        .contact-item { display: flex; align-items: center; text-decoration: none; padding: 8px; border-radius: 8px; background: transparent; transition: background 0.2s; }
+        .contact-item:hover { background: var(--light-bg); } 
         
-        .contact-item-icon { width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1rem; margin-right: 12px; }
+        .contact-item-icon { width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; margin-right: 12px; }
         .whatsapp-bg { background: var(--whatsapp-green); } .phone-bg { background: var(--navy); } .linkedin-bg { background: var(--linkedin-blue); }
 
-        .contact-info div:first-child { font-weight: 600; color: var(--navy); font-size: 0.85rem; }
-        .contact-info div:last-child { font-size: 0.75rem; color: var(--med-grey); }
+        .contact-info div:first-child { font-weight: 500; color: var(--navy); font-size: 13px; }
+        .contact-info div:last-child { font-size: 11px; color: var(--med-grey); }
 
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         /* RESPONSIVE */
         @media (max-width: 1024px) {

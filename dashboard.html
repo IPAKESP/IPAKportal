@@ -10,11 +10,11 @@
 
     <style>
         :root {
-            --navy: #1B2640; /* Slightly darker, more muted navy for professional look */
-            --lime: #9CB500; /* Slightly toned down lime */
+            --navy: #1B2640; 
+            --lime: #9CB500; 
             --white: #FFFFFF;
-            --med-grey: #6B7280; /* Sleeker tailwind gray */
-            --light-bg: #F9FAFB; /* Softer background */
+            --med-grey: #6B7280; 
+            --light-bg: #F9FAFB; 
             --emergency-red: #EF4444;
             --whatsapp-green: #25D366;
             --linkedin-blue: #0077b5;
@@ -24,7 +24,6 @@
         * {
             margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Inter', sans-serif;
-            cursor: none; 
         }
 
         body {
@@ -32,33 +31,15 @@
             color: var(--navy);
             height: 100vh;
             overflow: hidden; 
-            -webkit-font-smoothing: antialiased; /* Makes fonts look sharper */
+            -webkit-font-smoothing: antialiased; 
             -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* --- CUSTOM CURSOR --- */
-        .cursor-dot {
-            width: 8px; height: 8px; background-color: var(--lime);
-            position: fixed; z-index: 9999; pointer-events: none;
-            border-radius: 50%; box-shadow: 0 0 10px rgba(156, 181, 0, 0.4);
-        }
-
-        .cursor-outline {
-            width: 32px; height: 32px; border: 1.5px solid var(--navy);
-            position: fixed; z-index: 9999; pointer-events: none;
-            border-radius: 50%; transition: width 0.2s, height 0.2s, border-color 0.2s;
-        }
-
-        body.hovering .cursor-outline {
-            width: 45px; height: 45px; border-color: var(--lime);
-            background-color: rgba(156, 181, 0, 0.05);
         }
 
         /* --- HEADER --- */
         .top-bar {
             background: rgba(255, 255, 255, 0.98);
             border-bottom: 1px solid var(--border-light);
-            height: 64px; /* Standard professional navbar height */
+            height: 64px; 
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -66,19 +47,19 @@
             position: fixed; top: 0; width: 100%; z-index: 100;
         }
 
-        .logo-link img { width: 65px; height: auto; transition: opacity 0.2s; }
+        .logo-link img { width: 65px; height: auto; transition: opacity 0.3s ease; }
         .logo-link:hover img { opacity: 0.8; }
 
         .header-actions { display: flex; align-items: center; gap: 16px; }
         
-        .user-icon { font-size: 22px; color: var(--navy); transition: color 0.2s; }
+        .user-icon { font-size: 22px; color: var(--navy); transition: color 0.3s ease; cursor: pointer; }
         .user-icon:hover { color: var(--lime); }
 
         .logout-btn {
             padding: 6px 16px; background: transparent;
             border: 1px solid var(--border-light); color: var(--navy);
             border-radius: 6px; font-weight: 500; font-size: 13px;
-            transition: all 0.2s;
+            transition: all 0.3s ease; cursor: pointer;
         }
         .logout-btn:hover { border-color: var(--navy); background: #f3f4f6; }
 
@@ -102,9 +83,9 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             grid-template-rows: repeat(5, minmax(0, 1fr)); 
-            gap: 12px; /* Tighter gap for a composed look */
+            gap: 12px; 
             grid-auto-flow: dense;
-            animation: slideUp 0.6s ease-out;
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             flex-grow: 1; 
             min-height: 0; 
         }
@@ -113,28 +94,35 @@
         .span-2-row { grid-row: span 2; }
         .span-2x2 { grid-column: span 2; grid-row: span 2; }
 
-        /* CARD STYLING - STRICT PROFESSIONAL */
+        /* --- CARD STYLING - STRICT PROFESSIONAL ANIMATION --- */
         .card {
             background: var(--white);
             border: 1px solid var(--border-light);
-            border-radius: 12px; /* Less rounded, more corporate */
+            border-radius: 12px; 
             padding: 16px; 
             text-decoration: none;
-            transition: all 0.2s ease;
+            /* Yahan premium smooth animation add ki hai */
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        border-color 0.4s ease;
             position: relative; overflow: hidden;
             display: flex; flex-direction: column; justify-content: space-between;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02); /* Very subtle base shadow */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
             min-height: 0;
+            cursor: pointer;
         }
 
+        /* Hover karne par smooth lift aur deep shadow */
         .card:hover {
-            border-color: rgba(156, 181, 0, 0.4);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Soft professional elevation */
+            transform: translateY(-6px); /* Fluid lift */
+            border-color: rgba(156, 181, 0, 0.5); /* Subtle border glow */
+            /* Diffused professional shadow */
+            box-shadow: 0 20px 25px -5px rgba(27, 38, 64, 0.05), 
+                        0 8px 10px -6px rgba(27, 38, 64, 0.05); 
             z-index: 10;
         }
 
-        /* Icon & Text styling - Fixed Pixels for zoom stability */
-        .card-icon { font-size: 20px; color: var(--navy); margin-bottom: 8px; transition: color 0.2s ease; }
+        .card-icon { font-size: 20px; color: var(--navy); margin-bottom: 8px; transition: color 0.3s ease; }
         .card:hover .card-icon { color: var(--lime); }
 
         .card-title { font-weight: 600; color: var(--navy); font-size: 14px; margin-bottom: 2px; }
@@ -143,16 +131,20 @@
         .arrow-icon {
             position: absolute; bottom: 16px; right: 16px;
             color: var(--lime); opacity: 0;
-            transform: translateX(-5px); transition: 0.3s ease; font-size: 14px;
+            transform: translateX(-8px); 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); font-size: 14px;
         }
         .card:hover .arrow-icon { opacity: 1; transform: translateX(0); }
 
-        .card.accent-red:hover { border-color: rgba(239, 68, 68, 0.3); background-color: rgba(239, 68, 68, 0.01); }
+        .card.accent-red:hover { border-color: rgba(239, 68, 68, 0.4); }
         .card.accent-red:hover .card-icon { color: var(--emergency-red); }
 
         /* BANNER INSIDE GRID */
         .banner-card { padding: 0; border: none; background: #000; overflow: hidden; }
-        .banner-card:hover { border-color: transparent; box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+        .banner-card:hover { 
+            transform: translateY(-4px); 
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15); 
+        }
 
         .banner-slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -181,9 +173,13 @@
             background-color: var(--white); color: var(--navy); border-radius: 50%;
             display: flex; align-items: center; justify-content: center; font-size: 18px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); border: 1px solid var(--border-light); z-index: 2000;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer;
         }
-        .contact-trigger:hover { box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); color: var(--lime); }
+        .contact-trigger:hover { 
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); 
+            color: var(--lime); 
+        }
         .contact-trigger.active i { transform: rotate(45deg); transition: 0.3s; }
 
         .contact-popup {
@@ -191,17 +187,17 @@
             background: var(--white); border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             border: 1px solid var(--border-light);
             padding: 16px; z-index: 1999; opacity: 0; transform: translateY(10px);
-            pointer-events: none; transition: all 0.2s ease;
+            pointer-events: none; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .contact-popup.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
 
         .contact-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border-light); padding-bottom: 8px; }
         .contact-header h3 { font-size: 14px; font-weight: 600; color: var(--navy); }
-        .close-popup { font-size: 14px; color: var(--med-grey); transition: color 0.2s; }
+        .close-popup { font-size: 14px; color: var(--med-grey); transition: color 0.2s; cursor: pointer; }
         .close-popup:hover { color: var(--emergency-red); }
 
         .contact-list { display: flex; flex-direction: column; gap: 8px; }
-        .contact-item { display: flex; align-items: center; text-decoration: none; padding: 8px; border-radius: 8px; background: transparent; transition: background 0.2s; }
+        .contact-item { display: flex; align-items: center; text-decoration: none; padding: 8px; border-radius: 8px; background: transparent; transition: background 0.3s ease; }
         .contact-item:hover { background: var(--light-bg); } 
         
         .contact-item-icon { width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; margin-right: 12px; }
@@ -210,7 +206,7 @@
         .contact-info div:first-child { font-weight: 500; color: var(--navy); font-size: 13px; }
         .contact-info div:last-child { font-size: 11px; color: var(--med-grey); }
 
-        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         /* RESPONSIVE */
         @media (max-width: 1024px) {
@@ -231,14 +227,10 @@
             .bento-grid { grid-template-columns: 1fr; grid-auto-rows: auto; min-height: 140px; }
             .span-2x2, .span-2-col, .span-2-row { grid-column: span 1; grid-row: span 1; }
             .span-2x2 { height: 200px; }
-            * { cursor: auto; } .cursor-dot, .cursor-outline { display: none; }
         }
     </style>
 </head>
 <body>
-
-    <div class="cursor-dot" data-data-cursor-dot></div>
-    <div class="cursor-outline" data-cursor-outline></div>
 
     <nav class="top-bar">
         <a href="dashboard.html" class="logo-link">
@@ -400,19 +392,6 @@
                 toggleContact();
             }
         });
-
-        const cursorDot = document.querySelector('.cursor-dot');
-        const cursorOutline = document.querySelector('.cursor-outline');
-        if (window.matchMedia("(pointer: fine)").matches) {
-            window.addEventListener('mousemove', (e) => {
-                cursorDot.style.left = `${e.clientX}px`; cursorDot.style.top = `${e.clientY}px`;
-                cursorOutline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 400, fill: "forwards" });
-            });
-            document.querySelectorAll('a, button, i, .card').forEach(el => {
-                el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-                el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-            });
-        }
     </script>
 </body>
 </html>

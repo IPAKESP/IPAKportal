@@ -28,15 +28,15 @@
             overflow-x: hidden;
         }
 
-        /* --- CUSTOM CURSOR --- */
+        /* --- CUSTOM CURSOR (Z-INDEX FIXED) --- */
         .cursor-dot {
             width: 8px; height: 8px; background: var(--lime);
-            position: fixed; pointer-events: none; z-index: 10000;
+            position: fixed; pointer-events: none; z-index: 999999; /* FIXED: Highest z-index */
             border-radius: 50%; box-shadow: 0 0 10px var(--lime);
         }
         .cursor-outline {
             width: 40px; height: 40px; border: 2px solid var(--navy);
-            position: fixed; pointer-events: none; z-index: 9999;
+            position: fixed; pointer-events: none; z-index: 999998; /* FIXED: Highest z-index */
             border-radius: 50%; transition: width 0.2s, height 0.2s, background 0.2s;
         }
         body.hovering .cursor-outline {

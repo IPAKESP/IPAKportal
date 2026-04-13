@@ -24,7 +24,6 @@
         * {
             margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Inter', sans-serif;
-            /* Note: Aapne cursor: none rakha hai is file mein */
         }
 
         body {
@@ -95,7 +94,7 @@
         .span-2-row { grid-row: span 2; }
         .span-2x2 { grid-column: span 2; grid-row: span 2; }
 
-        /* --- CARD STYLING - STRICT PROFESSIONAL ANIMATION --- */
+        /* --- CARD STYLING --- */
         .card {
             background: var(--white);
             border: 1px solid var(--border-light);
@@ -428,7 +427,7 @@
             }
         });
 
-        // --- IFRAME MODAL LOGIC ADDED HERE ---
+        // --- IFRAME MODAL LOGIC ---
         function openIframeModal(url, title) {
             document.getElementById('iframeModalTitle').innerText = title;
             document.getElementById('appViewer').src = url;

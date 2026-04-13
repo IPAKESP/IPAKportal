@@ -14,6 +14,7 @@
             --lime: #A8C500;
             --white: #FFFFFF;
             --med-grey: #9C9C9C;
+            --light-bg: #F5F7FA;
             --emergency-red: #ff4757;
             --whatsapp-green: #25D366;
             --linkedin-blue: #0077b5;
@@ -26,9 +27,10 @@
         }
 
         body {
-            background-color: #F5F7FA;
+            background-color: var(--light-bg);
             color: var(--navy);
-            min-height: 100vh;
+            height: 100vh; /* Fixed height for single screen view */
+            overflow: hidden; /* Scrolling hide kardi */
         }
 
         /* --- CUSTOM CURSOR --- */
@@ -51,260 +53,188 @@
 
         /* --- HEADER --- */
         .top-bar {
-            background: var(--white);
-            height: 80px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            height: 70px; /* Thoda chota kar diya */
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 50px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            padding: 0 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
             position: fixed; top: 0; width: 100%; z-index: 100;
         }
 
-        .logo-link img { width: 80px; height: auto; transition: transform 0.2s; }
+        .logo-link img { width: 70px; height: auto; transition: transform 0.2s; }
         .logo-link:hover img { transform: scale(1.05); }
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .user-icon {
-            font-size: 1.8rem;
-            color: var(--navy);
-            transition: 0.3s;
-        }
+        .header-actions { display: flex; align-items: center; gap: 20px; }
+        .user-icon { font-size: 1.6rem; color: var(--navy); transition: 0.3s; }
         .user-icon:hover { color: var(--lime); transform: scale(1.1); }
 
         .logout-btn {
-            padding: 10px 20px;
-            background: transparent;
-            border: 2px solid var(--navy);
-            color: var(--navy);
-            border-radius: 8px;
-            font-weight: 600;
+            padding: 8px 18px; background: transparent;
+            border: 1.5px solid var(--navy); color: var(--navy);
+            border-radius: 50px; font-weight: 600; font-size: 0.9rem;
             transition: 0.3s;
         }
         .logout-btn:hover { background: var(--navy); color: var(--white); }
 
-        /* --- DASHBOARD LAYOUT --- */
+        /* --- COMPACT BENTO BOX DASHBOARD --- */
         .wrapper {
-            padding-top: 110px; 
-            padding-bottom: 50px;
+            padding-top: 85px; /* Compact padding */
+            padding-bottom: 20px;
             display: flex; flex-direction: column;
+            height: 100vh;
         }
 
         .container {
-            width: 100%; max-width: 1200px;
+            width: 100%; max-width: 1100px;
             margin: 0 auto; padding: 0 20px;
-        }
-
-        /* --- ELEGANT SLIDE ANIMATION --- */
-        .banner-container {
-            width: 100%;
-            height: 350px;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            margin-bottom: 30px;
-            box-shadow: 0 20px 40px rgba(32, 50, 101, 0.15);
-            border: 1px solid rgba(255,255,255,0.5);
-            background: #000;
-        }
-
-        .banner-slide {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            opacity: 0;
-            transform: translateX(80px) scale(1.1);
-            transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
-            z-index: 0;
-        }
-
-        .banner-slide.active {
-            opacity: 1;
-            transform: translateX(0) scale(1);
-            z-index: 1;
-        }
-
-        .banner-slide img {
-            width: 100%;
+            display: flex; flex-direction: column;
             height: 100%;
-            object-fit: cover;
         }
 
-        .banner-overlay {
-            position: absolute;
-            bottom: 0; left: 0; width: 100%;
-            background: linear-gradient(to top, rgba(32, 50, 101, 0.95), transparent);
-            padding: 40px 30px 25px;
-            color: white;
-            z-index: 2;
-            transform: translateY(30px);
-            opacity: 0;
-            transition: all 0.8s ease-out;
+        .page-title {
+            font-size: 1.4rem;
+            font-weight: 700; color: var(--navy);
+            margin-bottom: 15px; letter-spacing: -0.5px;
         }
 
-        .banner-slide.active .banner-overlay {
-            transform: translateY(0);
-            opacity: 1;
-            transition-delay: 0.4s;
-        }
-
-        .banner-overlay h2 { font-size: 2rem; font-weight: 700; color: var(--lime); margin-bottom: 5px; letter-spacing: -0.5px; }
-        .banner-overlay p { font-size: 1rem; color: #eee; font-weight: 400; opacity: 0.9; }
-
-        /* --- DASHBOARD GRID --- */
-        .dashboard-grid {
+        /* BENTO GRID - COMPACT SIZES */
+        .bento-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 20px;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 125px; /* Pehle 200px tha, ab view chota kardia */
+            gap: 15px; /* Gaps chote kardiye */
+            grid-auto-flow: dense;
             animation: slideUp 0.8s ease-out;
+            flex-grow: 1; /* Space dynamically use karne ke liye */
         }
 
+        .span-2-col { grid-column: span 2; }
+        .span-2-row { grid-row: span 2; }
+        .span-2x2 { grid-column: span 2; grid-row: span 2; }
+
+        /* CARD STYLING */
         .card {
             background: var(--white);
-            border: 1px solid rgba(0,0,0,0.05);
-            border-radius: 20px;
-            padding: 25px;
+            border: 1px solid rgba(0,0,0,0.03);
+            border-radius: 18px; /* Slightly smaller radius */
+            padding: 20px; /* Padding kam kardi */
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative; overflow: hidden;
             display: flex; flex-direction: column; justify-content: space-between;
-            min-height: 160px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px) scale(1.02);
             border-color: var(--lime);
-            box-shadow: 0 15px 30px rgba(32, 50, 101, 0.1);
+            box-shadow: 0 10px 25px rgba(32, 50, 101, 0.08);
+            z-index: 10;
         }
 
-        .card-icon { font-size: 1.8rem; color: var(--navy); margin-bottom: 15px; transition: 0.3s; }
-        
-        /* Default size for image icons */
-        img.card-icon { width: 35px; height: 35px; object-fit: contain; }
+        .card-icon { font-size: 1.6rem; color: var(--navy); margin-bottom: 8px; transition: 0.4s; }
+        .card:hover .card-icon { color: var(--lime); transform: scale(1.1) translateY(-3px); }
 
-        .card:hover .card-icon { color: var(--lime); transform: scale(1.1); }
-
-        .card-title { font-weight: 700; color: var(--navy); font-size: 1.1rem; margin-bottom: 4px; }
-        .card-desc { color: var(--med-grey); font-size: 0.85rem; }
+        .card-title { font-weight: 700; color: var(--navy); font-size: 1rem; margin-bottom: 3px; letter-spacing: -0.2px; }
+        .card-desc { color: var(--med-grey); font-size: 0.75rem; font-weight: 500; line-height: 1.2; }
 
         .arrow-icon {
-            position: absolute; bottom: 25px; right: 25px;
+            position: absolute; bottom: 20px; right: 20px;
             color: var(--lime); opacity: 0;
-            transform: translateX(-10px); transition: 0.3s;
+            transform: translateX(-10px); transition: 0.4s; font-size: 1rem;
         }
         .card:hover .arrow-icon { opacity: 1; transform: translateX(0); }
 
-        .card.accent-red:hover { border-color: var(--emergency-red); background-color: rgba(255, 71, 87, 0.05); }
+        .card.accent-red:hover { border-color: var(--emergency-red); background-color: rgba(255, 71, 87, 0.03); }
         .card.accent-red .card-icon { color: var(--emergency-red); }
 
+        /* BANNER INSIDE GRID */
+        .banner-card { padding: 0; border: none; background: #000; }
+        .banner-card:hover { transform: scale(1.01); border-color: transparent; }
+
+        .banner-slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transform: scale(1.05); transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1); z-index: 0;
+        }
+        .banner-slide.active { opacity: 1; transform: scale(1); z-index: 1; }
+        .banner-slide img { width: 100%; height: 100%; object-fit: cover; }
+
+        .banner-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            background: linear-gradient(to top, rgba(32, 50, 101, 0.95), transparent);
+            padding: 25px 20px 15px; /* Compact padding */
+            color: white; z-index: 2; transform: translateY(20px); opacity: 0; transition: all 0.8s ease-out;
+        }
+        .banner-slide.active .banner-overlay { transform: translateY(0); opacity: 1; transition-delay: 0.3s; }
+        .banner-overlay h2 { font-size: 1.4rem; font-weight: 700; color: var(--lime); margin-bottom: 3px; letter-spacing: -0.5px; }
+        .banner-overlay p { font-size: 0.85rem; color: #eee; font-weight: 400; opacity: 0.9; }
+
         footer {
-            text-align: center; margin-top: 50px;
-            color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px;
+            text-align: center; margin-top: auto; padding-top: 15px;
+            color: var(--med-grey); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
         }
 
         /* --- CONTACT POPUP STYLES --- */
         .contact-trigger {
-            position: fixed;
-            bottom: 30px; right: 30px;
-            width: 60px; height: 60px;
-            background-color: var(--lime);
-            color: var(--navy);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 10px 25px rgba(168, 197, 0, 0.4);
-            border: none;
-            z-index: 2000;
+            position: fixed; bottom: 25px; right: 25px; width: 50px; height: 50px;
+            background-color: var(--lime); color: var(--navy); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 20px;
+            box-shadow: 0 10px 25px rgba(168, 197, 0, 0.4); border: none; z-index: 2000;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .contact-trigger:hover { transform: scale(1.1) rotate(15deg); }
-        .contact-trigger i { transition: transform 0.3s; }
         .contact-trigger.active i { transform: rotate(45deg); }
 
         .contact-popup {
-            position: fixed;
-            bottom: 100px; right: 30px;
-            width: 320px;
-            background: var(--white);
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(32, 50, 101, 0.15);
-            padding: 25px;
-            z-index: 1999;
-            opacity: 0;
-            transform: translateY(20px) scale(0.9);
-            pointer-events: none;
-            transform-origin: bottom right;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(0,0,0,0.05);
+            position: fixed; bottom: 85px; right: 25px; width: 280px;
+            background: var(--white); border-radius: 18px; box-shadow: 0 10px 30px rgba(32, 50, 101, 0.15);
+            padding: 20px; z-index: 1999; opacity: 0; transform: translateY(20px) scale(0.9);
+            pointer-events: none; transform-origin: bottom right; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        .contact-popup.show { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
 
-        .contact-popup.show {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: auto;
-        }
-
-        .contact-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 20px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px;
-        }
-        .contact-header h3 { font-size: 1.1rem; font-weight: 700; color: var(--navy); }
-        .close-popup { font-size: 1.2rem; color: var(--med-grey); transition: 0.2s; }
+        .contact-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
+        .contact-header h3 { font-size: 1rem; font-weight: 700; color: var(--navy); }
+        .close-popup { font-size: 1.1rem; color: var(--med-grey); transition: 0.2s; }
         .close-popup:hover { color: var(--emergency-red); transform: scale(1.1); }
 
-        .contact-list { display: flex; flex-direction: column; gap: 15px; }
-
-        .contact-item {
-            display: flex; align-items: center;
-            text-decoration: none;
-            padding: 12px;
-            border-radius: 12px;
-            background: #F8F9FB;
-            transition: 0.3s;
-        }
-
+        .contact-list { display: flex; flex-direction: column; gap: 10px; }
+        .contact-item { display: flex; align-items: center; text-decoration: none; padding: 10px; border-radius: 10px; background: #F8F9FB; transition: 0.3s; }
         .contact-item:hover { transform: translateX(5px); background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         
-        .contact-item-icon {
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 1.2rem; margin-right: 15px;
-        }
-        
-        .whatsapp-bg { background: var(--whatsapp-green); }
-        .phone-bg { background: var(--navy); }
-        .linkedin-bg { background: var(--linkedin-blue); }
+        .contact-item-icon { width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1rem; margin-right: 12px; }
+        .whatsapp-bg { background: var(--whatsapp-green); } .phone-bg { background: var(--navy); } .linkedin-bg { background: var(--linkedin-blue); }
 
-        .contact-info div:first-child { font-weight: 600; color: var(--navy); font-size: 0.95rem; }
-        .contact-info div:last-child { font-size: 0.8rem; color: var(--med-grey); margin-top: 2px; }
+        .contact-info div:first-child { font-weight: 600; color: var(--navy); font-size: 0.85rem; }
+        .contact-info div:last-child { font-size: 0.75rem; color: var(--med-grey); }
 
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
+        /* RESPONSIVE (Fallback for small screens) */
         @media (max-width: 1024px) {
-            .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
-            .banner-container { height: 250px; }
+            body { overflow-y: auto; height: auto; }
+            .wrapper { height: auto; padding-bottom: 50px; }
+            .bento-grid { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 140px; }
+            .span-2x2 { grid-column: span 3; }
+        }
+        @media (max-width: 768px) {
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+            .span-2x2, .span-2-col { grid-column: span 2; }
         }
         @media (max-width: 600px) {
-            .dashboard-grid { grid-template-columns: 1fr; }
-            .top-bar { padding: 0 20px; }
-            .cursor-dot, .cursor-outline { display: none; }
-            * { cursor: auto; }
-            .banner-container { height: 200px; }
-            .contact-trigger { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 20px; }
-            .contact-popup { right: 20px; bottom: 80px; width: calc(100% - 40px); }
+            .bento-grid { grid-template-columns: 1fr; grid-auto-rows: auto; min-height: 140px; }
+            .span-2x2, .span-2-col, .span-2-row { grid-column: span 1; grid-row: span 1; }
+            .span-2x2 { height: 200px; }
+            * { cursor: auto; } .cursor-dot, .cursor-outline { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-dot" data-data-cursor-dot></div>
     <div class="cursor-outline" data-cursor-outline></div>
 
     <nav class="top-bar">
@@ -320,49 +250,41 @@
     <div class="wrapper">
         <div class="container">
             
-            <div class="banner-container">
-                <div class="banner-slide active">
-                    <img src="Banner 1.png" alt="Welcome to IPAK">
-                    <div class="banner-overlay">
-                        <h2>Welcome to IPAK Portal</h2>
-                        <p>Empowering Innovation & Excellence</p>
-                    </div>
-                </div>
-                <div class="banner-slide">
-                    <img src="Banner 2.png" alt="Teamwork">
-                    <div class="banner-overlay">
-                        <h2>Collaborative Culture</h2>
-                        <p>Working together to achieve greatness.</p>
-                    </div>
-                </div>
-                <div class="banner-slide">
-                    <img src="Banner 3.png" alt="Modern Office">
-                    <div class="banner-overlay">
-                        <h2>Winning Together</h2>
-                        <p>Jeet Hum say hai</p>
-                    </div>
-                </div>
-                <div class="banner-slide">
-                    <img src="Banner 4.png" alt="Meeting">
-                    <div class="banner-overlay">
-                        <h2>Strategic Vision</h2>
-                        <p>Leading the way into the future.</p>
-                    </div>
-                </div>
-                <div class="banner-slide">
-                    <img src="Banner 5.png" alt="Growth">
-                    <div class="banner-overlay">
-                        <h2>Continuous Growth</h2>
-                        <p>Learning and developing every day.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="dashboard-grid">
+            <div class="bento-grid">
 
                 <a href="newsletter.html" class="card">
                     <i class="fas fa-newspaper card-icon"></i>
                     <div><div class="card-title">Newsletter</div><div class="card-desc">Weekly Updates</div></div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
+
+                <div class="card banner-card span-2x2">
+                    <div class="banner-slide active">
+                        <img src="Banner 1.png" alt="Welcome to IPAK">
+                        <div class="banner-overlay">
+                            <h2>Welcome to IPAK Portal</h2>
+                            <p>Empowering Innovation & Excellence</p>
+                        </div>
+                    </div>
+                    <div class="banner-slide">
+                        <img src="Banner 2.png" alt="Teamwork">
+                        <div class="banner-overlay">
+                            <h2>Collaborative Culture</h2>
+                            <p>Working together to achieve greatness.</p>
+                        </div>
+                    </div>
+                    <div class="banner-slide">
+                        <img src="Banner 3.png" alt="Modern Office">
+                        <div class="banner-overlay">
+                            <h2>Winning Together</h2>
+                            <p>Jeet Hum say hai</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="https://ipak.smarthcm.com/ess/Account/Login.aspx" target="_blank" class="card">
+                    <i class="fas fa-id-card card-icon"></i>
+                    <div><div class="card-title">ESS Portal</div><div class="card-desc">Self Service System</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
@@ -372,62 +294,57 @@
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
-                <a href="https://ipak.smarthcm.com/ess/Account/Login.aspx?returnUrl=https://ipak.smarthcm.com/ess/Default.aspx" target="_blank" class="card">
-                    <i class="fas fa-id-card card-icon"></i>
-                    <div><div class="card-title">ESS</div><div class="card-desc">Self Service</div></div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
-
-                <a href="bloodbank.html" class="card accent-red">
-                    <i class="fas fa-droplet card-icon"></i>
-                    <div><div class="card-title">Blood Bank</div><div class="card-desc">Emergency Donor</div></div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
-
-                <a href="ebook.html" class="card">
-                    <i class="fas fa-book card-icon"></i>
-                    <div><div class="card-title">IPAK E-BOOKS</div><div class="card-desc">Digital Learning</div></div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
-
-                <a href="audio.html" class="card">
-                    <i class="fas fa-headphones card-icon"></i>
-                    <div><div class="card-title">Audio Library</div><div class="card-desc">Music & Audio</div></div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
-
-                <a href="media.html" class="card">
-                    <i class="fas fa-photo-film card-icon"></i>
-                    <div><div class="card-title">Media of Events</div><div class="card-desc">Gallery Highlights</div></div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
-
-                <a href="admin.html" class="card">
+                <a href="admin.html" class="card span-2-row">
                     <i class="fas fa-user-headset card-icon"></i>
-                    <div><div class="card-title">Admin Support</div><div class="card-desc">Complaints</div></div>
+                    <div><div class="card-title">Admin Support</div><div class="card-desc">File Complaints</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
-                <a href="podcast.html" class="card">
+                <a href="bloodbank.html" class="card accent-red span-2-col">
+                    <i class="fas fa-droplet card-icon"></i>
+                    <div><div class="card-title">Blood Bank</div><div class="card-desc">Emergency Donor Database</div></div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
+
+                <a href="podcast.html" class="card span-2-row">
                     <i class="fas fa-microphone-lines card-icon"></i>
                     <div><div class="card-title">Podcast</div><div class="card-desc">Talks & Interviews</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
-                <a href="marketplace.html" class="card">
-                    <i class="fas fa-store card-icon"></i>
-                    <div><div class="card-title">IPAK Marketplace</div><div class="card-desc">Buy & Sell</div></div>
+                <a href="media.html" class="card">
+                    <i class="fas fa-photo-film card-icon"></i>
+                    <div><div class="card-title">Media Gallery</div><div class="card-desc">Event Highlights</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
-                <a href="https://corp.sehatkahani.com/auth/login" target="_blank" class="card">
+                <a href="audio.html" class="card">
+                    <i class="fas fa-headphones card-icon"></i>
+                    <div><div class="card-title">Audio Library</div><div class="card-desc">Music & Focus</div></div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
+
+                <a href="ebook.html" class="card">
+                    <i class="fas fa-book card-icon"></i>
+                    <div><div class="card-title">E-Books</div><div class="card-desc">Digital Learning</div></div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
+
+                <a href="marketplace.html" class="card span-2-col">
+                    <i class="fas fa-store card-icon"></i>
+                    <div><div class="card-title">Marketplace</div><div class="card-desc">Internal Buy & Sell</div></div>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </a>
+
+                <a href="https://corp.sehatkahani.com/auth/login" target="_blank" class="card span-2-col">
                     <i class="fas fa-heartbeat card-icon"></i>
                     <div><div class="card-title">Sehat Kahani</div><div class="card-desc">Online Healthcare</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
             </div>
-            <footer>&copy; 2026 IPAK PORTAL | BY HR & ADMIN </footer>
+            
+            <footer>&copy; 2026 IPAK PORTAL | DESIGNED BY TEAM HR</footer>
         </div>
     </div>
 
@@ -439,93 +356,55 @@
         <div class="contact-list">
             <a href="https://wa.me/923001234567" target="_blank" class="contact-item">
                 <div class="contact-item-icon whatsapp-bg"><i class="fab fa-whatsapp"></i></div>
-                <div class="contact-info">
-                    <div>WhatsApp Support</div>
-                    <div>Chat with Admin</div>
-                </div>
+                <div class="contact-info"><div>WhatsApp Support</div><div>Chat with Admin</div></div>
             </a>
             <a href="tel:+923001234567" class="contact-item">
                 <div class="contact-item-icon phone-bg"><i class="fas fa-phone-alt"></i></div>
-                <div class="contact-info">
-                    <div>Phone Call</div>
-                    <div>+92 300 123 4567</div>
-                </div>
+                <div class="contact-info"><div>Phone Call</div><div>+92 300 123 4567</div></div>
             </a>
-            <a href="https://www.linkedin.com/company/ipakfilms/posts/?feedView=all" target="_blank" class="contact-item">
+            <a href="https://www.linkedin.com/company/ipakfilms/posts/" target="_blank" class="contact-item">
                 <div class="contact-item-icon linkedin-bg"><i class="fab fa-linkedin-in"></i></div>
-                <div class="contact-info">
-                    <div>LinkedIn</div>
-                    <div>Connect with us</div>
-                </div>
+                <div class="contact-info"><div>LinkedIn</div><div>Connect with us</div></div>
             </a>
         </div>
     </div>
-
-    <button class="contact-trigger" id="contactTrigger" onclick="toggleContact()">
-        <i class="fas fa-headset"></i>
-    </button>
+    <button class="contact-trigger" id="contactTrigger" onclick="toggleContact()"><i class="fas fa-headset"></i></button>
 
     <script>
-        function logout() {
-            window.location.href = "index.html";
-        }
+        function logout() { window.location.href = "index.html"; }
 
-        // --- BANNER SLIDER LOGIC ---
         let currentSlide = 0;
         const slides = document.querySelectorAll('.banner-slide');
-        
         function nextSlide() {
             slides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
         }
+        setInterval(nextSlide, 3500);
 
-        setInterval(nextSlide, 3000);
-
-        // --- CONTACT POPUP LOGIC ---
         function toggleContact() {
-            const popup = document.getElementById('contactPopup');
+            document.getElementById('contactPopup').classList.toggle('show');
             const trigger = document.getElementById('contactTrigger');
-            
-            popup.classList.toggle('show');
             trigger.classList.toggle('active');
-            
-            // Toggle icon from Headset to Times (X)
             const icon = trigger.querySelector('i');
-            if (popup.classList.contains('show')) {
-                icon.classList.remove('fa-headset');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-headset');
-            }
+            icon.className = trigger.classList.contains('active') ? 'fas fa-times' : 'fas fa-headset';
         }
 
-        // Close popup when clicking outside
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function(e) {
             const popup = document.getElementById('contactPopup');
             const trigger = document.getElementById('contactTrigger');
-            
-            if (!popup.contains(event.target) && !trigger.contains(event.target) && popup.classList.contains('show')) {
+            if (!popup.contains(e.target) && !trigger.contains(e.target) && popup.classList.contains('show')) {
                 toggleContact();
             }
         });
 
-        // --- CURSOR LOGIC ---
-        const cursorDot = document.querySelector('[data-cursor-dot]');
-        const cursorOutline = document.querySelector('[data-cursor-outline]');
-        
-        // Check if device has a mouse (not touch)
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
         if (window.matchMedia("(pointer: fine)").matches) {
             window.addEventListener('mousemove', (e) => {
-                const posX = e.clientX;
-                const posY = e.clientY;
-                cursorDot.style.left = `${posX}px`;
-                cursorDot.style.top = `${posY}px`;
-                cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 400, fill: "forwards" });
+                cursorDot.style.left = `${e.clientX}px`; cursorDot.style.top = `${e.clientY}px`;
+                cursorOutline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 400, fill: "forwards" });
             });
-            
-            // Re-run listener attachment for new elements
             document.querySelectorAll('a, button, i, .card').forEach(el => {
                 el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
                 el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));

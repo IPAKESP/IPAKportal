@@ -10,7 +10,6 @@
     
     <style>
         :root {
-            /* Standard Dashboard Colors */
             --navy: #203265;
             --lime: #A8C500;
             --white: #FFFFFF;
@@ -27,18 +26,14 @@
             cursor: none; 
         }
         
-        body { 
-            color: var(--navy); 
-            background: var(--bg-color); 
-            min-height: 100vh; 
-        }
+        body { color: var(--navy); background: var(--bg-color); min-height: 100vh; }
 
-        /* --- CUSTOM CURSOR --- */
+        /* CURSOR */
         .cursor-dot { width: 8px; height: 8px; background: var(--lime); position: fixed; pointer-events: none; z-index: 9999; border-radius: 50%; box-shadow: 0 0 10px var(--lime); }
         .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--navy); position: fixed; pointer-events: none; z-index: 9999; border-radius: 50%; transition: width 0.2s, height 0.2s, background 0.2s; }
         body.hovering .cursor-outline { width: 60px; height: 60px; border-color: var(--lime); background: rgba(168, 197, 0, 0.1); }
 
-        /* --- STANDARD HEADER (Fixed) --- */
+        /* HEADER */
         .top-bar {
             background: var(--white); height: 80px; display: flex; justify-content: space-between; align-items: center;
             padding: 0 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); position: fixed; top: 0; width: 100%; z-index: 100;
@@ -48,79 +43,57 @@
         .header-actions { display: flex; align-items: center; gap: 20px; }
         .user-icon { font-size: 1.8rem; color: var(--navy); transition: 0.3s; }
         .user-icon:hover { color: var(--lime); transform: scale(1.1); }
-        .logout-btn {
-            padding: 10px 20px; background: transparent; border: 2px solid var(--navy); color: var(--navy);
-            border-radius: 8px; font-weight: 600; transition: 0.3s;
-        }
+        .logout-btn { padding: 10px 20px; background: transparent; border: 2px solid var(--navy); color: var(--navy); border-radius: 8px; font-weight: 600; transition: 0.3s; }
         .logout-btn:hover { background: var(--navy); color: var(--white); }
 
-        /* --- MAIN LAYOUT --- */
+        /* LAYOUT */
         .wrapper { padding-top: 120px; padding-bottom: 50px; }
         .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* --- PAGE HEADER --- */
+        /* TITLE */
         .page-header { text-align: center; margin-bottom: 30px; }
-        .page-header h1 { 
-            font-size: 2.2rem; color: var(--navy); position: relative; display: inline-block; padding-bottom: 10px;
-        }
-        .page-header h1::after {
-            content: ''; position: absolute; bottom: 0; left: 25%; width: 50%; height: 4px; background: var(--lime); border-radius: 2px;
-        }
+        .page-header h1 { font-size: 2.2rem; color: var(--navy); position: relative; display: inline-block; padding-bottom: 10px; }
+        .page-header h1::after { content: ''; position: absolute; bottom: 0; left: 25%; width: 50%; height: 4px; background: var(--lime); border-radius: 2px; }
         .page-header p { color: var(--med-grey); margin-top: 10px; font-weight: 600; letter-spacing: 1px; }
 
-        /* --- SEARCH --- */
+        /* SEARCH */
         .search-container { max-width: 700px; margin: 0 auto 30px; position: relative; }
-        .search-box {
-            width: 100%; padding: 18px 30px; padding-left: 60px; border-radius: 15px; border: none;
-            font-size: 1rem; box-shadow: var(--shadow); outline: none; transition: 0.3s;
-        }
+        .search-box { width: 100%; padding: 18px 30px; padding-left: 60px; border-radius: 15px; border: none; font-size: 1rem; box-shadow: var(--shadow); outline: none; transition: 0.3s; }
         .search-container i { position: absolute; left: 25px; top: 50%; transform: translateY(-50%); color: var(--med-grey); font-size: 1.2rem; }
         .search-box:focus { box-shadow: 0 0 0 3px rgba(168, 197, 0, 0.3); }
 
-        /* --- BLOOD FILTER TABS --- */
-        .blood-filter-container {
-            display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 40px;
-        }
-        .blood-btn {
-            padding: 8px 20px; border-radius: 50px; border: 1px solid var(--light-grey);
-            background: var(--white); color: var(--med-grey); font-weight: 600; font-size: 0.9rem;
-            transition: all 0.3s ease; cursor: pointer;
-        }
+        /* FILTERS */
+        .blood-filter-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
+        .blood-btn { padding: 8px 20px; border-radius: 50px; border: 1px solid var(--light-grey); background: var(--white); color: var(--med-grey); font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; cursor: pointer; }
         .blood-btn:hover { transform: translateY(-2px); border-color: var(--navy); color: var(--navy); }
-        .blood-btn.active {
-            background: var(--navy); color: var(--white); border-color: var(--navy);
-            box-shadow: 0 5px 15px rgba(32, 50, 101, 0.2);
-        }
+        .blood-btn.active { background: var(--navy); color: var(--white); border-color: var(--navy); box-shadow: 0 5px 15px rgba(32, 50, 101, 0.2); }
 
-        /* --- GRID & CARDS --- */
-        .directory-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; animation: slideUp 0.8s ease-out;
-        }
+        /* GRID */
+        .directory-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; animation: slideUp 0.8s ease-out; }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .employee-card {
-            background: var(--white); border-radius: 20px; padding: 30px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative; border-bottom: 5px solid transparent; box-shadow: var(--shadow);
-        }
+        /* CARD DESIGN */
+        .employee-card { background: var(--white); border-radius: 20px; padding: 25px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; border-bottom: 5px solid transparent; box-shadow: var(--shadow); display: flex; flex-direction: column; }
         .employee-card:hover { transform: translateY(-10px); border-bottom-color: var(--lime); }
 
-        .blood-tag {
-            position: absolute; top: 15px; right: 15px; background: rgba(255, 71, 87, 0.1); color: var(--emergency-red);
-            padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 800;
-        }
+        .blood-tag { position: absolute; top: 20px; right: 20px; background: rgba(255, 71, 87, 0.1); color: var(--emergency-red); padding: 5px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.5px; }
 
-        .emp-name { font-size: 1.25rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; text-transform: capitalize; }
+        /* NAME ON TOP (Font size reduced here) */
+        .emp-name { font-size: 1.15rem; font-weight: 800; color: var(--navy); margin-bottom: 5px; text-transform: capitalize; padding-right: 60px; line-height: 1.2; }
         .emp-designation { font-size: 0.85rem; font-weight: 700; color: var(--lime); text-transform: uppercase; margin-bottom: 15px; }
         .emp-info { display: flex; align-items: center; gap: 12px; color: #555; font-size: 0.9rem; margin-bottom: 10px; text-transform: capitalize; }
         .emp-info i { color: var(--navy); width: 18px; text-align: center; }
 
-        .contact-btn {
-            margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px;
-            background: #f8f9fa; color: var(--navy); text-decoration: none; border-radius: 10px; font-weight: 700;
-            font-size: 0.9rem; border: 1px solid var(--light-grey); transition: 0.3s;
-        }
+        .emp-code-box { margin-top: auto; background: var(--bg-color); border: 1px dashed var(--light-grey); padding: 8px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; color: var(--navy); display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .emp-code-box span { color: var(--med-grey); font-weight: 500; font-size: 0.75rem; text-transform: uppercase; }
+
+        .contact-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; background: #f8f9fa; color: var(--navy); text-decoration: none; border-radius: 10px; font-weight: 700; font-size: 0.9rem; border: 1px solid var(--light-grey); transition: 0.3s; }
         .contact-btn:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
+
+        /* LOADING */
+        .loading-state { grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--navy); font-weight: 600; }
+        .loading-state i { color: var(--lime); font-size: 2rem; margin-bottom: 10px; }
 
         footer { text-align: center; margin-top: 60px; color: var(--med-grey); font-size: 0.8rem; letter-spacing: 2px; }
 
@@ -146,7 +119,6 @@
             <a href="dashboard.html" style="text-decoration: none;">
                 <i class="fas fa-arrow-left user-icon" title="Back to Dashboard"></i>
             </a>
-
             <i class="fas fa-user-circle user-icon" title="My Profile"></i>
             <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
@@ -154,7 +126,6 @@
 
     <div class="wrapper">
         <div class="container">
-            
             <div class="page-header">
                 <p>Bridging humanity with lifesaving care.</p>
                 <h1>IPAK BLOOD BANK</h1>
@@ -162,7 +133,7 @@
 
             <div class="search-container">
                 <i class="fas fa-search"></i>
-                <input type="text" id="globalSearch" class="search-box" placeholder="Search by Name or Designation...">
+                <input type="text" id="globalSearch" class="search-box" placeholder="Search by Name, Designation or Emp Code...">
             </div>
 
             <div class="blood-filter-container">
@@ -178,503 +149,10 @@
             </div>
 
             <main class="directory-grid" id="empGrid">
-                
-                <div class="employee-card" data-blood="O+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O+</div>
-                    <div class="emp-name">Muhammad Asghar khan</div>
-                    <div class="emp-designation">AM</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Filmline</div>
-                    <a href="tel:03097775076" class="contact-btn"><i class="fas fa-phone-alt"></i> 0309-7775076</a>
+                <div class="loading-state" id="loadingData">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Fetching Live Data from Google Sheets...</p>
                 </div>
-
-                <div class="employee-card" data-blood="O+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O+</div>
-                    <div class="emp-name">Farhan Rasheed</div>
-                    <div class="emp-designation">Sr. Assistant Manager</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> SAP</div>
-                    <a href="tel:03092229956" class="contact-btn"><i class="fas fa-phone-alt"></i> 0309-2229956</a>
-                </div>
-
-                <div class="employee-card" data-blood="A+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> A+</div>
-                    <div class="emp-name">Syed Rafeel Abid</div>
-                    <div class="emp-designation">Manager</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Technical</div>
-                    <a href="tel:03222818136" class="contact-btn"><i class="fas fa-phone-alt"></i> 0322-2818136</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Muhammad Raza</div>
-                    <div class="emp-designation">Senior Executive</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> FPL PPAK</div>
-                    <a href="tel:03110850840" class="contact-btn"><i class="fas fa-phone-alt"></i> 0311-0850840</a>
-                </div>
-
-                <div class="employee-card" data-blood="AB-">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> AB-</div>
-                    <div class="emp-name">Muhammad Usman Afzal</div>
-                    <div class="emp-designation">Mechanical Technician</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Utility and maintenance</div>
-                    <a href="tel:03217872974" class="contact-btn"><i class="fas fa-phone-alt"></i> 0321-7872974</a>
-                </div>
-
-                <div class="employee-card" data-blood="O+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O+</div>
-                    <div class="emp-name">Muhammad Yousaf</div>
-                    <div class="emp-designation">Executive</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Marcom</div>
-                    <a href="tel:03004707888" class="contact-btn"><i class="fas fa-phone-alt"></i> 0300-4707888</a>
-                </div>
-
-                <div class="employee-card" data-blood="O+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O+</div>
-                    <div class="emp-name">Atif Raza</div>
-                    <div class="emp-designation">Officer01</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Health safety Environment</div>
-                    <a href="tel:03024827240" class="contact-btn"><i class="fas fa-phone-alt"></i> 0302-4827240</a>
-                </div>
-
-                <div class="employee-card" data-blood="A+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> A+</div>
-                    <div class="emp-name">Michael Ishaq</div>
-                    <div class="emp-designation">Series Executive</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> CERD QA</div>
-                    <a href="tel:03323026224" class="contact-btn"><i class="fas fa-phone-alt"></i> 0332-3026224</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Osama Adil</div>
-                    <div class="emp-designation">Manager Organizational Development</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> HR</div>
-                    <a href="tel:03338255665" class="contact-btn"><i class="fas fa-phone-alt"></i> 0333-8255665</a>
-                </div>
-
-                <div class="employee-card" data-blood="B-">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B-</div>
-                    <div class="emp-name">Maham Imtiaz</div>
-                    <div class="emp-designation">Executive Sales Support</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Sales & Marketing</div>
-                    <a href="tel:03093339566" class="contact-btn"><i class="fas fa-phone-alt"></i> 0309-3339566</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Abdul Moeed Toor</div>
-                    <div class="emp-designation">Assistant Manager</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> HR</div>
-                    <a href="tel:03093337044" class="contact-btn"><i class="fas fa-phone-alt"></i> 0309-3337044</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Muhammad Abbas Gul</div>
-                    <div class="emp-designation">S.Exective</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Store</div>
-                    <a href="tel:03227700318" class="contact-btn"><i class="fas fa-phone-alt"></i> 0322-7700318</a>
-                </div>
-
-                <div class="employee-card" data-blood="O+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O+</div>
-                    <div class="emp-name">Khurram Ali</div>
-                    <div class="emp-designation">Junior Officer III</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Slitter</div>
-                    <a href="tel:03052098514" class="contact-btn"><i class="fas fa-phone-alt"></i> 0305-2098514</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Asim Malik</div>
-                    <div class="emp-designation">IT Executive</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> IT</div>
-                    <a href="tel:03008854851" class="contact-btn"><i class="fas fa-phone-alt"></i> 0300-8854851</a>
-                </div>
-
-                <div class="employee-card" data-blood="O+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O+</div>
-                    <div class="emp-name">Muhammad umar</div>
-                    <div class="emp-designation">Executive</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Offline</div>
-                    <a href="tel:03174946836" class="contact-btn"><i class="fas fa-phone-alt"></i> 0317-4946836</a>
-                </div>
-
-                <div class="employee-card" data-blood="AB+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> AB+</div>
-                    <div class="emp-name">Kashif</div>
-                    <div class="emp-designation">Senior officer</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> G pak erema recycling</div>
-                    <a href="tel:03174088646" class="contact-btn"><i class="fas fa-phone-alt"></i> 0317-4088646</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Imran Meeran</div>
-                    <div class="emp-designation">Specialist utility and maintenance</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Maintenance(Mechanical)</div>
-                    <a href="tel:03493312365" class="contact-btn"><i class="fas fa-phone-alt"></i> 0349-3312365</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Muhammad Uzair Arif</div>
-                    <div class="emp-designation">Executive Finance</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Finance</div>
-                    <a href="tel:03432922803" class="contact-btn"><i class="fas fa-phone-alt"></i> 0343-2922803</a>
-                </div>
-
-                <div class="employee-card" data-blood="A+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> A+</div>
-                    <div class="emp-name">Zakria Ahmad din</div>
-                    <div class="emp-designation">Head packer</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Packing</div>
-                    <a href="tel:03063643892" class="contact-btn"><i class="fas fa-phone-alt"></i> 0306-3643892</a>
-                </div>
-
-                <div class="employee-card" data-blood="AB+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> AB+</div>
-                    <div class="emp-name">Muhammad Qasim khan</div>
-                    <div class="emp-designation">Executive</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Filmline Gpak</div>
-                    <a href="tel:03425000394" class="contact-btn"><i class="fas fa-phone-alt"></i> 0342-5000394</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Faisal Hussain</div>
-                    <div class="emp-designation">Officer HR Operations</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> HR</div>
-                    <a href="tel:03124599968" class="contact-btn"><i class="fas fa-phone-alt"></i> 0312-4599968</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Raza Habib</div>
-                    <div class="emp-designation">Specialist</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Slitter</div>
-                    <a href="tel:03064111331" class="contact-btn"><i class="fas fa-phone-alt"></i> 0306-4111331</a>
-                </div>
-
-                <div class="employee-card" data-blood="A+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> A+</div>
-                    <div class="emp-name">Naeem Ahmad</div>
-                    <div class="emp-designation">Senior Manager</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Power-Plant</div>
-                    <a href="tel:03222818118" class="contact-btn"><i class="fas fa-phone-alt"></i> 0322-2818118</a>
-                </div>
-
-                <div class="employee-card" data-blood="O-">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O-</div>
-                    <div class="emp-name">Rizwan Ishaq</div>
-                    <div class="emp-designation">Senior Manager</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Electrical</div>
-                    <a href="tel:03222818122" class="contact-btn"><i class="fas fa-phone-alt"></i> 0322-2818122</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Amir Ashfaq</div>
-                    <div class="emp-designation">Senior Officer Utility & Maint.</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Mechanical Utility & Maint.</div>
-                    <a href="tel:03088408654" class="contact-btn"><i class="fas fa-phone-alt"></i> 0308-8408654</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Ahmed Umar</div>
-                    <div class="emp-designation">AM Internal Audit</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Internal Audit</div>
-                    <a href="tel:03134260011" class="contact-btn"><i class="fas fa-phone-alt"></i> 0313-4260011</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Saeed Munawar</div>
-                    <div class="emp-designation">Shift Ic Utility / Maint.</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Utility / Maintenance</div>
-                    <a href="tel:03164446862" class="contact-btn"><i class="fas fa-phone-alt"></i> 0316-4446862</a>
-                </div>
-
-                <div class="employee-card" data-blood="O+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O+</div>
-                    <div class="emp-name">Furqan ul Hudha</div>
-                    <div class="emp-designation">Executive</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Electrical</div>
-                    <a href="tel:03227147011" class="contact-btn"><i class="fas fa-phone-alt"></i> 0322-7147011</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Jawwad Zaffar</div>
-                    <div class="emp-designation">Sr. Operator</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Power House</div>
-                    <a href="tel:03170545991" class="contact-btn"><i class="fas fa-phone-alt"></i> 0317-0545991</a>
-                </div>
-
-                <div class="employee-card" data-blood="O+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O+</div>
-                    <div class="emp-name">Syed Riaz Ahmed</div>
-                    <div class="emp-designation">Senior Executive</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> FPL</div>
-                    <a href="tel:03092030501" class="contact-btn"><i class="fas fa-phone-alt"></i> 0309-2030501</a>
-                </div>
-
-                <div class="employee-card" data-blood="O+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O+</div>
-                    <div class="emp-name">Naveed Ahmed</div>
-                    <div class="emp-designation">Store Keeper</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Store</div>
-                    <a href="tel:03080010247" class="contact-btn"><i class="fas fa-phone-alt"></i> 0308-0010247</a>
-                </div>
-
-                <div class="employee-card" data-blood="B-">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B-</div>
-                    <div class="emp-name">Muhammad Taimoor</div>
-                    <div class="emp-designation">Line Operator</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> FPL Cpak</div>
-                    <a href="tel:03064226708" class="contact-btn"><i class="fas fa-phone-alt"></i> 0306-4226708</a>
-                </div>
-
-                <div class="employee-card" data-blood="A+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> A+</div>
-                    <div class="emp-name">Ali Rehman</div>
-                    <div class="emp-designation">Sr. Officer</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Film Line</div>
-                    <a href="tel:03104821765" class="contact-btn"><i class="fas fa-phone-alt"></i> 0310-4821765</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Muhammad Waqas</div>
-                    <div class="emp-designation">HSE</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> HSE</div>
-                    <a href="tel:03093338059" class="contact-btn"><i class="fas fa-phone-alt"></i> 0309-3338059</a>
-                </div>
-
-                <div class="employee-card" data-blood="O+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O+</div>
-                    <div class="emp-name">Muhammad Ahmad Tahir</div>
-                    <div class="emp-designation">Officer II</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Offline</div>
-                    <a href="tel:03154010212" class="contact-btn"><i class="fas fa-phone-alt"></i> 0315-4010212</a>
-                </div>
-
-                <div class="employee-card" data-blood="A+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> A+</div>
-                    <div class="emp-name">Muhammad Adeel Butt</div>
-                    <div class="emp-designation">Store Keeper</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Store</div>
-                    <a href="tel:03034600277" class="contact-btn"><i class="fas fa-phone-alt"></i> 0303-4600277</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Maaz Elahi</div>
-                    <div class="emp-designation">Sr. Assistant Manager</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Film Production Line</div>
-                    <a href="tel:03204645857" class="contact-btn"><i class="fas fa-phone-alt"></i> 0320-4645857</a>
-                </div>
-
-                <div class="employee-card" data-blood="AB-">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> AB-</div>
-                    <div class="emp-name">Syed Ashfaq Hussain</div>
-                    <div class="emp-designation">CERD QA/QC</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> CERD QA/QC</div>
-                    <a href="tel:03330954843" class="contact-btn"><i class="fas fa-phone-alt"></i> 0333-0954843</a>
-                </div>
-
-                <div class="employee-card" data-blood="O+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O+</div>
-                    <div class="emp-name">Abdu Sattar</div>
-                    <div class="emp-designation">Sr. Exec. Research Dev. & QA</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> CERD & QA</div>
-                    <a href="tel:03088396103" class="contact-btn"><i class="fas fa-phone-alt"></i> 0308-8396103</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Amber Abbas</div>
-                    <div class="emp-designation">Sr. Assistant Sales Manager</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Sales & Marketing</div>
-                    <a href="tel:03092229973" class="contact-btn"><i class="fas fa-phone-alt"></i> 0309-2229973</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Muhammad Shahid</div>
-                    <div class="emp-designation">HOD Internal Audit</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Internal Audit</div>
-                    <a href="tel:03032323544" class="contact-btn"><i class="fas fa-phone-alt"></i> 0303-2323544</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Muhammad Talha</div>
-                    <div class="emp-designation">Specialist</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> HR</div>
-                    <a href="tel:03377522656" class="contact-btn"><i class="fas fa-phone-alt"></i> 0337-7522656</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Umair Alam</div>
-                    <div class="emp-designation">Officer-1 slitter</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Slitter</div>
-                    <a href="tel:03001110772" class="contact-btn"><i class="fas fa-phone-alt"></i> 0300-1110772</a>
-                </div>
-
-                <div class="employee-card" data-blood="A+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> A+</div>
-                    <div class="emp-name">Muhammed Ramzan</div>
-                    <div class="emp-designation">Officer II</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Utility and maintenance</div>
-                    <a href="tel:03065107532" class="contact-btn"><i class="fas fa-phone-alt"></i> 0306-5107532</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Gulfam Akhtar</div>
-                    <div class="emp-designation">Senior executive</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Metallizer</div>
-                    <a href="tel:03093338303" class="contact-btn"><i class="fas fa-phone-alt"></i> 0309-3338303</a>
-                </div>
-
-                <div class="employee-card" data-blood="AB+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> AB+</div>
-                    <div class="emp-name">Ikram ul haq</div>
-                    <div class="emp-designation">Assistant Operator (junior Officer 2)</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Metallizer</div>
-                    <a href="tel:03029442785" class="contact-btn"><i class="fas fa-phone-alt"></i> 0302-9442785</a>
-                </div>
-
-                <div class="employee-card" data-blood="O+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O+</div>
-                    <div class="emp-name">Muhammad Ghazanfar Ali Khan</div>
-                    <div class="emp-designation">Manager HR</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> HR</div>
-                    <a href="tel:03028484320" class="contact-btn"><i class="fas fa-phone-alt"></i> 0302-8484320</a>
-                </div>
-
-                <div class="employee-card" data-blood="A+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> A+</div>
-                    <div class="emp-name">Ansar Abbas</div>
-                    <div class="emp-designation">Senior Fire and Safety Officer</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Fire and Safety</div>
-                    <a href="tel:03061022922" class="contact-btn"><i class="fas fa-phone-alt"></i> 0306-1022922</a>
-                </div>
-
-                <div class="employee-card" data-blood="A+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> A+</div>
-                    <div class="emp-name">Iqbal Shahid</div>
-                    <div class="emp-designation">Specialist</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Dispatch</div>
-                    <a href="tel:03430544919" class="contact-btn"><i class="fas fa-phone-alt"></i> 0343-0544919</a>
-                </div>
-
-                <div class="employee-card" data-blood="A+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> A+</div>
-                    <div class="emp-name">Amna Shahzadi</div>
-                    <div class="emp-designation">HR Senior Officer</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> HR Admin</div>
-                    <a href="tel:03091945631" class="contact-btn"><i class="fas fa-phone-alt"></i> 0309-1945631</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Muhammad Yousaf</div>
-                    <div class="emp-designation">Operator</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Metalizer</div>
-                    <a href="tel:03059270065" class="contact-btn"><i class="fas fa-phone-alt"></i> 0305-9270065</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Muhammad Abbas GUl</div>
-                    <div class="emp-designation">Senior Executive</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Store</div>
-                    <a href="tel:0322818134" class="contact-btn"><i class="fas fa-phone-alt"></i> 0322-818134</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">M.Ayaz Ahmad</div>
-                    <div class="emp-designation">Transport Incharge</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Admin</div>
-                    <a href="tel:03222818121" class="contact-btn"><i class="fas fa-phone-alt"></i> 0322-2818121</a>
-                </div>
-
-                <div class="employee-card" data-blood="B+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> B+</div>
-                    <div class="emp-name">Ali iftikhar</div>
-                    <div class="emp-designation">Dispatch incharge</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Dispatch PETPAK</div>
-                    <a href="tel:03093338334" class="contact-btn"><i class="fas fa-phone-alt"></i> 0309-3338334</a>
-                </div>
-
-                <div class="employee-card" data-blood="O+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O+</div>
-                    <div class="emp-name">Ali Abdullah</div>
-                    <div class="emp-designation">Operator</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Power plant</div>
-                    <a href="tel:03255469909" class="contact-btn"><i class="fas fa-phone-alt"></i> 0325-5469909</a>
-                </div>
-
-                <div class="employee-card" data-blood="O+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O+</div>
-                    <div class="emp-name">Sajjad</div>
-                    <div class="emp-designation">Welder</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Mechanic</div>
-                    <a href="tel:03007771648" class="contact-btn"><i class="fas fa-phone-alt"></i> 0300-7771648</a>
-                </div>
-
-                <div class="employee-card" data-blood="A-">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> A-</div>
-                    <div class="emp-name">Muhammad Fiaz</div>
-                    <div class="emp-designation">Officer 1</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Offline</div>
-                    <a href="tel:03136985110" class="contact-btn"><i class="fas fa-phone-alt"></i> 0313-6985110</a>
-                </div>
-
-                <div class="employee-card" data-blood="A+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> A+</div>
-                    <div class="emp-name">Ahtsham ul hassan</div>
-                    <div class="emp-designation">Operator</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Cpp fpl</div>
-                    <a href="tel:03084511281" class="contact-btn"><i class="fas fa-phone-alt"></i> 0308-4511281</a>
-                </div>
-
-                <div class="employee-card" data-blood="O-">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O-</div>
-                    <div class="emp-name">Nazafat</div>
-                    <div class="emp-designation">Operator</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Slitter</div>
-                    <a href="tel:03125612581" class="contact-btn"><i class="fas fa-phone-alt"></i> 0312-5612581</a>
-                </div>
-
-                <div class="employee-card" data-blood="A+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> A+</div>
-                    <div class="emp-name">Nauman Shah</div>
-                    <div class="emp-designation">Accounts Executive</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Finance</div>
-                    <a href="tel:03093336002" class="contact-btn"><i class="fas fa-phone-alt"></i> 0309-3336002</a>
-                </div>
-
-                <div class="employee-card" data-blood="O+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O+</div>
-                    <div class="emp-name">Imranullah</div>
-                    <div class="emp-designation">A. M</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Cerd&QA</div>
-                    <a href="tel:03116366469" class="contact-btn"><i class="fas fa-phone-alt"></i> 0311-6366469</a>
-                </div>
-
-                <div class="employee-card" data-blood="O+">
-                    <div class="blood-tag"><i class="fas fa-droplet"></i> O+</div>
-                    <div class="emp-name">Syed Riaz Ahmed</div>
-                    <div class="emp-designation">Senior Executive</div>
-                    <div class="emp-info"><i class="fas fa-building"></i> Fpl</div>
-                    <a href="tel:03456183311" class="contact-btn"><i class="fas fa-phone-alt"></i> 0345-6183311</a>
-                </div>
-
             </main>
 
             <footer>
@@ -684,14 +162,11 @@
     </div>
 
     <script>
-        function logout() {
-            window.location.href = "index.html";
-        }
+        function logout() { window.location.href = "index.html"; }
 
         // CURSOR LOGIC
         const dot = document.querySelector('.cursor-dot');
         const outline = document.querySelector('.cursor-outline');
-        
         window.addEventListener('mousemove', (e) => {
             const posX = e.clientX;
             const posY = e.clientY;
@@ -700,52 +175,127 @@
             outline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 400, fill: "forwards" });
         });
 
-        // Add hover effect to interactive elements including buttons
-        document.querySelectorAll('a, button, input, .employee-card').forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-        });
+        function applyHoverEffects() {
+            document.querySelectorAll('a, button, input, .employee-card').forEach(el => {
+                el.removeEventListener('mouseenter', addHoverClass);
+                el.removeEventListener('mouseleave', removeHoverClass);
+                el.addEventListener('mouseenter', addHoverClass);
+                el.addEventListener('mouseleave', removeHoverClass);
+            });
+        }
+        const addHoverClass = () => document.body.classList.add('hovering');
+        const removeHoverClass = () => document.body.classList.remove('hovering');
 
-        // --- FILTERING LOGIC ---
-        const cards = document.querySelectorAll('.employee-card');
-        const searchInput = document.getElementById('globalSearch');
+        // --- GOOGLE SHEETS FETCH LOGIC ---
+        const sheetCSVUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTrNQpq641epv1fwbFpW21_1MyJdfrnJS6NUk0yA_VyKeNSPtE7IZ0NMbNAL8JJ02oOzvSbZxatqc5o/pub?gid=15022141&single=true&output=csv';
 
-        // 1. Filter by Blood Group Tabs
+        async function fetchBloodBankData() {
+            try {
+                const response = await fetch(sheetCSVUrl);
+                const csvData = await response.text();
+                processCSVData(csvData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById('loadingData').innerHTML = '<i class="fas fa-exclamation-triangle" style="color:var(--emergency-red);"></i><p>Error connecting to Database.</p>';
+            }
+        }
+
+        function parseCSV(str) {
+            const arr = [];
+            let quote = false;  
+            let col = '', c;
+            for (let i = 0; i < str.length; i++) {
+                c = str[i];
+                if (c === '"' && str[i+1] === '"') { col += c; i++; } 
+                else if (c === '"') { quote = !quote; } 
+                else if (c === ',' && !quote) { arr.push(col.trim()); col = ''; } 
+                else if (c === '\n' && !quote) { arr.push(col.trim()); return [arr, str.substring(i+1)]; } 
+                else if (c === '\r' && !quote) { }
+                else { col += c; }
+            }
+            arr.push(col.trim());
+            return [arr, ''];
+        }
+
+        function processCSVData(csvText) {
+            const grid = document.getElementById('empGrid');
+            grid.innerHTML = ''; 
+            
+            let remainingText = csvText;
+            let row;
+            let isFirstRow = true;
+
+            while (remainingText.length > 0) {
+                [row, remainingText] = parseCSV(remainingText);
+                
+                if (isFirstRow) {
+                    isFirstRow = false;
+                    continue; 
+                }
+
+                if (row.length >= 6 && row[2]) { 
+                    const empCode = row[1] || 'N/A';        // Column B: Employee Code
+                    const name = row[2] || 'Unknown';       // Column C: Name
+                    const designation = row[3] || 'Staff';  // Column D: Designation
+                    const department = row[4] || 'IPAK';    // Column E: Department
+                    const phone = row[5] || '';             // Column F: Phone Number
+                    const blood = (row[6] || 'Unknown').toUpperCase(); // Column G: Blood Group
+
+                    const cardHTML = `
+                        <div class="employee-card" data-blood="${blood}">
+                            <div class="emp-name">${name}</div>
+                            <div class="blood-tag"><i class="fas fa-droplet"></i> ${blood}</div>
+                            <div class="emp-designation">${designation}</div>
+                            <div class="emp-info"><i class="fas fa-building"></i> ${department}</div>
+                            
+                            <div class="emp-code-box">
+                                <span>Employee Code</span>
+                                <div class="code-text">${empCode}</div>
+                            </div>
+                            
+                            <a href="tel:${phone}" class="contact-btn"><i class="fas fa-phone-alt"></i> ${phone}</a>
+                        </div>
+                    `;
+                    grid.insertAdjacentHTML('beforeend', cardHTML);
+                }
+            }
+            applyHoverEffects();
+        }
+
+        window.onload = fetchBloodBankData;
+
+        // --- DYNAMIC FILTERING LOGIC ---
         function filterByBlood(bloodGroup, btnElement) {
-            // Visual Update for Buttons
             document.querySelectorAll('.blood-btn').forEach(btn => btn.classList.remove('active'));
             btnElement.classList.add('active');
+            document.getElementById('globalSearch').value = '';
 
-            // Reset Search Box to avoid confusion
-            searchInput.value = '';
-
-            // Filter Cards
+            const cards = document.querySelectorAll('.employee-card');
             cards.forEach(card => {
                 const cardBlood = card.getAttribute('data-blood');
-                
                 if (bloodGroup === 'All' || cardBlood === bloodGroup) {
-                    card.style.display = 'block';
-                    card.style.animation = 'fadeIn 0.5s ease';
+                    card.style.display = 'flex'; 
+                    card.style.animation = 'none'; 
+                    setTimeout(() => card.style.animation = 'fadeIn 0.5s ease', 10);
                 } else {
                     card.style.display = 'none';
                 }
             });
         }
 
-        // 2. Filter by Search Text (Name/Role)
-        searchInput.addEventListener('input', function() {
-            const filter = searchInput.value.toLowerCase().trim();
-            
-            // Reset Blood Tabs visual state to 'All' conceptually (optional, but cleaner UI)
+        document.getElementById('globalSearch').addEventListener('input', function() {
+            const filter = this.value.toLowerCase().trim();
             document.querySelectorAll('.blood-btn').forEach(btn => btn.classList.remove('active'));
             
+            const cards = document.querySelectorAll('.employee-card');
             cards.forEach(card => {
                 const name = card.querySelector('.emp-name').textContent.toLowerCase();
                 const role = card.querySelector('.emp-designation').textContent.toLowerCase();
-                const blood = card.querySelector('.blood-tag').textContent.toLowerCase(); // Also search text within blood tag
+                const blood = card.querySelector('.blood-tag').textContent.toLowerCase(); 
+                const code = card.querySelector('.code-text').textContent.toLowerCase(); 
                 
-                if (name.includes(filter) || role.includes(filter) || blood.includes(filter)) {
-                    card.style.display = "block";
+                if (name.includes(filter) || role.includes(filter) || blood.includes(filter) || code.includes(filter)) {
+                    card.style.display = "flex";
                     card.style.animation = "fadeIn 0.4s ease";
                 } else {
                     card.style.display = "none";

@@ -16,6 +16,7 @@
             --med-grey: #9C9C9C;
             --light-grey: #D4D4D4;
             --bg-color: #F5F7FA;
+            --border-light: #E5E7EB; /* Added for standard header */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; cursor: none; }
@@ -50,28 +51,34 @@
             border-width: 3px;
         }
 
-        /* --- TOP BAR --- */
+        /* --- STANDARD HEADER STYLES --- */
         .top-bar {
-            background: var(--white);
-            height: 80px;
+            background: rgba(255, 255, 255, 0.98);
+            border-bottom: 1px solid var(--border-light);
+            height: 64px; 
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 50px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            position: fixed; top: 0; width: 100%; z-index: 100;
+            padding: 0 32px;
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
         }
-        .logo-link img { width: 100px; height: auto; transition: 0.3s; }
-        .logo-link:hover img { transform: scale(1.1); }
 
-        .header-actions { display: flex; align-items: center; gap: 20px; }
-        .user-icon { font-size: 1.8rem; color: var(--navy); transition: 0.3s; }
+        .logo-link { text-decoration: none; display: flex; align-items: center; }
+        .logo-link img { width: 100px; height: auto; transition: opacity 0.3s ease; }
+        .logo-link:hover img { opacity: 0.8; }
+
+        .header-actions { display: flex; align-items: center; gap: 16px; }
+        
+        .user-icon { font-size: 22px; color: var(--navy); transition: color 0.3s ease; cursor: pointer; }
         .user-icon:hover { color: var(--lime); }
+
         .logout-btn {
-            padding: 10px 20px; background: transparent; border: 2px solid var(--navy);
-            color: var(--navy); border-radius: 8px; font-weight: 600; transition: 0.3s;
+            padding: 6px 16px; background: transparent;
+            border: 1px solid var(--border-light); color: var(--navy);
+            border-radius: 6px; font-weight: 500; font-size: 13px;
+            transition: all 0.3s ease; cursor: pointer;
         }
-        .logout-btn:hover { background: var(--navy); color: var(--white); }
+        .logout-btn:hover { border-color: var(--navy); background: #f3f4f6; }
 
         /* --- LAYOUT --- */
         .wrapper { padding-top: 120px; padding-bottom: 50px; }
@@ -169,15 +176,15 @@
 
     <nav class="top-bar">
         <a href="dashboard.html" class="logo-link">
-            <img src="logo.png" alt="IPAK">
+            <img src="logo.png" alt="IPAK Logo">
         </a>
         <div class="header-actions">
             <a href="dashboard.html" style="text-decoration: none;">
                 <i class="fas fa-arrow-left user-icon" title="Back to Dashboard"></i>
             </a>
-
-            <i class="fas fa-user-circle user-icon"></i>
-            <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
+            
+            <i class="fas fa-user-circle user-icon" title="My Profile"></i>
+            <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
     </nav>
 
@@ -197,6 +204,8 @@
     </div>
 
     <script>
+        function logout() { window.location.href = "index.html"; }
+
         // --- VIDEO DATA ---
         const videos = [
             { id: 'HXKEm0exfic', title: 'Vision 2026: Naveed Godil', chan: 'NG', time: '55:20' },

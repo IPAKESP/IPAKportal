@@ -17,6 +17,7 @@
             --light-grey: #D4D4D4;
             --bg-color: #F5F7FA;
             --emergency-red: #ff4757;
+            --border-light: #E5E7EB; /* Added for standard header */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; cursor: none; }
@@ -44,28 +45,33 @@
             background: rgba(168, 197, 0, 0.1);
         }
 
-        /* --- TOP BAR --- */
+        /* --- STANDARD HEADER STYLES --- */
         .top-bar {
-            background: var(--white);
-            height: 80px;
+            background: rgba(255, 255, 255, 0.98);
+            border-bottom: 1px solid var(--border-light);
+            height: 64px; 
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 50px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            position: fixed; top: 0; width: 100%; z-index: 100;
+            padding: 0 32px;
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
         }
-        .logo-link img { width: 100px; height: auto; transition: 0.3s; }
-        .logo-link:hover img { transform: scale(1.1); }
 
-        .header-actions { display: flex; align-items: center; gap: 20px; }
-        .user-icon { font-size: 1.8rem; color: var(--navy); transition: 0.3s; }
+        .logo-link img { width: 100px; height: auto; transition: opacity 0.3s ease; }
+        .logo-link:hover img { opacity: 0.8; }
+
+        .header-actions { display: flex; align-items: center; gap: 16px; }
+        
+        .user-icon { font-size: 22px; color: var(--navy); transition: color 0.3s ease; cursor: pointer; }
         .user-icon:hover { color: var(--lime); }
+
         .logout-btn {
-            padding: 10px 20px; background: transparent; border: 2px solid var(--navy);
-            color: var(--navy); border-radius: 8px; font-weight: 600; transition: 0.3s;
+            padding: 6px 16px; background: transparent;
+            border: 1px solid var(--border-light); color: var(--navy);
+            border-radius: 6px; font-weight: 500; font-size: 13px;
+            transition: all 0.3s ease; cursor: pointer;
         }
-        .logout-btn:hover { background: var(--navy); color: var(--white); }
+        .logout-btn:hover { border-color: var(--navy); background: #f3f4f6; }
 
         /* --- LAYOUT --- */
         .wrapper { padding-top: 120px; padding-bottom: 50px; }
@@ -164,15 +170,14 @@
 
     <nav class="top-bar">
         <a href="dashboard.html" class="logo-link">
-            <img src="logo.png" alt="IPAK">
+            <img src="logo.png" alt="IPAK Logo">
         </a>
         <div class="header-actions">
             <a href="dashboard.html" style="text-decoration: none;">
                 <i class="fas fa-arrow-left user-icon" title="Back to Dashboard"></i>
             </a>
-
-            <i class="fas fa-user-circle user-icon"></i>
-            <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
+            <i class="fas fa-user-circle user-icon" title="My Profile"></i>
+            <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
     </nav>
 
@@ -184,7 +189,6 @@
                 <h1>Service HelpDesk</h1>
             </div>
 
-            <!-- CARDS MOVED TO TOP -->
             <div class="helpdesk-grid">
                 <div class="card">
                     <div class="card-header"><i class="fas fa-comment-dots"></i> Complaints</div>
@@ -229,7 +233,6 @@
                 </div>
             </div>
 
-            <!-- EMAIL & WHATSAPP BUTTONS MOVED BELOW CARDS -->
             <div class="action-area">
                 <button class="support-btn btn-email" onclick="openEmail()">
                     <i class="fas fa-envelope"></i> Email Support
@@ -280,6 +283,9 @@
         }
         function openWhatsApp() { window.open('https://wa.me/923222818107', '_blank'); }
         function openEmail() { window.location.href = 'mailto:hamza.farooq@ipak.com.pk'; }
+        
+        // Added logout function for the standard header
+        function logout() { window.location.href = "index.html"; }
         
         window.onclick = (e) => { if (e.target == document.getElementById('contentModal')) closeModal(); }
     </script>

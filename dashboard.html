@@ -265,7 +265,12 @@
             display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth;
         }
         .msg { display: flex; flex-direction: column; max-width: 85%; }
-        .msg-info { font-size: 10px; color: var(--med-grey); margin-bottom: 4px; }
+        
+        /* DELETE BUTTON STYLES */
+        .msg-info { font-size: 10px; color: var(--med-grey); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+        .delete-btn { color: var(--emergency-red); cursor: pointer; opacity: 0.6; transition: 0.2s; font-size: 11px; }
+        .delete-btn:hover { opacity: 1; transform: scale(1.1); }
+
         .msg-bubble { padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.4; word-wrap: break-word; }
         
         .msg.received { align-self: flex-start; }
@@ -274,6 +279,15 @@
         .msg.sent { align-self: flex-end; }
         .msg.sent .msg-bubble { background: var(--lime); color: var(--navy); font-weight: 500; border-bottom-right-radius: 2px; }
         .msg.sent .msg-info { align-self: flex-end; }
+
+        /* DELETED MESSAGE STYLES */
+        .msg-bubble.deleted {
+            background: transparent !important;
+            border: 1px dashed var(--med-grey) !important;
+            color: var(--med-grey) !important;
+            font-style: italic;
+            font-weight: 400 !important;
+        }
 
         .chat-input-area {
             padding: 12px 16px; border-top: 1px solid var(--border-light); background: var(--white);
@@ -626,36 +640,41 @@
         let myUserId = localStorage.getItem('ipak_user_id');
         let myUserName = localStorage.getItem('ipak_user_name');
 
-        // Agar user ka naam pehlay say save nahi hai toh poochain
         if (!myUserId || !myUserName) {
             myUserId = 'user_' + Math.random().toString(36).substr(2, 9);
-            
-            // User say naam poochna
             myUserName = prompt("Chat Lounge mein shamil hone kay liye apna naam darj karein:", "");
-            
-            // Agar user cancel kar de ya khali chor de toh default naam de dein
             if (!myUserName || myUserName.trim() === "") {
                 myUserName = "Team Member"; 
             }
-
             localStorage.setItem('ipak_user_id', myUserId);
             localStorage.setItem('ipak_user_name', myUserName);
         }
 
-        // Send Message Function
+        // --- DELETE MESSAGE FUNCTION ---
+        window.deleteMessage = function(messageKey) {
+            if(confirm("Are you sure you want to delete this message?")) {
+                chatRef.child(messageKey).update({
+                    isDeleted: true
+                }).catch((error) => {
+                    alert("Delete failed: " + error.message);
+                });
+            }
+        };
+
+        // --- SEND MESSAGE FUNCTION ---
         window.sendMessage = function() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
             if (!text) return;
 
-            // Database mein Message + Naam dono save karwana
             chatRef.push({
                 userId: myUserId,
-                userName: myUserName, // Yahan naam add kiya gaya hai
+                userName: myUserName,
                 text: text,
+                isDeleted: false, // New flag for deleted messages
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
-                input.value = ''; // Success
+                input.value = ''; 
             }).catch((error) => {
                 alert("Message send nahi ho raha. Error: " + error.message);
             });
@@ -668,9 +687,10 @@
             }
         };
 
-        // Listen for new messages
+        // --- RECEIVE NEW MESSAGES ---
         chatRef.on('child_added', (snapshot) => {
             const data = snapshot.val();
+            const messageKey = snapshot.key; // Unique Firebase Key
             
             let timeStr = "Just now";
             if (data.timestamp) {
@@ -686,15 +706,29 @@
 
             const isMe = data.userId === myUserId;
             const msgClass = isMe ? 'sent' : 'received';
-            
-            // Ab 'Colleague' ki bajaye Database say asal naam aayega
             const senderName = isMe ? 'You' : (data.userName || 'Unknown Member');
+
+            let messageContent = data.text;
+            let deleteBtnHtml = '';
+
+            // Agar message delete ho chuka hai
+            if (data.isDeleted) {
+                messageContent = `<i class="fas fa-ban" style="margin-right: 4px;"></i> This message was deleted`;
+            } else if (isMe) {
+                // Agar message mera hai aur delete nahi hua, toh trash icon dikhao
+                deleteBtnHtml = `<i class="fas fa-trash-alt delete-btn" onclick="deleteMessage('${messageKey}')" title="Delete for everyone"></i>`;
+            }
 
             const msgDiv = document.createElement('div');
             msgDiv.className = `msg ${msgClass}`;
+            msgDiv.id = `msg-${messageKey}`; // ID for live updating
+
             msgDiv.innerHTML = `
-                <span class="msg-info">${senderName} • ${timeStr}</span>
-                <div class="msg-bubble">${data.text}</div>
+                <span class="msg-info">
+                    ${senderName} • ${timeStr} 
+                    ${isMe ? deleteBtnHtml : ''}
+                </span>
+                <div class="msg-bubble ${data.isDeleted ? 'deleted' : ''}">${messageContent}</div>
             `;
 
             messagesContainer.appendChild(msgDiv);
@@ -704,6 +738,29 @@
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
             }, 50);
         });
+
+        // --- LISTEN FOR DELETED MESSAGES IN REAL-TIME ---
+        chatRef.on('child_changed', (snapshot) => {
+            const data = snapshot.val();
+            const messageKey = snapshot.key;
+            const msgDiv = document.getElementById(`msg-${messageKey}`);
+            
+            // Agar msgDiv HTML mein mojood hai aur isDeleted true ho gaya hai
+            if (msgDiv && data.isDeleted) {
+                const bubble = msgDiv.querySelector('.msg-bubble');
+                if (bubble) {
+                    bubble.innerHTML = `<i class="fas fa-ban" style="margin-right: 4px;"></i> This message was deleted`;
+                    bubble.classList.add('deleted'); // Appends grey border styling
+                }
+                
+                // Delete button ko screen say ghayab karna
+                const deleteBtn = msgDiv.querySelector('.delete-btn');
+                if (deleteBtn) {
+                    deleteBtn.remove();
+                }
+            }
+        });
+
     </script>
 </body>
 </html>

@@ -252,7 +252,6 @@
         }
 
         /* --- ADDED CHAT SYSTEM STYLES --- */
-        /* Equalizing sizes for both triggers to perfectly match without modifying your core CSS above */
         .contact-trigger, .chat-trigger {
             width: 50px !important; 
             height: 50px !important; 
@@ -260,7 +259,7 @@
         }
 
         .chat-trigger {
-            position: fixed; bottom: 24px; left: 24px; /* LEFT SIDE */
+            position: fixed; bottom: 24px; left: 24px; 
             background-color: var(--navy); color: var(--white); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); border: 1px solid var(--navy); z-index: 2000;
@@ -378,6 +377,20 @@
                         <div class="banner-overlay">
                             <h2>Winning Together</h2>
                             <p>Jeet Hum say hai</p>
+                        </div>
+                    </div>
+                    <div class="banner-slide">
+                        <img src="Banner 4.png" alt="Our Vision">
+                        <div class="banner-overlay">
+                            <h2>Our Vision</h2>
+                            <p>Leading the way to a brighter future.</p>
+                        </div>
+                    </div>
+                    <div class="banner-slide">
+                        <img src="Banner 5.png" alt="Employee Success">
+                        <div class="banner-overlay">
+                            <h2>Employee Success</h2>
+                            <p>Your growth is our priority.</p>
                         </div>
                     </div>
                 </div>
@@ -510,7 +523,6 @@
         }
         setInterval(nextSlide, 3500);
 
-        // Updated toggles to handle both popups mutually exclusively
         function toggleContact() {
             const contactPopup = document.getElementById('contactPopup');
             const chatPopup = document.getElementById('chatPopup');
@@ -545,7 +557,6 @@
             }
         }
 
-        // Updated global click listener for both popups
         document.addEventListener('click', function(e) {
             const contactPopup = document.getElementById('contactPopup');
             const contactTrigger = document.getElementById('contactTrigger');
@@ -597,8 +608,7 @@
         const messagesContainer = document.getElementById('chatMessages');
         const onlineDot = document.querySelector('.online-dot');
 
-        // Check Connection Realtime
-        const connectedRef = db.ref(".info/connected");
+        connectedRef = db.ref(".info/connected");
         connectedRef.on("value", (snap) => {
             if (snap.val() === true) {
                 onlineDot.style.background = "var(--whatsapp-green)";
@@ -609,7 +619,6 @@
             }
         });
 
-        // NAME PROMPT & USER ID
         let myUserId = localStorage.getItem('ipak_user_id');
         let myUserName = localStorage.getItem('ipak_user_name');
 
@@ -623,7 +632,6 @@
             localStorage.setItem('ipak_user_name', myUserName);
         }
 
-        // DELETE MESSAGE FUNCTION
         window.deleteMessage = function(messageKey) {
             if(confirm("Are you sure you want to delete this message?")) {
                 chatRef.child(messageKey).update({
@@ -634,7 +642,6 @@
             }
         };
 
-        // SEND MESSAGE FUNCTION
         window.sendMessage = function() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
@@ -660,7 +667,6 @@
             }
         };
 
-        // RECEIVE NEW MESSAGES
         chatRef.on('child_added', (snapshot) => {
             const data = snapshot.val();
             const messageKey = snapshot.key;
@@ -706,7 +712,6 @@
             setTimeout(() => { messagesContainer.scrollTop = messagesContainer.scrollHeight; }, 50);
         });
 
-        // LISTEN FOR DELETED MESSAGES
         chatRef.on('child_changed', (snapshot) => {
             const data = snapshot.val();
             const messageKey = snapshot.key;
@@ -722,7 +727,6 @@
                 if (deleteBtn) deleteBtn.remove();
             }
         });
-
     </script>
 </body>
 </html>

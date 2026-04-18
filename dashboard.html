@@ -164,7 +164,7 @@
             color: #9CA3AF; font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
         }
 
-        /* --- CONTACT POPUP & CHAT TRIGGER (IDENTICAL SIZING) --- */
+        /* --- CONTACT POPUP & CHAT TRIGGER --- */
         .contact-trigger, .chat-trigger {
             position: fixed; 
             bottom: 24px; 
@@ -189,7 +189,7 @@
         }
 
         .chat-trigger {
-            left: 24px; /* LEFT SIDE */
+            left: 24px;
             background-color: var(--navy); 
             color: var(--white); 
             border-color: var(--navy); 
@@ -235,7 +235,7 @@
         .contact-info div:last-child { font-size: 11px; color: var(--med-grey); }
 
         .chat-popup {
-            position: fixed; bottom: 84px; left: 24px; /* LEFT SIDE */ width: 340px; height: 480px;
+            position: fixed; bottom: 84px; left: 24px; width: 340px; height: 480px;
             background: var(--white); border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             border: 1px solid var(--border-light); display: flex; flex-direction: column;
             z-index: 1999; opacity: 0; transform: translateY(15px); pointer-events: none;
@@ -252,7 +252,7 @@
         /* CONNECTION DOT INDICATOR */
         .online-dot { 
             width: 8px; height: 8px; 
-            background: var(--med-grey); /* Default grey, changes to Green if connected */
+            background: var(--med-grey); 
             border-radius: 50%; 
             transition: all 0.3s ease;
         }
@@ -610,42 +610,54 @@
         const messagesContainer = document.getElementById('chatMessages');
         const onlineDot = document.querySelector('.online-dot');
 
-        // Check Connection Realtime (Green Dot = Connected, Red Dot = Disconnected)
+        // Check Connection Realtime
         const connectedRef = db.ref(".info/connected");
         connectedRef.on("value", (snap) => {
             if (snap.val() === true) {
                 onlineDot.style.background = "var(--whatsapp-green)";
                 onlineDot.style.boxShadow = "0 0 5px var(--whatsapp-green)";
-                console.log("Firebase Connected Successfully");
             } else {
                 onlineDot.style.background = "var(--emergency-red)";
                 onlineDot.style.boxShadow = "0 0 5px var(--emergency-red)";
             }
         });
 
-        // Set User ID locally
+        // --- NAME PROMPT & USER ID LOGIC ---
         let myUserId = localStorage.getItem('ipak_user_id');
-        if (!myUserId) {
+        let myUserName = localStorage.getItem('ipak_user_name');
+
+        // Agar user ka naam pehlay say save nahi hai toh poochain
+        if (!myUserId || !myUserName) {
             myUserId = 'user_' + Math.random().toString(36).substr(2, 9);
+            
+            // User say naam poochna
+            myUserName = prompt("Chat Lounge mein shamil hone kay liye apna naam darj karein:", "");
+            
+            // Agar user cancel kar de ya khali chor de toh default naam de dein
+            if (!myUserName || myUserName.trim() === "") {
+                myUserName = "Team Member"; 
+            }
+
             localStorage.setItem('ipak_user_id', myUserId);
+            localStorage.setItem('ipak_user_name', myUserName);
         }
 
-        // Send Message with Alert Error Handling
+        // Send Message Function
         window.sendMessage = function() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
             if (!text) return;
 
+            // Database mein Message + Naam dono save karwana
             chatRef.push({
                 userId: myUserId,
+                userName: myUserName, // Yahan naam add kiya gaya hai
                 text: text,
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
-                input.value = ''; // Success - Clear box
+                input.value = ''; // Success
             }).catch((error) => {
-                // If it fails, show an alert to the user on the screen
                 alert("Message send nahi ho raha. Error: " + error.message);
-                console.error("Firebase Error:", error);
             });
         };
 
@@ -674,7 +686,9 @@
 
             const isMe = data.userId === myUserId;
             const msgClass = isMe ? 'sent' : 'received';
-            const senderName = isMe ? 'You' : 'Colleague';
+            
+            // Ab 'Colleague' ki bajaye Database say asal naam aayega
+            const senderName = isMe ? 'You' : (data.userName || 'Unknown Member');
 
             const msgDiv = document.createElement('div');
             msgDiv.className = `msg ${msgClass}`;

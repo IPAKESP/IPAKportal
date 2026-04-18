@@ -164,7 +164,7 @@
             color: #9CA3AF; font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
         }
 
-        /* --- CONTACT POPUP STYLES --- */
+        /* --- CONTACT POPUP STYLES (STAYS ON RIGHT) --- */
         .contact-trigger {
             position: fixed; bottom: 24px; right: 24px; width: 48px; height: 48px;
             background-color: var(--white); color: var(--navy); border-radius: 50%;
@@ -203,7 +203,74 @@
         .contact-info div:first-child { font-weight: 500; color: var(--navy); font-size: 13px; }
         .contact-info div:last-child { font-size: 11px; color: var(--med-grey); }
 
+        /* --- GLOBAL CHAT ROOM STYLES (MOVED TO LEFT) --- */
+        .chat-trigger {
+            position: fixed; bottom: 24px; left: 24px; /* MOVED TO LEFT */
+            width: 48px; height: 48px;
+            background-color: var(--navy); color: var(--white); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); border: none; z-index: 2000;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer;
+        }
+        .chat-trigger:hover { 
+            transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); color: var(--lime); 
+        }
+        .chat-trigger .badge { 
+            position: absolute; top: -2px; right: -2px; background: var(--emergency-red); 
+            width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--white); 
+        }
+
+        .chat-popup {
+            position: fixed; bottom: 84px; left: 24px; /* MOVED TO LEFT */ width: 340px; height: 480px;
+            background: var(--white); border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--border-light); display: flex; flex-direction: column;
+            z-index: 1999; opacity: 0; transform: translateY(15px); pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden;
+        }
+        .chat-popup.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+        .chat-header-main {
+            background: var(--navy); color: var(--white); padding: 16px; display: flex;
+            justify-content: space-between; align-items: center;
+        }
+        .chat-header-main h3 { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; margin: 0;}
+        .online-dot { width: 8px; height: 8px; background: var(--whatsapp-green); border-radius: 50%; box-shadow: 0 0 5px var(--whatsapp-green); animation: pulse 2s infinite; }
+        .chat-close { color: #CBD5E1; cursor: pointer; transition: 0.3s; font-size: 16px; }
+        .chat-close:hover { color: var(--emergency-red); }
+
+        .chat-messages {
+            flex-grow: 1; padding: 16px; overflow-y: auto; background: var(--light-bg);
+            display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth;
+        }
+        .msg { display: flex; flex-direction: column; max-width: 85%; }
+        .msg-info { font-size: 10px; color: var(--med-grey); margin-bottom: 4px; }
+        .msg-bubble { padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.4; word-wrap: break-word; }
+        
+        .msg.received { align-self: flex-start; }
+        .msg.received .msg-bubble { background: var(--white); border: 1px solid var(--border-light); color: var(--navy); border-bottom-left-radius: 2px; }
+        
+        .msg.sent { align-self: flex-end; }
+        .msg.sent .msg-bubble { background: var(--lime); color: var(--navy); font-weight: 500; border-bottom-right-radius: 2px; }
+        .msg.sent .msg-info { align-self: flex-end; }
+
+        .chat-input-area {
+            padding: 12px 16px; border-top: 1px solid var(--border-light); background: var(--white);
+            display: flex; gap: 8px; align-items: center;
+        }
+        .chat-input-area input {
+            flex-grow: 1; border: 1px solid var(--border-light); padding: 10px 14px; border-radius: 20px;
+            font-size: 13px; outline: none; transition: border 0.3s;
+        }
+        .chat-input-area input:focus { border-color: var(--lime); }
+        .send-btn {
+            background: var(--navy); color: var(--white); width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;
+            transition: 0.3s;
+        }
+        .send-btn:hover { background: var(--lime); color: var(--navy); }
+
         @keyframes slideUp { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); } 70% { box-shadow: 0 0 0 6px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
 
         /* --- IFRAME MODAL STYLES --- */
         .modal-overlay {
@@ -249,6 +316,7 @@
             .bento-grid { grid-template-columns: 1fr; grid-auto-rows: auto; min-height: 140px; }
             .span-2x2, .span-2-col, .span-2-row { grid-column: span 1; grid-row: span 1; }
             .span-2x2 { height: 200px; }
+            .chat-popup { width: 90%; left: 5%; bottom: 84px; } /* MOVED TO LEFT FOR MOBILE */
         }
     </style>
 </head>
@@ -268,7 +336,6 @@
         <div class="container">
             
             <div class="bento-grid">
-
                 <a href="newsletter.html" class="card">
                     <i class="fas fa-newspaper card-icon"></i>
                     <div><div class="card-title">Newsletter</div><div class="card-desc">Weekly Updates</div></div>
@@ -397,11 +464,35 @@
             </a>
         </div>
     </div>
-    <button class="contact-trigger" id="contactTrigger" onclick="toggleContact()"><i class="fas fa-headset"></i></button>
+
+    <div class="chat-popup" id="chatPopup">
+        <div class="chat-header-main">
+            <h3><span class="online-dot"></span> Team Lounge <span style="font-size: 11px; font-weight: 400; opacity: 0.8; margin-left: 4px;">(Live)</span></h3>
+            <i class="fas fa-times chat-close" onclick="toggleChat()"></i>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            </div>
+
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Type a message..." onkeypress="handleEnter(event)">
+            <button class="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <button class="chat-trigger" id="chatTrigger" onclick="toggleChat()">
+        <i class="fas fa-comments"></i>
+        <span class="badge"></span>
+    </button>
+    
+    <button class="contact-trigger" id="contactTrigger" onclick="toggleContact()">
+        <i class="fas fa-headset"></i>
+    </button>
 
     <script>
         function logout() { window.location.href = "index.html"; }
 
+        // Banner Slider
         let currentSlide = 0;
         const slides = document.querySelectorAll('.banner-slide');
         function nextSlide() {
@@ -411,19 +502,54 @@
         }
         setInterval(nextSlide, 3500);
 
+        // Toggle Contact Popup
         function toggleContact() {
-            document.getElementById('contactPopup').classList.toggle('show');
+            const contactPopup = document.getElementById('contactPopup');
+            const chatPopup = document.getElementById('chatPopup');
             const trigger = document.getElementById('contactTrigger');
+            
+            if (chatPopup.classList.contains('show')) {
+                 chatPopup.classList.remove('show');
+            }
+
+            contactPopup.classList.toggle('show');
             trigger.classList.toggle('active');
             const icon = trigger.querySelector('i');
             icon.className = trigger.classList.contains('active') ? 'fas fa-times' : 'fas fa-headset';
         }
 
-        document.addEventListener('click', function(e) {
-            const popup = document.getElementById('contactPopup');
-            const trigger = document.getElementById('contactTrigger');
-            if (!popup.contains(e.target) && !trigger.contains(e.target) && popup.classList.contains('show')) {
+        // Toggle Global Chat Room
+        function toggleChat() {
+            const chatPopup = document.getElementById('chatPopup');
+            const contactPopup = document.getElementById('contactPopup');
+            
+            if (contactPopup.classList.contains('show')) {
                 toggleContact();
+            }
+
+            chatPopup.classList.toggle('show');
+            
+            if (chatPopup.classList.contains('show')) {
+                setTimeout(() => {
+                    const messagesContainer = document.getElementById('chatMessages');
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }, 10);
+            }
+        }
+
+        // Close popups when clicking outside of them
+        document.addEventListener('click', function(e) {
+            const contactPopup = document.getElementById('contactPopup');
+            const contactTrigger = document.getElementById('contactTrigger');
+            const chatPopup = document.getElementById('chatPopup');
+            const chatTrigger = document.getElementById('chatTrigger');
+
+            if (!contactPopup.contains(e.target) && !contactTrigger.contains(e.target) && contactPopup.classList.contains('show')) {
+                toggleContact();
+            }
+
+            if (!chatPopup.contains(e.target) && !chatTrigger.contains(e.target) && chatPopup.classList.contains('show')) {
+                toggleChat();
             }
         });
 
@@ -436,8 +562,88 @@
 
         function closeIframeModal() {
             document.getElementById('iframeModal').style.display = 'none';
-            document.getElementById('appViewer').src = ''; // Clear source to stop background processes
+            document.getElementById('appViewer').src = ''; 
         }
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getDatabase, ref, push, onChildAdded, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAyDpxYZVKT7RSsg8dzecgogYa-FGJZJJ0",
+            authDomain: "employee-service-portal-b753b.firebaseapp.com",
+            databaseURL: "https://employee-service-portal-b753b-default-rtdb.firebaseio.com",
+            projectId: "employee-service-portal-b753b",
+            storageBucket: "employee-service-portal-b753b.appspot.com",
+            messagingSenderId: "787703437938",
+            appId: "1:787703437938:web:383b6f148067a0590400eb"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const chatRef = ref(db, 'team_lounge_messages');
+
+        let myUserId = localStorage.getItem('ipak_user_id');
+        if (!myUserId) {
+            myUserId = 'user_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('ipak_user_id', myUserId);
+        }
+
+        const messagesContainer = document.getElementById('chatMessages');
+
+        // Send Message Function (Attached to window so your HTML buttons can trigger it)
+        window.sendMessage = function() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            push(chatRef, {
+                userId: myUserId,
+                text: text,
+                timestamp: serverTimestamp()
+            });
+
+            input.value = ''; 
+        };
+
+        // Handle Enter Key
+        window.handleEnter = function(event) {
+            if (event.key === 'Enter') {
+                window.sendMessage();
+            }
+        };
+
+        // Listen for Incoming Messages Live
+        onChildAdded(chatRef, (snapshot) => {
+            const data = snapshot.val();
+            
+            let timeStr = "Just now";
+            if (data.timestamp) {
+                const date = new Date(data.timestamp);
+                let hours = date.getHours();
+                let minutes = date.getMinutes();
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12;
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                timeStr = hours + ':' + minutes + ' ' + ampm;
+            }
+
+            const isMe = data.userId === myUserId;
+            const msgClass = isMe ? 'sent' : 'received';
+            const senderName = isMe ? 'You' : 'Colleague';
+
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `msg ${msgClass}`;
+            msgDiv.innerHTML = `
+                <span class="msg-info">${senderName} • ${timeStr}</span>
+                <div class="msg-bubble">${data.text}</div>
+            `;
+
+            messagesContainer.appendChild(msgDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        });
     </script>
 </body>
 </html>

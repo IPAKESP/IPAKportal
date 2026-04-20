@@ -500,27 +500,16 @@
             <!-- WRITER GRID -->
             <div class="writer-grid">
                 <!-- INPUT PANEL -->
-                <div class="panel-card">
+                <div class="panel-card full-width">
                     <div class="panel-header">
                         <div class="panel-header-icon"><i class="fas fa-pen"></i></div>
                         <span class="panel-header-title">Your Input</span>
                         <span class="panel-header-sub" id="inputCharCount">0 characters</span>
                     </div>
-                    <textarea id="inputText"
-                        placeholder="Type or paste your text here...&#10;&#10;Example: 'Write an email to the HR department requesting leave for next week due to a family function.'"></textarea>
+                    <textarea id="inputText" placeholder="Type or paste your text here..."></textarea>
                 </div>
 
-                <!-- INSTRUCTIONS PANEL -->
-                <div class="panel-card">
-                    <div class="panel-header">
-                        <div class="panel-header-icon"><i class="fas fa-sliders"></i></div>
-                        <span class="panel-header-title">Additional Instructions</span>
-                        <span class="panel-header-sub">Optional</span>
-                    </div>
-                    <textarea id="instructionText"
-                        placeholder="Add any extra instructions...&#10;&#10;• Make it shorter&#10;• Use simple language&#10;• Add bullet points&#10;• Include a subject line&#10;• Make it more formal"
-                        style="min-height: 200px;"></textarea>
-                </div>
+
 
                 <!-- OUTPUT PANEL -->
                 <div class="panel-card full-width">
@@ -535,9 +524,7 @@
                             <i class="fas fa-copy"></i> Copy
                         </button>
                     </div>
-                    <div class="output-body" id="outputContent">
-                        <span class="output-placeholder">AI-generated content will appear here. Click <strong>Generate</strong> to begin.</span>
-                    </div>
+                    <div class="output-body" id="outputContent"></div>
                 </div>
             </div>
 
@@ -649,7 +636,6 @@
         // ── GENERATE ─────────────────────────────────────
         async function generate() {
             const inputText   = document.getElementById('inputText').value.trim();
-            const extraInstr  = document.getElementById('instructionText').value.trim();
             const lang        = document.getElementById('langSelect').value;
 
             if (!inputText) { showError('Please enter some text before generating.'); return; }
@@ -658,7 +644,6 @@
             setLoading(true);
 
             let prompt = prompts[currentMode](inputText, currentTone, lang);
-            if (extraInstr) prompt += `\n\nAdditional instructions: ${extraInstr}`;
 
             try {
                 const res = await fetch(DS_URL, {
@@ -749,8 +734,7 @@
         // ── CLEAR ────────────────────────────────────────
         function clearAll() {
             document.getElementById('inputText').value        = '';
-            document.getElementById('instructionText').value  = '';
-            document.getElementById('outputContent').innerHTML = '<span class="output-placeholder">AI-generated content will appear here. Click <strong>Generate</strong> to begin.</span>';
+            document.getElementById('outputContent').innerHTML = '';
             document.getElementById('outputContent').classList.remove('typing-cursor');
             hideError();
             updateStats();

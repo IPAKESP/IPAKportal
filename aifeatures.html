@@ -20,15 +20,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
 
         .writer-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 20px;
-            width: 450px;
+            width: 100%;
+            max-width: 450px;
             padding: 24px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
@@ -37,7 +39,6 @@
         .header h2 { font-size: 18px; margin: 0; font-weight: 600; }
         .badge { background: rgba(99, 102, 241, 0.1); color: var(--accent); padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
 
-        .input-group { position: relative; margin-bottom: 15px; }
         textarea {
             width: 100%;
             background: #1a1a1c;
@@ -49,6 +50,7 @@
             resize: none;
             box-sizing: border-box;
             transition: 0.3s;
+            margin-bottom: 15px;
         }
         textarea:focus { outline: none; border-color: var(--accent); }
 
@@ -57,23 +59,22 @@
             color: white;
             border: none;
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
             transition: 0.3s;
         }
         .action-btn:hover { background: #4f46e5; transform: translateY(-1px); }
-        .action-btn:disabled { background: #27272a; cursor: not-allowed; }
+        .action-btn:disabled { background: #27272a; color: #71717a; cursor: not-allowed; }
 
         .output-section {
             margin-top: 20px;
             display: none;
-            animation: fadeIn 0.5s ease;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .output-label { font-size: 11px; color: var(--text-p); text-transform: uppercase; margin-bottom: 8px; display: block; }
         .result-box {
             background: #000;
             border: 1px solid var(--border);
@@ -83,6 +84,7 @@
             line-height: 1.6;
             color: #e4e4e7;
             white-space: pre-wrap;
+            min-height: 100px;
         }
 
         .copy-btn {
@@ -91,10 +93,11 @@
             color: var(--text-p);
             font-size: 12px;
             margin-top: 10px;
-            padding: 6px 12px;
+            padding: 8px 16px;
             border-radius: 6px;
             cursor: pointer;
             float: right;
+            transition: 0.2s;
         }
         .copy-btn:hover { background: #27272a; color: #fff; }
     </style>
@@ -103,20 +106,19 @@
 
 <div class="writer-card">
     <div class="header">
-        <h2>IPAK Writing Assistant</h2>
+        <h2>Smart AI Writer</h2>
         <span class="badge">Gemini Flash</span>
     </div>
     
-    <div class="input-group">
-        <textarea id="prompt" rows="4" placeholder="Roughly likho kya draft karna hai... (e.g. Arbab ko email likho transport update ke liye)"></textarea>
-    </div>
+    <textarea id="prompt" rows="4" placeholder="Draft likho... (e.g. Write an email to Arbab asking for the transport route update by tomorrow)"></textarea>
 
     <button id="btn" class="action-btn" onclick="generateDraft()">Generate Professional Text</button>
 
     <div id="outputContainer" class="output-section">
-        <span class="output-label">Drafted Result</span>
+        <span style="font-size: 11px; color: var(--text-p); margin-bottom: 8px; display: block;">PROPOSED DRAFT:</span>
         <div id="result" class="result-box"></div>
-        <button class="copy-btn" onclick="copyText()">Copy Draft</button>
+        <button class="copy-btn" id="copyBtn" onclick="copyText()">Copy Draft</button>
+        <div style="clear: both;"></div>
     </div>
 </div>
 
@@ -125,12 +127,15 @@
     const API_KEY = "AIzaSyAZna0gtwG-3ak9F2PQnXodUMFZ3INkREc"; 
 
     async function generateDraft() {
-        const promptInput = document.getElementById('prompt').value;
+        const promptText = document.getElementById('prompt').value.trim();
         const btn = document.getElementById('btn');
         const output = document.getElementById('outputContainer');
         const resultBox = document.getElementById('result');
 
-        if (!promptInput) return alert("Kuch toh likho!");
+        if (!promptText) {
+            alert("Please enter some text!");
+            return;
+        }
 
         btn.disabled = true;
         btn.innerText = "Writing... 🖋️";
@@ -142,19 +147,28 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     contents: [{
-                        parts: [{ text: `You are a professional corporate assistant for IPAK. Rewrite the following rough notes into a formal, clear, and polite corporate email or notice. Do not include any conversational filler, just give the final draft. Rough Notes: ${promptInput}` }]
+                        parts: [{ text: `System: You are a professional corporate assistant at IPAK. Rewrite the user's rough notes into a formal, polite, and professional corporate email or notice. Output only the final drafted text.\n\nUser Notes: ${promptText}` }]
                     }]
                 })
             });
 
             const data = await response.json();
-            const text = data.candidates[0].content.parts[0].text;
 
-            resultBox.innerText = text;
-            output.style.display = "block";
+            if (data.error) {
+                throw new Error(data.error.message);
+            }
+
+            if (data.candidates && data.candidates[0].content.parts[0].text) {
+                const finalResult = data.candidates[0].content.parts[0].text;
+                resultBox.innerText = finalResult;
+                output.style.display = "block";
+            } else {
+                throw new Error("Invalid response from AI");
+            }
+
         } catch (error) {
-            alert("Error: Key check karein ya internet.");
-            console.error(error);
+            console.error("AI Error:", error);
+            alert("Error: " + error.message);
         } finally {
             btn.disabled = false;
             btn.innerText = "Generate Professional Text";
@@ -163,8 +177,11 @@
 
     function copyText() {
         const text = document.getElementById('result').innerText;
-        navigator.clipboard.writeText(text);
-        alert("Copied to clipboard!");
+        navigator.clipboard.writeText(text).then(() => {
+            const copyBtn = document.getElementById('copyBtn');
+            copyBtn.innerText = "Copied!";
+            setTimeout(() => { copyBtn.innerText = "Copy Draft"; }, 2000);
+        });
     }
 </script>
 

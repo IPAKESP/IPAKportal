@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPAKportal - Free Passport Photo Kiosk</title>
+    <title>IPAKportal - Replicate ID Studio</title>
     <style>
         body {
             background-color: #09090b;
@@ -83,8 +83,8 @@
 <body>
 
     <div class="bento-card">
-        <div class="header"><h2>📸 ID Photo Studio</h2></div>
-        <div class="desc">Free AI service for IPAKportal. Upload casual photo, get formal suit and tie.</div>
+        <div class="header"><h2>📸 Pro ID Studio (Replicate)</h2></div>
+        <div class="desc">Upload casual photo. AI will preserve the face and apply a formal navy blue suit.</div>
 
         <label class="upload-zone" id="dropArea">
             <div style="font-size: 24px; margin-bottom: 8px;">📁</div>
@@ -92,18 +92,18 @@
             <input type="file" id="photoInput" accept="image/png, image/jpeg">
         </label>
 
-        <button id="generateBtn" class="btn" onclick="processFreeAI()">Apply Suit & Tie</button>
+        <button id="generateBtn" class="btn" onclick="processReplicateAI()">Apply Formal Suit</button>
 
         <div id="resultArea" class="result-wrapper">
-            <p style="font-size: 12px; color: #10b981; margin-top: 0;">✨ AI Processing Complete</p>
+            <p id="statusText" style="font-size: 12px; color: #10b981; margin-top: 0;">✨ AI Processing Complete</p>
             <img id="passportOutput" class="photo-frame" src="" alt="Formal Photo">
             <button class="btn download-btn" onclick="downloadImage()">Download Photo</button>
         </div>
     </div>
 
     <script>
-        // Aapki Hugging Face API Key
-        const HF_TOKEN = "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"; 
+        // Aapki Replicate API Key add kar di gayi hai
+        const REPLICATE_TOKEN = "r8_OBLxXa9oeBvMCuSW5qqXlA5Lybf3bCJ4bYeVZ"; 
 
         const fileInput = document.getElementById('photoInput');
         const fileNameUI = document.getElementById('fileNameDisplay');
@@ -112,66 +112,97 @@
             if (e.target.files.length > 0) fileNameUI.innerText = e.target.files[0].name;
         });
 
-        async function processFreeAI() {
+        async function processReplicateAI() {
             const file = fileInput.files[0];
             const btn = document.getElementById('generateBtn');
             const resultArea = document.getElementById('resultArea');
             const outputImage = document.getElementById('passportOutput');
+            const statusText = document.getElementById('statusText');
 
             if (!file) return alert("Please select a photo first.");
 
             btn.disabled = true;
-            btn.innerText = "Applying Formal Wear... ⏳ (Takes 10-20s)";
+            btn.innerText = "Initializing AI Model... ⏳";
             resultArea.style.display = "none";
 
             try {
-                const arrayBuffer = await file.arrayBuffer();
+                // Convert image to Data URL (base64) for Replicate
+                const base64Image = await fileToDataUrl(file);
                 
-                // CORS FIX: Proxy URL added to prevent GitHub Pages block
-                const API_URL = "https://corsproxy.io/?https://api-inference.huggingface.co/models/timbrooks/instruct-pix2pix";
+                // Replicate API endpoint using CORS proxy
+                const PROXY_URL = "https://corsproxy.io/?";
+                const API_URL = PROXY_URL + encodeURIComponent("https://api.replicate.com/v1/predictions");
                 
-                const promptText = "Make him wear a professional navy blue pentcoat suit and a green tie. Solid white background.";
+                btn.innerText = "Sending to Replicate... ⏳";
 
-                const response = await fetch(API_URL, {
+                // Step 1: Create the prediction request
+                const createResponse = await fetch(API_URL, {
                     method: "POST",
                     headers: {
-                        "Authorization": `Bearer ${HF_TOKEN}`,
+                        "Authorization": `Token ${REPLICATE_TOKEN}`,
                         "Content-Type": "application/json",
                         "x-requested-with": "XMLHttpRequest"
                     },
                     body: JSON.stringify({
-                        inputs: {
-                            image: arrayBufferToBase64(arrayBuffer),
-                            prompt: promptText
+                        version: "a9758cbfbd5f3c2094457d996681af52552901775aa2d6dd0b17fd15df959bef", // SDXL ControlNet
+                        input: {
+                            image: base64Image,
+                            prompt: "Professional passport photo, man wearing a formal navy blue pentcoat suit and green tie, pure white background, high quality, highly detailed",
+                            negative_prompt: "casual clothes, messy, bad lighting, ugly, distorted face",
+                            prompt_strength: 0.8
                         }
                     })
                 });
 
-                if (!response.ok) {
-                    throw new Error("Free API is currently busy or rejected the request. Please try again in a few seconds.");
+                if (!createResponse.ok) throw new Error("Failed to start prediction. Check proxy or API credits.");
+                
+                let prediction = await createResponse.json();
+                
+                // Step 2: Polling - Wait for the AI to finish generating
+                const pollUrl = PROXY_URL + encodeURIComponent(prediction.urls.get);
+                
+                while (
+                    prediction.status !== "succeeded" &&
+                    prediction.status !== "failed" &&
+                    prediction.status !== "canceled"
+                ) {
+                    btn.innerText = `Processing: ${prediction.status}... ⏳`;
+                    await new Promise(r => setTimeout(r, 2000)); // Wait 2 seconds before checking again
+                    
+                    const pollResponse = await fetch(pollUrl, {
+                        headers: {
+                            "Authorization": `Token ${REPLICATE_TOKEN}`,
+                            "x-requested-with": "XMLHttpRequest"
+                        }
+                    });
+                    prediction = await pollResponse.json();
                 }
 
-                const blob = await response.blob();
-                outputImage.src = URL.createObjectURL(blob);
-                resultArea.style.display = "block";
+                if (prediction.status === "succeeded") {
+                    outputImage.src = Array.isArray(prediction.output) ? prediction.output[0] : prediction.output;
+                    statusText.innerText = "✨ Formal Photo Ready";
+                    resultArea.style.display = "block";
+                } else {
+                    throw new Error("AI Generation Failed: " + prediction.error);
+                }
 
             } catch (error) {
                 alert("Error: " + error.message);
                 console.error(error);
             } finally {
                 btn.disabled = false;
-                btn.innerText = "Apply Suit & Tie";
+                btn.innerText = "Apply Formal Suit";
             }
         }
 
-        // Helper function to convert image to base64 for HF API
-        function arrayBufferToBase64(buffer) {
-            let binary = '';
-            const bytes = new Uint8Array(buffer);
-            for (let i = 0; i < bytes.byteLength; i++) {
-                binary += String.fromCharCode(bytes[i]);
-            }
-            return window.btoa(binary);
+        // Helper function to convert File to Data URL (Base64)
+        function fileToDataUrl(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
         }
 
         function downloadImage() {

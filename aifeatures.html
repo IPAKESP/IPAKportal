@@ -102,7 +102,7 @@
     </div>
 
     <script>
-        // Aapki Nayi Hugging Face API Key
+        // Aapki Hugging Face API Key
         const HF_TOKEN = "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"; 
 
         const fileInput = document.getElementById('photoInput');
@@ -125,22 +125,20 @@
             resultArea.style.display = "none";
 
             try {
-                // Convert image to byte array for Hugging Face
                 const arrayBuffer = await file.arrayBuffer();
                 
-                // Using Instruct-Pix2Pix model which is completely free
-                const API_URL = "https://api-inference.huggingface.co/models/timbrooks/instruct-pix2pix";
+                // CORS FIX: Proxy URL added to prevent GitHub Pages block
+                const API_URL = "https://corsproxy.io/?https://api-inference.huggingface.co/models/timbrooks/instruct-pix2pix";
                 
-                // Instructions for the AI
                 const promptText = "Make him wear a professional navy blue pentcoat suit and a green tie. Solid white background.";
 
                 const response = await fetch(API_URL, {
                     method: "POST",
                     headers: {
                         "Authorization": `Bearer ${HF_TOKEN}`,
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "x-requested-with": "XMLHttpRequest"
                     },
-                    // HF Inference API format for this specific model
                     body: JSON.stringify({
                         inputs: {
                             image: arrayBufferToBase64(arrayBuffer),
@@ -150,10 +148,9 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error("Free AI Model is currently busy or loading. Try again in 30 seconds.");
+                    throw new Error("Free API is currently busy or rejected the request. Please try again in a few seconds.");
                 }
 
-                // AI returns the image directly as a Blob (binary file)
                 const blob = await response.blob();
                 outputImage.src = URL.createObjectURL(blob);
                 resultArea.style.display = "block";

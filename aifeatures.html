@@ -16,7 +16,7 @@
         body {
             background-color: var(--bg-dark);
             color: #fff;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -30,61 +30,70 @@
             border: 1px solid var(--border);
             border-radius: 20px;
             width: 100%;
-            max-width: 450px;
-            padding: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            max-width: 480px;
+            padding: 28px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
-        .header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+        .header-title { display: flex; align-items: center; gap: 10px; }
         .header h2 { font-size: 18px; margin: 0; font-weight: 600; }
-        .badge { background: rgba(99, 102, 241, 0.1); color: var(--accent); padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
+        .badge { background: rgba(99, 102, 241, 0.1); color: var(--accent); padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
 
         textarea {
             width: 100%;
             background: #1a1a1c;
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 15px;
+            padding: 16px;
             color: #fff;
             font-size: 14px;
             resize: none;
             box-sizing: border-box;
             transition: 0.3s;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            min-height: 120px;
         }
-        textarea:focus { outline: none; border-color: var(--accent); }
+        textarea:focus { outline: none; border-color: var(--accent); background: #1e1e20; }
 
         .action-btn {
             background: var(--accent);
             color: white;
             border: none;
             width: 100%;
-            padding: 14px;
+            padding: 15px;
             border-radius: 10px;
             font-weight: 600;
+            font-size: 15px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
-        .action-btn:hover { background: #4f46e5; transform: translateY(-1px); }
-        .action-btn:disabled { background: #27272a; color: #71717a; cursor: not-allowed; }
+        .action-btn:hover { background: #4f46e5; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+        .action-btn:disabled { background: #27272a; color: #71717a; cursor: not-allowed; transform: none; }
 
         .output-section {
-            margin-top: 20px;
+            margin-top: 24px;
             display: none;
             border-top: 1px solid var(--border);
-            padding-top: 20px;
+            padding-top: 24px;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .result-box {
             background: #000;
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 15px;
+            border-radius: 12px;
+            padding: 18px;
             font-size: 14px;
             line-height: 1.6;
             color: #e4e4e7;
             white-space: pre-wrap;
-            min-height: 100px;
+            margin-bottom: 12px;
         }
 
         .copy-btn {
@@ -92,53 +101,59 @@
             border: 1px solid var(--border);
             color: var(--text-p);
             font-size: 12px;
-            margin-top: 10px;
             padding: 8px 16px;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             float: right;
             transition: 0.2s;
         }
-        .copy-btn:hover { background: #27272a; color: #fff; }
+        .copy-btn:hover { background: #27272a; color: #fff; border-color: var(--text-p); }
     </style>
 </head>
 <body>
 
 <div class="writer-card">
     <div class="header">
-        <h2>Smart AI Writer</h2>
+        <div class="header-title">
+            <span style="font-size: 20px;">🖋️</span>
+            <h2>Smart AI Writer</h2>
+        </div>
         <span class="badge">Gemini Flash</span>
     </div>
     
-    <textarea id="prompt" rows="4" placeholder="Draft likho... (e.g. Write an email to Arbab asking for the transport route update by tomorrow)"></textarea>
+    <textarea id="prompt" placeholder="Roughly likhen kya draft karna hai... (Example: Write a polite email to Arbab to update the transport route list by tomorrow morning)"></textarea>
 
     <button id="btn" class="action-btn" onclick="generateDraft()">Generate Professional Text</button>
 
     <div id="outputContainer" class="output-section">
-        <span style="font-size: 11px; color: var(--text-p); margin-bottom: 8px; display: block;">PROPOSED DRAFT:</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span style="font-size: 11px; color: var(--text-p); text-transform: uppercase;">AI Generated Draft</span>
+        </div>
         <div id="result" class="result-box"></div>
-        <button class="copy-btn" id="copyBtn" onclick="copyText()">Copy Draft</button>
+        <button class="copy-btn" id="copyBtn" onclick="copyText()">Copy Text</button>
         <div style="clear: both;"></div>
     </div>
 </div>
 
 <script>
-    // Aapki Gemini API Key
-    const API_KEY = "AIzaSyAZna0gtwG-3ak9F2PQnXodUMFZ3INkREc"; 
+    // Aapki Nayi API Key
+    const API_KEY = "AIzaSyCpjBt5h3IQFM6SHlO5DY47HuMkDOrvRmk"; 
 
     async function generateDraft() {
-        const promptText = document.getElementById('prompt').value.trim();
+        const promptArea = document.getElementById('prompt');
+        const promptText = promptArea.value.trim();
         const btn = document.getElementById('btn');
         const output = document.getElementById('outputContainer');
         const resultBox = document.getElementById('result');
 
         if (!promptText) {
-            alert("Please enter some text!");
+            alert("Kuch toh type karein!");
             return;
         }
 
+        // UI States
         btn.disabled = true;
-        btn.innerText = "Writing... 🖋️";
+        btn.innerText = "Writing... Please wait";
         output.style.display = "none";
 
         try {
@@ -147,7 +162,9 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     contents: [{
-                        parts: [{ text: `System: You are a professional corporate assistant at IPAK. Rewrite the user's rough notes into a formal, polite, and professional corporate email or notice. Output only the final drafted text.\n\nUser Notes: ${promptText}` }]
+                        parts: [{ 
+                            text: `System: You are a professional corporate assistant at IPAK. Rewrite the user's rough notes into a formal, polite, and professional corporate email or notice. Do not include subject lines or conversational filler, just give the body text.\n\nUser Notes: ${promptText}` 
+                        }]
                     }]
                 })
             });
@@ -160,15 +177,15 @@
 
             if (data.candidates && data.candidates[0].content.parts[0].text) {
                 const finalResult = data.candidates[0].content.parts[0].text;
-                resultBox.innerText = finalResult;
+                resultBox.innerText = finalResult.trim();
                 output.style.display = "block";
             } else {
-                throw new Error("Invalid response from AI");
+                throw new Error("Could not generate text. Try a different prompt.");
             }
 
         } catch (error) {
             console.error("AI Error:", error);
-            alert("Error: " + error.message);
+            alert("AI Error: " + error.message);
         } finally {
             btn.disabled = false;
             btn.innerText = "Generate Professional Text";
@@ -180,7 +197,7 @@
         navigator.clipboard.writeText(text).then(() => {
             const copyBtn = document.getElementById('copyBtn');
             copyBtn.innerText = "Copied!";
-            setTimeout(() => { copyBtn.innerText = "Copy Draft"; }, 2000);
+            setTimeout(() => { copyBtn.innerText = "Copy Text"; }, 2000);
         });
     }
 </script>

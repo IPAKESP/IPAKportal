@@ -1,1 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPAKportal - Free Passport Photo Kiosk</title>
+    <style>
+        body {
+            background-color: #09090b;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .bento-card {
+            background-color: #121214;
+            border: 1px solid #27272a;
+            border-radius: 16px;
+            padding: 28px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            color: #f4f4f5;
+        }
+        .header h2 { margin: 0 0 5px 0; font-size: 20px; }
+        .desc { font-size: 13px; color: #a1a1aa; margin-bottom: 20px; line-height: 1.4; }
+        
+        .upload-zone {
+            border: 1px dashed #3f3f46;
+            background-color: #18181b;
+            border-radius: 12px;
+            padding: 25px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .upload-zone:hover { border-color: #3b82f6; }
+        .upload-zone input { display: none; }
+        .file-name { font-size: 13px; font-weight: 500; color: #e4e4e7; }
 
+        .btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn:hover { background-color: #2563eb; }
+        .btn:disabled { background-color: #27272a; color: #71717a; cursor: not-allowed; }
+
+        .result-wrapper {
+            margin-top: 24px;
+            display: none;
+            text-align: center;
+            border-top: 1px solid #27272a;
+            padding-top: 20px;
+        }
+        .photo-frame {
+            width: 150px;
+            height: 190px;
+            object-fit: cover;
+            border: 2px solid #fff;
+            background-color: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .download-btn {
+            margin-top: 15px;
+            background: transparent;
+            border: 1px solid #3f3f46;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bento-card">
+        <div class="header"><h2>📸 ID Photo Studio</h2></div>
+        <div class="desc">Free AI service for IPAKportal. Upload casual photo, get formal suit and tie.</div>
+
+        <label class="upload-zone" id="dropArea">
+            <div style="font-size: 24px; margin-bottom: 8px;">📁</div>
+            <span class="file-name" id="fileNameDisplay">Click to upload face photo</span>
+            <input type="file" id="photoInput" accept="image/png, image/jpeg">
+        </label>
+
+        <button id="generateBtn" class="btn" onclick="processFreeAI()">Apply Suit & Tie</button>
+
+        <div id="resultArea" class="result-wrapper">
+            <p style="font-size: 12px; color: #10b981; margin-top: 0;">✨ AI Processing Complete</p>
+            <img id="passportOutput" class="photo-frame" src="" alt="Formal Photo">
+            <button class="btn download-btn" onclick="downloadImage()">Download Photo</button>
+        </div>
+    </div>
+
+    <script>
+        // Aapki Nayi Hugging Face API Key
+        const HF_TOKEN = "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"; 
+
+        const fileInput = document.getElementById('photoInput');
+        const fileNameUI = document.getElementById('fileNameDisplay');
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) fileNameUI.innerText = e.target.files[0].name;
+        });
+
+        async function processFreeAI() {
+            const file = fileInput.files[0];
+            const btn = document.getElementById('generateBtn');
+            const resultArea = document.getElementById('resultArea');
+            const outputImage = document.getElementById('passportOutput');
+
+            if (!file) return alert("Please select a photo first.");
+
+            btn.disabled = true;
+            btn.innerText = "Applying Formal Wear... ⏳ (Takes 10-20s)";
+            resultArea.style.display = "none";
+
+            try {
+                // Convert image to byte array for Hugging Face
+                const arrayBuffer = await file.arrayBuffer();
+                
+                // Using Instruct-Pix2Pix model which is completely free
+                const API_URL = "https://api-inference.huggingface.co/models/timbrooks/instruct-pix2pix";
+                
+                // Instructions for the AI
+                const promptText = "Make him wear a professional navy blue pentcoat suit and a green tie. Solid white background.";
+
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${HF_TOKEN}`,
+                        "Content-Type": "application/json"
+                    },
+                    // HF Inference API format for this specific model
+                    body: JSON.stringify({
+                        inputs: {
+                            image: arrayBufferToBase64(arrayBuffer),
+                            prompt: promptText
+                        }
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error("Free AI Model is currently busy or loading. Try again in 30 seconds.");
+                }
+
+                // AI returns the image directly as a Blob (binary file)
+                const blob = await response.blob();
+                outputImage.src = URL.createObjectURL(blob);
+                resultArea.style.display = "block";
+
+            } catch (error) {
+                alert("Error: " + error.message);
+                console.error(error);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Apply Suit & Tie";
+            }
+        }
+
+        // Helper function to convert image to base64 for HF API
+        function arrayBufferToBase64(buffer) {
+            let binary = '';
+            const bytes = new Uint8Array(buffer);
+            for (let i = 0; i < bytes.byteLength; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return window.btoa(binary);
+        }
+
+        function downloadImage() {
+            const link = document.createElement('a');
+            link.href = document.getElementById('passportOutput').src;
+            link.download = 'IPAK_Formal_Photo.png';
+            link.click();
+        }
+    </script>
+</body>
+</html>

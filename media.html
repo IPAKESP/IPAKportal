@@ -44,7 +44,7 @@
         .gallery-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
-            grid-auto-rows: 150px; /* Uniform short height */
+            grid-auto-rows: 150px; 
             gap: 16px; 
             animation: slideUp 0.6s ease-out; 
         }
@@ -169,132 +169,41 @@
     <div class="container">
         <div class="gallery-grid">
             
-            <div class="event-card" onclick="openLightbox('winning')" style="cursor:pointer">
-                <span class="photo-count" id="count-winning">0 Photos</span>
+            <div class="event-card" onclick="openLightbox('mangoDay')" style="cursor:pointer">
+                <span class="photo-count" id="count-mangoDay">0 Photos</span>
                 <div class="card-top">
-                    <i class="fas fa-handshake-simple event-icon"></i>
-                    <span class="year-pill">2025</span>
+                    <i class="fas fa-lemon event-icon"></i>
+                    <span class="year-pill">Event</span>
                 </div>
                 <div class="card-content">
-                    <div class="card-title">Winning Together</div>
-                    <div class="card-desc">Annual collaborative achievement ceremony.</div>
+                    <div class="card-title">Mango Day</div>
+                    <div class="card-desc">Celebrating the season of mangoes together.</div>
                 </div>
                 <i class="fas fa-arrow-right arrow-icon"></i>
             </div>
 
-            <div class="event-card" onclick="openLightbox('apnigari')" style="cursor:pointer">
-                <span class="photo-count" id="count-apnigari">0 Photos</span>
+            <div class="event-card" onclick="openLightbox('rescue1122')" style="cursor:pointer">
+                <span class="photo-count" id="count-rescue1122">0 Photos</span>
                 <div class="card-top">
-                    <i class="fas fa-car-side event-icon"></i>
-                    <span class="year-pill">Ongoing</span>
+                    <i class="fas fa-kit-medical event-icon"></i>
+                    <span class="year-pill">Training</span>
                 </div>
                 <div class="card-content">
-                    <div class="card-title">Apni Gari</div>
-                    <div class="card-desc">Vehicle ownership program.</div>
+                    <div class="card-title">Rescue 1122</div>
+                    <div class="card-desc">Safety and emergency response training.</div>
                 </div>
                 <i class="fas fa-arrow-right arrow-icon"></i>
             </div>
 
-            <div class="event-card" onclick="openLightbox('leadership')" style="cursor:pointer">
-                <span class="photo-count" id="count-leadership">0 Photos</span>
+            <div class="event-card" onclick="openLightbox('gpakDispatch')" style="cursor:pointer">
+                <span class="photo-count" id="count-gpakDispatch">0 Photos</span>
                 <div class="card-top">
-                    <i class="fas fa-users-viewfinder event-icon"></i>
-                    <span class="year-pill">Q4 2025</span>
+                    <i class="fas fa-truck-fast event-icon"></i>
+                    <span class="year-pill">Dispatch</span>
                 </div>
                 <div class="card-content">
-                    <div class="card-title">Leadership</div>
-                    <div class="card-desc">Strategic alignment session.</div>
-                </div>
-                <i class="fas fa-arrow-right arrow-icon"></i>
-            </div>
-
-            <div class="event-card" onclick="openLightbox('independence')" style="cursor:pointer">
-                <span class="photo-count" id="count-independence">0 Photos</span>
-                <div class="card-top">
-                    <i class="fas fa-flag event-icon"></i>
-                    <span class="year-pill">14 Aug</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">Independence Day</div>
-                    <div class="card-desc">Flag hoisting and national celebration.</div>
-                </div>
-                <i class="fas fa-arrow-right arrow-icon"></i>
-            </div>
-
-            <div class="event-card" onclick="openLightbox('gpak')" style="cursor:pointer">
-                <span class="photo-count" id="count-gpak">0 Photos</span>
-                <div class="card-top">
-                    <i class="fas fa-building event-icon"></i>
-                    <span class="year-pill">Launch</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">GPAK Launch</div>
-                    <div class="card-desc">Official opening ceremony.</div>
-                </div>
-                <i class="fas fa-arrow-right arrow-icon"></i>
-            </div>
-
-            <div class="event-card" onclick="openLightbox('plantation')" style="cursor:pointer">
-                <span class="photo-count" id="count-plantation">0 Photos</span>
-                <div class="card-top">
-                    <i class="fas fa-seedling event-icon"></i>
-                    <span class="year-pill">CSR</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">Plantation</div>
-                    <div class="card-desc">Eco-friendly tree planting.</div>
-                </div>
-                <i class="fas fa-arrow-right arrow-icon"></i>
-            </div>
-
-            <div class="event-card" onclick="openLightbox('dinner')" style="cursor:pointer">
-                <span class="photo-count" id="count-dinner">0 Photos</span>
-                <div class="card-top">
-                    <i class="fas fa-utensils event-icon"></i>
-                    <span class="year-pill">Dec 2025</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">Annual Dinner</div>
-                    <div class="card-desc">Gourmet food & awards.</div>
-                </div>
-                <i class="fas fa-arrow-right arrow-icon"></i>
-            </div>
-
-            <div class="event-card" onclick="openLightbox('sports')" style="cursor:pointer">
-                <span class="photo-count" id="count-sports">0 Photos</span>
-                <div class="card-top">
-                    <i class="fas fa-trophy event-icon"></i>
-                    <span class="year-pill">Sports</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">Sports Gala</div>
-                    <div class="card-desc">Competitive cricket & football.</div>
-                </div>
-                <i class="fas fa-arrow-right arrow-icon"></i>
-            </div>
-
-            <div class="event-card" onclick="openLightbox('safety')" style="cursor:pointer">
-                <span class="photo-count" id="count-safety">0 Photos</span>
-                <div class="card-top">
-                    <i class="fas fa-helmet-safety event-icon"></i>
-                    <span class="year-pill">HSE</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">Safety Week</div>
-                    <div class="card-desc">Workplace safety drills.</div>
-                </div>
-                <i class="fas fa-arrow-right arrow-icon"></i>
-            </div>
-
-            <div class="event-card" onclick="openLightbox('skills')" style="cursor:pointer">
-                <span class="photo-count" id="count-skills">0 Photos</span>
-                <div class="card-top">
-                    <i class="fas fa-chalkboard-user event-icon"></i>
-                    <span class="year-pill">HR</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">Skills Workshop</div>
-                    <div class="card-desc">Technical training.</div>
+                    <div class="card-title">1st GPAK Dispatch</div>
+                    <div class="card-desc">Successful first fleet dispatch operation.</div>
                 </div>
                 <i class="fas fa-arrow-right arrow-icon"></i>
             </div>
@@ -342,48 +251,87 @@
 
 <script>
 const eventsData = {
-
-    winning: {
-        title: "Winning Together",
-        subtitle: "2025 • Annual Achievement Ceremony",
-        driveFolder: "https://drive.google.com/drive/folders/1vLxBt2f-qy049Th9CWsochLGoK9w4RTf?usp=drive_link",
+    mangoDay: {
+        title: "Mango Day",
+        subtitle: "IPAK Moments",
         photos: [
-            "https://drive.google.com/thumbnail?id=1hTXnU7u20nI_j_GziiJeXB-mAF5grUeF&sz=w1200",
-            "https://drive.google.com/thumbnail?id=11Y8K2KojTubsuCsT0q6voy4LOuJTNF5l&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1qS4lWs8kavipISvuqp6Z17sNK2kcd0tQ&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1xfxwgonCuP-pLb4tfc1zpGXhNH-60xg8&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1yekoinceZd_M9Y4vITnBn2-9SzjH2Tgu&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1vaQNhkZlsuBE1zUX22sqbzM1SAMXjoSW&sz=w1200",
-            "https://drive.google.com/thumbnail?id=10hKyacEX-y1xk1c7rJfz6dYI0aggbSd_&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1r4K7w7RPEVlp6-0Q_BMTPhcRqGtbfHmI&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1lobWLhRVO1WkXyDq5O0JBiiSEzlOOQ61&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1hgHtY0mpcI6UEaYJWftlFAUkESMGb-wE&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1CK2UkXlIqpg1rwOj0Ale7jIsaNUMrrbA&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1LA2Ne-ZGN8HV1GkwRq2brZMImu3wDhrR&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1n3-DRac5mrdZbWe2-CUO_iU7P5F0Yft1&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1_kaejY-LJx9X2VvLe4IZaBFf07pPD4zh&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1Syc5p3N02r0B6P5irNCZbgwexhUFz8-j&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1XiwGz7aNp_jcXF8IuPCNZlIuH5TIWpu5&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1dvpTJj1B_DldtD4FBYCLGwcZPvg194Nv&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1PNor8nR46yrQEU5aPT8lFZRGcrlpd6zL&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1s__2CRyx6JhIg7OMDsOZnyNw6rkBykdZ&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1z_nrKqzXy9WKnn0gSZTlgNwgsqRfZw1y&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1ypMXg26T3yReYdC9R5SI21WsoiZNI8g3&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1HYq_BPiZKXCti6OBOwbRneHyepnRfWSI&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1NJdkDN7bQ0dcjhfxGAeGZ7Wa_MUQCN9-&sz=w1200",
-            "https://drive.google.com/thumbnail?id=1_UMc6OUIMbaqa1t-g6-hOc6Jre1XpysN&sz=w1200"
+            "https://drive.google.com/thumbnail?id=1nokDdeyCJpCcRx2-VtRmtL--atb8ELvR&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1Atw6VEcPUNNJX5z5BxnXyKe4XeJDWQHt&sz=w1200",
+            "https://drive.google.com/thumbnail?id=16Wzwg2e_5mzzslrCft2CYpjaSoPTPwrQ&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1TvSrxn3DW6mEavpLKvyXzi2x5WLQ6Wij&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1fg7R4-zPkRO-C9BRb4gElD9VkL5oQ8xA&sz=w1200",
+            "https://drive.google.com/thumbnail?id=19_bnggWr4XML9NMa9d8ebl7OEi3pNUJ6&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1l_wEDoWlkYnrKzzMkdVx1n-fwGCn24tq&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1EFeX3k1HfJVzS7zCyuP2H7-2dqhHfQw0&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1oUgnDbx3Ptmq8k_DGM2VUwZZ1w-ZttDt&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1HrPnYjTb1tRruAjHW4kebrqBlPIwDHn6&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1eYS-j3VpbGl3LB96k_RWxA05HaETA6oc&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1ag8djess169ITgRJyOQNkKfqeKv1KSR6&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1fq2IZY1EhOtzL4EDKR5-TAUwl4iizYJz&sz=w1200",
+            "https://drive.google.com/thumbnail?id=18HjtQ8fw3HndukmNSYCX8PHhDY5GXWWy&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1pfkvqRRb4wpKvu9X5fU-zRugR9HchPqB&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1Xts3Vf4lcUaibdmB7FeVTXYatbsxuryb&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1EbsjYQf9Wo3Shu7KxxFXOl_TBy0eTKxi&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1QIjaBK-NrYE09jljA0I99K8_50CzBPtT&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1pyNPp1feaUxYv6H9am-3NvjaDus9RY-7&sz=w1200",
+            "https://drive.google.com/thumbnail?id=11KdNLp2v3x8ma1D7i0zAIlOfj3bJEa4m&sz=w1200",
+            "https://drive.google.com/thumbnail?id=14EmEMfrkILCa2DL_RlWoN47UcA0UTsIB&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1ccQm9NG5hldFTA0M3z9kzPmyffhON5lQ&sz=w1200",
+            "https://drive.google.com/thumbnail?id=11ItX9bYtJWtN106erv50V-c3hJQS4lfF&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1ZDh0JZzdp42ZfF2K5c7G7J_c5oeUukhL&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1aHYoz_LCtVCNu0XXxPJze88ti7iEu8rK&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1geuBVB6owv8PyfAV1ymGizzhIUVclZnd&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1XpYoPJi7fxEtrRfbSmHeVPXanZP7VWOd&sz=w1200"
         ]
     },
-
-    apnigari: { title: "Apni Gari", subtitle: "Ongoing • Vehicle Distribution", photos: [] },
-    leadership: { title: "Leadership Session", subtitle: "Q4 2025 • Executive Training", photos: [] },
-    independence: { title: "Independence Day", subtitle: "14 August • Flag Hoisting", photos: [] },
-    gpak: { title: "GPAK Launch", subtitle: "Launch • Opening Ceremony", photos: [] },
-    plantation: { title: "Plantation Drive", subtitle: "CSR • Green Pakistan", photos: [] },
-    dinner: { title: "Annual Dinner", subtitle: "December 2025 • Awards Night", photos: [] },
-    sports: { title: "Sports Gala", subtitle: "Sports • Cricket & Football", photos: [] },
-    safety: { title: "Safety Week", subtitle: "HSE • Workplace Safety", photos: [] },
-    skills: { title: "Skills Workshop", subtitle: "HR • Professional Training", photos: [] }
+    rescue1122: {
+        title: "Rescue 1122 Training",
+        subtitle: "HSE Moments",
+        photos: [
+            "https://drive.google.com/thumbnail?id=1KhdmmKNe5qLPQT_fxMX0RktEo3e_qyaU&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1ZfrsUabydsC92Xvx08Zn9MOQBpsqpyXW&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1LbY4dwmp3r6VE4NnN09S3m8H7ghiRQnc&sz=w1200",
+            "https://drive.google.com/thumbnail?id=13A3sQmpNDOgcSjbm9IBXxCfAA9xYlvgt&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1Y3PHIIRA1WIKy5cHCLdJKlcw56lhsPM5&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1ksnEExdgokHHXKl0D2vs8tdqAoflZdZm&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1jDQEJXAHyFzT6m1E8nsgLLCwrDxktiRs&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1gLRk5PM-L8MpTx0mV44cx3QgP0BM0Dtm&sz=w1200",
+            "https://drive.google.com/thumbnail?id=18PfaJiX7x36KmcZO3FuwKnCde7f0vgSH&sz=w1200",
+            "https://drive.google.com/thumbnail?id=12Z4Nk9AeFXLx2KFnGKU3X2o31mi1yI0X&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1mLurf4neppM65rAURowBug5aWsg0unbj&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1ALiTkha9kowW4NrI9PY4cPcswFnwjQly&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1xuFHPqcFxT2iSOPqHeoljaTyiZ_13Fwm&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1xHcZHzP98Xmny160EIVo0ELHb61-qHMi&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1QDKwCnd-GkbjPKKPVV2VC5IvdZVv0nN5&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1oRWYJ8v0ctdRpPtpZC5KIoFv7lk3qj4I&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1-26zjzTjAa5FOuMq-t9w9_ECcgTSbazm&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1PE48hF_FD6_jV1wfL3-_KKy0pXIdptU1&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1OlB8I3bHnYHLOaHMxoGZwt-YeeJZpQFI&sz=w1200",
+            "https://drive.google.com/thumbnail?id=15EVIe7_bu_b4aPmtyihZm6QC83Pdn3PE&sz=w1200",
+            "https://drive.google.com/thumbnail?id=12HOY6PhSV0pBUlT4g3vI4KtAYPlL5Wzp&sz=w1200",
+            "https://drive.google.com/thumbnail?id=13mMULs-gkM62mE5LgvlNhCNEsaAjsjva&sz=w1200"
+        ]
+    },
+    gpakDispatch: {
+        title: "1st GPAK Dispatch",
+        subtitle: "Operations",
+        photos: [
+            "https://drive.google.com/thumbnail?id=1SStAIIsDpB5T31sNDu3fyfv4-VxzvLTS&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1rWQbhVB1lWhwBtoGgC6Bse3cpiXs6_y0&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1vZwHgohasR0qfYjvdmlRx4-LNh25ZTGD&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1bZ-y4E3LgORJEwUbeZLlYhP0Y02p4ZuK&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1IEH7xHQiU8gBmBjsDxAPs6Cqu2W9D5dY&sz=w1200",
+            "https://drive.google.com/thumbnail?id=11riDFCm6vLEE12Lo3mH282YESNjqOlu3&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1AsQRh7Zom3Ga9jCPxXcOaH3Tqk0C7UwT&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1fpzi3gW4VDZ79r92vtv1WtGaPv8mSO4j&sz=w1200",
+            "https://drive.google.com/thumbnail?id=15NPtE55qYIHI7sf68T2K-UQcAHnCuLHR&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1PqVRvERM_6e0NRj2qglhIyCoXLfRhy8c&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1yeWUNGCfpuL8fRbjYd0bW5EixmZa3tAl&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1DUs2DRfKE8EAis9Xj7b9F3Ln-r5fl8UU&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1Dl4bPWTKksV5FCLyXOZRLi19Ss8BkIfJ&sz=w1200",
+            "https://drive.google.com/thumbnail?id=113680-_C_qsc1gHiT96W1RMZmzNR1szn&sz=w1200"
+        ]
+    }
 };
 
 let currentEvent = null;

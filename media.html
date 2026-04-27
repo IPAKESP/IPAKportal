@@ -105,18 +105,20 @@
         .lb-btn-download:hover { background: #c0e000; transform: scale(1.05); }
 
         .lb-image-wrap { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 80px 90px; }
-        .lb-image { max-width: 100%; max-height: 75vh; border-radius: 12px; object-fit: contain; box-shadow: 0 30px 80px rgba(0,0,0,0.8); transition: opacity 0.35s ease; }
-        .lb-image.fading { opacity: 0; }
+        
+        /* Updated for Video/Image embedded playback */
+        .lb-iframe { width: 100%; max-width: 1100px; height: 75vh; border: none; border-radius: 12px; background: #000; box-shadow: 0 30px 80px rgba(0,0,0,0.8); transition: opacity 0.35s ease; z-index: 5; }
+        .lb-iframe.fading { opacity: 0; }
 
-        .lb-spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--lime); border-radius: 50%; animation: spin 0.8s linear infinite; display: none; position: absolute; }
+        .lb-spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--lime); border-radius: 50%; animation: spin 0.8s linear infinite; display: none; position: absolute; z-index: 2; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: white; width: 48px; height: 48px; border-radius: 50%; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: all 0.25s; backdrop-filter: blur(10px); }
+        .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: white; width: 48px; height: 48px; border-radius: 50%; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: all 0.25s; backdrop-filter: blur(10px); z-index: 10; }
         .lb-nav:hover { background: var(--lime); color: var(--navy); border-color: var(--lime); transform: translateY(-50%) scale(1.1); }
         .lb-prev { left: 16px; }
         .lb-next { right: 16px; }
 
-        .lb-footer { width: 100%; position: absolute; bottom: 0; left: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 20px 28px 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+        .lb-footer { width: 100%; position: absolute; bottom: 0; left: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 20px 28px 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; z-index: 10; }
         .lb-counter { color: rgba(255,255,255,0.6); font-size: 0.8rem; }
         .lb-counter span { color: white; font-weight: 700; }
 
@@ -208,6 +210,97 @@
                 <i class="fas fa-arrow-right arrow-icon"></i>
             </div>
 
+            <div class="event-card" onclick="openLightbox('winning')" style="cursor:pointer">
+                <span class="photo-count" id="count-winning">0 Photos</span>
+                <div class="card-top">
+                    <i class="fas fa-handshake event-icon"></i>
+                    <span class="year-pill">Event</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Winning Together</div>
+                    <div class="card-desc">Annual collaborative achievement ceremony.</div>
+                </div>
+                <i class="fas fa-arrow-right arrow-icon"></i>
+            </div>
+
+            <div class="event-card" onclick="openLightbox('petpak')" style="cursor:pointer">
+                <span class="photo-count" id="count-petpak">0 Photos</span>
+                <div class="card-top">
+                    <i class="fas fa-building event-icon"></i>
+                    <span class="year-pill">Launch</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">PETPAK Inauguration</div>
+                    <div class="card-desc">Official opening ceremony.</div>
+                </div>
+                <i class="fas fa-arrow-right arrow-icon"></i>
+            </div>
+
+            <div class="event-card" onclick="openLightbox('leadership')" style="cursor:pointer">
+                <span class="photo-count" id="count-leadership">0 Photos</span>
+                <div class="card-top">
+                    <i class="fas fa-users-viewfinder event-icon"></i>
+                    <span class="year-pill">Session</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Leadership Series</div>
+                    <div class="card-desc">Executive training and alignment.</div>
+                </div>
+                <i class="fas fa-arrow-right arrow-icon"></i>
+            </div>
+
+            <div class="event-card" onclick="openLightbox('smashChamps')" style="cursor:pointer">
+                <span class="photo-count" id="count-smashChamps">0 Photos</span>
+                <div class="card-top">
+                    <i class="fas fa-trophy event-icon"></i>
+                    <span class="year-pill">Sports</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">IPAK Smash Champs</div>
+                    <div class="card-desc">Competitive sports tournament.</div>
+                </div>
+                <i class="fas fa-arrow-right arrow-icon"></i>
+            </div>
+
+            <div class="event-card" onclick="openLightbox('plantation')" style="cursor:pointer">
+                <span class="photo-count" id="count-plantation">0 Photos</span>
+                <div class="card-top">
+                    <i class="fas fa-seedling event-icon"></i>
+                    <span class="year-pill">CSR</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Plantation Drive</div>
+                    <div class="card-desc">Eco-friendly tree planting initiative.</div>
+                </div>
+                <i class="fas fa-arrow-right arrow-icon"></i>
+            </div>
+
+            <div class="event-card" onclick="openLightbox('independence')" style="cursor:pointer">
+                <span class="photo-count" id="count-independence">0 Photos</span>
+                <div class="card-top">
+                    <i class="fas fa-flag event-icon"></i>
+                    <span class="year-pill">14 Aug</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Independence Day</div>
+                    <div class="card-desc">Flag hoisting and national celebration.</div>
+                </div>
+                <i class="fas fa-arrow-right arrow-icon"></i>
+            </div>
+
+            <div class="event-card" onclick="openLightbox('iftaar')" style="cursor:pointer">
+                <span class="photo-count" id="count-iftaar">0 Photos</span>
+                <div class="card-top">
+                    <i class="fas fa-moon event-icon"></i>
+                    <span class="year-pill">Ramadan</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Iftaar Gathering</div>
+                    <div class="card-desc">Community iftaar dinner.</div>
+                </div>
+                <i class="fas fa-arrow-right arrow-icon"></i>
+            </div>
+
         </div>
 
         <footer>&copy; 2026 IPAK PORTAL | MEDIA CENTER</footer>
@@ -232,17 +325,19 @@
     <div class="lb-image-wrap">
         <button class="lb-nav lb-prev" onclick="changeSlide(-1)"><i class="fas fa-chevron-left"></i></button>
         <div class="lb-spinner" id="lb-spinner"></div>
-        <img class="lb-image" id="lb-image" src="" alt="Event Photo" onload="imageLoaded()" onerror="imageError()">
+        
+        <iframe class="lb-iframe" id="lb-iframe" src="" allow="autoplay; fullscreen" onload="mediaLoaded()"></iframe>
+        
         <div class="lb-empty" id="lb-empty" style="display:none">
             <i class="fas fa-image"></i>
-            <p>Is event mein abhi koi photo nahi hai</p>
+            <p>Is event mein abhi koi photo ya video nahi hai</p>
         </div>
         <button class="lb-nav lb-next" onclick="changeSlide(1)"><i class="fas fa-chevron-right"></i></button>
     </div>
 
     <div class="lb-footer">
         <div class="lb-counter">
-            Photo <span id="lb-current">1</span> of <span id="lb-total">1</span>
+            Media <span id="lb-current">1</span> of <span id="lb-total">1</span>
         </div>
         <div class="lb-thumbs" id="lb-thumbs"></div>
         <div class="lb-keys"><kbd>←</kbd> <kbd>→</kbd> Navigate &nbsp;|&nbsp; <kbd>Esc</kbd> Close</div>
@@ -331,6 +426,76 @@ const eventsData = {
             "https://drive.google.com/thumbnail?id=1Dl4bPWTKksV5FCLyXOZRLi19Ss8BkIfJ&sz=w1200",
             "https://drive.google.com/thumbnail?id=113680-_C_qsc1gHiT96W1RMZmzNR1szn&sz=w1200"
         ]
+    },
+    winning: {
+        title: "Winning Together",
+        subtitle: "IPAK Moments",
+        photos: [
+            "https://drive.google.com/thumbnail?id=1Xg9LfWOzcFPCg_OcWd3_aawZ-SlbG1oq&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1unXSm9Rx7cLNMWQF9fA46QE7vCNZrOPP&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1FRUTfZzlMZiD_C5teVMDXPz6XgLE6Jd_&sz=w1200"
+        ]
+    },
+    petpak: {
+        title: "PETPAK Inauguration",
+        subtitle: "Launch Ceremony",
+        photos: [
+            "https://drive.google.com/thumbnail?id=1v51eCEc049zGKHIYG02RPXxRMinhC0WL&sz=w1200",
+            "https://drive.google.com/thumbnail?id=12R3nWfGjQwKp9rOZQLTZdq0F2A5c9bMp&sz=w1200",
+            "https://drive.google.com/thumbnail?id=19gKoLBQzqkOrQQj6kMwiAzpR1IQsCty9&sz=w1200",
+            "https://drive.google.com/thumbnail?id=19X8a4ygAbl3YKBTimF8BPSL3wxf7JKe5&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1Rj54lzpRckTteQewtGQyBWTYsL78d8N9&sz=w1200",
+            "https://drive.google.com/thumbnail?id=15oYZbV190SL_BjWK_oHwECpMFbJQRXRW&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1YiaN9e_8B2WBqer6dRLWS8p5fbxPFg_t&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1g40IGQTsJdAmR9GXGr8wuh_5xzLkMN93&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1O0qrCk3yid9OVfplu3b9k96OgpbuQ0fV&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1iPZ2eWf8o1_TKem0amyqbILhtuutBQki&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1PGbBzPPQoOLh_GNz6vf1xHXwTHPUDiiJ&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1LWL3pl4xxPUiInDtXz5NlehwuREaWoIi&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1rwHOAOlJWrFB51ifrA7_pCH-l_LyejdM&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1ueOP5abRsb0qNpXYs6z1zp552_kZIw5Y&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1ID6MYNJz7V7PfHAuO_P8CQx1hP3tueZ0&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1R8CWayhgvhZKyHu7QpMpQgCdT0lH3XQy&sz=w1200",
+            "https://drive.google.com/thumbnail?id=11QQTvaVMiH2W9dPf3Sd7c0VhI5R24NG_&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1SGNL4JXTc5gqkn8zF-JZMy33Go9AdpUk&sz=w1200",
+            "https://drive.google.com/thumbnail?id=11iefNRQ1XYQ20CHQrBIk9pieQZh4CMVe&sz=w1200"
+        ]
+    },
+    leadership: {
+        title: "Leadership Series",
+        subtitle: "Executive Session",
+        photos: [
+            "https://drive.google.com/thumbnail?id=15zwd8943Jvej1ZZWMga5V7LO8Emhcpk8&sz=w1200"
+        ]
+    },
+    smashChamps: {
+        title: "IPAK Smash Champs",
+        subtitle: "Sports Event",
+        photos: [
+            "https://drive.google.com/thumbnail?id=18jL5dfbM9-OoJbP9aOdymcMgy6Z4e7IO&sz=w1200"
+        ]
+    },
+    plantation: {
+        title: "Plantation Drive",
+        subtitle: "CSR Activity",
+        photos: [
+            "https://drive.google.com/thumbnail?id=1ZB1KSwMcqCD5_s7vcxfUIpKZE0OroNn7&sz=w1200"
+        ]
+    },
+    independence: {
+        title: "Independence Day",
+        subtitle: "14th August Celebration",
+        photos: [
+            "https://drive.google.com/thumbnail?id=1JvjDx1tVhhWBb_gXbUDZnIR-UBvPlESB&sz=w1200",
+            "https://drive.google.com/thumbnail?id=1IFOIfESC3QboxKr3pW0PtyUIC9NvgXb0&sz=w1200"
+        ]
+    },
+    iftaar: {
+        title: "Iftaar Gathering",
+        subtitle: "Ramadan Celebration",
+        photos: [
+            "https://drive.google.com/thumbnail?id=10G9Vt-yKIQwSv4RRNHDPdS3nxHmVcNMc&sz=w1200"
+        ]
     }
 };
 
@@ -342,7 +507,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const count = eventsData[key].photos.length;
         const el = document.getElementById('count-' + key);
         if (el) {
-            el.textContent = count > 0 ? count + ' Photos' : 'Coming Soon';
+            el.textContent = count > 0 ? count + ' Media' : 'Coming Soon';
         }
     });
 });
@@ -362,7 +527,7 @@ function openLightbox(eventKey) {
     document.body.style.overflow = 'hidden';
 
     if (event.photos.length === 0) {
-        document.getElementById('lb-image').style.display = 'none';
+        document.getElementById('lb-iframe').style.display = 'none';
         document.getElementById('lb-empty').style.display = 'block';
         document.getElementById('lb-thumbs').innerHTML = '';
         document.getElementById('lb-current').textContent = '0';
@@ -371,7 +536,7 @@ function openLightbox(eventKey) {
         return;
     }
 
-    document.getElementById('lb-image').style.display = 'block';
+    document.getElementById('lb-iframe').style.display = 'block';
     document.getElementById('lb-empty').style.display = 'none';
     document.getElementById('lb-download').style.display = 'flex';
 
@@ -385,7 +550,7 @@ function buildThumbnails() {
     currentEvent.photos.forEach((src, i) => {
         const img = document.createElement('img');
         img.className = 'lb-thumb' + (i === 0 ? ' active' : '');
-        img.src = src;
+        img.src = src; 
         img.alt = 'Thumb ' + (i+1);
         img.onclick = () => loadSlide(i);
         thumbsEl.appendChild(img);
@@ -395,14 +560,24 @@ function buildThumbnails() {
 function loadSlide(index) {
     currentIndex = index;
     const photos = currentEvent.photos;
-    const imgEl = document.getElementById('lb-image');
+    const iframeEl = document.getElementById('lb-iframe');
     const spinner = document.getElementById('lb-spinner');
 
-    imgEl.classList.add('fading');
+    iframeEl.classList.add('fading');
     spinner.style.display = 'block';
 
     setTimeout(() => {
-        imgEl.src = photos[currentIndex];
+        const currentUrl = photos[currentIndex];
+        
+        // Extract Google Drive ID to generate native player URL
+        const match = currentUrl.match(/id=([^&]+)/);
+        if (match && match[1]) {
+            const fileId = match[1];
+            iframeEl.src = `https://drive.google.com/file/d/${fileId}/preview`;
+        } else {
+            iframeEl.src = currentUrl;
+        }
+
         document.getElementById('lb-current').textContent = currentIndex + 1;
         document.getElementById('lb-total').textContent = photos.length;
         
@@ -415,15 +590,9 @@ function loadSlide(index) {
     }, 300);
 }
 
-function imageLoaded() {
+function mediaLoaded() {
     document.getElementById('lb-spinner').style.display = 'none';
-    document.getElementById('lb-image').classList.remove('fading');
-}
-
-function imageError() {
-    document.getElementById('lb-spinner').style.display = 'none';
-    document.getElementById('lb-image').classList.remove('fading');
-    document.getElementById('lb-image').alt = 'Image error';
+    document.getElementById('lb-iframe').classList.remove('fading');
 }
 
 function changeSlide(dir) {
@@ -435,8 +604,8 @@ function changeSlide(dir) {
 function closeLightbox() {
     document.getElementById('lightbox').classList.remove('active');
     document.body.style.overflow = '';
-    document.getElementById('lb-image').src = '';
-    document.getElementById('lb-image').style.display = 'none';
+    document.getElementById('lb-iframe').src = '';
+    document.getElementById('lb-iframe').style.display = 'none';
 }
 
 function forceDownload(event) {

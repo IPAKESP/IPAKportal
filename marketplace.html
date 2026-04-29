@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPAK Marketplace - Buy & Sell</title>
+    <title>Marketplace - Buy & Sell</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
     <style>
         :root {
             --navy: #203265;
@@ -18,7 +21,7 @@
             --bg-color: #F5F7FA;
             --whatsapp-green: #25D366;
             --danger: #ff4757;
-            --border-light: #E5E7EB; /* Added for standard header */
+            --border-light: #E5E7EB;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -28,32 +31,22 @@
             background: var(--bg-color); 
             min-height: 100vh; 
             overflow-x: hidden;
-            cursor: none; /* Custom cursor default */
+            cursor: none; 
         }
 
-        /* --- CRITICAL FIX: Allow normal cursor on inputs/buttons --- */
-        input, button, select, a, textarea, .close-modal {
-            cursor: pointer !important; /* Force cursor visibility */
-        }
-        input[type="text"], input[type="number"], input[type="tel"], textarea {
-            cursor: text !important;
-        }
+        /* Forces normal pointer on clickable items just in case */
+        input, button, select, a, textarea, .close-modal { cursor: pointer !important; }
+        input[type="text"], input[type="number"], input[type="tel"], textarea { cursor: text !important; }
 
-        /* --- CUSTOM CURSOR --- */
-        .cursor-dot { width: 8px; height: 8px; background: var(--lime); position: fixed; pointer-events: none; z-index: 20000; border-radius: 50%; }
-        .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--navy); position: fixed; pointer-events: none; z-index: 19999; border-radius: 50%; transition: 0.1s ease-out; }
+        /* CURSOR Z-INDEX FIXED (Set to 99999 so it stays above modal) */
+        .cursor-dot { width: 8px; height: 8px; background: var(--lime); position: fixed; pointer-events: none; z-index: 99999; border-radius: 50%; }
+        .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--navy); position: fixed; pointer-events: none; z-index: 99998; border-radius: 50%; transition: 0.1s ease-out; }
         body.hovering .cursor-outline { width: 60px; height: 60px; border-color: var(--lime); background: rgba(168, 197, 0, 0.1); }
 
-        /* --- STANDARD HEADER STYLES --- */
         .top-bar {
-            background: rgba(255, 255, 255, 0.98);
-            border-bottom: 1px solid var(--border-light);
-            height: 64px; 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 32px;
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+            background: rgba(255, 255, 255, 0.98); border-bottom: 1px solid var(--border-light);
+            height: 64px; display: flex; justify-content: space-between; align-items: center;
+            padding: 0 32px; position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
         }
 
         .logo-link { text-decoration: none; display: flex; align-items: center; }
@@ -61,24 +54,19 @@
         .logo-link:hover img { opacity: 0.8; }
 
         .header-actions { display: flex; align-items: center; gap: 16px; }
-        
         .user-icon, .admin-lock { font-size: 22px; color: var(--navy); transition: color 0.3s ease; cursor: pointer; }
         .user-icon:hover, .admin-lock:hover { color: var(--lime); }
         .admin-active { color: var(--danger) !important; filter: drop-shadow(0 0 5px rgba(255, 71, 87, 0.5)); }
 
         .logout-btn {
-            padding: 6px 16px; background: transparent;
-            border: 1px solid var(--border-light); color: var(--navy);
-            border-radius: 6px; font-weight: 500; font-size: 13px;
-            transition: all 0.3s ease; cursor: pointer;
+            padding: 6px 16px; background: transparent; border: 1px solid var(--border-light); color: var(--navy);
+            border-radius: 6px; font-weight: 500; font-size: 13px; transition: all 0.3s ease; cursor: pointer;
         }
         .logout-btn:hover { border-color: var(--navy); background: #f3f4f6; }
 
-        /* --- LAYOUT --- */
         .wrapper { padding-top: 120px; padding-bottom: 50px; }
         .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* --- HEADER & CONTROLS --- */
         .page-header { text-align: center; margin-bottom: 40px; animation: float 6s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
         .page-header h1 { font-size: 2.5rem; color: var(--navy); }
@@ -95,7 +83,6 @@
         }
         .sell-btn:hover { transform: translateY(-3px); background: #96b000; }
 
-        /* --- MARKET GRID --- */
         .market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
 
         .item-card {
@@ -105,21 +92,17 @@
         }
         .item-card:hover { transform: translateY(-10px); border-color: var(--lime); box-shadow: 0 20px 40px rgba(32, 50, 101, 0.1); }
 
-        /* Delete Button (Visible only in Admin Mode) */
         .delete-btn {
             position: absolute; top: 10px; right: 10px; background: var(--danger); color: white;
-            width: 35px; height: 35px; border-radius: 50%; display: none; align-items: center; justify-content: center;
+            width: 35px; height: 35px; border-radius: 50%; align-items: center; justify-content: center;
             cursor: pointer; z-index: 10; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4); transition: 0.2s;
         }
         .delete-btn:hover { transform: scale(1.1); background: #d63031; }
-        body.admin-mode .delete-btn { display: flex; animation: popIn 0.3s; }
-        @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
 
         .item-image { width: 100%; height: 200px; background: #eee; object-fit: cover; position: relative; }
         .price-tag {
             position: absolute; top: 15px; left: 15px; background: var(--lime); color: var(--navy);
-            padding: 5px 12px; border-radius: 8px; font-weight: 700; font-size: 0.9rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            padding: 5px 12px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
         
         .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
@@ -135,7 +118,6 @@
         }
         .whatsapp-btn:hover { background: #1ebe57; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); }
 
-        /* --- MODAL --- */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(32, 50, 101, 0.8); backdrop-filter: blur(8px); z-index: 30000;
@@ -161,7 +143,6 @@
         }
         .form-input:focus { border-color: var(--lime); box-shadow: 0 0 0 3px rgba(168, 197, 0, 0.1); }
         
-        /* File Input Styling */
         .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; }
         .file-input-wrapper input[type=file] { font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; }
         .btn-file {
@@ -176,10 +157,9 @@
         }
         .submit-btn:hover { background: var(--lime); color: var(--navy); }
 
-        /* --- NOTIFICATION TOAST --- */
         #toast {
             visibility: hidden; min-width: 250px; background-color: var(--navy); color: #fff;
-            text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 40000;
+            text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 100000;
             left: 50%; bottom: 30px; transform: translateX(-50%); box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
@@ -202,14 +182,13 @@
 
     <nav class="top-bar">
         <a href="dashboard.html" class="logo-link">
-            <img src="logo.png" alt="IPAK Logo">
+            <img src="logo.png" alt="Logo">
         </a>
         <div class="header-actions">
             <a href="dashboard.html" style="text-decoration: none;">
                 <i class="fas fa-arrow-left user-icon" title="Back to Dashboard"></i>
             </a>
-            
-            <i class="fas fa-lock admin-lock" onclick="toggleAdmin()" title="Admin Mode (Password: admin123)"></i>
+            <i class="fas fa-lock admin-lock" onclick="toggleAdmin()" title="Admin Mode"></i>
             <i class="fas fa-user-circle user-icon" title="My Profile"></i>
             <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
         </div>
@@ -220,7 +199,7 @@
             
             <div class="page-header">
                 <p>Employee Classifieds</p>
-                <h1>IPAK Marketplace</h1>
+                <h1>Marketplace</h1>
             </div>
 
             <div class="controls-area">
@@ -232,10 +211,11 @@
                 </button>
             </div>
 
-            <main class="market-grid" id="marketGrid">
-                </main>
+            <main class="market-grid" id="marketGrid"></main>
 
-            <footer>&copy; 2026 IPAK PORTAL | INTERNAL MARKETPLACE</footer>
+            <footer style="text-align:center; padding: 20px; color: var(--med-grey); font-size: 0.9rem;">
+                &copy; 2026 INTERNAL MARKETPLACE
+            </footer>
         </div>
     </div>
 
@@ -263,7 +243,6 @@
                         <option>Others</option>
                     </select>
                 </div>
-                
                 <div class="form-group">
                     <label class="form-label">Upload Image</label>
                     <div class="file-input-wrapper">
@@ -274,7 +253,6 @@
                     </div>
                     <small id="fileName" style="display:block; margin-top:5px; color:var(--lime);"></small>
                 </div>
-
                 <div class="form-group">
                     <label class="form-label">Seller Name</label>
                     <input type="text" id="adSeller" class="form-input" placeholder="e.g. Ali Ahmed (IT)" required>
@@ -291,27 +269,63 @@
     <div id="toast">Action Successful</div>
 
     <script>
-        // --- 1. DATA MANAGEMENT ---
-        const defaultItems = [
-            { id: 1, title: "Honda Civic 2018", price: "3,500,000", category: "Vehicles", seller: "Ali Ahmed (IT)", phone: "923001234567", image: "https://images.unsplash.com/photo-1609529669235-c07e4e1bd6e9?w=400" },
-            { id: 2, title: "MacBook Air M1", price: "180,000", category: "Electronics", seller: "Sarah Khan (HR)", phone: "923219876543", image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=400" },
-            { id: 3, title: "Office Chair", price: "15,000", category: "Furniture", seller: "Bilal (Admin)", phone: "923335555555", image: "https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?w=400" }
-        ];
+        // --- 1. FIREBASE CONFIGURATION ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyA1dRvektkslreuNkCII5PjAgFJWy-ZvOQ",
+            authDomain: "ipak-olx.firebaseapp.com",
+            projectId: "ipak-olx",
+            storageBucket: "ipak-olx.appspot.com",
+            messagingSenderId: "257101603788", 
+            appId: "1:257101603788:web:01440a539c4bd36d723369"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-        let items = JSON.parse(localStorage.getItem('ipakMarketItems')) || defaultItems;
-        let currentImageBase64 = "https://images.unsplash.com/photo-1526304640152-d4619684e484?auto=format&fit=crop&q=80&w=400"; // Default placeholder
+        // --- 2. USER SESSION & DATA ---
+        let items = [];
+        let currentImageBase64 = "https://images.unsplash.com/photo-1526304640152-d4619684e484?auto=format&fit=crop&q=80&w=400";
+        const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+        
+        let myUserId = localStorage.getItem('marketplaceUserId');
+        if (!myUserId) {
+            myUserId = 'user_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('marketplaceUserId', myUserId);
+        }
 
-        // --- 2. ADMIN LOGIC (Password: admin123) ---
+        // --- 3. FETCH & FILTER DATA (7-DAYS AUTO DELETE) ---
+        function loadItems() {
+            db.collection("marketItems").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
+                items = [];
+                let now = Date.now();
+
+                snapshot.forEach((doc) => {
+                    let data = doc.data();
+                    let itemId = doc.id;
+
+                    if (now - data.createdAt > SEVEN_DAYS_MS) {
+                        db.collection("marketItems").doc(itemId).delete();
+                    } else {
+                        items.push({ id: itemId, ...data });
+                    }
+                });
+                renderItems(items);
+            });
+        }
+
+        loadItems();
+
+        // --- 4. ADMIN LOGIC ---
         let isAdmin = false;
-
         function toggleAdmin() {
             if (!isAdmin) {
                 let pass = prompt("Enter Admin Password:");
-                if (pass === "admin123") {
+                if (pass === "5550") {
                     isAdmin = true;
                     document.body.classList.add('admin-mode');
                     document.querySelector('.admin-lock').classList.add('admin-active');
                     showToast("Admin Mode: ON");
+                    renderItems(items); 
                 } else {
                     showToast("Incorrect Password");
                 }
@@ -320,37 +334,44 @@
                 document.body.classList.remove('admin-mode');
                 document.querySelector('.admin-lock').classList.remove('admin-active');
                 showToast("Admin Mode: OFF");
-            }
-        }
-
-        function deleteItem(id) {
-            if (confirm("Delete this item?")) {
-                items = items.filter(item => item.id !== id);
-                localStorage.setItem('ipakMarketItems', JSON.stringify(items));
                 renderItems(items);
-                showToast("Item Deleted");
             }
         }
 
-        // --- 3. RENDER ITEMS ---
+        // --- 5. DELETE ITEM LOGIC ---
+        function deleteItem(id) {
+            if (confirm("Are you sure you want to delete this listing?")) {
+                db.collection("marketItems").doc(id).delete().then(() => {
+                    showToast("Item Deleted Successfully");
+                }).catch((error) => {
+                    console.error("Error deleting document: ", error);
+                });
+            }
+        }
+
+        // --- 6. RENDER ITEMS ---
         function renderItems(data) {
             const grid = document.getElementById('marketGrid');
             grid.innerHTML = "";
             
             if (data.length === 0) {
-                grid.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:#999; margin-top:20px;'>No items available yet.</p>";
+                grid.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:#999; margin-top:20px;'>No items available right now.</p>";
                 return;
             }
 
             data.forEach(item => {
-                const waMsg = `Hi, I saw your ad for *${item.title}* on IPAK Portal. Is it available?`;
+                const waMsg = `Hi, I saw your ad for *${item.title}* on the Marketplace. Is it available?`;
                 const waLink = `https://wa.me/${item.phone}?text=${encodeURIComponent(waMsg)}`;
+
+                const isOwner = item.userId === myUserId;
+                const deleteBtnHtml = (isOwner || isAdmin) ? 
+                    `<div class="delete-btn" style="display: flex;" onclick="deleteItem('${item.id}')">
+                        <i class="fas fa-trash"></i>
+                    </div>` : '';
 
                 grid.innerHTML += `
                     <div class="item-card">
-                        <div class="delete-btn" onclick="deleteItem(${item.id})">
-                            <i class="fas fa-trash"></i>
-                        </div>
+                        ${deleteBtnHtml}
                         <img src="${item.image}" class="item-image" alt="${item.title}">
                         <div class="price-tag">PKR ${item.price}</div>
                         <div class="card-body">
@@ -368,7 +389,7 @@
             });
         }
 
-        // --- 4. IMAGE HANDLING ---
+        // --- 7. IMAGE HANDLING ---
         function previewImage(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -380,32 +401,34 @@
             }
         }
 
-        // --- 5. POST AD ---
+        // --- 8. POST AD TO FIREBASE ---
         function postAd(e) {
             e.preventDefault();
             
             const newItem = {
-                id: Date.now(),
                 title: document.getElementById('adTitle').value,
                 price: parseInt(document.getElementById('adPrice').value).toLocaleString(),
                 category: document.getElementById('adCategory').value,
                 seller: document.getElementById('adSeller').value,
                 phone: document.getElementById('adPhone').value,
-                image: currentImageBase64
+                image: currentImageBase64,
+                createdAt: Date.now(),
+                userId: myUserId 
             };
 
-            items.unshift(newItem);
-            localStorage.setItem('ipakMarketItems', JSON.stringify(items));
-            
-            renderItems(items);
-            closeModal();
-            e.target.reset();
-            currentImageBase64 = "https://images.unsplash.com/photo-1526304640152-d4619684e484?w=400"; // Reset default
-            document.getElementById('fileName').innerText = "";
-            showToast("Ad Posted Successfully!");
+            db.collection("marketItems").add(newItem).then(() => {
+                closeModal();
+                e.target.reset();
+                currentImageBase64 = "https://images.unsplash.com/photo-1526304640152-d4619684e484?w=400"; 
+                document.getElementById('fileName').innerText = "";
+                showToast("Ad Posted Successfully!");
+            }).catch((error) => {
+                console.error("Error adding document: ", error);
+                showToast("Error posting ad");
+            });
         }
 
-        // --- 6. UTILITIES ---
+        // --- 9. UTILITIES ---
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const term = e.target.value.toLowerCase();
             const filtered = items.filter(item => 
@@ -421,7 +444,7 @@
             modal.style.display = 'flex';
             setTimeout(() => {
                 modal.classList.add('show');
-                document.getElementById('adTitle').focus(); // Auto focus on first input
+                document.getElementById('adTitle').focus(); 
             }, 10);
         }
         
@@ -440,9 +463,7 @@
 
         window.onclick = (event) => { if (event.target == document.getElementById('sellModal')) closeModal(); }
 
-        // --- 7. CURSOR & INIT ---
-        renderItems(items);
-
+        // --- 10. CURSOR ANIMATION ---
         const dot = document.querySelector('.cursor-dot');
         const outline = document.querySelector('.cursor-outline');
         window.addEventListener('mousemove', (e) => {
@@ -451,7 +472,6 @@
             outline.animate({ left: `${posX - 20}px`, top: `${posY - 20}px` }, { duration: 400, fill: "forwards" });
         });
 
-        // Add hover classes for custom cursor scaling
         document.querySelectorAll('a, button, input, select, .item-card').forEach(el => {
             el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));

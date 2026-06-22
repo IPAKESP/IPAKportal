@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPAK Succession Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- PapaParse for converting Google Sheet CSV to JSON instantly -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     
     <style>
@@ -29,8 +28,9 @@
 
         .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
 
-        /* Loading State */
-        #loader { text-align: center; color: var(--text-dim); padding: 50px; font-size: 18px; }
+        /* Loading & Error States */
+        #loader { text-align: center; color: var(--text-dim); padding: 50px; font-size: 18px; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color); }
+        .error-text { color: #d96570 !important; font-weight: 500; }
 
         /* Clean Grid View */
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
@@ -77,11 +77,10 @@
     </div>
 
     <div class="container">
-        <div id="loader">Fetching data from Google Sheets...</div>
+        <div id="loader">Fetching live data from Google Sheets...<br><span style="font-size:14px; opacity:0.7;">Please wait a moment.</span></div>
         <div class="cards-grid" id="grid-container" style="display: none;"></div>
     </div>
 
-    <!-- Modal Area -->
     <div class="modal-overlay" id="detailModal">
         <div class="modal-container">
             <button class="close-btn" onclick="closeModal()">✕</button>
@@ -90,48 +89,59 @@
     </div>
 
     <script>
-        // Google Sheet URL (Ensure it has &output=csv at the end)
+        // CRITICAL FIX: The URL MUST end in /pub?gid=2081750403&single=true&output=csv 
+        // We replaced /pubhtml with /pub?output=csv so JavaScript can read it as pure data.
         const sheetCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ2eGdEbyAtUT2PkOaZ59jX6g7mvXHAOtgOvOO7BxUWfo70e56-0RwMKZJbXzEMTIQpC6cHK6g65Qw8/pub?gid=2081750403&single=true&output=csv";
         
         let globalData = [];
 
-        // Fetch and Parse Data instantly
+        // Fetch Data using PapaParse with header: false (Since you cleared headers)
         Papa.parse(sheetCsvUrl, {
             download: true,
-            header: true,
+            header: false, // Set to false so it reads by column index (0, 1, 2...)
+            skipEmptyLines: true,
             complete: function(results) {
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('grid-container').style.display = 'grid';
                 
-                // Mapping CSV rows to our application layout
+                // MAPPING BY COLUMNS (A=0, B=1, C=2, etc.)
+                // Aap is numbering ko apni sheet k hisaab say adjust kar saktay hain
                 globalData = results.data.map((row, index) => {
                     return {
                         id: index,
-                        // YAHAN APNE EXACT HEADERS K NAAM LIKHNAY HAIN
-                        role: row["Position"] || row["Role"] || "Role Not Found", 
-                        incumbent: row["Incumbent"] || row["Current Head"] || "N/A",
-                        roleDetails: row["Details"] || row["Role Description"] || "No details provided.",
+                        role: row[0] || "Unknown Position", // Column A (Position)
+                        incumbent: row[1] || "N/A",         // Column B (Current Head)
+                        roleDetails: row[2] || "No details available.", // Column C (Details)
                         
-                        // Successors ki list (Sheet k columns k hisaab say adjust karein)
+                        // Successor 1 details
                         successors: [
                             {
-                                name: row["Successor 1"] || row["Successor Name"] || "N/A",
-                                details: row["Successor 1 Details"] || "N/A",
-                                badge: row["Readiness 1"] || "Ready Soon"
+                                name: row[3] || "N/A",      // Column D (Successor Name)
+                                details: row[4] || "N/A",   // Column E (Successor Details)
+                                badge: row[5] || "Ready"    // Column F (Readiness status)
                             }
                         ]
                     };
-                }).filter(item => item.role !== "Role Not Found"); // Empty rows hatane k liye
+                }).filter(item => item.role !== "Unknown Position" && item.role.trim() !== ""); 
 
-                renderGrid(globalData);
+                if(globalData.length === 0) {
+                    document.getElementById('loader').style.display = 'block';
+                    document.getElementById('loader').innerHTML = "<span class='error-text'>Data received, but columns are empty. Please check your sheet structure.</span>";
+                } else {
+                    renderGrid(globalData);
+                }
             },
             error: function(err) {
-                document.getElementById('loader').innerText = "Error loading data. Please check the Google Sheet link.";
-                console.error(err);
+                document.getElementById('loader').innerHTML = `
+                    <span class="error-text">Failed to fetch data!</span><br>
+                    <small>Make sure your sheet is published to the web as <b>CSV</b>.</small><br>
+                    <small style="color:#666;">Error Details: ${err.message}</small>
+                `;
+                console.error("PapaParse Error:", err);
             }
         });
 
-        // UI Rendering Logic (Same as before)
+        // UI Rendering Logic
         const gridContainer = document.getElementById('grid-container');
         const modalOverlay = document.getElementById('detailModal');
         const modalContentArea = document.getElementById('modal-content-area');
@@ -164,7 +174,7 @@
             let successorsHTML = '';
             
             dataItem.successors.forEach(succ => {
-                if(succ.name && succ.name !== "N/A") {
+                if(succ.name && succ.name !== "N/A" && succ.name.trim() !== "") {
                     const succFallback = `https://ui-avatars.com/api/?name=${succ.name}&background=1c1c22&color=fff&size=150`;
                     successorsHTML += `
                         <div class="successor-item">
@@ -191,7 +201,7 @@
                 </div>
                 <div class="modal-body">
                     <h4 style="color: #9b72cb; text-transform: uppercase; font-size: 14px; margin-bottom: 20px;">Successors Info</h4>
-                    <div class="successors-list">${successorsHTML || '<p>No successors updated yet.</p>'}</div>
+                    <div class="successors-list">${successorsHTML || '<p style="color:var(--text-dim);">No successors updated yet.</p>'}</div>
                 </div>`;
 
             modalOverlay.classList.add('active');

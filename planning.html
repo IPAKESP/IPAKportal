@@ -103,11 +103,23 @@
     <script>
         const sheetCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMzUbqogregSYqVmsiXYS-5BMroUTogKNoDDJIoeyZWAedwFbbwPNmfeNMX6O766_2NeuM3gFhqhED/pub?output=csv";
         let globalData = [];
+        let headerOccurrences = {};
 
         Papa.parse(sheetCsvUrl, {
             download: true, 
             header: true, 
             skipEmptyLines: true,
+            // YEH FUNCTION DUPLICATE HEADERS KO FIX KAREGA
+            transformHeader: function(header) {
+                let h = header.trim().replace(/[\r\n]+/g, ' '); 
+                if (headerOccurrences[h]) {
+                    headerOccurrences[h]++;
+                    // Agar column ka naam pehle aa chuka hai, toh uske aage "_2" laga dega (e.g., Age_2)
+                    return h + "_" + headerOccurrences[h]; 
+                }
+                headerOccurrences[h] = 1;
+                return h;
+            },
             complete: function(results) {
                 document.getElementById('loader').style.display = 'none';
                 globalData = results.data;
@@ -116,19 +128,18 @@
             }
         });
 
-        // Robust function to handle spaces, lowercase/uppercase, and line breaks in sheet headers
+        // 100% BULLETPROOF MATCHER
         function getVal(item, possibleKeys) {
-            const normalizedItem = {};
-            for (let key in item) {
-                // Remove all spaces and newlines from the header name to make matching bulletproof
-                const cleanKey = key.replace(/\s+/g, '').toLowerCase();
-                normalizedItem[cleanKey] = item[key];
-            }
-
-            for (let key of possibleKeys) {
-                const cleanKey = key.replace(/\s+/g, '').toLowerCase();
-                if (normalizedItem[cleanKey] !== undefined && normalizedItem[cleanKey].trim() !== '') {
-                    return normalizedItem[cleanKey];
+            for (let pk of possibleKeys) {
+                let target = pk.toLowerCase().replace(/[^a-z0-9_]/g, '');
+                for (let key in item) {
+                    let source = key.toLowerCase().replace(/[^a-z0-9_]/g, '');
+                    if (source === target) {
+                        let value = item[key];
+                        if (value !== undefined && value !== null && String(value).trim() !== '') {
+                            return String(value).trim();
+                        }
+                    }
                 }
             }
             return 'N/A';
@@ -138,10 +149,9 @@
             const container = document.getElementById('tabs-container');
             container.style.display = 'flex';
             
-            // Safe department fetching
             const depts = ["All", ...new Set(globalData.map(d => getVal(d, ['Department'])).filter(d => d !== 'N/A'))];
             
-            if(depts.length <= 1) return; // Hide tabs if no departments exist
+            if(depts.length <= 1) return;
 
             depts.forEach((d, index) => {
                 const btn = document.createElement('button');
@@ -207,6 +217,7 @@
                 </div>
             `;
 
+            // Checking for successor details (Notice the "_2" mapping added to handle duplicates)
             const successorName = getVal(item, ['Successor Name', 'Successor 1', 'Successor']);
             
             if(successorName !== 'N/A') {
@@ -215,16 +226,16 @@
                     <div class="section-title"><span></span> Successor Details</div>
                     <div class="info-grid">
                         <div class="info-card"><div class="info-label">Successor Name</div><div class="info-value">${successorName}</div></div>
-                        <div class="info-card"><div class="info-label">Successor Employee ID</div><div class="info-value">${getVal(item, ['Successor Employee ID', 'Successor Empoyee ID'])}</div></div>
-                        <div class="info-card"><div class="info-label">Current Position</div><div class="info-value">${getVal(item, ['Successor Current Position'])}</div></div>
+                        <div class="info-card"><div class="info-label">Successor Employee ID</div><div class="info-value">${getVal(item, ['Successor Employee ID', 'Successor Empoyee ID', 'Employee ID_2'])}</div></div>
+                        <div class="info-card"><div class="info-label">Current Position</div><div class="info-value">${getVal(item, ['Successor Current Position', 'Current Position_2'])}</div></div>
                         <div class="info-card"><div class="info-label">Readiness Level</div><div class="info-value">${getVal(item, ['Readiness Level', 'Successor Readiness Level'])}</div></div>
-                        <div class="info-card"><div class="info-label">Date of Joining</div><div class="info-value">${getVal(item, ['Successor Date of Joining'])}</div></div>
-                        <div class="info-card"><div class="info-label">IPAK Experience</div><div class="info-value">${getVal(item, ['Successor IPAK Experience'])}</div></div>
-                        <div class="info-card"><div class="info-label">Other Experience</div><div class="info-value">${getVal(item, ['Successor Other Experience'])}</div></div>
-                        <div class="info-card"><div class="info-label">Total Experience</div><div class="info-value">${getVal(item, ['Successor Total Experience'])}</div></div>
-                        <div class="info-card"><div class="info-label">Date of Birth</div><div class="info-value">${getVal(item, ['Successor Date of Birth'])}</div></div>
-                        <div class="info-card"><div class="info-label">Age</div><div class="info-value">${getVal(item, ['Successor Age'])}</div></div>
-                        <div class="info-card"><div class="info-label">Education</div><div class="info-value">${getVal(item, ['Successor Education'])}</div></div>
+                        <div class="info-card"><div class="info-label">Date of Joining</div><div class="info-value">${getVal(item, ['Successor Date of Joining', 'Date of Joining_2'])}</div></div>
+                        <div class="info-card"><div class="info-label">IPAK Experience</div><div class="info-value">${getVal(item, ['Successor IPAK Experience', 'IPAK Experience_2'])}</div></div>
+                        <div class="info-card"><div class="info-label">Other Experience</div><div class="info-value">${getVal(item, ['Successor Other Experience', 'Other Experience_2'])}</div></div>
+                        <div class="info-card"><div class="info-label">Total Experience</div><div class="info-value">${getVal(item, ['Successor Total Experience', 'Total Experience_2'])}</div></div>
+                        <div class="info-card"><div class="info-label">Date of Birth</div><div class="info-value">${getVal(item, ['Successor Date of Birth', 'Date of Birth_2'])}</div></div>
+                        <div class="info-card"><div class="info-label">Age</div><div class="info-value">${getVal(item, ['Successor Age', 'Age_2'])}</div></div>
+                        <div class="info-card"><div class="info-label">Education</div><div class="info-value">${getVal(item, ['Successor Education', 'Education_2'])}</div></div>
                     </div>
                 </div>
                 `;

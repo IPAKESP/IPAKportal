@@ -22,43 +22,83 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #ffffff; /* Page background */
-            background-image: radial-gradient(circle at 15% 50%, rgba(168, 197, 0, 0.05), transparent 50%), 
-                              radial-gradient(circle at 85% 30%, rgba(32, 50, 101, 0.05), transparent 50%);
+            background: #ffffff; 
             overflow: hidden;
             font-family: 'Inter', sans-serif;
             position: relative;
         }
 
-        /* --- GLASSMORPHISM SCREENSAVER OVERLAY --- */
+        /* --- ULTRA-MODERN FLUID AURORA SCREENSAVER --- */
         .screensaver {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            /* Ultra-modern frosted glass effect */
-            background: rgba(255, 255, 255, 0.55);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px); /* Safari support */
+            background: #ffffff;
             z-index: 99999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* Smooth zoom-in unlock transition */
-            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
-                        visibility 0.6s, 
-                        transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            /* Smooth unlock transition */
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
+                        visibility 0.8s, 
+                        transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
             transform: scale(1);
             cursor: pointer;
-            perspective: 1500px;
+            overflow: hidden;
         }
 
         .screensaver.hidden {
             opacity: 0;
             visibility: hidden;
-            transform: scale(1.08); /* Zoom in when unlocking */
+            transform: scale(1.1); /* Subtle zoom out on unlock */
             pointer-events: none;
+        }
+
+        /* Moving Gradient Blobs (Aurora Effect) */
+        .aurora-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px); /* Massive blur to make it look like fluid light */
+            opacity: 0.5;
+            animation: floatOrb 20s infinite alternate ease-in-out;
+            will-change: transform;
+        }
+
+        .orb-navy {
+            width: 600px; height: 600px;
+            background: var(--navy);
+            top: -10%; left: -10%;
+        }
+
+        .orb-lime {
+            width: 500px; height: 500px;
+            background: var(--lime);
+            bottom: -10%; right: -10%;
+            animation-duration: 25s;
+            animation-direction: alternate-reverse;
+        }
+
+        .orb-accent {
+            width: 400px; height: 400px;
+            background: #5c7ee0; /* Lighter navy for depth */
+            top: 40%; left: 50%;
+            animation-duration: 22s;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(150px, 100px) scale(1.2); }
+            100% { transform: translate(-100px, -150px) scale(0.9); }
+        }
+
+        /* Deep Glass Overlay */
+        .screensaver-glass {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            backdrop-filter: blur(60px) saturate(140%);
+            -webkit-backdrop-filter: blur(60px) saturate(140%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .screensaver-wrapper {
@@ -68,84 +108,45 @@
             align-items: center;
         }
 
-        /* Glowing Backlight Aura */
-        .aura-glow {
+        /* Organic Energy Ripples */
+        .energy-wave {
             position: absolute;
-            width: 250px;
-            height: 250px;
-            background: var(--lime);
-            filter: blur(80px);
-            opacity: 0.4;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-            animation: pulseAura 4s ease-in-out infinite alternate;
-            z-index: 0;
-        }
-
-        @keyframes pulseAura {
-            0% { transform: scale(0.8); opacity: 0.2; }
-            100% { transform: scale(1.5); opacity: 0.5; background: var(--navy); }
-        }
-
-        /* Sleek Tech Rings */
-        .tech-ring {
-            position: absolute;
-            border-radius: 50%;
-            z-index: 1;
+            border: 2px solid var(--lime);
             opacity: 0;
-            animation: fadeInTech 1.5s forwards 0.3s;
+            animation: wavePulse 4.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
         }
 
-        .tech-ring.outer {
-            width: 480px;
-            height: 480px;
-            border: 1px solid rgba(32, 50, 101, 0.15);
-            border-top: 2px solid var(--navy);
-            border-bottom: 2px solid var(--lime);
-            animation: fadeInTech 1.5s forwards 0.3s, spinRing 25s linear infinite;
+        .wave-2 { animation-delay: 1.5s; }
+        .wave-3 { animation-delay: 3s; }
+
+        @keyframes wavePulse {
+            0% { transform: scale(0.5); opacity: 0.8; border-width: 4px; }
+            100% { transform: scale(5); opacity: 0; border-width: 1px; }
         }
 
-        .tech-ring.inner {
-            width: 380px;
-            height: 380px;
-            border: 1px dashed rgba(168, 197, 0, 0.4);
-            border-left: 2px solid var(--lime);
-            animation: fadeInTech 1.5s forwards 0.6s, spinRingReverse 15s linear infinite;
-        }
-
-        @keyframes fadeInTech { to { opacity: 1; } }
-        @keyframes spinRing { 100% { transform: rotate(360deg); } }
-        @keyframes spinRingReverse { 100% { transform: rotate(-360deg); } }
-
-        /* Premium Logo Reveal & Float */
+        /* Ethereal Logo Breathing Animation */
         .screensaver-logo {
-            width: 350px;
+            width: 380px;
             height: auto;
             position: relative;
-            z-index: 2;
-            will-change: transform, filter, opacity;
-            animation: 
-                hologramReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards,
-                premiumFloat 6s ease-in-out 1.5s infinite alternate;
+            z-index: 10;
+            will-change: transform, filter;
+            animation: logoBreathe 6s ease-in-out infinite alternate;
         }
 
-        @keyframes hologramReveal {
+        @keyframes logoBreathe {
             0% { 
-                opacity: 0; 
-                transform: scale(0.5) translateZ(-200px) rotateY(90deg); 
-                filter: blur(20px); 
+                transform: translateY(0) scale(1); 
+                filter: drop-shadow(0 15px 25px rgba(32, 50, 101, 0.3)); 
             }
             100% { 
-                opacity: 1; 
-                transform: scale(1) translateZ(0) rotateY(0deg); 
-                filter: drop-shadow(0 20px 30px rgba(32, 50, 101, 0.15));
+                transform: translateY(-20px) scale(1.05); 
+                filter: drop-shadow(0 35px 50px rgba(168, 197, 0, 0.4)); 
             }
         }
-
-        @keyframes premiumFloat {
-            0% { transform: scale(1) translateY(0); filter: drop-shadow(0 20px 30px rgba(32, 50, 101, 0.15)); }
-            100% { transform: scale(1.05) translateY(-15px); filter: drop-shadow(0 30px 45px rgba(168, 197, 0, 0.25)); }
-        }
-
 
         /* --- HEADER LOGO --- */
         .top-bar { position: absolute; top: 30px; left: 50px; z-index: 10; }
@@ -163,7 +164,7 @@
 
         /* --- LOGIN CARD --- */
         .form-section { flex: 0 0 auto; }
-        .card { width: 380px; padding: 40px; border-radius: 24px; background: rgba(255, 255, 255, 0.9); border: 1px solid #f0f0f0; box-shadow: 0 20px 50px rgba(32, 50, 101, 0.08); text-align: center; animation: float 6s ease-in-out infinite; }
+        .card { width: 380px; padding: 40px; border-radius: 24px; background: rgba(255, 255, 255, 0.95); border: 1px solid #f0f0f0; box-shadow: 0 20px 50px rgba(32, 50, 101, 0.08); text-align: center; animation: float 6s ease-in-out infinite; }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
         .header h2 { font-size: 1.6rem; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
         .header p { color: #888; font-size: 0.9rem; margin-bottom: 30px; }
@@ -186,7 +187,7 @@
         .success { background: #f0fff4; color: #276749; border: 1px solid #9ae6b4; }
 
         /* --- MODERN LOADER ANIMATION --- */
-        .loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); z-index: 999999; display: none; justify-content: center; align-items: center; flex-direction: column; animation: fadeIn 0.3s ease-out; }
+        .loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); z-index: 999999; display: none; justify-content: center; align-items: center; flex-direction: column; animation: fadeIn 0.3s ease-out; }
         .spinner { width: 60px; height: 60px; border: 5px solid rgba(32, 50, 101, 0.2); border-top: 5px solid var(--navy); border-right: 5px solid var(--lime); border-radius: 50%; animation: spinLoader 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; margin-bottom: 20px; }
         .loader-text { font-family: 'Fira Sans', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); letter-spacing: 2px; text-transform: uppercase; animation: pulse 1s ease-in-out infinite; }
         @keyframes spinLoader { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -206,18 +207,26 @@
 
 <body>
 
-    <!-- GLASSMORPHISM SCREENSAVER OVERLAY -->
+    <!-- ULTRA-MODERN AURORA SCREENSAVER OVERLAY -->
     <div id="screensaver" class="screensaver">
-        <div class="screensaver-wrapper">
-            <!-- Glowing Backlight -->
-            <div class="aura-glow"></div>
+        
+        <!-- Fluid Color Backgrounds -->
+        <div class="aurora-orb orb-navy"></div>
+        <div class="aurora-orb orb-lime"></div>
+        <div class="aurora-orb orb-accent"></div>
 
-            <!-- Rotating Tech Rings -->
-            <div class="tech-ring outer"></div>
-            <div class="tech-ring inner"></div>
-            
-            <!-- 3D Animated Logo -->
-            <img src="logo.png" alt="IPAK Screensaver Logo" class="screensaver-logo" id="ss-logo">
+        <!-- Glassmorphism layer & Logo -->
+        <div class="screensaver-glass">
+            <div class="screensaver-wrapper">
+                
+                <!-- Expanding Energy Waves -->
+                <div class="energy-wave wave-1"></div>
+                <div class="energy-wave wave-2"></div>
+                <div class="energy-wave wave-3"></div>
+                
+                <!-- Breathing Animated Logo -->
+                <img src="logo.png" alt="IPAK Screensaver Logo" class="screensaver-logo" id="ss-logo">
+            </div>
         </div>
     </div>
 
@@ -282,7 +291,6 @@
     <script>
         // --- SCREENSAVER LOGIC ---
         const screensaver = document.getElementById('screensaver');
-        const ssLogo = document.getElementById('ss-logo');
         
         let idleTime = 0;
         const idleTimeout = 6; // Set to 6 seconds
@@ -291,23 +299,14 @@
         function hideScreensaver() {
             if (!screensaver.classList.contains('hidden')) {
                 screensaver.classList.add('hidden');
-                
-                // Reset animation state so it plays fresh next time
-                setTimeout(() => {
-                    ssLogo.style.animation = 'none';
-                }, 600); // Wait for transition to finish
             }
             resetIdleTimer();
         }
 
-        // Show screensaver and trigger new 3D intro animation
+        // Show screensaver 
         function showScreensaver() {
             if (screensaver.classList.contains('hidden')) {
                 screensaver.classList.remove('hidden');
-                
-                // Force browser reflow to restart CSS animation properly
-                void ssLogo.offsetWidth; 
-                ssLogo.style.animation = 'hologramReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards, premiumFloat 6s ease-in-out 1.5s infinite alternate';
             }
         }
 

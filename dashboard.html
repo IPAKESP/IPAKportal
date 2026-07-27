@@ -227,7 +227,6 @@
         }
         .modal-header h3 { color: var(--white); font-size: 22px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
         
-        /* Updated Close Button - Make it clear for Kiosk users */
         .close-btn { 
             background: var(--emergency-red); border: none; font-size: 18px; color: var(--white);
             padding: 10px 24px; border-radius: 8px; cursor: pointer; transition: 0.3s;
@@ -450,7 +449,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <iframe id="appViewer" src="" allowfullscreen="true"></iframe>
+                <!-- Sandbox attribute added here to strictly prevent parent redirection -->
+                <iframe id="appViewer" src="" allowfullscreen="true" sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-downloads"></iframe>
             </div>
         </div>
     </div>

@@ -28,22 +28,21 @@
             position: relative;
         }
 
-        /* --- MODERN INTRO SCREENSAVER STYLES --- */
+        /* --- ULTRA MODERN INTRO SCREENSAVER --- */
         .screensaver {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            /* Ek subtle radial gradient background premium feel ke liye */
-            background: radial-gradient(circle at center, #ffffff 0%, #f4f6fb 100%);
+            background: radial-gradient(circle at center, #ffffff 0%, #edf1fa 100%);
             z-index: 99999;
             display: flex;
             justify-content: center;
             align-items: center;
             transition: opacity 0.8s ease, visibility 0.8s ease;
             cursor: pointer;
-            perspective: 1000px; /* 3D depth ke liye */
+            perspective: 1200px; /* 3D Depth */
         }
 
         .screensaver.hidden {
@@ -52,7 +51,6 @@
             pointer-events: none;
         }
 
-        /* Logo Wrapper to hold rings and logo together */
         .screensaver-wrapper {
             position: relative;
             display: flex;
@@ -60,69 +58,87 @@
             align-items: center;
         }
 
-        /* Glow Rings / Pulse Effect */
+        /* 1. Rotating Tech Aura Rings */
         .glow-ring {
             position: absolute;
-            width: 250px;
-            height: 250px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(168, 197, 0, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
-            animation: ringPulse 3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-            z-index: 1;
+            border: 2px solid transparent;
             opacity: 0;
-        }
-        .glow-ring.delay {
-            animation-delay: 1.75s;
+            /* Rings fade in honge, phir ghoomna shuru karenge */
+            animation: fadeInRing 2s forwards 0.5s, spinRing 15s linear infinite;
         }
 
-        /* Cinematic Logo Animation (Chain of 2 animations) */
+        /* Inner Rotating Ring */
+        .glow-ring.inner {
+            width: 350px;
+            height: 350px;
+            border-top: 3px solid var(--lime);
+            border-right: 3px solid transparent;
+            border-bottom: 2px dashed var(--navy);
+            border-left: 3px solid transparent;
+        }
+
+        /* Outer Rotating Ring (Opposite Direction) */
+        .glow-ring.outer {
+            width: 430px;
+            height: 430px;
+            border-bottom: 3px solid var(--navy);
+            border-left: 2px dashed var(--lime);
+            border-top: 2px solid transparent;
+            border-right: 2px solid transparent;
+            animation: fadeInRing 2s forwards 1s, spinRingReverse 20s linear infinite;
+        }
+
+        @keyframes fadeInRing { to { opacity: 0.5; } }
+        @keyframes spinRing { 100% { transform: rotate(360deg); } }
+        @keyframes spinRingReverse { 100% { transform: rotate(-360deg); } }
+
+        /* 2. 3D Flip & Cinematic Logo Animation */
         .screensaver-logo {
             width: 380px;
             height: auto;
             position: relative;
             z-index: 2;
             will-change: transform, filter, opacity;
-            /* 1st Animation: Reveal Intro (1.5s), 2nd Animation: Continuous Float (4s loop) */
             animation: 
-                cinematicReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards,
-                continuousFloat 4s ease-in-out 1.5s infinite alternate;
+                flipReveal 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards,
+                dynamicFloat 5s ease-in-out 1.8s infinite alternate;
         }
 
-        /* 1: The Intro Reveal */
-        @keyframes cinematicReveal {
+        /* Holographic Flip Reveal */
+        @keyframes flipReveal {
             0% { 
                 opacity: 0; 
-                transform: scale(0.3) translateY(80px) rotateX(45deg); 
-                filter: blur(20px); 
+                transform: scale(0.4) translateY(100px) rotateY(180deg); 
+                filter: blur(15px); 
             }
             60% {
                 opacity: 1; 
-                transform: scale(1.05) translateY(-10px) rotateX(-5deg); 
+                transform: scale(1.1) translateY(-15px) rotateY(-15deg); 
                 filter: blur(0px); 
             }
             100% { 
                 opacity: 1; 
-                transform: scale(1) translateY(0) rotateX(0deg); 
-                filter: drop-shadow(0 15px 25px rgba(32, 50, 101, 0.15));
+                transform: scale(1) translateY(0) rotateY(0deg); 
+                filter: drop-shadow(0 15px 25px rgba(32, 50, 101, 0.2));
             }
         }
 
-        /* 2: The Continuous Floating & Glowing */
-        @keyframes continuousFloat {
+        /* Dynamic Color Breathing Float */
+        @keyframes dynamicFloat {
             0% { 
                 transform: scale(1) translateY(0); 
-                filter: drop-shadow(0 15px 25px rgba(32, 50, 101, 0.15));
+                filter: drop-shadow(0 15px 25px rgba(32, 50, 101, 0.2)) brightness(1);
+            }
+            50% { 
+                transform: scale(1.06) translateY(-18px); 
+                /* Shadow color changes to Lime and glows slightly */
+                filter: drop-shadow(0 35px 45px rgba(168, 197, 0, 0.35)) brightness(1.1);
             }
             100% { 
-                transform: scale(1.03) translateY(-12px); 
-                filter: drop-shadow(0 30px 40px rgba(32, 50, 101, 0.3));
+                transform: scale(1) translateY(0); 
+                filter: drop-shadow(0 15px 25px rgba(32, 50, 101, 0.2)) brightness(1);
             }
-        }
-
-        /* 3: The Background Rings */
-        @keyframes ringPulse {
-            0% { transform: scale(0.8); opacity: 1; }
-            100% { transform: scale(2.8); opacity: 0; }
         }
 
         /* --- HEADER LOGO --- */
@@ -165,9 +181,9 @@
 
         /* --- MODERN LOADER ANIMATION --- */
         .loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); z-index: 9999; display: none; justify-content: center; align-items: center; flex-direction: column; animation: fadeIn 0.3s ease-out; }
-        .spinner { width: 60px; height: 60px; border: 5px solid rgba(32, 50, 101, 0.2); border-top: 5px solid var(--navy); border-right: 5px solid var(--lime); border-radius: 50%; animation: spin 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; margin-bottom: 20px; }
+        .spinner { width: 60px; height: 60px; border: 5px solid rgba(32, 50, 101, 0.2); border-top: 5px solid var(--navy); border-right: 5px solid var(--lime); border-radius: 50%; animation: spinLoader 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; margin-bottom: 20px; }
         .loader-text { font-family: 'Fira Sans', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); letter-spacing: 2px; text-transform: uppercase; animation: pulse 1s ease-in-out infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spinLoader { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
@@ -184,14 +200,14 @@
 
 <body>
 
-    <!-- MODERN SCREENSAVER OVERLAY -->
+    <!-- ULTRA MODERN SCREENSAVER OVERLAY -->
     <div id="screensaver" class="screensaver">
         <div class="screensaver-wrapper">
-            <!-- Background pulse rings for dynamic effect -->
-            <div class="glow-ring"></div>
-            <div class="glow-ring delay"></div>
+            <!-- Rotating Tech Rings -->
+            <div class="glow-ring inner"></div>
+            <div class="glow-ring outer"></div>
             
-            <!-- Animated Logo -->
+            <!-- 3D Animated Logo -->
             <img src="logo.png" alt="IPAK Screensaver Logo" class="screensaver-logo" id="ss-logo">
         </div>
     </div>
@@ -259,27 +275,27 @@
         const screensaver = document.getElementById('screensaver');
         const ssLogo = document.getElementById('ss-logo');
         let idleTime = 0;
-        const idleTimeout = 60; // 60 seconds (1 minute)
+        const idleTimeout = 60; // 60 seconds
 
         // Hide screensaver on touch/click
         function hideScreensaver() {
             if (!screensaver.classList.contains('hidden')) {
                 screensaver.classList.add('hidden');
                 
-                // Reset animation state taa ke jab dobara aaye tou shuru se intro chale
+                // Reset animation state for next time
                 ssLogo.style.animation = 'none';
             }
             resetIdleTimer();
         }
 
-        // Show screensaver and trigger intro animation again
+        // Show screensaver and trigger new 3D intro animation
         function showScreensaver() {
             if (screensaver.classList.contains('hidden')) {
                 screensaver.classList.remove('hidden');
                 
                 // Force browser reflow to restart CSS animation properly
                 void ssLogo.offsetWidth; 
-                ssLogo.style.animation = 'cinematicReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards, continuousFloat 4s ease-in-out 1.5s infinite alternate';
+                ssLogo.style.animation = 'flipReveal 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, dynamicFloat 5s ease-in-out 1.8s infinite alternate';
             }
         }
 

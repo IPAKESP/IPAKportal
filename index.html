@@ -22,32 +22,42 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #ffffff;
+            background: #ffffff; /* Page background */
+            background-image: radial-gradient(circle at 15% 50%, rgba(168, 197, 0, 0.05), transparent 50%), 
+                              radial-gradient(circle at 85% 30%, rgba(32, 50, 101, 0.05), transparent 50%);
             overflow: hidden;
             font-family: 'Inter', sans-serif;
             position: relative;
         }
 
-        /* --- ULTRA MODERN INTRO SCREENSAVER --- */
+        /* --- GLASSMORPHISM SCREENSAVER OVERLAY --- */
         .screensaver {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: radial-gradient(circle at center, #ffffff 0%, #edf1fa 100%);
+            /* Ultra-modern frosted glass effect */
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px); /* Safari support */
             z-index: 99999;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+            /* Smooth zoom-in unlock transition */
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+                        visibility 0.6s, 
+                        transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(1);
             cursor: pointer;
-            perspective: 1200px; /* 3D Depth */
+            perspective: 1500px;
         }
 
         .screensaver.hidden {
             opacity: 0;
             visibility: hidden;
+            transform: scale(1.08); /* Zoom in when unlocking */
             pointer-events: none;
         }
 
@@ -58,88 +68,84 @@
             align-items: center;
         }
 
-        /* 1. Rotating Tech Aura Rings */
-        .glow-ring {
+        /* Glowing Backlight Aura */
+        .aura-glow {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: var(--lime);
+            filter: blur(80px);
+            opacity: 0.4;
+            border-radius: 50%;
+            animation: pulseAura 4s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+
+        @keyframes pulseAura {
+            0% { transform: scale(0.8); opacity: 0.2; }
+            100% { transform: scale(1.5); opacity: 0.5; background: var(--navy); }
+        }
+
+        /* Sleek Tech Rings */
+        .tech-ring {
             position: absolute;
             border-radius: 50%;
-            border: 2px solid transparent;
+            z-index: 1;
             opacity: 0;
-            /* Rings fade in honge, phir ghoomna shuru karenge */
-            animation: fadeInRing 2s forwards 0.5s, spinRing 15s linear infinite;
+            animation: fadeInTech 1.5s forwards 0.3s;
         }
 
-        /* Inner Rotating Ring */
-        .glow-ring.inner {
-            width: 350px;
-            height: 350px;
-            border-top: 3px solid var(--lime);
-            border-right: 3px solid transparent;
-            border-bottom: 2px dashed var(--navy);
-            border-left: 3px solid transparent;
+        .tech-ring.outer {
+            width: 480px;
+            height: 480px;
+            border: 1px solid rgba(32, 50, 101, 0.15);
+            border-top: 2px solid var(--navy);
+            border-bottom: 2px solid var(--lime);
+            animation: fadeInTech 1.5s forwards 0.3s, spinRing 25s linear infinite;
         }
 
-        /* Outer Rotating Ring (Opposite Direction) */
-        .glow-ring.outer {
-            width: 430px;
-            height: 430px;
-            border-bottom: 3px solid var(--navy);
-            border-left: 2px dashed var(--lime);
-            border-top: 2px solid transparent;
-            border-right: 2px solid transparent;
-            animation: fadeInRing 2s forwards 1s, spinRingReverse 20s linear infinite;
+        .tech-ring.inner {
+            width: 380px;
+            height: 380px;
+            border: 1px dashed rgba(168, 197, 0, 0.4);
+            border-left: 2px solid var(--lime);
+            animation: fadeInTech 1.5s forwards 0.6s, spinRingReverse 15s linear infinite;
         }
 
-        @keyframes fadeInRing { to { opacity: 0.5; } }
+        @keyframes fadeInTech { to { opacity: 1; } }
         @keyframes spinRing { 100% { transform: rotate(360deg); } }
         @keyframes spinRingReverse { 100% { transform: rotate(-360deg); } }
 
-        /* 2. 3D Flip & Cinematic Logo Animation */
+        /* Premium Logo Reveal & Float */
         .screensaver-logo {
-            width: 380px;
+            width: 350px;
             height: auto;
             position: relative;
             z-index: 2;
             will-change: transform, filter, opacity;
             animation: 
-                flipReveal 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards,
-                dynamicFloat 5s ease-in-out 1.8s infinite alternate;
+                hologramReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+                premiumFloat 6s ease-in-out 1.5s infinite alternate;
         }
 
-        /* Holographic Flip Reveal */
-        @keyframes flipReveal {
+        @keyframes hologramReveal {
             0% { 
                 opacity: 0; 
-                transform: scale(0.4) translateY(100px) rotateY(180deg); 
-                filter: blur(15px); 
-            }
-            60% {
-                opacity: 1; 
-                transform: scale(1.1) translateY(-15px) rotateY(-15deg); 
-                filter: blur(0px); 
+                transform: scale(0.5) translateZ(-200px) rotateY(90deg); 
+                filter: blur(20px); 
             }
             100% { 
                 opacity: 1; 
-                transform: scale(1) translateY(0) rotateY(0deg); 
-                filter: drop-shadow(0 15px 25px rgba(32, 50, 101, 0.2));
+                transform: scale(1) translateZ(0) rotateY(0deg); 
+                filter: drop-shadow(0 20px 30px rgba(32, 50, 101, 0.15));
             }
         }
 
-        /* Dynamic Color Breathing Float */
-        @keyframes dynamicFloat {
-            0% { 
-                transform: scale(1) translateY(0); 
-                filter: drop-shadow(0 15px 25px rgba(32, 50, 101, 0.2)) brightness(1);
-            }
-            50% { 
-                transform: scale(1.06) translateY(-18px); 
-                /* Shadow color changes to Lime and glows slightly */
-                filter: drop-shadow(0 35px 45px rgba(168, 197, 0, 0.35)) brightness(1.1);
-            }
-            100% { 
-                transform: scale(1) translateY(0); 
-                filter: drop-shadow(0 15px 25px rgba(32, 50, 101, 0.2)) brightness(1);
-            }
+        @keyframes premiumFloat {
+            0% { transform: scale(1) translateY(0); filter: drop-shadow(0 20px 30px rgba(32, 50, 101, 0.15)); }
+            100% { transform: scale(1.05) translateY(-15px); filter: drop-shadow(0 30px 45px rgba(168, 197, 0, 0.25)); }
         }
+
 
         /* --- HEADER LOGO --- */
         .top-bar { position: absolute; top: 30px; left: 50px; z-index: 10; }
@@ -157,7 +163,7 @@
 
         /* --- LOGIN CARD --- */
         .form-section { flex: 0 0 auto; }
-        .card { width: 380px; padding: 40px; border-radius: 24px; background: #ffffff; border: 1px solid #f0f0f0; box-shadow: 0 20px 50px rgba(32, 50, 101, 0.08); text-align: center; animation: float 6s ease-in-out infinite; }
+        .card { width: 380px; padding: 40px; border-radius: 24px; background: rgba(255, 255, 255, 0.9); border: 1px solid #f0f0f0; box-shadow: 0 20px 50px rgba(32, 50, 101, 0.08); text-align: center; animation: float 6s ease-in-out infinite; }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
         .header h2 { font-size: 1.6rem; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
         .header p { color: #888; font-size: 0.9rem; margin-bottom: 30px; }
@@ -180,7 +186,7 @@
         .success { background: #f0fff4; color: #276749; border: 1px solid #9ae6b4; }
 
         /* --- MODERN LOADER ANIMATION --- */
-        .loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); z-index: 9999; display: none; justify-content: center; align-items: center; flex-direction: column; animation: fadeIn 0.3s ease-out; }
+        .loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); z-index: 999999; display: none; justify-content: center; align-items: center; flex-direction: column; animation: fadeIn 0.3s ease-out; }
         .spinner { width: 60px; height: 60px; border: 5px solid rgba(32, 50, 101, 0.2); border-top: 5px solid var(--navy); border-right: 5px solid var(--lime); border-radius: 50%; animation: spinLoader 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; margin-bottom: 20px; }
         .loader-text { font-family: 'Fira Sans', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); letter-spacing: 2px; text-transform: uppercase; animation: pulse 1s ease-in-out infinite; }
         @keyframes spinLoader { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -200,12 +206,15 @@
 
 <body>
 
-    <!-- ULTRA MODERN SCREENSAVER OVERLAY -->
+    <!-- GLASSMORPHISM SCREENSAVER OVERLAY -->
     <div id="screensaver" class="screensaver">
         <div class="screensaver-wrapper">
+            <!-- Glowing Backlight -->
+            <div class="aura-glow"></div>
+
             <!-- Rotating Tech Rings -->
-            <div class="glow-ring inner"></div>
-            <div class="glow-ring outer"></div>
+            <div class="tech-ring outer"></div>
+            <div class="tech-ring inner"></div>
             
             <!-- 3D Animated Logo -->
             <img src="logo.png" alt="IPAK Screensaver Logo" class="screensaver-logo" id="ss-logo">
@@ -274,16 +283,19 @@
         // --- SCREENSAVER LOGIC ---
         const screensaver = document.getElementById('screensaver');
         const ssLogo = document.getElementById('ss-logo');
+        
         let idleTime = 0;
-        const idleTimeout = 60; // 60 seconds
+        const idleTimeout = 6; // Set to 6 seconds
 
-        // Hide screensaver on touch/click
+        // Hide screensaver on any user interaction
         function hideScreensaver() {
             if (!screensaver.classList.contains('hidden')) {
                 screensaver.classList.add('hidden');
                 
-                // Reset animation state for next time
-                ssLogo.style.animation = 'none';
+                // Reset animation state so it plays fresh next time
+                setTimeout(() => {
+                    ssLogo.style.animation = 'none';
+                }, 600); // Wait for transition to finish
             }
             resetIdleTimer();
         }
@@ -295,26 +307,30 @@
                 
                 // Force browser reflow to restart CSS animation properly
                 void ssLogo.offsetWidth; 
-                ssLogo.style.animation = 'flipReveal 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, dynamicFloat 5s ease-in-out 1.8s infinite alternate';
+                ssLogo.style.animation = 'hologramReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards, premiumFloat 6s ease-in-out 1.5s infinite alternate';
             }
         }
 
+        // Timer increment logic
         function timerIncrement() {
             idleTime++;
-            if (idleTime >= idleTimeout) {
+            // If idle for 6 seconds AND screensaver is currently hidden, show it
+            if (idleTime >= idleTimeout && screensaver.classList.contains('hidden')) {
                 showScreensaver();
             }
         }
 
+        // Reset timer to 0
         function resetIdleTimer() {
             idleTime = 0;
         }
 
-        // Interaction listeners
-        ['touchstart', 'click', 'mousemove', 'keypress', 'scroll'].forEach(evt => 
+        // Listen for all interactions to hide screensaver and reset the timer
+        ['mousedown', 'touchstart', 'mousemove', 'keypress', 'scroll', 'click'].forEach(evt => 
             document.addEventListener(evt, hideScreensaver, false)
         );
 
+        // Run the timer every 1 second (1000ms)
         setInterval(timerIncrement, 1000);
 
         // --- FIREBASE & AUTH LOGIC ---

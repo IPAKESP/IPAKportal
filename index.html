@@ -28,189 +28,145 @@
             position: relative;
         }
 
-        /* --- SCREENSAVER STYLES --- */
+        /* --- MODERN INTRO SCREENSAVER STYLES --- */
         .screensaver {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #ffffff; 
+            /* Ek subtle radial gradient background premium feel ke liye */
+            background: radial-gradient(circle at center, #ffffff 0%, #f4f6fb 100%);
             z-index: 99999;
             display: flex;
             justify-content: center;
             align-items: center;
             transition: opacity 0.8s ease, visibility 0.8s ease;
             cursor: pointer;
+            perspective: 1000px; /* 3D depth ke liye */
         }
 
-        /* Hide class jab click/touch ho */
         .screensaver.hidden {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
         }
 
-        /* Modern Logo Animation */
-        .screensaver-logo {
-            width: 280px; /* Thora bara kiya hai achi look ke liye */
-            height: auto;
-            /* Cubic-bezier se animation bohat smooth aur premium feel deti hai */
-            animation: modernPulse 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
-            will-change: transform, filter;
+        /* Logo Wrapper to hold rings and logo together */
+        .screensaver-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        @keyframes modernPulse {
+        /* Glow Rings / Pulse Effect */
+        .glow-ring {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(168, 197, 0, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+            animation: ringPulse 3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+            z-index: 1;
+            opacity: 0;
+        }
+        .glow-ring.delay {
+            animation-delay: 1.75s;
+        }
+
+        /* Cinematic Logo Animation (Chain of 2 animations) */
+        .screensaver-logo {
+            width: 280px;
+            height: auto;
+            position: relative;
+            z-index: 2;
+            will-change: transform, filter, opacity;
+            /* 1st Animation: Reveal Intro (1.5s), 2nd Animation: Continuous Float (4s loop) */
+            animation: 
+                cinematicReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+                continuousFloat 4s ease-in-out 1.5s infinite alternate;
+        }
+
+        /* 1: The Intro Reveal */
+        @keyframes cinematicReveal {
             0% { 
-                transform: scale(1) translateY(0); 
-                filter: drop-shadow(0 10px 15px rgba(32, 50, 101, 0.15));
+                opacity: 0; 
+                transform: scale(0.3) translateY(80px) rotateX(45deg); 
+                filter: blur(20px); 
+            }
+            60% {
+                opacity: 1; 
+                transform: scale(1.05) translateY(-10px) rotateX(-5deg); 
+                filter: blur(0px); 
             }
             100% { 
-                transform: scale(1.1) translateY(-15px); 
-                filter: drop-shadow(0 25px 35px rgba(32, 50, 101, 0.35));
+                opacity: 1; 
+                transform: scale(1) translateY(0) rotateX(0deg); 
+                filter: drop-shadow(0 15px 25px rgba(32, 50, 101, 0.15));
             }
+        }
+
+        /* 2: The Continuous Floating & Glowing */
+        @keyframes continuousFloat {
+            0% { 
+                transform: scale(1) translateY(0); 
+                filter: drop-shadow(0 15px 25px rgba(32, 50, 101, 0.15));
+            }
+            100% { 
+                transform: scale(1.03) translateY(-12px); 
+                filter: drop-shadow(0 30px 40px rgba(32, 50, 101, 0.3));
+            }
+        }
+
+        /* 3: The Background Rings */
+        @keyframes ringPulse {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(2.8); opacity: 0; }
         }
 
         /* --- HEADER LOGO --- */
-        .top-bar {
-            position: absolute;
-            top: 30px;
-            left: 50px;
-            z-index: 10;
-        }
-
-        .logo-link {
-            display: inline-block;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
+        .top-bar { position: absolute; top: 30px; left: 50px; z-index: 10; }
+        .logo-link { display: inline-block; cursor: pointer; transition: transform 0.2s ease; }
         .logo-link:hover { transform: scale(1.05); }
-
-        .header-logo {
-            width: 120px; 
-            height: auto;
-            display: block;
-            border: none;
-        }
+        .header-logo { width: 120px; height: auto; display: block; border: none; }
 
         /* --- MAIN CONTAINER --- */
-        .main-container {
-            display: flex;
-            width: 100%;
-            max-width: 1100px;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 50px;
-            margin-top: 40px;
-        }
-
-        .text-section {
-            flex: 1;
-            padding-right: 50px;
-            font-family: 'Fira Sans', sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .animate-ipak {
-            display: block;
-            opacity: 0;
-            transform: translateX(-30px);
-            animation: slideIn 1s ease-out forwards;
-        }
-
+        .main-container { display: flex; width: 100%; max-width: 1100px; justify-content: space-between; align-items: center; padding: 0 50px; margin-top: 40px; }
+        .text-section { flex: 1; padding-right: 50px; font-family: 'Fira Sans', sans-serif; display: flex; flex-direction: column; justify-content: center; }
+        .animate-ipak { display: block; opacity: 0; transform: translateX(-30px); animation: slideIn 1s ease-out forwards; }
         .line-1 { font-size: 3.5rem; font-weight: 700; color: var(--navy); line-height: 1.1; margin-bottom: 10px; animation-delay: 0.2s; }
         .line-2 { font-size: 2.5rem; font-weight: 400; color: var(--lime); animation-delay: 0.4s; }
-
         @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
 
         /* --- LOGIN CARD --- */
         .form-section { flex: 0 0 auto; }
-
-        .card {
-            width: 380px;
-            padding: 40px;
-            border-radius: 24px;
-            background: #ffffff;
-            border: 1px solid #f0f0f0;
-            box-shadow: 0 20px 50px rgba(32, 50, 101, 0.08);
-            text-align: center;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0px); }
-        }
-
+        .card { width: 380px; padding: 40px; border-radius: 24px; background: #ffffff; border: 1px solid #f0f0f0; box-shadow: 0 20px 50px rgba(32, 50, 101, 0.08); text-align: center; animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
         .header h2 { font-size: 1.6rem; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
         .header p { color: #888; font-size: 0.9rem; margin-bottom: 30px; }
-
         .input-group { margin-bottom: 18px; text-align: left; position: relative; }
         label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--navy); }
-        input { 
-            width: 100%; padding: 12px 16px; border-radius: 10px; 
-            border: 1.5px solid var(--light-grey); outline: none; font-size: 0.95rem;
-            background: #fff; font-family: 'Inter', sans-serif;
-        }
+        input { width: 100%; padding: 12px 16px; border-radius: 10px; border: 1.5px solid var(--light-grey); outline: none; font-size: 0.95rem; background: #fff; font-family: 'Inter', sans-serif; }
         input:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(32, 50, 101, 0.05); }
-
-        .password-toggle {
-            position: absolute; right: 15px; top: 38px; cursor: pointer;
-            color: #888; font-size: 0.9rem; user-select: none;
-        }
+        .password-toggle { position: absolute; right: 15px; top: 38px; cursor: pointer; color: #888; font-size: 0.9rem; user-select: none; }
         .password-toggle:hover { color: var(--navy); }
-
-        .remember-box {
-            display: flex; align-items: center; justify-content: flex-start;
-            margin-bottom: 15px; font-size: 0.85rem; color: #555;
-        }
+        .remember-box { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 15px; font-size: 0.85rem; color: #555; }
         .remember-box input[type="checkbox"] { width: auto; margin-right: 8px; cursor: pointer; }
         .remember-box label { margin-bottom: 0; color: #555; font-weight: 400; cursor: pointer; }
-
-        button { 
-            width: 100%; padding: 14px; border-radius: 10px; border: none; 
-            background: var(--lime); color: var(--navy); font-weight: 700; 
-            font-size: 1rem; cursor: pointer; transition: 0.3s; margin-top: 5px;
-            box-shadow: 0 4px 15px rgba(168, 197, 0, 0.3);
-        }
+        button { width: 100%; padding: 14px; border-radius: 10px; border: none; background: var(--lime); color: var(--navy); font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s; margin-top: 5px; box-shadow: 0 4px 15px rgba(168, 197, 0, 0.3); }
         button:hover { transform: translateY(-2px); background: #96b000; }
         button:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; }
-
         .toggle { margin-top: 20px; font-size: 0.85rem; color: #888; }
         .toggle span { color: var(--navy); cursor: pointer; font-weight: 700; text-decoration: underline; }
-
         .msg { margin-top: 15px; font-size: 0.85rem; padding: 10px; border-radius: 8px; display: none; }
         .error { background: #fff5f5; color: #c53030; border: 1px solid #feb2b2; }
         .success { background: #f0fff4; color: #276749; border: 1px solid #9ae6b4; }
 
         /* --- MODERN LOADER ANIMATION --- */
-        .loader-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px);
-            z-index: 9999; display: none;
-            justify-content: center; align-items: center; flex-direction: column;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .spinner {
-            width: 60px; height: 60px;
-            border: 5px solid rgba(32, 50, 101, 0.2);
-            border-top: 5px solid var(--navy);
-            border-right: 5px solid var(--lime);
-            border-radius: 50%;
-            animation: spin 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
-            margin-bottom: 20px;
-        }
-
-        .loader-text {
-            font-family: 'Fira Sans', sans-serif; font-size: 1.2rem; font-weight: 700;
-            color: var(--navy); letter-spacing: 2px; text-transform: uppercase;
-            animation: pulse 1s ease-in-out infinite;
-        }
-
+        .loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); z-index: 9999; display: none; justify-content: center; align-items: center; flex-direction: column; animation: fadeIn 0.3s ease-out; }
+        .spinner { width: 60px; height: 60px; border: 5px solid rgba(32, 50, 101, 0.2); border-top: 5px solid var(--navy); border-right: 5px solid var(--lime); border-radius: 50%; animation: spin 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; margin-bottom: 20px; }
+        .loader-text { font-family: 'Fira Sans', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); letter-spacing: 2px; text-transform: uppercase; animation: pulse 1s ease-in-out infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
@@ -228,9 +184,16 @@
 
 <body>
 
-    <!-- SCREENSAVER OVERLAY -->
+    <!-- MODERN SCREENSAVER OVERLAY -->
     <div id="screensaver" class="screensaver">
-        <img src="logo.png" alt="IPAK Screensaver Logo" class="screensaver-logo">
+        <div class="screensaver-wrapper">
+            <!-- Background pulse rings for dynamic effect -->
+            <div class="glow-ring"></div>
+            <div class="glow-ring delay"></div>
+            
+            <!-- Animated Logo -->
+            <img src="logo.png" alt="IPAK Screensaver Logo" class="screensaver-logo" id="ss-logo">
+        </div>
     </div>
 
     <!-- LOADER OVERLAY -->
@@ -294,41 +257,48 @@
     <script>
         // --- SCREENSAVER LOGIC ---
         const screensaver = document.getElementById('screensaver');
+        const ssLogo = document.getElementById('ss-logo');
         let idleTime = 0;
-        const idleTimeout = 60; // 60 seconds (1 minute) baad screensaver wapas aajayega
+        const idleTimeout = 60; // 60 seconds (1 minute)
 
-        // Screensaver Hide karne ka function
+        // Hide screensaver on touch/click
         function hideScreensaver() {
             if (!screensaver.classList.contains('hidden')) {
                 screensaver.classList.add('hidden');
+                
+                // Reset animation state taa ke jab dobara aaye tou shuru se intro chale
+                ssLogo.style.animation = 'none';
             }
             resetIdleTimer();
         }
 
-        // Screensaver Show karne ka function
+        // Show screensaver and trigger intro animation again
         function showScreensaver() {
-            screensaver.classList.remove('hidden');
+            if (screensaver.classList.contains('hidden')) {
+                screensaver.classList.remove('hidden');
+                
+                // Force browser reflow to restart CSS animation properly
+                void ssLogo.offsetWidth; 
+                ssLogo.style.animation = 'cinematicReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards, continuousFloat 4s ease-in-out 1.5s infinite alternate';
+            }
         }
 
-        // Har 1 second baad check karega
         function timerIncrement() {
-            idleTime = idleTime + 1;
+            idleTime++;
             if (idleTime >= idleTimeout) {
                 showScreensaver();
             }
         }
 
-        // Timer reset karne ka function
         function resetIdleTimer() {
             idleTime = 0;
         }
 
-        // Kiosk/User interactions detect karna
+        // Interaction listeners
         ['touchstart', 'click', 'mousemove', 'keypress', 'scroll'].forEach(evt => 
             document.addEventListener(evt, hideScreensaver, false)
         );
 
-        // Screensaver interval
         setInterval(timerIncrement, 1000);
 
         // --- FIREBASE & AUTH LOGIC ---
@@ -344,7 +314,6 @@
 
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-
         let mode = "login";
 
         function togglePassword() {
@@ -365,9 +334,7 @@
             const toggleText = document.getElementById("toggleText");
             const msg = document.getElementById("msg");
             const rememberBox = document.querySelector(".remember-box");
-            
             msg.style.display = "none";
-
             if (mode === "login") {
                 mode = "signup";
                 title.innerText = "Create Account";
@@ -387,15 +354,9 @@
             const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value.trim();
             const btn = document.getElementById("mainBtn");
-            
-            if (!email || !password) {
-                showMsg("Please enter both email and password", "error");
-                return;
-            }
-
+            if (!email || !password) { showMsg("Please enter both email and password", "error"); return; }
             btn.disabled = true;
             btn.innerText = "Processing...";
-
             const targetURL = "dashboard.html"; 
 
             if (mode === "signup") {
@@ -411,23 +372,14 @@
                     });
             } else {
                 const rememberMe = document.getElementById("rememberMe").checked;
-                const persistenceType = rememberMe 
-                    ? firebase.auth.Auth.Persistence.LOCAL 
-                    : firebase.auth.Auth.Persistence.SESSION;
-
+                const persistenceType = rememberMe ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION;
                 auth.setPersistence(persistenceType)
-                    .then(() => {
-                        return auth.signInWithEmailAndPassword(email, password);
-                    })
+                    .then(() => auth.signInWithEmailAndPassword(email, password))
                     .then(() => {
                         showMsg("Credentials Verified!", "success");
-                        
                         setTimeout(() => {
                             document.getElementById('loader').style.display = 'flex';
-                            
-                            setTimeout(() => {
-                                window.location.href = targetURL;
-                            }, 1000);
+                            setTimeout(() => { window.location.href = targetURL; }, 1000);
                         }, 500);
                     })
                     .catch(err => {

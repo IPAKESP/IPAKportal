@@ -28,6 +28,49 @@
             position: relative;
         }
 
+        /* --- SCREENSAVER STYLES --- */
+        .screensaver {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #ffffff; 
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            cursor: pointer;
+        }
+
+        /* Hide class jab click/touch ho */
+        .screensaver.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Modern Logo Animation */
+        .screensaver-logo {
+            width: 280px; /* Thora bara kiya hai achi look ke liye */
+            height: auto;
+            /* Cubic-bezier se animation bohat smooth aur premium feel deti hai */
+            animation: modernPulse 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+            will-change: transform, filter;
+        }
+
+        @keyframes modernPulse {
+            0% { 
+                transform: scale(1) translateY(0); 
+                filter: drop-shadow(0 10px 15px rgba(32, 50, 101, 0.15));
+            }
+            100% { 
+                transform: scale(1.1) translateY(-15px); 
+                filter: drop-shadow(0 25px 35px rgba(32, 50, 101, 0.35));
+            }
+        }
+
         /* --- HEADER LOGO --- */
         .top-bar {
             position: absolute;
@@ -158,7 +201,7 @@
             border-top: 5px solid var(--navy);
             border-right: 5px solid var(--lime);
             border-radius: 50%;
-            animation: spin 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; /* Faster Spin */
+            animation: spin 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
             margin-bottom: 20px;
         }
 
@@ -185,17 +228,25 @@
 
 <body>
 
+    <!-- SCREENSAVER OVERLAY -->
+    <div id="screensaver" class="screensaver">
+        <img src="logo.png" alt="IPAK Screensaver Logo" class="screensaver-logo">
+    </div>
+
+    <!-- LOADER OVERLAY -->
     <div id="loader" class="loader-overlay">
         <div class="spinner"></div>
         <div class="loader-text">Authenticating</div>
     </div>
 
+    <!-- TOP BAR -->
     <div class="top-bar">
         <a href="index.html" class="logo-link">
             <img src="logo.png" alt="IPAK Logo" class="header-logo">
         </a>
     </div>
 
+    <!-- MAIN CONTENT -->
     <div class="main-container">
         <div class="text-section">
             <span class="animate-ipak line-1">Empowering Employees.</span>
@@ -236,10 +287,51 @@
         </div>
     </div>
 
+    <!-- FIREBASE SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
     <script>
+        // --- SCREENSAVER LOGIC ---
+        const screensaver = document.getElementById('screensaver');
+        let idleTime = 0;
+        const idleTimeout = 60; // 60 seconds (1 minute) baad screensaver wapas aajayega
+
+        // Screensaver Hide karne ka function
+        function hideScreensaver() {
+            if (!screensaver.classList.contains('hidden')) {
+                screensaver.classList.add('hidden');
+            }
+            resetIdleTimer();
+        }
+
+        // Screensaver Show karne ka function
+        function showScreensaver() {
+            screensaver.classList.remove('hidden');
+        }
+
+        // Har 1 second baad check karega
+        function timerIncrement() {
+            idleTime = idleTime + 1;
+            if (idleTime >= idleTimeout) {
+                showScreensaver();
+            }
+        }
+
+        // Timer reset karne ka function
+        function resetIdleTimer() {
+            idleTime = 0;
+        }
+
+        // Kiosk/User interactions detect karna
+        ['touchstart', 'click', 'mousemove', 'keypress', 'scroll'].forEach(evt => 
+            document.addEventListener(evt, hideScreensaver, false)
+        );
+
+        // Screensaver interval
+        setInterval(timerIncrement, 1000);
+
+        // --- FIREBASE & AUTH LOGIC ---
         const firebaseConfig = {
             apiKey: "AIzaSyCg251SA39YSg5p7lZ20Oe4BSzQFB4bm1E",
             authDomain: "employee-service-portal-b753b.firebaseapp.com",
@@ -333,7 +425,6 @@
                         setTimeout(() => {
                             document.getElementById('loader').style.display = 'flex';
                             
-                            // CHANGED: 2000 to 1000 (1 Second)
                             setTimeout(() => {
                                 window.location.href = targetURL;
                             }, 1000);

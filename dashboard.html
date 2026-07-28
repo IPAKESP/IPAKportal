@@ -562,8 +562,10 @@
         }
 
         function closeIframeModal() {
-            document.getElementById('iframeModal').style.display = 'none';
+            // Iframe ka source clear kar diya taake activity ruk jaye
             document.getElementById('appViewer').src = ''; 
+            // Kiosk ko fresh state me laane ke liye wapis dashboard.html par redirect 
+            window.location.href = 'dashboard.html'; 
         }
     </script>
 

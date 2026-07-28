@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>IPAK Portal - Kiosk Dashboard</title>
+    <title>IPAK Portal</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -310,7 +310,7 @@
             display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; transition: 0.3s; font-size: 16px;
         }
         .send-btn:hover { background: var(--lime); color: var(--navy); }
-    </style>
+    </script>
 </head>
 <body>
 
@@ -449,8 +449,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Sandbox attribute added here to strictly prevent parent redirection -->
-                <iframe id="appViewer" src="" allowfullscreen="true" sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-downloads"></iframe>
+                <!-- Sandbox attribute removed to allow ESS portal login & cookies to work properly -->
+                <iframe id="appViewer" src="" allowfullscreen="true" frameborder="0"></iframe>
             </div>
         </div>
     </div>

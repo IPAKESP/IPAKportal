@@ -37,30 +37,21 @@
             user-select: none; 
         }
         
-        input {
-            user-select: auto; 
-        }
+        input { user-select: auto; }
 
         /* --- HEADER --- */
         .top-bar {
             background: rgba(255, 255, 255, 0.98);
             border-bottom: 2px solid var(--border-light);
-            height: 76px; 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 40px;
+            height: 76px; display: flex; justify-content: space-between;
+            align-items: center; padding: 0 40px;
             position: fixed; top: 0; width: 100%; z-index: 100;
         }
-
         .logo-link img { width: 115px; height: auto; transition: opacity 0.3s ease; }
         .logo-link:hover img { opacity: 0.8; }
-
         .header-actions { display: flex; align-items: center; gap: 20px; }
-        
         .user-icon { font-size: 26px; color: var(--navy); transition: color 0.3s ease; cursor: pointer; }
         .user-icon:hover { color: var(--lime); }
-
         .logout-btn {
             padding: 8px 20px; background: transparent;
             border: 2px solid var(--border-light); color: var(--navy);
@@ -71,217 +62,148 @@
 
         /* --- DASHBOARD WRAPPER --- */
         .wrapper {
-            padding-top: 96px; 
-            padding-bottom: 20px; 
-            display: flex; flex-direction: column;
-            height: 100vh;
+            padding-top: 96px; padding-bottom: 20px; 
+            display: flex; flex-direction: column; height: 100vh;
         }
-
         .container {
-            width: 100%; max-width: 94%; 
-            margin: 0 auto; padding: 0;
-            display: flex; flex-direction: column;
-            height: 100%;
+            width: 100%; max-width: 94%; margin: 0 auto; padding: 0;
+            display: flex; flex-direction: column; height: 100%;
         }
 
         /* BENTO GRID */
         .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(5, minmax(0, 1fr)); 
-            gap: 16px; 
-            grid-auto-flow: dense;
-            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            flex-grow: 1; 
-            min-height: 0; 
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(5, minmax(0, 1fr)); gap: 16px; 
+            grid-auto-flow: dense; animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-grow: 1; min-height: 0; 
         }
-
         .span-2-col { grid-column: span 2; }
         .span-2-row { grid-row: span 2; }
         .span-2x2 { grid-column: span 2; grid-row: span 2; }
 
         /* --- CARD STYLING --- */
         .card {
-            background: var(--white);
-            border: 2px solid var(--border-light);
-            border-radius: 14px; 
-            padding: 20px; 
-            text-decoration: none;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                        border-color 0.4s ease;
-            position: relative; overflow: hidden;
-            display: flex; flex-direction: column; justify-content: space-between;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.03); 
-            min-height: 0;
-            cursor: pointer;
+            background: var(--white); border: 2px solid var(--border-light);
+            border-radius: 14px; padding: 20px; text-decoration: none;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+            position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.03); min-height: 0; cursor: pointer;
         }
-
         .card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(156, 181, 0, 0.5);
-            box-shadow: 0 20px 30px -5px rgba(27, 38, 64, 0.08), 
-                        0 10px 15px -6px rgba(27, 38, 64, 0.08); 
-            z-index: 10;
+            transform: translateY(-6px); border-color: rgba(156, 181, 0, 0.5);
+            box-shadow: 0 20px 30px -5px rgba(27, 38, 64, 0.08), 0 10px 15px -6px rgba(27, 38, 64, 0.08); z-index: 10;
         }
-
         .card-icon { font-size: 28px; color: var(--navy); margin-bottom: 8px; transition: color 0.3s ease; }
         .card:hover .card-icon { color: var(--lime); }
-
         .card-title { font-weight: 600; color: var(--navy); font-size: 17px; margin-bottom: 4px; }
         .card-desc { color: var(--med-grey); font-size: 14px; font-weight: 400; line-height: 1.3; }
-
         .arrow-icon {
-            position: absolute; bottom: 20px; right: 20px;
-            color: var(--lime); opacity: 0;
-            transform: translateX(-10px); 
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); font-size: 18px;
+            position: absolute; bottom: 20px; right: 20px; color: var(--lime); opacity: 0;
+            transform: translateX(-10px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); font-size: 18px;
         }
         .card:hover .arrow-icon { opacity: 1; transform: translateX(0); }
-
         .card.accent-red:hover { border-color: rgba(239, 68, 68, 0.4); }
         .card.accent-red:hover .card-icon { color: var(--emergency-red); }
 
         /* BANNER INSIDE GRID */
         .banner-card { padding: 0; border: none; background: #000; overflow: hidden; }
-        .banner-card:hover { 
-            transform: translateY(-4px); 
-            box-shadow: 0 20px 30px -5px rgba(0,0,0,0.15); 
-        }
-
+        .banner-card:hover { transform: translateY(-4px); box-shadow: 0 20px 30px -5px rgba(0,0,0,0.15); }
         .banner-slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             opacity: 0; transition: opacity 1s ease-in-out; z-index: 0;
         }
         .banner-slide.active { opacity: 1; z-index: 1; }
         .banner-slide img { width: 100%; height: 100%; object-fit: cover; }
-
         .banner-overlay {
             position: absolute; bottom: 0; left: 0; width: 100%;
             background: linear-gradient(to top, rgba(27, 38, 64, 0.95), transparent);
-            padding: 30px 24px 20px; 
-            color: white; z-index: 2; 
+            padding: 30px 24px 20px; color: white; z-index: 2; 
         }
         .banner-overlay h2 { font-size: 24px; font-weight: 600; color: var(--lime); margin-bottom: 6px; }
         .banner-overlay p { font-size: 15px; color: #E5E7EB; font-weight: 400; opacity: 0.9; }
 
-        footer {
-            text-align: center; margin-top: auto; padding-top: 16px;
-            color: #9CA3AF; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
-        }
+        footer { text-align: center; margin-top: auto; padding-top: 16px; color: #9CA3AF; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; }
 
-        /* --- CONTACT POPUP STYLES --- */
-        .contact-trigger {
-            position: fixed; bottom: 24px; right: 24px; width: 60px !important; height: 60px !important;
-            background-color: var(--white); color: var(--navy); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 22px !important;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); border: 2px solid var(--border-light); z-index: 2000;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer;
+        /* --- IFRAME MODAL STYLES (NEW) --- */
+        .app-modal {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: var(--white); z-index: 3000; display: flex; flex-direction: column;
+            transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .contact-trigger:hover { 
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
-            color: var(--lime); 
+        .app-modal.show { transform: translateY(0); }
+        .app-modal-header {
+            height: 76px; background: var(--navy); color: var(--white);
+            display: flex; justify-content: space-between; align-items: center; padding: 0 40px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
+        .app-modal-header h3 { font-size: 20px; font-weight: 600; margin: 0; }
+        .app-close-btn {
+            background: var(--emergency-red); color: var(--white); border: none;
+            padding: 10px 24px; border-radius: 8px; font-size: 16px; font-weight: 600;
+            cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s;
+        }
+        .app-close-btn:hover { background: #b91c1c; transform: scale(1.05); }
+        .app-iframe { flex-grow: 1; width: 100%; border: none; background: #f3f4f6; }
+
+        /* --- CONTACT & CHAT POPUP STYLES --- */
+        .contact-trigger, .chat-trigger {
+            position: fixed; bottom: 24px; width: 60px !important; height: 60px !important;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 24px !important; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; z-index: 2000;
+        }
+        .contact-trigger { right: 24px; background-color: var(--white); color: var(--navy); border: 2px solid var(--border-light); }
+        .chat-trigger { left: 24px; background-color: var(--navy); color: var(--white); border: 2px solid var(--navy); }
+        .contact-trigger:hover, .chat-trigger:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); color: var(--lime); }
         .contact-trigger.active i { transform: rotate(45deg); transition: 0.3s; }
+        .chat-trigger .badge { position: absolute; top: -2px; right: -2px; background: var(--emergency-red); width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--white); }
 
-        .contact-popup {
-            position: fixed; bottom: 100px; right: 24px; width: 320px;
-            background: var(--white); border-radius: 14px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-            border: 2px solid var(--border-light);
-            padding: 20px; z-index: 1999; opacity: 0; transform: translateY(20px);
-            pointer-events: none; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        .contact-popup, .chat-popup {
+            position: fixed; bottom: 100px; background: var(--white); border-radius: 14px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12); border: 2px solid var(--border-light);
+            z-index: 1999; opacity: 0; transform: translateY(20px); pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .contact-popup.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .contact-popup { right: 24px; width: 320px; padding: 20px; }
+        .chat-popup { left: 24px; width: 400px; height: 550px; display: flex; flex-direction: column; overflow: hidden; }
+        .contact-popup.show, .chat-popup.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
 
         .contact-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border-light); padding-bottom: 10px; }
         .contact-header h3 { font-size: 16px; font-weight: 600; color: var(--navy); }
         .close-popup { font-size: 18px; color: var(--med-grey); transition: color 0.2s; cursor: pointer; }
         .close-popup:hover { color: var(--emergency-red); }
-
         .contact-list { display: flex; flex-direction: column; gap: 10px; }
         .contact-item { display: flex; align-items: center; text-decoration: none; padding: 10px; border-radius: 8px; background: transparent; transition: background 0.3s ease; }
         .contact-item:hover { background: var(--light-bg); } 
-        
         .contact-item-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; margin-right: 14px; }
         .whatsapp-bg { background: var(--whatsapp-green); } .phone-bg { background: var(--navy); } .linkedin-bg { background: var(--linkedin-blue); }
-
         .contact-info div:first-child { font-weight: 600; color: var(--navy); font-size: 15px; }
         .contact-info div:last-child { font-size: 12px; color: var(--med-grey); margin-top: 2px; }
 
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        /* --- ADDED CHAT SYSTEM STYLES --- */
-        .chat-trigger {
-            position: fixed; bottom: 24px; left: 24px; width: 60px !important; height: 60px !important; font-size: 24px !important;
-            background-color: var(--navy); color: var(--white); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18); border: 2px solid var(--navy); z-index: 2000;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer;
-        }
-        .chat-trigger:hover { 
-            transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); color: var(--lime); 
-        }
-        .chat-trigger .badge { 
-            position: absolute; top: -2px; right: -2px; background: var(--emergency-red); 
-            width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--white); 
-        }
-
-        .chat-popup {
-            position: fixed; bottom: 100px; left: 24px; width: 400px; height: 550px;
-            background: var(--white); border-radius: 14px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
-            border: 2px solid var(--border-light); display: flex; flex-direction: column;
-            z-index: 1999; opacity: 0; transform: translateY(20px); pointer-events: none;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden;
-        }
-        .chat-popup.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
-
-        .chat-header-main {
-            background: var(--navy); color: var(--white); padding: 16px 20px; display: flex;
-            justify-content: space-between; align-items: center;
-        }
+        .chat-header-main { background: var(--navy); color: var(--white); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
         .chat-header-main h3 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; margin: 0;}
-        
         .online-dot { width: 10px; height: 10px; background: var(--med-grey); border-radius: 50%; transition: all 0.3s ease; }
         .chat-close { color: #CBD5E1; cursor: pointer; transition: 0.3s; font-size: 18px; }
         .chat-close:hover { color: var(--emergency-red); }
-
-        .chat-messages {
-            flex-grow: 1; padding: 20px; overflow-y: auto; background: var(--light-bg);
-            display: flex; flex-direction: column; gap: 14px; scroll-behavior: smooth;
-        }
+        .chat-messages { flex-grow: 1; padding: 20px; overflow-y: auto; background: var(--light-bg); display: flex; flex-direction: column; gap: 14px; scroll-behavior: smooth; }
         .msg { display: flex; flex-direction: column; max-width: 85%; }
-        
         .msg-info { font-size: 12px; color: var(--med-grey); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
         .delete-btn { color: var(--emergency-red); cursor: pointer; opacity: 0.6; transition: 0.2s; font-size: 14px; }
         .delete-btn:hover { opacity: 1; transform: scale(1.1); }
-
         .msg-bubble { padding: 12px 16px; border-radius: 12px; font-size: 14px; line-height: 1.4; word-wrap: break-word; }
         .msg.received { align-self: flex-start; }
         .msg.received .msg-bubble { background: var(--white); border: 1px solid var(--border-light); color: var(--navy); border-bottom-left-radius: 4px; }
         .msg.sent { align-self: flex-end; }
         .msg.sent .msg-bubble { background: var(--lime); color: var(--navy); font-weight: 500; border-bottom-right-radius: 4px; }
         .msg.sent .msg-info { align-self: flex-end; }
-
-        .msg-bubble.deleted {
-            background: transparent !important; border: 2px dashed var(--med-grey) !important;
-            color: var(--med-grey) !important; font-style: italic; font-weight: 400 !important;
-        }
-
-        .chat-input-area {
-            padding: 14px 18px; border-top: 2px solid var(--border-light); background: var(--white);
-            display: flex; gap: 10px; align-items: center;
-        }
-        .chat-input-area input {
-            flex-grow: 1; border: 2px solid var(--border-light); padding: 12px 16px; border-radius: 20px;
-            font-size: 14px; outline: none; transition: border 0.3s;
-        }
+        .msg-bubble.deleted { background: transparent !important; border: 2px dashed var(--med-grey) !important; color: var(--med-grey) !important; font-style: italic; font-weight: 400 !important; }
+        .chat-input-area { padding: 14px 18px; border-top: 2px solid var(--border-light); background: var(--white); display: flex; gap: 10px; align-items: center; }
+        .chat-input-area input { flex-grow: 1; border: 2px solid var(--border-light); padding: 12px 16px; border-radius: 20px; font-size: 14px; outline: none; transition: border 0.3s; }
         .chat-input-area input:focus { border-color: var(--lime); }
-        .send-btn {
-            background: var(--navy); color: var(--white); width: 44px; height: 44px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; transition: 0.3s; font-size: 16px;
-        }
+        .send-btn { background: var(--navy); color: var(--white); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; transition: 0.3s; font-size: 16px; }
         .send-btn:hover { background: var(--lime); color: var(--navy); }
+
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
@@ -310,43 +232,28 @@
                 <div class="card banner-card span-2x2">
                     <div class="banner-slide active">
                         <img src="Banner 1.png" alt="Welcome to IPAK">
-                        <div class="banner-overlay">
-                            <h2>Welcome to IPAK Portal</h2>
-                            <p>Empowering Innovation & Excellence</p>
-                        </div>
+                        <div class="banner-overlay"><h2>Welcome to IPAK Portal</h2><p>Empowering Innovation & Excellence</p></div>
                     </div>
                     <div class="banner-slide">
                         <img src="Banner 2.png" alt="Teamwork">
-                        <div class="banner-overlay">
-                            <h2>Collaborative Culture</h2>
-                            <p>Working together to achieve greatness.</p>
-                        </div>
+                        <div class="banner-overlay"><h2>Collaborative Culture</h2><p>Working together to achieve greatness.</p></div>
                     </div>
                     <div class="banner-slide">
                         <img src="Banner 3.png" alt="Modern Office">
-                        <div class="banner-overlay">
-                            <h2>Winning Together</h2>
-                            <p>Jeet Hum say hai</p>
-                        </div>
+                        <div class="banner-overlay"><h2>Winning Together</h2><p>Jeet Hum say hai</p></div>
                     </div>
                     <div class="banner-slide">
                         <img src="Banner 4.png" alt="Our Vision">
-                        <div class="banner-overlay">
-                            <h2>Our Vision</h2>
-                            <p>Leading the way to a brighter future.</p>
-                        </div>
+                        <div class="banner-overlay"><h2>Our Vision</h2><p>Leading the way to a brighter future.</p></div>
                     </div>
                     <div class="banner-slide">
                         <img src="Banner 5.png" alt="Employee Success">
-                        <div class="banner-overlay">
-                            <h2>Employee Success</h2>
-                            <p>Your growth is our priority.</p>
-                        </div>
+                        <div class="banner-overlay"><h2>Employee Success</h2><p>Your growth is our priority.</p></div>
                     </div>
                 </div>
 
-                <!-- Updated ESS Portal Link (Direct URL) -->
-                <a href="https://ipak.smarthcm.com/ess/Account/Login.aspx" class="card">
+                <!-- UPDATED: ESS Portal opens in Full-Screen App Modal -->
+                <a onclick="openAppModal('https://ipak.smarthcm.com/ess/Account/Login.aspx', 'ESS Portal - SmartHCM')" class="card">
                     <i class="fas fa-id-card card-icon"></i>
                     <div><div class="card-title">ESS Portal</div><div class="card-desc">Self Service System</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
@@ -400,8 +307,8 @@
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
-                <!-- Updated Sehat Kahani Link (Direct URL) -->
-                <a href="https://live.sehatkahani.com/auth/login" class="card span-2-col">
+                <!-- UPDATED: Sehat Kahani opens in Full-Screen App Modal -->
+                <a onclick="openAppModal('https://live.sehatkahani.com/auth/login', 'Sehat Kahani')" class="card span-2-col">
                     <i class="fas fa-heartbeat card-icon"></i>
                     <div><div class="card-title">Sehat Kahani</div><div class="card-desc">Online Healthcare</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
@@ -411,6 +318,17 @@
             
             <footer>&copy; IPAK PORTAL 2026 | DESIGNED BY TEAM HR</footer>
         </div>
+    </div>
+
+    <!-- FULL SCREEN APP MODAL FOR EXTERNAL LINKS -->
+    <div class="app-modal" id="appModal">
+        <div class="app-modal-header">
+            <h3 id="appModalTitle">External Portal</h3>
+            <button class="app-close-btn" onclick="closeAppModal()">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </button>
+        </div>
+        <iframe class="app-iframe" id="appIframe" src="" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <div class="contact-popup" id="contactPopup">
@@ -452,6 +370,20 @@
     </button>
 
     <script>
+        // App Modal Functions (NEW)
+        function openAppModal(url, title) {
+            document.getElementById('appModalTitle').innerText = title;
+            document.getElementById('appIframe').src = url;
+            document.getElementById('appModal').classList.add('show');
+        }
+
+        function closeAppModal() {
+            document.getElementById('appModal').classList.remove('show');
+            setTimeout(() => {
+                document.getElementById('appIframe').src = '';
+            }, 400); // Wait for animation to finish before clearing src
+        }
+
         function logout() { window.location.href = "index.html"; }
 
         let currentSlide = 0;
@@ -467,9 +399,7 @@
             const contactPopup = document.getElementById('contactPopup');
             const chatPopup = document.getElementById('chatPopup');
             const trigger = document.getElementById('contactTrigger');
-            
             if (chatPopup.classList.contains('show')) chatPopup.classList.remove('show');
-
             contactPopup.classList.toggle('show');
             trigger.classList.toggle('active');
             const icon = trigger.querySelector('i');
@@ -480,15 +410,12 @@
             const chatPopup = document.getElementById('chatPopup');
             const contactPopup = document.getElementById('contactPopup');
             const contactTrigger = document.getElementById('contactTrigger');
-            
             if (contactPopup.classList.contains('show')) {
                 contactPopup.classList.remove('show');
                 contactTrigger.classList.remove('active');
                 contactTrigger.querySelector('i').className = 'fas fa-headset';
             }
-
             chatPopup.classList.toggle('show');
-            
             if (chatPopup.classList.contains('show')) {
                 setTimeout(() => {
                     const messagesContainer = document.getElementById('chatMessages');
@@ -502,11 +429,9 @@
             const contactTrigger = document.getElementById('contactTrigger');
             const chatPopup = document.getElementById('chatPopup');
             const chatTrigger = document.getElementById('chatTrigger');
-
             if (!contactPopup.contains(e.target) && !contactTrigger.contains(e.target) && contactPopup.classList.contains('show')) {
                 toggleContact();
             }
-
             if (!chatPopup.contains(e.target) && !chatTrigger.contains(e.target) && chatPopup.classList.contains('show')) {
                 toggleChat();
             }
@@ -526,13 +451,9 @@
             messagingSenderId: "787703437938",
             appId: "1:787703437938:web:383b6f148067a0590400eb"
         };
-
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
+        if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
         const db = firebase.database();
         const chatRef = db.ref('team_lounge_messages');
-
         const messagesContainer = document.getElementById('chatMessages');
         const onlineDot = document.querySelector('.online-dot');
 
@@ -549,24 +470,17 @@
 
         let myUserId = localStorage.getItem('ipak_user_id');
         let myUserName = localStorage.getItem('ipak_user_name');
-
         if (!myUserId || !myUserName) {
             myUserId = 'user_' + Math.random().toString(36).substr(2, 9);
             myUserName = prompt("Chat Lounge mein shamil hone kay liye apna naam darj karein:", "");
-            if (!myUserName || myUserName.trim() === "") {
-                myUserName = "Team Member"; 
-            }
+            if (!myUserName || myUserName.trim() === "") { myUserName = "Team Member"; }
             localStorage.setItem('ipak_user_id', myUserId);
             localStorage.setItem('ipak_user_name', myUserName);
         }
 
         window.deleteMessage = function(messageKey) {
             if(confirm("Are you sure you want to delete this message?")) {
-                chatRef.child(messageKey).update({
-                    isDeleted: true
-                }).catch((error) => {
-                    alert("Delete failed: " + error.message);
-                });
+                chatRef.child(messageKey).update({ isDeleted: true }).catch((error) => { alert("Delete failed: " + error.message); });
             }
         };
 
@@ -574,68 +488,42 @@
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
             if (!text) return;
-
             chatRef.push({
-                userId: myUserId,
-                userName: myUserName,
-                text: text,
-                isDeleted: false,
+                userId: myUserId, userName: myUserName, text: text, isDeleted: false,
                 timestamp: firebase.database.ServerValue.TIMESTAMP
-            }).then(() => {
-                input.value = ''; 
-            }).catch((error) => {
-                alert("Message send nahi ho raha. Error: " + error.message);
-            });
+            }).then(() => { input.value = ''; }).catch((error) => { alert("Message send nahi ho raha. Error: " + error.message); });
         };
 
-        window.handleEnter = function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                window.sendMessage();
-            }
-        };
+        window.handleEnter = function(event) { if (event.key === 'Enter') { event.preventDefault(); window.sendMessage(); } };
 
         chatRef.on('child_added', (snapshot) => {
             const data = snapshot.val();
             const messageKey = snapshot.key;
-            
             let timeStr = "Just now";
             if (data.timestamp) {
                 const date = new Date(data.timestamp);
-                let hours = date.getHours();
-                let minutes = date.getMinutes();
+                let hours = date.getHours(); let minutes = date.getMinutes();
                 const ampm = hours >= 12 ? 'PM' : 'AM';
-                hours = hours % 12;
-                hours = hours ? hours : 12;
+                hours = hours % 12; hours = hours ? hours : 12;
                 minutes = minutes < 10 ? '0' + minutes : minutes;
                 timeStr = hours + ':' + minutes + ' ' + ampm;
             }
-
             const isMe = data.userId === myUserId;
             const msgClass = isMe ? 'sent' : 'received';
             const senderName = isMe ? 'You' : (data.userName || 'Unknown Member');
-
             let messageContent = data.text;
             let deleteBtnHtml = '';
-
             if (data.isDeleted) {
                 messageContent = `<i class="fas fa-ban" style="margin-right: 4px;"></i> This message was deleted`;
             } else if (isMe) {
                 deleteBtnHtml = `<i class="fas fa-trash-alt delete-btn" onclick="deleteMessage('${messageKey}')" title="Delete for everyone"></i>`;
             }
-
             const msgDiv = document.createElement('div');
-            msgDiv.className = `msg ${msgClass}`;
-            msgDiv.id = `msg-${messageKey}`; 
-
+            msgDiv.className = `msg ${msgClass}`; msgDiv.id = `msg-${messageKey}`; 
             msgDiv.innerHTML = `
-                <span class="msg-info">
-                    ${senderName} • ${timeStr} 
-                    ${isMe ? deleteBtnHtml : ''}
-                </span>
+                <span class="msg-info">${senderName} • ${timeStr} ${isMe ? deleteBtnHtml : ''}</span>
                 <div class="msg-bubble ${data.isDeleted ? 'deleted' : ''}">${messageContent}</div>
             `;
-
             messagesContainer.appendChild(msgDiv);
             setTimeout(() => { messagesContainer.scrollTop = messagesContainer.scrollHeight; }, 50);
         });
@@ -644,7 +532,6 @@
             const data = snapshot.val();
             const messageKey = snapshot.key;
             const msgDiv = document.getElementById(`msg-${messageKey}`);
-            
             if (msgDiv && data.isDeleted) {
                 const bubble = msgDiv.querySelector('.msg-bubble');
                 if (bubble) {

@@ -124,7 +124,7 @@
 
         footer { text-align: center; margin-top: auto; padding-top: 16px; color: #9CA3AF; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; }
 
-        /* --- IFRAME MODAL STYLES (NEW) --- */
+        /* --- IFRAME MODAL STYLES --- */
         .app-modal {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: var(--white); z-index: 3000; display: flex; flex-direction: column;
@@ -144,6 +144,19 @@
         }
         .app-close-btn:hover { background: #b91c1c; transform: scale(1.05); }
         .app-iframe { flex-grow: 1; width: 100%; border: none; background: #f3f4f6; }
+
+        .app-modal-loading {
+            position: absolute; top: 76px; left: 0; width: 100%; height: calc(100% - 76px);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 14px; background: var(--white); color: var(--med-grey); font-size: 15px; z-index: 1;
+            transition: opacity 0.3s ease;
+        }
+        .app-modal-loading.hide { opacity: 0; pointer-events: none; }
+        .spinner {
+            width: 34px; height: 34px; border: 4px solid var(--border-light);
+            border-top-color: var(--lime); border-radius: 50%; animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         /* --- CONTACT & CHAT POPUP STYLES --- */
         .contact-trigger, .chat-trigger {
@@ -252,7 +265,6 @@
                     </div>
                 </div>
 
-                <!-- UPDATED: ESS Portal opens in Full-Screen App Modal -->
                 <a onclick="openAppModal('https://ipak.smarthcm.com/ess/Account/Login.aspx', 'ESS Portal - SmartHCM')" class="card">
                     <i class="fas fa-id-card card-icon"></i>
                     <div><div class="card-title">ESS Portal</div><div class="card-desc">Self Service System</div></div>
@@ -307,7 +319,6 @@
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
-                <!-- UPDATED: Sehat Kahani opens in Full-Screen App Modal -->
                 <a onclick="openAppModal('https://live.sehatkahani.com/auth/login', 'Sehat Kahani')" class="card span-2-col">
                     <i class="fas fa-heartbeat card-icon"></i>
                     <div><div class="card-title">Sehat Kahani</div><div class="card-desc">Online Healthcare</div></div>
@@ -328,7 +339,23 @@
                 <i class="fas fa-arrow-left"></i> Back to Dashboard
             </button>
         </div>
-        <iframe class="app-iframe" id="appIframe" src="" frameborder="0" allowfullscreen></iframe>
+        <div class="app-modal-loading" id="appModalLoading">
+            <div class="spinner"></div>
+            <span id="appModalLoadingText">Loading, please wait...</span>
+            <a id="appModalFallbackBtn" href="#" target="_blank" rel="noopener"
+               style="display:none; margin-top:10px; background: var(--navy); color: var(--white); padding: 10px 22px; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 14px;">
+                Open in new tab instead
+            </a>
+        </div>
+        <iframe
+            class="app-iframe"
+            id="appIframe"
+            src=""
+            frameborder="0"
+            allowfullscreen
+            allow="camera; microphone; fullscreen; autoplay; clipboard-read; clipboard-write"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-modals allow-storage-access-by-user-activation">
+        </iframe>
     </div>
 
     <div class="contact-popup" id="contactPopup">
@@ -370,18 +397,66 @@
     </button>
 
     <script>
-        // App Modal Functions (NEW)
+        // ---------------------------------------------------------------
+        // APP MODAL — sandboxed iframe so login pages can't break out
+        // ---------------------------------------------------------------
+        // sandbox WITHOUT "allow-top-navigation" stops the embedded page's
+        // own scripts from doing `top.location = ...` (frame-busting) —
+        // that's exactly what was kicking users out of the portal on login.
+        // NOTE: if SmartHCM / Sehat Kahani send X-Frame-Options: DENY or a
+        // CSP "frame-ancestors" header, no client-side trick (sandbox
+        // included) can override that — the browser will refuse to render
+        // the page in the iframe at all and you'll see a blank frame with a
+        // console error like "Refused to display '...' in a frame". If you
+        // hit that, the only real fixes are (a) ask them to whitelist your
+        // portal's domain in their frame-ancestors/X-Frame-Options config,
+        // or (b) run a same-origin reverse proxy in front of their site.
+        let appModalFallbackTimer = null;
+
         function openAppModal(url, title) {
+            const loading = document.getElementById('appModalLoading');
+            const loadingText = document.getElementById('appModalLoadingText');
+            const fallbackBtn = document.getElementById('appModalFallbackBtn');
+            const iframe = document.getElementById('appIframe');
+
             document.getElementById('appModalTitle').innerText = title;
-            document.getElementById('appIframe').src = url;
+            loading.classList.remove('hide');
+            loadingText.textContent = 'Loading, please wait...';
+            fallbackBtn.style.display = 'none';
+            fallbackBtn.href = url;
+
+            let loaded = false;
+            iframe.onload = function () {
+                loaded = true;
+                loading.classList.add('hide');
+            };
+
+            iframe.src = url;
             document.getElementById('appModal').classList.add('show');
+
+            // Some sites block embedding server-side (X-Frame-Options / CSP
+            // frame-ancestors). Browsers don't reliably fire an error event
+            // for that, so instead: if it hasn't finished loading within a
+            // few seconds, assume it's blocked and offer a one-click way
+            // out instead of leaving the user stuck on a blank screen.
+            clearTimeout(appModalFallbackTimer);
+            appModalFallbackTimer = setTimeout(() => {
+                if (!loaded) {
+                    loadingText.textContent = "This portal can't be shown inside the dashboard.";
+                    fallbackBtn.style.display = 'inline-block';
+                }
+            }, 4000);
         }
 
         function closeAppModal() {
             document.getElementById('appModal').classList.remove('show');
+            const loading = document.getElementById('appModalLoading');
+            clearTimeout(appModalFallbackTimer);
             setTimeout(() => {
                 document.getElementById('appIframe').src = '';
-            }, 400); // Wait for animation to finish before clearing src
+                loading.classList.remove('hide');
+                document.getElementById('appModalFallbackBtn').style.display = 'none';
+            }, 400); // wait for slide-down animation before clearing src
         }
 
         function logout() { window.location.href = "index.html"; }

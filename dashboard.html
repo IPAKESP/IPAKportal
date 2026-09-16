@@ -421,10 +421,13 @@
         // not framed at all), so login works exactly as if opened normally
         // — we just size/center it so it still feels like part of the kiosk.
         function openExternalWindow(url, title) {
-            const width = Math.min(1200, window.screen.availWidth - 80);
-            const height = Math.min(800, window.screen.availHeight - 80);
-            const left = Math.round((window.screen.availWidth - width) / 2);
-            const top = Math.round((window.screen.availHeight - height) / 2);
+            // Near-fullscreen, fixed size — no resizing, no dragging it into
+            // an odd size. Keeps it feeling like a proper fitted app window
+            // instead of a random floating popup.
+            const width = window.screen.availWidth - 20;
+            const height = window.screen.availHeight - 20;
+            const left = 10;
+            const top = 10;
 
             const features = [
                 `width=${width}`,
@@ -435,11 +438,15 @@
                 'toolbar=no',
                 'location=no',
                 'status=no',
-                'resizable=yes',
+                'resizable=no',
                 'scrollbars=yes'
             ].join(',');
 
-            const win = window.open(url, title, features);
+            // Reusing the same window name means clicking the tile again
+            // just refocuses the already-open window instead of stacking
+            // duplicates.
+            const winName = title.replace(/\s+/g, '_');
+            const win = window.open(url, winName, features);
 
             if (!win || win.closed || typeof win.closed === 'undefined') {
                 // Popup blocker stopped it — fall back to a normal new tab.

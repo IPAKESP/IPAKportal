@@ -265,7 +265,7 @@
                     </div>
                 </div>
 
-                <a onclick="openAppModal('https://ipak.smarthcm.com/ess/Account/Login.aspx', 'ESS Portal - SmartHCM')" class="card">
+                <a onclick="openExternalWindow('https://ipak.smarthcm.com/ess/Account/Login.aspx', 'ESS Portal - SmartHCM')" class="card">
                     <i class="fas fa-id-card card-icon"></i>
                     <div><div class="card-title">ESS Portal</div><div class="card-desc">Self Service System</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
@@ -319,7 +319,7 @@
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
-                <a onclick="openAppModal('https://live.sehatkahani.com/auth/login', 'Sehat Kahani')" class="card span-2-col">
+                <a onclick="openExternalWindow('https://live.sehatkahani.com/auth/login', 'Sehat Kahani')" class="card span-2-col">
                     <i class="fas fa-heartbeat card-icon"></i>
                     <div><div class="card-title">Sehat Kahani</div><div class="card-desc">Online Healthcare</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
@@ -411,6 +411,44 @@
         // hit that, the only real fixes are (a) ask them to whitelist your
         // portal's domain in their frame-ancestors/X-Frame-Options config,
         // or (b) run a same-origin reverse proxy in front of their site.
+        // ---------------------------------------------------------------
+        // ESS Portal (SmartHCM) and Sehat Kahani deliberately disable their
+        // login button when they detect they're inside an iframe — that's
+        // their own anti-clickjacking check, running on their origin, and
+        // no setting on this page can override JS logic on THEIR domain.
+        // Fix: open them as a real top-level popup window instead of an
+        // iframe. To that app, window.top === window.self is true (it's
+        // not framed at all), so login works exactly as if opened normally
+        // — we just size/center it so it still feels like part of the kiosk.
+        function openExternalWindow(url, title) {
+            const width = Math.min(1200, window.screen.availWidth - 80);
+            const height = Math.min(800, window.screen.availHeight - 80);
+            const left = Math.round((window.screen.availWidth - width) / 2);
+            const top = Math.round((window.screen.availHeight - height) / 2);
+
+            const features = [
+                `width=${width}`,
+                `height=${height}`,
+                `left=${left}`,
+                `top=${top}`,
+                'menubar=no',
+                'toolbar=no',
+                'location=no',
+                'status=no',
+                'resizable=yes',
+                'scrollbars=yes'
+            ].join(',');
+
+            const win = window.open(url, title, features);
+
+            if (!win || win.closed || typeof win.closed === 'undefined') {
+                // Popup blocker stopped it — fall back to a normal new tab.
+                window.open(url, '_blank');
+            } else {
+                win.focus();
+            }
+        }
+
         let appModalFallbackTimer = null;
 
         function openAppModal(url, title) {

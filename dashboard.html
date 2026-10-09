@@ -70,10 +70,10 @@
             display: flex; flex-direction: column; height: 100%;
         }
 
-        /* BENTO GRID */
+        /* BENTO GRID (4 columns x 4 rows = 16 cells) */
         .bento-grid {
             display: grid; grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(5, minmax(0, 1fr)); gap: 16px; 
+            grid-template-rows: repeat(4, minmax(0, 1fr)); gap: 16px; 
             grid-auto-flow: dense; animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             flex-grow: 1; min-height: 0; 
         }
@@ -265,12 +265,6 @@
                     </div>
                 </div>
 
-                <a onclick="openExternalWindow('https://ipak.smarthcm.com/ess/Account/Login.aspx', 'ESS Portal - SmartHCM')" class="card">
-                    <i class="fas fa-id-card card-icon"></i>
-                    <div><div class="card-title">ESS Portal</div><div class="card-desc">Self Service System</div></div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
-
                 <a href="policies.html" class="card">
                     <i class="fas fa-scale-balanced card-icon"></i>
                     <div><div class="card-title">Policies</div><div class="card-desc">HR Guidelines</div></div>
@@ -289,7 +283,7 @@
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
-                <a href="podcast.html" class="card span-2-row">
+                <a href="podcast.html" class="card">
                     <i class="fas fa-microphone-lines card-icon"></i>
                     <div><div class="card-title">Podcast</div><div class="card-desc">Talks & Interviews</div></div>
                     <i class="fas fa-arrow-right arrow-icon"></i>
@@ -319,19 +313,13 @@
                     <i class="fas fa-arrow-right arrow-icon"></i>
                 </a>
 
-                <a onclick="openExternalWindow('https://live.sehatkahani.com/auth/login', 'Sehat Kahani')" class="card span-2-col">
-                    <i class="fas fa-heartbeat card-icon"></i>
-                    <div><div class="card-title">Sehat Kahani</div><div class="card-desc">Online Healthcare</div></div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </a>
-
             </div>
             
             <footer>&copy; IPAK PORTAL 2026 | DESIGNED BY TEAM HR</footer>
         </div>
     </div>
 
-    <!-- FULL SCREEN APP MODAL FOR EXTERNAL LINKS -->
+    <!-- FULL SCREEN APP MODAL FOR EXTERNAL LINKS (currently unused, kept for future) -->
     <div class="app-modal" id="appModal">
         <div class="app-modal-header">
             <h3 id="appModalTitle">External Portal</h3>
@@ -398,32 +386,12 @@
 
     <script>
         // ---------------------------------------------------------------
-        // APP MODAL — sandboxed iframe so login pages can't break out
+        // External window helper (currently not used by any card, kept in
+        // case an external link is added again later).
+        // Opens as a real top-level popup so login pages that block
+        // iframes still work.
         // ---------------------------------------------------------------
-        // sandbox WITHOUT "allow-top-navigation" stops the embedded page's
-        // own scripts from doing `top.location = ...` (frame-busting) —
-        // that's exactly what was kicking users out of the portal on login.
-        // NOTE: if SmartHCM / Sehat Kahani send X-Frame-Options: DENY or a
-        // CSP "frame-ancestors" header, no client-side trick (sandbox
-        // included) can override that — the browser will refuse to render
-        // the page in the iframe at all and you'll see a blank frame with a
-        // console error like "Refused to display '...' in a frame". If you
-        // hit that, the only real fixes are (a) ask them to whitelist your
-        // portal's domain in their frame-ancestors/X-Frame-Options config,
-        // or (b) run a same-origin reverse proxy in front of their site.
-        // ---------------------------------------------------------------
-        // ESS Portal (SmartHCM) and Sehat Kahani deliberately disable their
-        // login button when they detect they're inside an iframe — that's
-        // their own anti-clickjacking check, running on their origin, and
-        // no setting on this page can override JS logic on THEIR domain.
-        // Fix: open them as a real top-level popup window instead of an
-        // iframe. To that app, window.top === window.self is true (it's
-        // not framed at all), so login works exactly as if opened normally
-        // — we just size/center it so it still feels like part of the kiosk.
         function openExternalWindow(url, title) {
-            // Near-fullscreen, fixed size — no resizing, no dragging it into
-            // an odd size. Keeps it feeling like a proper fitted app window
-            // instead of a random floating popup.
             const width = window.screen.availWidth - 20;
             const height = window.screen.availHeight - 20;
             const left = 10;
@@ -442,14 +410,10 @@
                 'scrollbars=yes'
             ].join(',');
 
-            // Reusing the same window name means clicking the tile again
-            // just refocuses the already-open window instead of stacking
-            // duplicates.
             const winName = title.replace(/\s+/g, '_');
             const win = window.open(url, winName, features);
 
             if (!win || win.closed || typeof win.closed === 'undefined') {
-                // Popup blocker stopped it — fall back to a normal new tab.
                 window.open(url, '_blank');
             } else {
                 win.focus();
@@ -479,11 +443,6 @@
             iframe.src = url;
             document.getElementById('appModal').classList.add('show');
 
-            // Some sites block embedding server-side (X-Frame-Options / CSP
-            // frame-ancestors). Browsers don't reliably fire an error event
-            // for that, so instead: if it hasn't finished loading within a
-            // few seconds, assume it's blocked and offer a one-click way
-            // out instead of leaving the user stuck on a blank screen.
             clearTimeout(appModalFallbackTimer);
             appModalFallbackTimer = setTimeout(() => {
                 if (!loaded) {
@@ -501,7 +460,7 @@
                 document.getElementById('appIframe').src = '';
                 loading.classList.remove('hide');
                 document.getElementById('appModalFallbackBtn').style.display = 'none';
-            }, 400); // wait for slide-down animation before clearing src
+            }, 400);
         }
 
         function logout() { window.location.href = "index.html"; }

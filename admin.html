@@ -1,595 +1,454 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>IPAK HelpDesk - Employee Services</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPAK HelpDesk - Employee Services</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1B2640;--navy2:#2b3b66;--lime:#9CB500;--white:#fff;--grey:#6B7280;--bg:#F9FAFB;--red:#EF4444;--wa:#25D366;--line:#E5E7EB}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body{background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;overflow-y:auto}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 90% 10%,rgba(156,181,0,.08),transparent 40%),radial-gradient(circle at 5% 90%,rgba(27,38,64,.06),transparent 40%);pointer-events:none;z-index:-1}
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+/* HEADER */
+.top-bar{background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);height:64px;display:flex;justify-content:space-between;align-items:center;padding:0 32px;position:fixed;top:0;width:100%;z-index:100}
+.logo-link img{width:100px;transition:opacity .3s}.logo-link:hover img{opacity:.8}
+.header-actions{display:flex;align-items:center;gap:16px}
+.user-icon{font-size:22px;color:var(--navy);transition:color .3s;cursor:pointer;text-decoration:none}.user-icon:hover{color:var(--lime)}
+.logout-btn{padding:6px 16px;background:transparent;border:1px solid var(--line);color:var(--navy);border-radius:6px;font-weight:500;font-size:13px;transition:.3s;cursor:pointer}
+.logout-btn:hover{border-color:var(--navy);background:#f3f4f6}
 
-    <style>
-        :root {
-            --navy: #1B2640; 
-            --lime: #9CB500; 
-            --white: #FFFFFF;
-            --med-grey: #6B7280; 
-            --light-bg: #F9FAFB; 
-            --emergency-red: #EF4444;
-            --whatsapp-green: #25D366;
-            --linkedin-blue: #0077b5;
-            --border-light: #E5E7EB;
-        }
+.wrapper{padding:90px 0 40px;display:flex;flex-direction:column;min-height:100vh}
+.container{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}
+.rise{animation:rise .8s cubic-bezier(.16,1,.3,1) both}
+@keyframes rise{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}
 
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
+/* HERO */
+.hero{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:20px;margin-bottom:20px}
+.wave{display:inline-block;animation:wave 2.2s ease-in-out infinite;transform-origin:70% 70%}
+@keyframes wave{0%,60%,100%{transform:rotate(0)}10%,30%{transform:rotate(16deg)}20%,40%{transform:rotate(-10deg)}50%{transform:rotate(8deg)}}
 
-        body {
-            background-color: var(--light-bg);
-            color: var(--navy);
-            -webkit-font-smoothing: antialiased; 
-            -moz-osx-font-smoothing: grayscale;
-            overflow-y: auto;
-        }
+.today{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:14px 18px;display:flex;flex-direction:column;justify-content:space-between;gap:6px;box-shadow:0 4px 14px rgba(0,0,0,.03);cursor:pointer;transition:.4s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}
+.today:hover{transform:translateY(-4px);border-color:rgba(156,181,0,.5);box-shadow:0 20px 25px -5px rgba(27,38,64,.07)}
+.today .tag{font-size:10px!important;padding:3px 9px!important;font-size:11px;font-weight:700;color:#7a8d00;background:rgba(156,181,0,.15);padding:4px 10px;border-radius:50px;align-self:flex-start;letter-spacing:.5px;text-transform:uppercase}
+.today>div{display:flex;flex-wrap:wrap;align-items:center;column-gap:10px;row-gap:2px}.today>div>.meta,.today>div>.shiftrow{flex-basis:100%}
+.today .emo{font-size:1.9rem;display:inline-block;animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px) rotate(-4deg)}}
+.today h3{font-size:1rem;font-weight:700;flex:1;line-height:1.25}
+.today .meta{color:var(--grey);font-size:13px;margin-top:4px}
+.today .fri{margin-top:2px;background:linear-gradient(90deg,var(--lime),#c4d83a);color:var(--navy);font-weight:700;font-size:11px;padding:3px 10px;border-radius:8px;align-self:flex-start}
+.today .note{font-size:10px;color:#9CA3AF}
 
-        /* --- HEADER --- */
-        .top-bar {
-            background: rgba(255, 255, 255, 0.98);
-            border-bottom: 1px solid var(--border-light);
-            height: 64px; 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 32px;
-            position: fixed; top: 0; width: 100%; z-index: 100;
-        }
+/* BIG CARDS */
+.bento-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.big-center-card{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:34px 20px;text-align:center;cursor:pointer;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;box-shadow:0 4px 10px rgba(0,0,0,.02);transition:.4s cubic-bezier(.16,1,.3,1)}
+.big-center-card::after{content:'';position:absolute;left:0;bottom:0;height:4px;width:0;background:var(--lime);transition:width .5s}
+.big-center-card:hover::after{width:100%}
+.big-center-card:hover{transform:translateY(-8px);border-color:rgba(156,181,0,.5);box-shadow:0 20px 25px -5px rgba(27,38,64,.07)}
+.big-icon-wrapper{background:rgba(156,181,0,.1);width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:18px;transition:.4s}
+.big-center-card:hover .big-icon-wrapper{background:var(--lime);transform:scale(1.1) rotate(-6deg)}
+.big-icon-wrapper i{font-size:2.3rem;color:var(--lime);transition:.4s}
+.big-center-card:hover .big-icon-wrapper i{color:#fff}
+.card-title{font-weight:700;font-size:1.2rem;margin-bottom:8px}
+.card-desc{color:var(--grey);font-size:.9rem;line-height:1.4;max-width:80%}
+.count{margin-top:14px;font-size:11px;font-weight:700;color:var(--navy);background:var(--bg);border:1px solid var(--line);padding:4px 10px;border-radius:50px}
 
-        .logo-link img { width: 100px; height: auto; transition: opacity 0.3s ease; }
-        .logo-link:hover img { opacity: 0.8; }
+/* SMALL CARDS */
+.card{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:20px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 2px 4px rgba(0,0,0,.02);min-height:140px;cursor:pointer;transition:.4s cubic-bezier(.16,1,.3,1)}
+.card:hover{transform:translateY(-6px);border-color:rgba(156,181,0,.5);box-shadow:0 20px 25px -5px rgba(27,38,64,.06);z-index:10}
+.card-icon{font-size:24px;margin-bottom:12px;transition:color .3s}.card:hover .card-icon{color:var(--lime)}
+.small-card-title{font-weight:600;font-size:15px;margin-bottom:4px}
+.small-card-desc{color:var(--grey);font-size:13px;line-height:1.4}
+.arrow-icon{position:absolute;bottom:20px;right:20px;color:var(--lime);opacity:0;transform:translateX(-8px);transition:.4s;font-size:14px}.card:hover .arrow-icon{opacity:1;transform:none}
+.stops-badge{position:absolute;top:16px;right:16px;background:var(--lime);color:var(--navy);padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600}
+.hit{margin-top:8px;font-size:12px;font-weight:600;color:#7a8d00;background:rgba(156,181,0,.14);padding:5px 8px;border-radius:6px;display:inline-block}
 
-        .header-actions { display: flex; align-items: center; gap: 16px; }
-        
-        .user-icon { font-size: 22px; color: var(--navy); transition: color 0.3s ease; cursor: pointer; text-decoration: none;}
-        .user-icon:hover { color: var(--lime); }
+/* ACTIONS */
+.action-area{display:flex;justify-content:center;gap:16px;margin-top:36px;flex-wrap:wrap}
+.support-btn{padding:14px 28px;border-radius:50px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:10px;border:none;cursor:pointer;transition:.3s}
+.btn-whatsapp{background:var(--wa);color:#fff;box-shadow:0 4px 10px rgba(37,211,102,.2)}.btn-whatsapp:hover{background:#1ebc57;transform:translateY(-3px)}
+.btn-email{background:var(--navy);color:#fff}.btn-email:hover{background:var(--lime);color:var(--navy);transform:translateY(-3px)}
+footer{text-align:center;margin-top:auto;padding-top:40px;color:#9CA3AF;font-size:11px;letter-spacing:1px;text-transform:uppercase}
 
-        .logout-btn {
-            padding: 6px 16px; background: transparent;
-            border: 1px solid var(--border-light); color: var(--navy);
-            border-radius: 6px; font-weight: 500; font-size: 13px;
-            transition: all 0.3s ease; cursor: pointer;
-        }
-        .logout-btn:hover { border-color: var(--navy); background: #f3f4f6; }
+/* MODALS */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(27,38,64,.85);z-index:100000;justify-content:center;align-items:center;backdrop-filter:blur(5px);animation:fade .3s}
+.modal-container{background:var(--bg);width:90%;max-width:1200px;height:90vh;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.3);animation:pop .3s cubic-bezier(.16,1,.3,1) both;border:1px solid var(--line)}
+.modal-header{background:#fff;padding:15px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--lime)}
+.modal-header h3{font-size:16px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.close-btn{background:none;border:none;font-size:20px;color:var(--red);cursor:pointer;transition:.3s}.close-btn:hover{transform:scale(1.2) rotate(90deg)}
+.modal-body{flex-grow:1;width:100%;overflow-y:auto;background:var(--bg)}
+.pad{padding:24px}
+#modalIframe{width:100%;height:100%;border:none;background:#fff;display:block}
+@keyframes fade{from{opacity:0}to{opacity:1}}@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:none;opacity:1}}
+.modal-body::-webkit-scrollbar{width:6px}.modal-body::-webkit-scrollbar-thumb{background:var(--line);border-radius:10px}
 
-        /* --- WRAPPER --- */
-        .wrapper {
-            padding-top: 100px; 
-            padding-bottom: 40px; 
-            display: flex; flex-direction: column;
-            min-height: 100vh;
-        }
+/* SEARCH + FILTER */
+.toolbar{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;align-items:center}
+.search{flex:1;min-width:220px;position:relative}
+.search i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--grey)}
+.search input{width:100%;padding:12px 16px 12px 40px;border:2px solid var(--line);border-radius:50px;font-size:14px;outline:none;transition:.3s;background:#fff}
+.search input:focus{border-color:var(--lime);box-shadow:0 0 0 4px rgba(156,181,0,.12)}
+.pill-btn{padding:10px 16px;border-radius:50px;border:2px solid var(--line);background:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:.3s;color:var(--navy)}
+.pill-btn.on,.pill-btn:hover{background:var(--lime);border-color:var(--lime)}
+.empty{text-align:center;color:var(--grey);padding:40px 0;font-size:14px;grid-column:1/-1}
 
-        .container {
-            width: 100%; max-width: 1100px;
-            margin: 0 auto; padding: 0 24px;
-        }
+/* MENU TABLE */
+.menu-table-container{width:100%;overflow-x:auto;border-radius:10px;border:1px solid var(--line);background:#fff}
+.menu-table{width:100%;border-collapse:collapse;text-align:left}
+.menu-table th{background:var(--navy);color:#fff;padding:14px 16px;font-weight:500;font-size:13px;position:sticky;top:0;z-index:2}
+.menu-table td{padding:13px 16px;border-bottom:1px solid var(--line);font-size:13px}
+.menu-table tr:hover{background:var(--bg)}
+.menu-table tr.today-row{background:rgba(156,181,0,.14);box-shadow:inset 4px 0 0 var(--lime)}
+.menu-table tr.fri td:nth-child(2){color:#7a8d00;font-weight:700}
+.sweet-badge{background:rgba(156,181,0,.15);color:#7a8d00;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600;display:inline-block}
 
-        /* --- BENTO GRID --- */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 Equal Columns */
-            gap: 20px; 
-            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+/* ROUTE POPUP */
+.pop-meta{display:flex;gap:20px;margin-bottom:16px;font-size:13px;color:var(--grey);border-bottom:1px solid var(--line);padding-bottom:14px;flex-wrap:wrap}
+.pop-meta span{display:flex;align-items:center;gap:8px}.pop-meta i{color:var(--navy);opacity:.7}
+.call-btn{display:inline-flex;align-items:center;gap:8px;background:var(--wa);color:#fff;text-decoration:none;font-weight:600;font-size:13px;padding:9px 16px;border-radius:50px;margin-bottom:16px;transition:.3s}.call-btn:hover{transform:translateY(-2px)}
+.tabs{display:flex;gap:8px;margin-bottom:18px}
+.tab{flex:1;padding:9px;border-radius:10px;border:2px solid var(--line);background:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:.3s}
+.tab.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.track{position:relative;padding-left:24px}
+.track::before{content:'';position:absolute;left:6px;top:8px;bottom:0;width:2px;background:var(--line)}
+.stop{position:relative;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;animation:rise .5s both}
+.stop::before{content:'';position:absolute;left:-23px;top:4px;width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid var(--lime);box-shadow:0 0 0 2px rgba(156,181,0,.15)}
+.stop b{font-size:13px;font-weight:600}
+.stop em{font-style:normal;font-size:12px;font-weight:600;background:#fff;border:1px solid var(--line);padding:2px 8px;border-radius:4px}
+.out{display:inline-block;font-size:11px;font-weight:600;color:var(--red);background:#fef2f2;padding:5px 9px;border-radius:4px;border:1px solid #fecaca}
 
-        /* --- BIG CENTERED CARDS --- */
-        .big-center-card {
-            background: var(--white);
-            border: 1px solid var(--border-light);
-            border-radius: 16px; 
-            padding: 40px 20px; 
-            text-decoration: none;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                        border-color 0.4s ease;
-            position: relative; overflow: hidden;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02); 
-            cursor: pointer;
-        }
+.welcome{background:linear-gradient(135deg,#fff 45%,rgba(156,181,0,.18));border:1px solid var(--line);border-radius:18px;padding:14px 18px;display:flex;flex-direction:column;justify-content:space-between;gap:6px;box-shadow:0 4px 14px rgba(0,0,0,.03);position:relative;overflow:hidden}
+.welcome::after{content:'';position:absolute;right:-50px;top:-50px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(156,181,0,.35),transparent 70%)}
+.welcome>*{position:relative;z-index:1}
+.greet-pill{align-self:flex-start;background:rgba(156,181,0,.16);color:#6b7c00;font-weight:700;font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:5px 12px;border-radius:50px}
+.welcome h1{font-size:1.3rem;font-weight:800;margin:4px 0 0;line-height:1.2}
+.welcome p{color:var(--grey);font-size:.82rem}
+.clock{font-size:1.5rem;font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums;line-height:1}
+.dateline{color:var(--grey);font-size:12px;margin-top:2px;font-weight:500}
+.cd{font-size:1.4rem!important;font-weight:800!important;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.shiftrow{display:flex;gap:5px;margin-top:6px}
+.sdot{flex:1;text-align:center;font-size:10px;font-weight:600;padding:3px 2px;border-radius:7px;background:var(--bg);border:1px solid var(--line);color:var(--grey)}
+.sdot.on{background:var(--navy);border-color:var(--navy);color:#fff}
 
-        .big-center-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(156, 181, 0, 0.5);
-            box-shadow: 0 20px 25px -5px rgba(27, 38, 64, 0.05), 
-                        0 8px 10px -6px rgba(27, 38, 64, 0.05); 
-            z-index: 10;
-        }
-
-        .big-icon-wrapper {
-            background: rgba(156, 181, 0, 0.1);
-            width: 80px; height: 80px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
-            transition: all 0.4s ease;
-        }
-        
-        .big-center-card:hover .big-icon-wrapper {
-            background: var(--lime);
-            transform: scale(1.1);
-        }
-
-        .big-icon-wrapper i { font-size: 2.5rem; color: var(--lime); transition: color 0.4s ease;}
-        .big-center-card:hover .big-icon-wrapper i { color: var(--white); }
-
-        .card-title { font-weight: 700; color: var(--navy); font-size: 1.2rem; margin-bottom: 8px; }
-        .card-desc { color: var(--med-grey); font-size: 0.9rem; font-weight: 400; line-height: 1.4; max-width: 80%; }
-
-        /* --- STANDARD SMALL CARDS (For Modals) --- */
-        .card {
-            background: var(--white); border: 1px solid var(--border-light); border-radius: 12px; 
-            padding: 20px; text-decoration: none; position: relative; overflow: hidden;
-            display: flex; flex-direction: column; justify-content: space-between;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02); min-height: 140px; cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .card:hover {
-            transform: translateY(-6px); border-color: rgba(156, 181, 0, 0.5);
-            box-shadow: 0 20px 25px -5px rgba(27, 38, 64, 0.05); z-index: 10;
-        }
-        .card-icon { font-size: 24px; color: var(--navy); margin-bottom: 12px; transition: color 0.3s ease; }
-        .card:hover .card-icon { color: var(--lime); }
-        .small-card-title { font-weight: 600; color: var(--navy); font-size: 15px; margin-bottom: 4px; }
-        .small-card-desc { color: var(--med-grey); font-size: 13px; font-weight: 400; line-height: 1.4; }
-        .arrow-icon {
-            position: absolute; bottom: 20px; right: 20px; color: var(--lime); opacity: 0;
-            transform: translateX(-8px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); font-size: 14px;
-        }
-        .card:hover .arrow-icon { opacity: 1; transform: translateX(0); }
-        .stops-badge {
-            position: absolute; top: 16px; right: 16px; background: var(--lime); color: var(--navy);
-            padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600;
-        }
-
-        /* --- ACTION BUTTONS (BOTTOM) --- */
-        .action-area {
-            display: flex; justify-content: center; gap: 16px; margin-top: 40px; flex-wrap: wrap;
-            animation: slideUp 1s ease-out;
-        }
-        .support-btn {
-            padding: 14px 28px; border-radius: 50px; font-weight: 600; font-size: 14px;
-            display: flex; align-items: center; gap: 10px; border: none; cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .btn-whatsapp { background: var(--whatsapp-green); color: white; box-shadow: 0 4px 10px rgba(37,211,102,0.2); }
-        .btn-whatsapp:hover { background: #1ebc57; transform: translateY(-3px); box-shadow: 0 8px 15px rgba(37,211,102,0.3); }
-        .btn-email { background: var(--navy); color: white; box-shadow: 0 4px 10px rgba(27,38,64,0.1); }
-        .btn-email:hover { background: var(--lime); color: var(--navy); transform: translateY(-3px); box-shadow: 0 8px 15px rgba(156,181,0,0.2); }
-
-        footer {
-            text-align: center; margin-top: auto; padding-top: 40px;
-            color: #9CA3AF; font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
-        }
-
-        @keyframes slideUp { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        /* --- DASHBOARD STYLE MODALS --- */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(27, 38, 64, 0.85); z-index: 100000; justify-content: center; align-items: center;
-            backdrop-filter: blur(5px); animation: fadeInModal 0.3s ease;
-        }
-        .modal-container {
-            background: var(--light-bg); width: 90%; max-width: 1200px; height: 90vh; border-radius: 12px;
-            display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            transform: scale(0.95); animation: scaleInModal 0.3s ease forwards; border: 1px solid var(--border-light);
-        }
-        .modal-header {
-            background: var(--white); padding: 15px 24px; display: flex; justify-content: space-between;
-            align-items: center; border-bottom: 2px solid var(--lime);
-        }
-        .modal-header h3 { color: var(--navy); font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
-        .close-btn { background: none; border: none; font-size: 20px; color: var(--emergency-red); cursor: pointer; transition: 0.3s; }
-        .close-btn:hover { transform: scale(1.2) rotate(90deg); color: #ff0000; }
-        
-        .modal-body { flex-grow: 1; width: 100%; height: 100%; overflow-y: auto; background: var(--light-bg); }
-        .modal-body-padding { padding: 24px; }
-        #appViewer { width: 100%; height: 100%; border: none; background: var(--white); display: block; }
-
-        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes scaleInModal { from { transform: scale(0.95); } to { transform: scale(1); } }
-
-        /* --- MESS MENU TABLE --- */
-        .menu-table-container { width: 100%; overflow-x: auto; border-radius: 8px; border: 1px solid var(--border-light); background: var(--white); }
-        .menu-table { width: 100%; border-collapse: collapse; text-align: left; }
-        .menu-table th { background: var(--navy); color: var(--white); padding: 14px 16px; font-weight: 500; font-size: 13px; position: sticky; top: 0; z-index: 2;}
-        .menu-table td { padding: 14px 16px; border-bottom: 1px solid var(--border-light); color: var(--navy); font-size: 13px; }
-        .menu-table tr:hover { background: var(--light-bg); }
-        .sweet-badge { background: rgba(156, 181, 0, 0.15); color: #7a8d00; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; display: inline-block; }
-
-        /* --- ROUTE TIMELINE --- */
-        .pop-meta { display: flex; gap: 24px; margin-bottom: 24px; font-size: 13px; color: var(--med-grey); border-bottom: 1px solid var(--border-light); padding-bottom: 16px; flex-wrap: wrap;}
-        .pop-meta span { display: flex; align-items: center; gap: 8px; }
-        .pop-meta i { color: var(--navy); opacity: 0.7; }
-
-        .timeline-clean { position: relative; padding-left: 24px; }
-        .timeline-clean::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 0; width: 2px; background: var(--border-light); }
-        .stop-item { position: relative; margin-bottom: 20px; color: var(--navy);}
-        .stop-item:last-child { margin-bottom: 0; }
-        .stop-item::before { content: ''; position: absolute; left: -23px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--white); border: 2px solid var(--lime); box-shadow: 0 0 0 2px rgba(156, 181, 0, 0.15); }
-        .stop-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;}
-        .stop-name { font-weight: 600; font-size: 13px; }
-        .stop-time { font-size: 12px; color: var(--navy); font-weight: 600; background: var(--white); border: 1px solid var(--border-light); padding: 2px 8px; border-radius: 4px;}
-
-        .shift-badges { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-        .shift-pill { font-size: 11px; padding: 4px 8px; border-radius: 4px; background: var(--white); border: 1px solid var(--border-light); color: var(--med-grey); display: flex; align-items: center; gap: 6px; font-weight: 500; }
-        .shift-pill i { color: var(--navy); opacity: 0.6; }
-        .shift-out-alert { display: inline-block; margin-top: 8px; font-size: 11px; font-weight: 600; color: var(--emergency-red); background: #fef2f2; padding: 4px 8px; border-radius: 4px; border: 1px solid #fecaca; }
-
-        .modal-body::-webkit-scrollbar { width: 6px; }
-        .modal-body::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 10px; }
-
-        /* RESPONSIVE */
-        @media (max-width: 900px) {
-            .bento-grid { grid-template-columns: 1fr; }
-            .modal-container { width: 95%; height: 95vh; }
-        }
-    </style>
+/* ROUTES - refined */
+.rt{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px;cursor:pointer;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:10px;box-shadow:0 2px 6px rgba(0,0,0,.02);transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s,border-color .35s;animation:fadeUp .5s cubic-bezier(.16,1,.3,1) backwards}
+.rt::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--lime);transform:scaleY(0);transform-origin:top;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.rt:hover{transform:translateY(-4px);border-color:rgba(156,181,0,.45);box-shadow:0 16px 24px -8px rgba(27,38,64,.12)}
+.rt:hover::before{transform:scaleY(1)}
+.rt-top{display:flex;justify-content:space-between;align-items:center}
+.rt-no{font-size:11px;font-weight:700;letter-spacing:1px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px 8px}
+.rt-type{font-size:11px;font-weight:600;color:#6b7c00;background:rgba(156,181,0,.12);padding:3px 10px;border-radius:50px}
+.rt-title{font-size:16px;font-weight:700}
+.rt-times{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.rt-times i{font-style:normal;color:var(--lime);margin:0 6px}
+.rt-times u{text-decoration:none;font-weight:500;color:var(--grey)}
+.rt-meta{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--grey)}
+.rt-meta span{display:flex;align-items:center;gap:8px}
+.ic{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.rt-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:10px;margin-top:auto;font-size:12px;font-weight:600;color:var(--grey)}
+.rt-foot .ic{color:var(--lime);transition:transform .35s}
+.rt:hover .rt-foot .ic{transform:translateX(4px)}
+.count-note{font-size:13px;color:var(--grey);font-weight:500}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--grey);fill:none;stroke-width:2;stroke-linecap:round}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+/* ROUTE POPUP - refined */
+.pop-meta{display:grid!important;grid-template-columns:repeat(3,1fr);gap:10px!important;border-bottom:none!important;padding-bottom:0!important}
+.pop-meta span{flex-direction:column;align-items:flex-start!important;gap:2px!important;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.pop-meta small{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--grey);font-weight:600}
+.pop-meta b{font-size:12.5px;font-weight:600;color:var(--navy)}
+.call-btn{background:var(--navy)!important}.call-btn:hover{background:var(--lime)!important;color:var(--navy)!important}
+.track::after{content:'';position:absolute;left:6px;top:8px;width:2px;height:0;background:var(--lime);animation:grow var(--D) linear forwards}
+@keyframes grow{to{height:calc(100% - 16px)}}
+.stop::before{animation:lit .3s ease var(--d) forwards}
+@keyframes lit{from{background:#fff}to{background:var(--lime)}}
+.stop.last::before{animation:lit .3s ease var(--d) forwards,ping 2s ease-out var(--D) infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(156,181,0,.5)}100%{box-shadow:0 0 0 9px rgba(156,181,0,0)}}
+.out{margin-top:6px;animation:fadeUp .5s ease var(--D) backwards}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+@media(max-width:900px){.hero,.bento-grid{grid-template-columns:1fr}.modal-container{width:95%;height:95vh}.top-bar{padding:0 16px}}
+</style>
 </head>
 <body>
 
-    <nav class="top-bar">
-        <a href="dashboard.html" class="logo-link">
-            <img src="logo.png" alt="Logo">
-        </a>
-        <div class="header-actions">
-            <a href="dashboard.html" class="user-icon" title="Back to Dashboard">
-                <i class="fas fa-arrow-left"></i>
-            </a>
-            <i class="fas fa-user-circle user-icon" title="My Profile"></i>
-            <button class="logout-btn" onclick="logout()">Logout</button>
-        </div>
-    </nav>
+<nav class="top-bar">
+  <a href="dashboard.html" class="logo-link"><img src="logo.png" alt="Logo"></a>
+  <div class="header-actions">
+    <a href="dashboard.html" class="user-icon" title="Back to Dashboard"><i class="fas fa-arrow-left"></i></a>
+    <i class="fas fa-user-circle user-icon" title="My Profile"></i>
+    <button class="logout-btn" onclick="location.href='index.html'">Logout</button>
+  </div>
+</nav>
 
-    <div class="wrapper">
-        <div class="container">
+<div class="wrapper"><div class="container">
 
-            <!-- MAIN BENTO GRID (3 Equal Columns) -->
-            <div class="bento-grid">
-                
-                <div class="big-center-card" onclick="openModalGroup('feedbackGridModal')">
-                    <div class="big-icon-wrapper">
-                        <i class="fas fa-comment-dots"></i>
-                    </div>
-                    <div class="card-title">Feedback Forms</div>
-                    <div class="card-desc">Share your suggestions or report issues via forms</div>
-                </div>
-
-                <div class="big-center-card" onclick="openModalGroup('messMenuModal')">
-                    <div class="big-icon-wrapper">
-                        <i class="fas fa-utensils"></i>
-                    </div>
-                    <div class="card-title">Daily Mess Menu</div>
-                    <div class="card-desc">View today's meals and the complete monthly plan</div>
-                </div>
-
-                <div class="big-center-card" onclick="openModalGroup('transportGridModal')">
-                    <div class="big-icon-wrapper">
-                        <i class="fas fa-bus"></i>
-                    </div>
-                    <div class="card-title">Transport Routes</div>
-                    <div class="card-desc">View all pick & drop network data and timings</div>
-                </div>
-
-            </div>
-
-            <!-- ACTION AREA (Bottom Support Buttons) -->
-            <div class="action-area">
-                <button class="support-btn btn-whatsapp" onclick="openWhatsApp()">
-                    <i class="fab fa-whatsapp" style="font-size: 18px;"></i> WhatsApp Support
-                </button>
-                <button class="support-btn btn-email" onclick="openEmail()">
-                    <i class="fas fa-envelope" style="font-size: 16px;"></i> Email Support
-                </button>
-            </div>
-
-            <footer>&copy; 2026 IPAK PORTAL | DESIGNED BY TEAM HR</footer>
-        </div>
+  <!-- HERO -->
+  <div class="hero rise">
+    <div class="welcome">
+      <span class="greet-pill" id="greet">Welcome</span>
+      <div>
+        <h1>Welcome back <span class="wave">👋</span></h1>
+        <p>What can we help you with today?</p>
+      </div>
+      <div>
+        <div class="clock" id="clock">--:--</div>
+        <div class="dateline" id="dateTxt"></div>
+      </div>
     </div>
+    <div class="today" onclick="openModalGroup('messMenuModal')" id="todayCard"></div>
+    <div class="today" onclick="openModalGroup('transportGridModal')" id="shiftCard"></div>
+  </div>
 
-    <!-- 1. IFRAME MODAL (For Forms) -->
-    <div id="contentModal" class="modal-overlay" style="z-index: 100005;">
-        <div class="modal-container">
-            <div class="modal-header">
-                <h3 id="modalTitle">Loading...</h3>
-                <button class="close-btn" onclick="closeModalGroup('contentModal')"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body">
-                <iframe id="modalIframe" src="" allowfullscreen="true"></iframe>
-            </div>
-        </div>
+  <!-- MAIN CARDS -->
+  <div class="bento-grid rise" style="animation-delay:.1s">
+    <div class="big-center-card" onclick="openModalGroup('feedbackGridModal')">
+      <div class="big-icon-wrapper"><i class="fas fa-comment-dots"></i></div>
+      <div class="card-title">Feedback Forms</div>
+      <div class="card-desc">Share your suggestions or report issues via forms</div>
+      <span class="count">3 Forms</span>
     </div>
-
-    <!-- 2. FEEDBACK FORMS GRID MODAL -->
-    <div id="feedbackGridModal" class="modal-overlay">
-        <div class="modal-container" style="max-width: 1000px; height: auto; max-height: 90vh;">
-            <div class="modal-header">
-                <h3>Feedback Forms</h3>
-                <button class="close-btn" onclick="closeModalGroup('feedbackGridModal')"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body modal-body-padding">
-                <div class="bento-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
-                    
-                    <div class="card" onclick="openIframe('IPAK | CPAK', 'https://docs.google.com/forms/d/e/1FAIpQLScuIvju-2HULZ6ngfwCzgCypQnq5NVWP2tCZNvT7nXZkPZrfQ/viewform?embedded=true')">
-                        <i class="fas fa-industry card-icon"></i>
-                        <div>
-                            <div class="small-card-title">IPAK | CPAK</div>
-                            <div class="small-card-desc">Submit feedback for IPAK & CPAK facilities</div>
-                        </div>
-                        <i class="fas fa-arrow-right arrow-icon"></i>
-                    </div>
-
-                    <div class="card" onclick="openIframe('PETPAK | GPAK', 'https://docs.google.com/forms/d/e/1FAIpQLSdP8faxqah1YZfdHxY-VITqvb1efvrs_i9plILBSCFOWuRB4w/viewform?embedded=true')">
-                        <i class="fas fa-box card-icon"></i>
-                        <div>
-                            <div class="small-card-title">PETPAK | GPAK</div>
-                            <div class="small-card-desc">Submit feedback for PETPAK & GPAK facilities</div>
-                        </div>
-                        <i class="fas fa-arrow-right arrow-icon"></i>
-                    </div>
-
-                    <div class="card" onclick="openIframe('IPAK | KARACHI', 'https://docs.google.com/forms/d/e/1FAIpQLSf1hsYgSD9MXyLj1-3vRTVXkMqoqIGgXnysswE7M5m4rMc7Aw/viewform?embedded=true')">
-                        <i class="fas fa-city card-icon"></i>
-                        <div>
-                            <div class="small-card-title">IPAK | KARACHI</div>
-                            <div class="small-card-desc">Submit feedback for Karachi facility</div>
-                        </div>
-                        <i class="fas fa-arrow-right arrow-icon"></i>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+    <div class="big-center-card" onclick="openModalGroup('messMenuModal')">
+      <div class="big-icon-wrapper"><i class="fas fa-utensils"></i></div>
+      <div class="card-title">Daily Mess Menu</div>
+      <div class="card-desc">View today's meals and the complete monthly plan</div>
+      <span class="count">30 Days</span>
     </div>
-
-    <!-- 3. MESS MENU MODAL -->
-    <div id="messMenuModal" class="modal-overlay">
-        <div class="modal-container" style="max-width: 1000px;">
-            <div class="modal-header">
-                <h3>Monthly Mess Menu - April 2026</h3>
-                <button class="close-btn" onclick="closeModalGroup('messMenuModal')"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body modal-body-padding">
-                <div class="menu-table-container">
-                    <table class="menu-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Day</th>
-                                <th>Main Menu</th>
-                                <th>Side (Raita/Salad)</th>
-                                <th>Sweet</th>
-                            </tr>
-                        </thead>
-                        <tbody id="menuTableBody">
-                            <!-- JS Injected -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+    <div class="big-center-card" onclick="openModalGroup('transportGridModal')">
+      <div class="big-icon-wrapper"><i class="fas fa-bus"></i></div>
+      <div class="card-title">Transport Routes</div>
+      <div class="card-desc">View all pick &amp; drop network data and timings</div>
+      <span class="count">9 Routes</span>
     </div>
+  </div>
 
-    <!-- 4. TRANSPORT NETWORK GRID MODAL -->
-    <div id="transportGridModal" class="modal-overlay">
-        <div class="modal-container">
-            <div class="modal-header">
-                <h3>Transport Network Data</h3>
-                <button class="close-btn" onclick="closeModalGroup('transportGridModal')"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body modal-body-padding">
-                <div class="bento-grid" id="routeGrid" style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));">
-                    <!-- JS Injected -->
-                </div>
-            </div>
-        </div>
+  <div class="action-area rise" style="animation-delay:.2s">
+    <button class="support-btn btn-whatsapp" onclick="window.open('https://wa.me/923222818107','_blank')"><i class="fab fa-whatsapp" style="font-size:18px"></i> WhatsApp Support</button>
+    <button class="support-btn btn-email" onclick="location.href='mailto:hamza.farooq@ipak.com.pk'"><i class="fas fa-envelope" style="font-size:16px"></i> Email Support</button>
+  </div>
+
+  <footer>&copy; 2026 IPAK PORTAL | DESIGNED BY TEAM HR</footer>
+</div></div>
+
+<!-- IFRAME MODAL -->
+<div id="contentModal" class="modal-overlay" style="z-index:100005">
+  <div class="modal-container">
+    <div class="modal-header"><h3 id="modalTitle">Loading...</h3><button class="close-btn" onclick="closeModalGroup('contentModal')"><i class="fas fa-times"></i></button></div>
+    <div class="modal-body"><iframe id="modalIframe" src="" allowfullscreen></iframe></div>
+  </div>
+</div>
+
+<!-- FEEDBACK MODAL -->
+<div id="feedbackGridModal" class="modal-overlay">
+  <div class="modal-container" style="max-width:1000px;height:auto;max-height:90vh">
+    <div class="modal-header"><h3>Feedback Forms</h3><button class="close-btn" onclick="closeModalGroup('feedbackGridModal')"><i class="fas fa-times"></i></button></div>
+    <div class="modal-body pad">
+      <div class="bento-grid" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">
+        <div class="card" onclick="openIframe('IPAK | CPAK','https://docs.google.com/forms/d/e/1FAIpQLScuIvju-2HULZ6ngfwCzgCypQnq5NVWP2tCZNvT7nXZkPZrfQ/viewform?embedded=true')"><i class="fas fa-industry card-icon"></i><div><div class="small-card-title">IPAK | CPAK</div><div class="small-card-desc">Submit feedback for IPAK &amp; CPAK facilities</div></div><i class="fas fa-arrow-right arrow-icon"></i></div>
+        <div class="card" onclick="openIframe('PETPAK | GPAK','https://docs.google.com/forms/d/e/1FAIpQLSdP8faxqah1YZfdHxY-VITqvb1efvrs_i9plILBSCFOWuRB4w/viewform?embedded=true')"><i class="fas fa-box card-icon"></i><div><div class="small-card-title">PETPAK | GPAK</div><div class="small-card-desc">Submit feedback for PETPAK &amp; GPAK facilities</div></div><i class="fas fa-arrow-right arrow-icon"></i></div>
+        <div class="card" onclick="openIframe('IPAK | KARACHI','https://docs.google.com/forms/d/e/1FAIpQLSf1hsYgSD9MXyLj1-3vRTVXkMqoqIGgXnysswE7M5m4rMc7Aw/viewform?embedded=true')"><i class="fas fa-city card-icon"></i><div><div class="small-card-title">IPAK | KARACHI</div><div class="small-card-desc">Submit feedback for Karachi facility</div></div><i class="fas fa-arrow-right arrow-icon"></i></div>
+      </div>
     </div>
+  </div>
+</div>
 
-    <!-- 5. TRANSPORT ROUTE TIMELINE POPUP -->
-    <div id="routePopup" class="modal-overlay" style="z-index: 100005;">
-        <div class="modal-container" style="max-width: 550px; height: auto; max-height: 85vh;">
-            <div class="modal-header">
-                <h3 id="pop-title" style="margin:0;">Route Name</h3>
-                <button class="close-btn" onclick="closeModalGroup('routePopup')"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body modal-body-padding">
-                <div class="pop-meta">
-                    <span id="pop-vehicle"><i class="fas fa-van-shuttle"></i> Vehicle</span>
-                    <span id="pop-driver"><i class="fas fa-user-tie"></i> Driver</span>
-                    <span id="pop-contact"><i class="fas fa-phone"></i> Contact</span>
-                </div>
-                <div class="timeline-clean" id="pop-timeline">
-                    <!-- JS Injected -->
-                </div>
-            </div>
-        </div>
+<!-- MESS MENU MODAL -->
+<div id="messMenuModal" class="modal-overlay">
+  <div class="modal-container" style="max-width:1000px">
+    <div class="modal-header"><h3>Monthly Mess Menu - April 2026</h3><button class="close-btn" onclick="closeModalGroup('messMenuModal')"><i class="fas fa-times"></i></button></div>
+    <div class="modal-body pad">
+      <div class="toolbar">
+        <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="menuSearch" placeholder="Search a dish, e.g. Biryani, Haleem..." oninput="renderMenu()"></div>
+        <button class="pill-btn" id="sweetBtn" onclick="this.classList.toggle('on');renderMenu()">🍬 Sweet days</button>
+      </div>
+      <div class="menu-table-container">
+        <table class="menu-table">
+          <thead><tr><th>Date</th><th>Day</th><th>Main Menu</th><th>Side</th><th>Sweet</th></tr></thead>
+          <tbody id="menuBody"></tbody>
+        </table>
+      </div>
     </div>
+  </div>
+</div>
 
-    <script>
-        function openWhatsApp() { window.open('https://wa.me/923222818107', '_blank'); }
-        function openEmail() { window.location.href = 'mailto:hamza.farooq@ipak.com.pk'; }
-        function logout() { window.location.href = "index.html"; }
+<!-- TRANSPORT MODAL -->
+<div id="transportGridModal" class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header"><h3>Transport Network Data</h3><button class="close-btn" onclick="closeModalGroup('transportGridModal')"><i class="fas fa-times"></i></button></div>
+    <div class="modal-body pad">
+      <div class="toolbar">
+        <div class="search"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><input id="routeSearch" placeholder="Find my stop: Batti Chowk, Shalimar, Raiwind..." oninput="renderRoutes()"></div>
+        <span class="count-note" id="routeCount"></span>
+      </div>
+      <div class="bento-grid" id="routeGrid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr))"></div>
+    </div>
+  </div>
+</div>
 
-        // --- DASHBOARD MODAL LOGIC ---
-        function openModalGroup(id) {
-            if(id === 'messMenuModal') renderMessMenu();
-            if(id === 'transportGridModal') renderTransportGrid();
-            document.getElementById(id).style.display = 'flex';
-        }
+<!-- ROUTE POPUP -->
+<div id="routePopup" class="modal-overlay" style="z-index:100005">
+  <div class="modal-container" style="max-width:550px;height:auto;max-height:85vh">
+    <div class="modal-header"><h3 id="pop-title">Route</h3><button class="close-btn" onclick="closeModalGroup('routePopup')"><i class="fas fa-times"></i></button></div>
+    <div class="modal-body pad">
+      <div class="pop-meta"><span id="pop-v"></span><span id="pop-d"></span><span id="pop-c"></span></div>
+      <div id="pop-call"></div>
+      <div class="tabs" id="pop-tabs"></div>
+      <div class="timeline" id="pop-timeline"></div>
+    </div>
+  </div>
+</div>
 
-        function closeModalGroup(id) {
-            document.getElementById(id).style.display = 'none';
-            if(id === 'contentModal') document.getElementById('modalIframe').src = '';
-        }
+<script>
+const $=id=>document.getElementById(id);
+const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
-        function openIframe(title, url) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalIframe').src = url;
-            openModalGroup('contentModal');
-        }
+/* ---------- HERO: greeting, clock ---------- */
+function tick(){
+  const n=new Date(),h=n.getHours();
+  $('greet').textContent=h<12?'☀️ Good morning':h<17?'🌤️ Good afternoon':'🌙 Good evening';
+  $('clock').textContent=n.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  $('dateTxt').textContent=n.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'});
+}
+tick();setInterval(tick,1000);
 
-        // Close on outside click
-        window.onclick = (e) => { 
-            if (e.target.classList.contains('modal-overlay')) {
-                e.target.style.display = 'none';
-                if(e.target.id === 'contentModal') document.getElementById('modalIframe').src = '';
-            }
-        }
 
-        // Keydown listener for escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.modal-overlay').forEach(modal => {
-                    modal.style.display = 'none';
-                });
-                document.getElementById('modalIframe').src = '';
-            }
-        });
+/* ---------- NEXT SHIFT BUS WIDGET ---------- */
+const SHIFTS=[{n:'Morning',e:'☀️',m:405,l:'06:45 AM'},{n:'Evening',e:'🌤️',m:885,l:'02:45 PM'},{n:'Night',e:'🌙',m:1365,l:'10:45 PM'}];
+function renderShift(){
+  const n=new Date(),now=n.getHours()*60+n.getMinutes();
+  let i=SHIFTS.findIndex(x=>x.m>now);if(i<0)i=0;
+  let diff=SHIFTS[i].m-now;if(diff<=0)diff+=1440;
+  const h=Math.floor(diff/60),m=diff%60;
+  $('shiftCard').innerHTML=`
+    <span class="tag">Next Shift Bus</span>
+    <div><span class="emo">🚌</span>
+    <h3 class="cd">${h?h+'h ':''}${String(m).padStart(2,'0')}m</h3>
+    <div class="meta">Reaches the plant at ${SHIFTS[i].l}</div>
+    <div class="shiftrow">${SHIFTS.map((x,k)=>`<span class="sdot ${k===i?'on':''}">${x.e} ${x.n}</span>`).join('')}</div></div>
+    <div class="note">Shift routes only · tap for all routes</div>`;
+}
+renderShift();setInterval(renderShift,15000);
 
-        // --- MESS MENU DATA[cite: 1] ---
-        const menuData = [
-            { date: "1-Apr-26", day: "Wednesday", main: "Mix Vegetable+Roti", side: "Mint Raita", sweet: "" },
-            { date: "2-Apr-26", day: "Thursday", main: "Dal Mash+Alu Tiki+Roti", side: "Mint Raita", sweet: "" },
-            { date: "3-Apr-26", day: "Friday", main: "Chicken Pulao", side: "Mint Raita", sweet: "Gud Rice" },
-            { date: "4-Apr-26", day: "Saturday", main: "Black Chana+Roti", side: "Salad", sweet: "" },
-            { date: "5-Apr-26", day: "Sunday", main: "Alu Chiken+Roti", side: "Salad", sweet: "" },
-            { date: "6-Apr-26", day: "Monday", main: "Chicken Green Masala+Roti", side: "Salad", sweet: "" },
-            { date: "7-Apr-26", day: "Tuesday", main: "Alu Matar Kari+Roti", side: "Salad", sweet: "" },
-            { date: "8-Apr-26", day: "Wednesday", main: "Kabab Masala+Roti", side: "Salad", sweet: "" },
-            { date: "9-Apr-26", day: "Thursday", main: "White Channa Egg+Roti", side: "Salad", sweet: "" },
-            { date: "10-Apr-26", day: "Friday", main: "Chicken Biryani", side: "Raita", sweet: "Mutanjan" },
-            { date: "11-Apr-26", day: "Saturday", main: "Mix Vegetable+Roti", side: "Mint Raita", sweet: "" },
-            { date: "12-Apr-26", day: "Sunday", main: "Dal Channa Fri+Roti", side: "Salad", sweet: "" },
-            { date: "13-Apr-26", day: "Monday", main: "Chicken Qorma+Roti", side: "Salad", sweet: "" },
-            { date: "14-Apr-26", day: "Tuesday", main: "Channa Pulao", side: "Mint Raita", sweet: "" },
-            { date: "15-Apr-26", day: "Wednesday", main: "Steam Rost+Mix Dal+Roti", side: "Mint Raita", sweet: "" },
-            { date: "16-Apr-26", day: "Thursday", main: "Mix Vegetable+Roti", side: "Mint Raita", sweet: "" },
-            { date: "17-Apr-26", day: "Friday", main: "Chicken Pulao", side: "Raita", sweet: "Zarda" },
-            { date: "18-Apr-26", day: "Saturday", main: "Black Chana+Roti", side: "Salad", sweet: "" },
-            { date: "19-Apr-26", day: "Sunday", main: "Alu Chiken+Roti", side: "Salad", sweet: "" },
-            { date: "20-Apr-26", day: "Monday", main: "Chicken Karahi+Roti", side: "Salad", sweet: "" },
-            { date: "21-Apr-26", day: "Tuesday", main: "Mix Vegetable+Roti", side: "Mint Raita", sweet: "" },
-            { date: "22-Apr-26", day: "Wednesday", main: "Chicken Qeema Matar+Roti", side: "Mint Raita", sweet: "" },
-            { date: "23-Apr-26", day: "Thursday", main: "Haleem+Khameeri Roti", side: "Garnish", sweet: "" },
-            { date: "24-Apr-26", day: "Friday", main: "Sindhi Biryani", side: "Raita", sweet: "Mutanjan" },
-            { date: "25-Apr-26", day: "Saturday", main: "Dal Channa+Roti", side: "Salad", sweet: "" },
-            { date: "26-Apr-26", day: "Sunday", main: "Alu Matar Kari+Roti", side: "Salad", sweet: "" },
-            { date: "27-Apr-26", day: "Monday", main: "Chicken Jalfrezi+Roti", side: "Salad", sweet: "" },
-            { date: "28-Apr-26", day: "Tuesday", main: "Channa Pulao", side: "Mint Raita", sweet: "" },
-            { date: "29-Apr-26", day: "Wednesday", main: "Chapli Kabab+Mix Dal+Roti", side: "Mint Raita", sweet: "" },
-            { date: "30-Apr-26", day: "Thursday", main: "White Channa Egg+Roti", side: "Salad", sweet: "" }
-        ];
+/* ---------- MESS MENU DATA (April 2026) ---------- */
+const MENU=`Mix Vegetable+Roti|Mint Raita|;Dal Mash+Alu Tiki+Roti|Mint Raita|;Chicken Pulao|Mint Raita|Gud Rice;Black Chana+Roti|Salad|;Alu Chicken+Roti|Salad|;Chicken Green Masala+Roti|Salad|;Alu Matar Kari+Roti|Salad|;Kabab Masala+Roti|Salad|;White Channa Egg+Roti|Salad|;Chicken Biryani|Raita|Mutanjan;Mix Vegetable+Roti|Mint Raita|;Dal Channa Fri+Roti|Salad|;Chicken Qorma+Roti|Salad|;Channa Pulao|Mint Raita|;Steam Roast+Mix Dal+Roti|Mint Raita|;Mix Vegetable+Roti|Mint Raita|;Chicken Pulao|Raita|Zarda;Black Chana+Roti|Salad|;Alu Chicken+Roti|Salad|;Chicken Karahi+Roti|Salad|;Mix Vegetable+Roti|Mint Raita|;Chicken Qeema Matar+Roti|Mint Raita|;Haleem+Khameeri Roti|Garnish|;Sindhi Biryani|Raita|Mutanjan;Dal Channa+Roti|Salad|;Alu Matar Kari+Roti|Salad|;Chicken Jalfrezi+Roti|Salad|;Channa Pulao|Mint Raita|;Chapli Kabab+Mix Dal+Roti|Mint Raita|;White Channa Egg+Roti|Salad|`
+.split(';').map((r,i)=>{const[a,b,c]=r.split('|');return{d:i+1,day:DAYS[new Date(2026,3,i+1).getDay()],m:a,s:b,w:c}});
 
-        function renderMessMenu() {
-            const tableBody = document.getElementById('menuTableBody');
-            tableBody.innerHTML = '';
-            menuData.forEach(item => {
-                const sweetHtml = item.sweet ? `<span class="sweet-badge">${item.sweet}</span>` : '-';
-                const row = `
-                    <tr>
-                        <td style="font-weight: 600;">${item.date}</td>
-                        <td>${item.day}</td>
-                        <td style="font-weight: 500;">${item.main}</td>
-                        <td>${item.side}</td>
-                        <td>${sweetHtml}</td>
-                    </tr>
-                `;
-                tableBody.insertAdjacentHTML('beforeend', row);
-            });
-        }
+const emo=m=>/biryani|pulao/i.test(m)?'🍛':/haleem/i.test(m)?'🥣':/kabab/i.test(m)?'🍢':/chicken/i.test(m)?'🍗':/dal|chana|channa/i.test(m)?'🫘':'🥘';
 
-        // --- TRANSPORT ROUTE DATA & LOGIC ---
-        const routesData = [
-            { id: 1, title: "Raiwind to PPAK", type: "General Shift", driver: "Shahzad", contact: "0305-4598250", vehicle: "LES 440 (Coaster)", shiftOut: "05:05 PM", isMultiShift: false, stops: [ { name: "IPAK", time: "07:00 AM" }, { name: "Raiwind Adda", time: "07:25 AM" }, { name: "Sabzi Mandi", time: "07:28 AM" }, { name: "LDA Chok", time: "07:55 AM" }, { name: "Nawab town", time: "08:00 AM" }, { name: "Ali town", time: "08:02 AM" }, { name: "Thokar Niaz Baig", time: "08:05 AM" }, { name: "PPAK Plant", time: "08:55 AM" } ] },
-            { id: 2, title: "Gajjumata to PPAK", type: "General Shift", driver: "Sameer", contact: "0303-8205214", vehicle: "LES 5992 (Grand Cabin)", shiftOut: "05:05 PM", isMultiShift: false, stops: [ { name: "Saroba Garden", time: "07:30 AM" }, { name: "Kanchi", time: "07:35 AM" }, { name: "Deffence Chowk", time: "07:42 AM" }, { name: "Walltan", time: "07:45 AM" }, { name: "Kot Lakhpat", time: "07:50 AM" }, { name: "Pindi Stop", time: "07:55 AM" }, { name: "Jinna Hospital", time: "08:00 AM" }, { name: "PPAK Plant", time: "08:55 AM" } ] },
-            { id: 3, title: "Sky Land to PPAK", type: "General Shift", driver: "Abdullah", contact: "0307-8807215", vehicle: "LES 6440 (Grand Cabin)", shiftOut: "05:05 PM", isMultiShift: false, stops: [ { name: "Sky Land", time: "07:25 AM" }, { name: "Main Rasheed Road", time: "07:38 AM" }, { name: "Taj Bagh", time: "07:39 AM" }, { name: "Shalimar", time: "07:50 AM" }, { name: "Sukh Naar", time: "07:51 AM" }, { name: "Bati Chowk", time: "08:06 AM" }, { name: "Saggian pul", time: "08:12 AM" }, { name: "Babo Sabo", time: "08:18 AM" }, { name: "PPAK Plant", time: "08:55 AM" } ] },
-            { id: 4, title: "SKP General", type: "General Shift", driver: "Asif", contact: "0302-3955759", vehicle: "LES 7871 (Coaster)", shiftOut: "05:05 PM", isMultiShift: false, stops: [ { name: "Ghazi Phatak", time: "08:15 AM" }, { name: "Kips College", time: "08:17 AM" }, { name: "SP Chowk", time: "08:22 AM" }, { name: "Jinnah Park", time: "08:27 AM" }, { name: "Batti Chowk", time: "08:32 AM" }, { name: "Gourmet Bakery", time: "08:38 AM" }, { name: "Housing Colony", time: "08:40 AM" }, { name: "Phatak", time: "08:50 AM" }, { name: "PPAK PLANT", time: "08:55 AM" } ] },
-            { id: 5, title: "SKP SP Chowk", type: "3 Shifts (8 Hrs)", driver: "Tariq", contact: "Admin", vehicle: "RNO 5885 (Coaster)", isMultiShift: true, stops: [ { name: "SP Chowk", morning: "06:10 AM", evening: "02:10 PM", night: "10:10 PM" }, { name: "Bihari colony", morning: "06:12 AM", evening: "02:12 PM", night: "10:12 PM" }, { name: "Dil chowk", morning: "06:16 AM", evening: "02:16 PM", night: "10:16 PM" }, { name: "Sadar chowk", morning: "06:25 AM", evening: "02:25 PM", night: "10:25 PM" }, { name: "Batti chowk", morning: "06:26 AM", evening: "02:26 PM", night: "10:26 PM" }, { name: "Interchange", morning: "06:35 AM", evening: "02:35 PM", night: "10:35 PM" }, { name: "PPAK Plant", morning: "06:45 AM", evening: "02:45 PM", night: "10:45 PM" } ] },
-            { id: 6, title: "Batti Chowk", type: "3 Shifts (8 Hrs)", driver: "Ejaz", contact: "Admin", vehicle: "LES 4075 (Coaster)", isMultiShift: true, stops: [ { name: "Batti Chowk", morning: "06:20 AM", evening: "02:20 PM", night: "10:20 PM" }, { name: "Gourmet Bakery", morning: "06:23 AM", evening: "02:23 PM", night: "10:23 PM" }, { name: "Housing Colony", morning: "06:26 AM", evening: "02:26 PM", night: "10:26 PM" }, { name: "Total Pump", morning: "06:28 AM", evening: "02:28 PM", night: "10:28 PM" }, { name: "Saleem Kot", morning: "06:30 AM", evening: "02:30 PM", night: "10:30 PM" }, { name: "Phatak", morning: "06:38 AM", evening: "02:38 PM", night: "10:38 PM" }, { name: "PPAK Plant", morning: "06:45 AM", evening: "02:45 PM", night: "10:45 PM" } ] },
-            { id: 7, title: "Ali town", type: "3 Shifts (8 Hrs)", driver: "Sharaf / Awais", contact: "0305-6696155", vehicle: "LES 7444 (Coaster)", isMultiShift: true, stops: [ { name: "Ali town Station", morning: "05:47 AM", evening: "01:36 PM", night: "09:47 PM" }, { name: "Thokar Niaz Bag", morning: "05:50 AM", evening: "01:40 PM", night: "09:50 PM" }, { name: "Scheme mor", morning: "06:00 AM", evening: "02:00 PM", night: "10:00 PM" }, { name: "Shera kot", morning: "06:05 AM", evening: "02:07 PM", night: "10:05 PM" }, { name: "Labor Colony", morning: "06:37 AM", evening: "02:37 PM", night: "10:37 PM" }, { name: "Plant", morning: "06:45 AM", evening: "02:45 PM", night: "10:45 PM" } ] },
-            { id: 8, title: "Harbanspura", type: "3 Shifts (8 Hrs)", driver: "wzaif / Shaban", contact: "0326-4323505", vehicle: "CBC 740 (Grand Cabin)", isMultiShift: true, stops: [ { name: "Dharmpura", morning: "05:40 AM", evening: "01:30 PM", night: "09:40 PM" }, { name: "Harbans pura", morning: "05:48 AM", evening: "01:38 PM", night: "09:52 PM" }, { name: "Shahdra", morning: "06:05 AM", evening: "01:55 PM", night: "10:12 PM" }, { name: "Kot A.Malik", morning: "06:10 AM", evening: "02:00 PM", night: "10:20 PM" }, { name: "PPAK Pant", morning: "06:45 AM", evening: "02:45 PM", night: "10:45 PM" } ] },
-            { id: 9, title: "SP Chowk (HRSG)", type: "3 Shifts (HRSG)", driver: "Abbas", contact: "0324-4134670", vehicle: "BSA 457 (BUS)", isMultiShift: true, stops: [ { name: "SP Chowk", morning: "05:50 AM", evening: "01:50 PM", night: "09:50 PM" }, { name: "Liaqat School", morning: "05:55 AM", evening: "01:55 PM", night: "09:55 PM" }, { name: "Batti Chowk", morning: "05:59 AM", evening: "01:59 PM", night: "09:59 PM" }, { name: "Interchange", morning: "06:10 AM", evening: "02:10 PM", night: "10:10 PM" }, { name: "Phatak", morning: "06:38 AM", evening: "02:38 PM", night: "10:38 PM" }, { name: "PPAK", morning: "06:45 AM", evening: "02:45 PM", night: "10:45 PM" } ] }
-        ];
+function todayPick(){
+  const n=new Date();
+  if(n.getFullYear()===2026&&n.getMonth()===3)return{item:MENU[n.getDate()-1],exact:true};
+  const same=MENU.filter(x=>x.day===DAYS[n.getDay()]);
+  return{item:same[Math.min(Math.floor((n.getDate()-1)/7),same.length-1)],exact:false};
+}
 
-        function renderTransportGrid() {
-            const grid = document.getElementById('routeGrid');
-            grid.innerHTML = '';
-            routesData.forEach(route => {
-                const icon = route.isMultiShift ? 'fa-business-time' : 'fa-bus';
-                const cardHTML = `
-                    <div class="card" onclick="openRoutePopup(${route.id})">
-                        <span class="stops-badge">${route.stops.length} Stops</span>
-                        <i class="fas ${icon} card-icon"></i>
-                        <div>
-                            <div class="small-card-title">${route.title}</div>
-                            <div class="small-card-desc" style="margin-top: 8px;">
-                                <span style="display:inline-block; margin-bottom:6px; font-size:10px; padding:2px 6px; background: #f3f4f6; border-radius:4px; font-weight: 500;">${route.type}</span><br>
-                                <i class="fas fa-van-shuttle" style="width:14px;"></i> ${route.vehicle.split('(')[0]}<br>
-                                <i class="fas fa-user-tie" style="width:14px;"></i> ${route.driver}
-                            </div>
-                        </div>
-                        <i class="fas fa-arrow-right arrow-icon"></i>
-                    </div>
-                `;
-                grid.insertAdjacentHTML('beforeend', cardHTML);
-            });
-        }
+function renderToday(){
+  const{item,exact}=todayPick(),n=new Date();
+  const fri=n.getDay()===5?`<div class="fri">🎉 Friday Special!</div>`:'';
+  $('todayCard').innerHTML=`
+    <span class="tag">${exact?"Today's Lunch":'Menu Preview · '+item.day}</span>
+    <div><span class="emo">${emo(item.m)}</span>
+    <h3>${item.m.replace('+',' + ')}</h3>
+    <div class="meta">${item.s}${item.w?' · 🍬 '+item.w:''}</div></div>
+    ${fri}
+    <div class="note">${exact?'Tap to see the full month':'Based on April 2026 plan · tap for full menu'}</div>`;
+}
+renderToday();
 
-        function openRoutePopup(id) {
-            const route = routesData.find(r => r.id === id);
-            if(!route) return;
+function renderMenu(){
+  const q=$('menuSearch').value.trim().toLowerCase(),sw=$('sweetBtn').classList.contains('on');
+  const n=new Date(),isApr=n.getFullYear()===2026&&n.getMonth()===3;
+  const rows=MENU.filter(x=>(!q||(x.m+x.s+x.w+x.day).toLowerCase().includes(q))&&(!sw||x.w));
+  $('menuBody').innerHTML=rows.length?rows.map(x=>`
+    <tr class="${isApr&&x.d===n.getDate()?'today-row':''} ${x.day==='Friday'?'fri':''}">
+      <td style="font-weight:600">${x.d}-Apr-26</td><td>${x.day}</td>
+      <td style="font-weight:500">${emo(x.m)} ${x.m}</td><td>${x.s}</td>
+      <td>${x.w?`<span class="sweet-badge">${x.w}</span>`:'-'}</td></tr>`).join('')
+    :`<tr><td colspan="5" class="empty">No dish found 🍽️</td></tr>`;
+}
 
-            document.getElementById('pop-title').textContent = route.title;
-            document.getElementById('pop-vehicle').innerHTML = `<i class="fas fa-van-shuttle"></i> ${route.vehicle}`;
-            document.getElementById('pop-driver').innerHTML = `<i class="fas fa-user-tie"></i> ${route.driver}`;
-            document.getElementById('pop-contact').innerHTML = `<i class="fas fa-phone"></i> ${route.contact}`;
+/* ---------- TRANSPORT DATA ---------- */
+/* general: Name|HH:MM (AM) ; shift routes: Name|morning|evening|night */
+const P=(s,m)=>s.split(';').map(x=>{const a=x.split('|');return{n:a[0],t:m?[a[1]+' AM',a[2]+' PM',a[3]+' PM']:[a[1]+' AM']}});
+const ROUTES=[
+{id:1,t:'Raiwind to PPAK',ty:'General Shift',dr:'Shahzad',c:'0305-4598250',v:'LES 440 (Coaster)',out:'05:05 PM',s:P('IPAK|07:00;Raiwind Adda|07:25;Sabzi Mandi|07:28;LDA Chok|07:55;Nawab town|08:00;Ali town|08:02;Thokar Niaz Baig|08:05;PPAK Plant|08:55')},
+{id:2,t:'Gajjumata to PPAK',ty:'General Shift',dr:'Sameer',c:'0303-8205214',v:'LES 5992 (Grand Cabin)',out:'05:05 PM',s:P('Saroba Garden|07:30;Kanchi|07:35;Deffence Chowk|07:42;Walltan|07:45;Kot Lakhpat|07:50;Pindi Stop|07:55;Jinna Hospital|08:00;PPAK Plant|08:55')},
+{id:3,t:'Sky Land to PPAK',ty:'General Shift',dr:'Abdullah',c:'0307-8807215',v:'LES 6440 (Grand Cabin)',out:'05:05 PM',s:P('Sky Land|07:25;Main Rasheed Road|07:38;Taj Bagh|07:39;Shalimar|07:50;Sukh Naar|07:51;Bati Chowk|08:06;Saggian pul|08:12;Babo Sabo|08:18;PPAK Plant|08:55')},
+{id:4,t:'SKP General',ty:'General Shift',dr:'Asif',c:'0302-3955759',v:'LES 7871 (Coaster)',out:'05:05 PM',s:P('Ghazi Phatak|08:15;Kips College|08:17;SP Chowk|08:22;Jinnah Park|08:27;Batti Chowk|08:32;Gourmet Bakery|08:38;Housing Colony|08:40;Phatak|08:50;PPAK Plant|08:55')},
+{id:5,t:'SKP SP Chowk',ty:'3 Shifts (8 Hrs)',dr:'Tariq',c:'Admin',v:'RNO 5885 (Coaster)',m:1,s:P('SP Chowk|06:10|02:10|10:10;Bihari colony|06:12|02:12|10:12;Dil chowk|06:16|02:16|10:16;Sadar chowk|06:25|02:25|10:25;Batti chowk|06:26|02:26|10:26;Interchange|06:35|02:35|10:35;PPAK Plant|06:45|02:45|10:45',1)},
+{id:6,t:'Batti Chowk',ty:'3 Shifts (8 Hrs)',dr:'Ejaz',c:'Admin',v:'LES 4075 (Coaster)',m:1,s:P('Batti Chowk|06:20|02:20|10:20;Gourmet Bakery|06:23|02:23|10:23;Housing Colony|06:26|02:26|10:26;Total Pump|06:28|02:28|10:28;Saleem Kot|06:30|02:30|10:30;Phatak|06:38|02:38|10:38;PPAK Plant|06:45|02:45|10:45',1)},
+{id:7,t:'Ali town',ty:'3 Shifts (8 Hrs)',dr:'Sharaf / Awais',c:'0305-6696155',v:'LES 7444 (Coaster)',m:1,s:P('Ali town Station|05:47|01:36|09:47;Thokar Niaz Bag|05:50|01:40|09:50;Scheme mor|06:00|02:00|10:00;Shera kot|06:05|02:07|10:05;Labor Colony|06:37|02:37|10:37;Plant|06:45|02:45|10:45',1)},
+{id:8,t:'Harbanspura',ty:'3 Shifts (8 Hrs)',dr:'Wzaif / Shaban',c:'0326-4323505',v:'CBC 740 (Grand Cabin)',m:1,s:P('Dharmpura|05:40|01:30|09:40;Harbans pura|05:48|01:38|09:52;Shahdra|06:05|01:55|10:12;Kot A.Malik|06:10|02:00|10:20;PPAK Plant|06:45|02:45|10:45',1)},
+{id:9,t:'SP Chowk (HRSG)',ty:'3 Shifts (HRSG)',dr:'Abbas',c:'0324-4134670',v:'BSA 457 (BUS)',m:1,s:P('SP Chowk|05:50|01:50|09:50;Liaqat School|05:55|01:55|09:55;Batti Chowk|05:59|01:59|09:59;Interchange|06:10|02:10|10:10;Phatak|06:38|02:38|10:38;PPAK Plant|06:45|02:45|10:45',1)}
+];
 
-            const timelineBox = document.getElementById('pop-timeline');
-            timelineBox.innerHTML = ''; 
+const IC={
+ bus:'<svg class="ic" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="14" rx="2"/><path d="M4 11h16M7 21v-4M17 21v-4"/></svg>',
+ user:'<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>',
+ arrow:'<svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+ phone:'<svg class="ic" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>'
+};
+function renderRoutes(){
+  const q=$('routeSearch').value.trim().toLowerCase();
+  const list=ROUTES.map(r=>{
+    const hit=q?r.s.find(s=>s.n.toLowerCase().includes(q)):null;
+    const match=!q||hit||(r.t+r.dr+r.v).toLowerCase().includes(q);
+    return match?{r,hit}:null;
+  }).filter(Boolean);
+  $('routeCount').textContent=`${list.length} of ${ROUTES.length} routes`;
+  $('routeGrid').innerHTML=list.length?list.map(({r,hit},ix)=>{
+    const f=r.s[0],l=r.s[r.s.length-1];
+    return `
+    <div class="rt" style="animation-delay:${ix*45}ms" onclick="openRoute(${r.id})">
+      <div class="rt-top"><span class="rt-no">${String(r.id).padStart(2,'0')}</span><span class="rt-type">${r.ty}</span></div>
+      <div class="rt-title">${r.t}</div>
+      <div class="rt-times">${f.t[0]}<i>&rarr;</i>${l.t[0]}${r.m?' <u>Morning</u>':''}</div>
+      <div class="rt-meta"><span>${IC.bus}${r.v}</span><span>${IC.user}${r.dr}</span></div>
+      ${hit?`<span class="hit">Stop: ${hit.n} &middot; ${hit.t[0]}</span>`:''}
+      <div class="rt-foot"><span>${r.s.length} stops</span>${IC.arrow}</div>
+    </div>`}).join(''):`<div class="empty">No matching stop or route found</div>`;
+}
 
-            route.stops.forEach((stop, index) => {
-                if(route.isMultiShift) {
-                    timelineBox.innerHTML += `
-                        <div class="stop-item">
-                            <div class="stop-header">
-                                <span class="stop-name">${stop.name}</span>
-                            </div>
-                            <div class="shift-badges">
-                                <div class="shift-pill"><i class="fas fa-sun"></i> ${stop.morning}</div>
-                                <div class="shift-pill"><i class="fas fa-cloud-sun"></i> ${stop.evening}</div>
-                                <div class="shift-pill"><i class="fas fa-moon"></i> ${stop.night}</div>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    let shiftOutAlert = (index === route.stops.length - 1 && route.shiftOut) 
-                        ? `<div class="shift-out-alert"><i class="far fa-clock"></i> Shift Out: ${route.shiftOut}</div>` 
-                        : '';
-                    timelineBox.innerHTML += `
-                        <div class="stop-item">
-                            <div class="stop-header">
-                                <span class="stop-name">${stop.name}</span>
-                                <span class="stop-time">${stop.time}</span>
-                            </div>
-                            ${shiftOutAlert}
-                        </div>
-                    `;
-                }
-            });
+let curRoute=null,curShift=0;
+function openRoute(id){
+  curRoute=ROUTES.find(r=>r.id===id);curShift=0;
+  const r=curRoute;
+  $('pop-title').textContent=r.t;
+  $('pop-v').innerHTML=`<small>Vehicle</small><b>${r.v}</b>`;
+  $('pop-d').innerHTML=`<small>Driver</small><b>${r.dr}</b>`;
+  $('pop-c').innerHTML=`<small>Contact</small><b>${r.c}</b>`;
+  $('pop-call').innerHTML=/\d/.test(r.c)?`<a class="call-btn" href="tel:${r.c.replace(/-/g,'')}">${IC.phone} Call Driver</a>`:'';
+  drawTimeline();
+  openModalGroup('routePopup');
+}
+function drawTimeline(){
+  const r=curRoute;
+  $('pop-tabs').innerHTML=r.m?['Morning','Evening','Night'].map((n,i)=>`<button class="tab ${i===curShift?'on':''}" onclick="curShift=${i};drawTimeline()">${n}</button>`).join(''):'';
+  const n=r.s.length,D=Math.max(1,n*.18);
+  $('pop-timeline').innerHTML=`<div class="track" style="--D:${D}s">`+r.s.map((s,i)=>`
+    <div class="stop ${i===n-1?'last':''}" style="animation-delay:${i*35}ms;--d:${(D*i/(n-1)).toFixed(2)}s"><b>${s.n}</b><em>${s.t[r.m?curShift:0]}</em></div>`).join('')+`</div>`
+    +(!r.m&&r.out?`<div class="out" style="--D:${D}s">Shift Out: ${r.out}</div>`:'');
+}
 
-            openModalGroup('routePopup');
-        }
-    </script>
+/* ---------- MODAL LOGIC ---------- */
+function openModalGroup(id){
+  if(id==='messMenuModal')renderMenu();
+  if(id==='transportGridModal')renderRoutes();
+  $(id).style.display='flex';
+}
+function closeModalGroup(id){
+  $(id).style.display='none';
+  if(id==='contentModal')$('modalIframe').src='';
+}
+function openIframe(title,url){
+  $('modalTitle').innerText=title;
+  $('modalIframe').src=url;
+  openModalGroup('contentModal');
+}
+window.onclick=e=>{if(e.target.classList.contains('modal-overlay'))closeModalGroup(e.target.id)};
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')document.querySelectorAll('.modal-overlay').forEach(m=>closeModalGroup(m.id));
+});
+</script>
 </body>
 </html>

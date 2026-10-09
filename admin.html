@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IPAK HelpDesk - Employee Services</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--navy:#1B2640;--navy2:#2b3b66;--lime:#9CB500;--white:#fff;--grey:#6B7280;--bg:#F9FAFB;--red:#EF4444;--wa:#25D366;--line:#E5E7EB}
@@ -26,7 +25,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 @keyframes rise{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}
 
 /* HERO */
-.hero{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:20px;margin-bottom:20px}
+.hero{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:20px}
 .wave{display:inline-block;animation:wave 2.2s ease-in-out infinite;transform-origin:70% 70%}
 @keyframes wave{0%,60%,100%{transform:rotate(0)}10%,30%{transform:rotate(16deg)}20%,40%{transform:rotate(-10deg)}50%{transform:rotate(8deg)}}
 
@@ -43,11 +42,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 
 /* BIG CARDS */
 .bento-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.big-center-card{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:34px 20px;text-align:center;cursor:pointer;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;box-shadow:0 4px 10px rgba(0,0,0,.02);transition:.4s cubic-bezier(.16,1,.3,1)}
+.big-center-card{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:26px 20px;text-align:center;cursor:pointer;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;box-shadow:0 4px 10px rgba(0,0,0,.02);transition:.4s cubic-bezier(.16,1,.3,1)}
 .big-center-card::after{content:'';position:absolute;left:0;bottom:0;height:4px;width:0;background:var(--lime);transition:width .5s}
 .big-center-card:hover::after{width:100%}
 .big-center-card:hover{transform:translateY(-8px);border-color:rgba(156,181,0,.5);box-shadow:0 20px 25px -5px rgba(27,38,64,.07)}
-.big-icon-wrapper{background:rgba(156,181,0,.1);width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:18px;transition:.4s}
+.big-icon-wrapper{background:rgba(156,181,0,.1);width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:14px;transition:.4s}
 .big-center-card:hover .big-icon-wrapper{background:var(--lime);transform:scale(1.1) rotate(-6deg)}
 .big-icon-wrapper i{font-size:2.3rem;color:var(--lime);transition:.4s}
 .big-center-card:hover .big-icon-wrapper i{color:#fff}
@@ -125,7 +124,7 @@ footer{text-align:center;margin-top:auto;padding-top:40px;color:#9CA3AF;font-siz
 .greet-pill{align-self:flex-start;background:rgba(156,181,0,.16);color:#6b7c00;font-weight:700;font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:5px 12px;border-radius:50px}
 .welcome h1{font-size:1.3rem;font-weight:800;margin:4px 0 0;line-height:1.2}
 .welcome p{color:var(--grey);font-size:.82rem}
-.clock{font-size:1.5rem;font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums;line-height:1}
+.clock{font-size:1.8rem;font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums;line-height:1}
 .dateline{color:var(--grey);font-size:12px;margin-top:2px;font-weight:500}
 .cd{font-size:1.4rem!important;font-weight:800!important;letter-spacing:-1px;font-variant-numeric:tabular-nums}
 .shiftrow{display:flex;gap:5px;margin-top:6px}
@@ -167,7 +166,27 @@ footer{text-align:center;margin-top:auto;padding-top:40px;color:#9CA3AF;font-siz
 @keyframes ping{0%{box-shadow:0 0 0 0 rgba(156,181,0,.5)}100%{box-shadow:0 0 0 9px rgba(156,181,0,0)}}
 .out{margin-top:6px;animation:fadeUp .5s ease var(--D) backwards}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}}
-@media(max-width:900px){.hero,.bento-grid{grid-template-columns:1fr}.modal-container{width:95%;height:95vh}.top-bar{padding:0 16px}}
+/* HERO - single connected band */
+.hero{gap:20px;background:#F4F7E8;box-shadow:inset 0 0 0 1px rgba(156,181,0,.3);border-radius:16px;overflow:hidden}
+.welcome,.today{background:transparent;border:none;border-radius:0;box-shadow:none;padding:22px 28px;gap:10px}
+.welcome::after{display:none}
+.hero>*{position:relative;overflow:visible}
+.hero>*+*::before{content:"";position:absolute;left:-10px;top:0;bottom:0;width:1px;background:rgba(156,181,0,.3)}
+.today{transition:background .3s}
+.today:hover{transform:none;box-shadow:none;background:rgba(156,181,0,.1)}
+.today h3{font-size:1.3rem}
+.cd{font-size:1.8rem!important}
+.welcome h1{font-size:1.5rem}
+/* SVG icon sizing */
+.big-icon-wrapper svg{width:30px;height:30px;stroke:var(--lime);transition:stroke .4s}
+.big-center-card:hover .big-icon-wrapper svg{stroke:#fff}
+.card-icon.ic{width:24px;height:24px}
+.top-bar .ic{width:22px;height:22px}
+.close-btn .ic{width:20px;height:20px}
+.support-btn .ic{width:18px;height:18px}
+.arrow-icon.ic{width:16px;height:16px}
+.user-icon.ic{cursor:pointer}
+@media(max-width:900px){.hero{gap:0}.hero>*+*::before{left:0;right:0;top:0;bottom:auto;width:auto;height:1px}.hero,.bento-grid{grid-template-columns:1fr}.modal-container{width:95%;height:95vh}.top-bar{padding:0 16px}}
 </style>
 </head>
 <body>
@@ -175,8 +194,8 @@ footer{text-align:center;margin-top:auto;padding-top:40px;color:#9CA3AF;font-siz
 <nav class="top-bar">
   <a href="dashboard.html" class="logo-link"><img src="logo.png" alt="Logo"></a>
   <div class="header-actions">
-    <a href="dashboard.html" class="user-icon" title="Back to Dashboard"><i class="fas fa-arrow-left"></i></a>
-    <i class="fas fa-user-circle user-icon" title="My Profile"></i>
+    <a href="dashboard.html" class="user-icon" title="Back to Dashboard"><svg class="ic " viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a>
+    <svg class="ic user-icon" viewBox="0 0 24 24" title="My Profile"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.5c1.5-2.5 3.5-3.5 5.5-3.5s4 1 5.5 3.5"/></svg>
     <button class="logout-btn" onclick="location.href='index.html'">Logout</button>
   </div>
 </nav>
@@ -188,7 +207,7 @@ footer{text-align:center;margin-top:auto;padding-top:40px;color:#9CA3AF;font-siz
     <div class="welcome">
       <span class="greet-pill" id="greet">Welcome</span>
       <div>
-        <h1>Welcome back <span class="wave">👋</span></h1>
+        <h1>Welcome back</h1>
         <p>What can we help you with today?</p>
       </div>
       <div>
@@ -203,19 +222,19 @@ footer{text-align:center;margin-top:auto;padding-top:40px;color:#9CA3AF;font-siz
   <!-- MAIN CARDS -->
   <div class="bento-grid rise" style="animation-delay:.1s">
     <div class="big-center-card" onclick="openModalGroup('feedbackGridModal')">
-      <div class="big-icon-wrapper"><i class="fas fa-comment-dots"></i></div>
+      <div class="big-icon-wrapper"><svg class="ic " viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"/><path d="M9 12h.01M12 12h.01M15 12h.01"/></svg></div>
       <div class="card-title">Feedback Forms</div>
       <div class="card-desc">Share your suggestions or report issues via forms</div>
       <span class="count">3 Forms</span>
     </div>
     <div class="big-center-card" onclick="openModalGroup('messMenuModal')">
-      <div class="big-icon-wrapper"><i class="fas fa-utensils"></i></div>
+      <div class="big-icon-wrapper"><svg class="ic " viewBox="0 0 24 24"><path d="M6 3v7a2 2 0 0 0 2 2v9M10 3v7a2 2 0 0 1-2 2M18 21V3c-2.5 1.5-3 4.5-3 8h3"/></svg></div>
       <div class="card-title">Daily Mess Menu</div>
       <div class="card-desc">View today's meals and the complete monthly plan</div>
       <span class="count">30 Days</span>
     </div>
     <div class="big-center-card" onclick="openModalGroup('transportGridModal')">
-      <div class="big-icon-wrapper"><i class="fas fa-bus"></i></div>
+      <div class="big-icon-wrapper"><svg class="ic " viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="14" rx="2"/><path d="M4 11h16M7 21v-4M17 21v-4"/></svg></div>
       <div class="card-title">Transport Routes</div>
       <div class="card-desc">View all pick &amp; drop network data and timings</div>
       <span class="count">9 Routes</span>
@@ -223,8 +242,8 @@ footer{text-align:center;margin-top:auto;padding-top:40px;color:#9CA3AF;font-siz
   </div>
 
   <div class="action-area rise" style="animation-delay:.2s">
-    <button class="support-btn btn-whatsapp" onclick="window.open('https://wa.me/923222818107','_blank')"><i class="fab fa-whatsapp" style="font-size:18px"></i> WhatsApp Support</button>
-    <button class="support-btn btn-email" onclick="location.href='mailto:hamza.farooq@ipak.com.pk'"><i class="fas fa-envelope" style="font-size:16px"></i> Email Support</button>
+    <button class="support-btn btn-whatsapp" onclick="window.open('https://wa.me/923222818107','_blank')"><svg class="ic " viewBox="0 0 24 24"><path d="M3 21l1.6-4.8A9 9 0 1 1 8 19.5z"/><path d="M9 9c0 3 3 6 6 6l1-2-2-1-1 .8c-1-.4-2-1.4-2.4-2.4l.8-1-1-2z"/></svg> WhatsApp Support</button>
+    <button class="support-btn btn-email" onclick="location.href='mailto:hamza.farooq@ipak.com.pk'"><svg class="ic " viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg> Email Support</button>
   </div>
 
   <footer>&copy; 2026 IPAK PORTAL | DESIGNED BY TEAM HR</footer>
@@ -233,7 +252,7 @@ footer{text-align:center;margin-top:auto;padding-top:40px;color:#9CA3AF;font-siz
 <!-- IFRAME MODAL -->
 <div id="contentModal" class="modal-overlay" style="z-index:100005">
   <div class="modal-container">
-    <div class="modal-header"><h3 id="modalTitle">Loading...</h3><button class="close-btn" onclick="closeModalGroup('contentModal')"><i class="fas fa-times"></i></button></div>
+    <div class="modal-header"><h3 id="modalTitle">Loading...</h3><button class="close-btn" onclick="closeModalGroup('contentModal')"><svg class="ic " viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="modal-body"><iframe id="modalIframe" src="" allowfullscreen></iframe></div>
   </div>
 </div>
@@ -241,12 +260,12 @@ footer{text-align:center;margin-top:auto;padding-top:40px;color:#9CA3AF;font-siz
 <!-- FEEDBACK MODAL -->
 <div id="feedbackGridModal" class="modal-overlay">
   <div class="modal-container" style="max-width:1000px;height:auto;max-height:90vh">
-    <div class="modal-header"><h3>Feedback Forms</h3><button class="close-btn" onclick="closeModalGroup('feedbackGridModal')"><i class="fas fa-times"></i></button></div>
+    <div class="modal-header"><h3>Feedback Forms</h3><button class="close-btn" onclick="closeModalGroup('feedbackGridModal')"><svg class="ic " viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="modal-body pad">
       <div class="bento-grid" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">
-        <div class="card" onclick="openIframe('IPAK | CPAK','https://docs.google.com/forms/d/e/1FAIpQLScuIvju-2HULZ6ngfwCzgCypQnq5NVWP2tCZNvT7nXZkPZrfQ/viewform?embedded=true')"><i class="fas fa-industry card-icon"></i><div><div class="small-card-title">IPAK | CPAK</div><div class="small-card-desc">Submit feedback for IPAK &amp; CPAK facilities</div></div><i class="fas fa-arrow-right arrow-icon"></i></div>
-        <div class="card" onclick="openIframe('PETPAK | GPAK','https://docs.google.com/forms/d/e/1FAIpQLSdP8faxqah1YZfdHxY-VITqvb1efvrs_i9plILBSCFOWuRB4w/viewform?embedded=true')"><i class="fas fa-box card-icon"></i><div><div class="small-card-title">PETPAK | GPAK</div><div class="small-card-desc">Submit feedback for PETPAK &amp; GPAK facilities</div></div><i class="fas fa-arrow-right arrow-icon"></i></div>
-        <div class="card" onclick="openIframe('IPAK | KARACHI','https://docs.google.com/forms/d/e/1FAIpQLSf1hsYgSD9MXyLj1-3vRTVXkMqoqIGgXnysswE7M5m4rMc7Aw/viewform?embedded=true')"><i class="fas fa-city card-icon"></i><div><div class="small-card-title">IPAK | KARACHI</div><div class="small-card-desc">Submit feedback for Karachi facility</div></div><i class="fas fa-arrow-right arrow-icon"></i></div>
+        <div class="card" onclick="openIframe('IPAK | CPAK','https://docs.google.com/forms/d/e/1FAIpQLScuIvju-2HULZ6ngfwCzgCypQnq5NVWP2tCZNvT7nXZkPZrfQ/viewform?embedded=true')"><svg class="ic card-icon" viewBox="0 0 24 24"><path d="M3 21V11l6 4v-4l6 4V5h3v16z"/></svg><div><div class="small-card-title">IPAK | CPAK</div><div class="small-card-desc">Submit feedback for IPAK &amp; CPAK facilities</div></div><svg class="ic arrow-icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        <div class="card" onclick="openIframe('PETPAK | GPAK','https://docs.google.com/forms/d/e/1FAIpQLSdP8faxqah1YZfdHxY-VITqvb1efvrs_i9plILBSCFOWuRB4w/viewform?embedded=true')"><svg class="ic card-icon" viewBox="0 0 24 24"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg><div><div class="small-card-title">PETPAK | GPAK</div><div class="small-card-desc">Submit feedback for PETPAK &amp; GPAK facilities</div></div><svg class="ic arrow-icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        <div class="card" onclick="openIframe('IPAK | KARACHI','https://docs.google.com/forms/d/e/1FAIpQLSf1hsYgSD9MXyLj1-3vRTVXkMqoqIGgXnysswE7M5m4rMc7Aw/viewform?embedded=true')"><svg class="ic card-icon" viewBox="0 0 24 24"><path d="M4 21V9h6v12M10 21V4h10v17M7 13h.01M7 17h.01M14 8h2M14 12h2M14 16h2"/></svg><div><div class="small-card-title">IPAK | KARACHI</div><div class="small-card-desc">Submit feedback for Karachi facility</div></div><svg class="ic arrow-icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
       </div>
     </div>
   </div>
@@ -255,11 +274,11 @@ footer{text-align:center;margin-top:auto;padding-top:40px;color:#9CA3AF;font-siz
 <!-- MESS MENU MODAL -->
 <div id="messMenuModal" class="modal-overlay">
   <div class="modal-container" style="max-width:1000px">
-    <div class="modal-header"><h3>Monthly Mess Menu - April 2026</h3><button class="close-btn" onclick="closeModalGroup('messMenuModal')"><i class="fas fa-times"></i></button></div>
+    <div class="modal-header"><h3>Monthly Mess Menu - April 2026</h3><button class="close-btn" onclick="closeModalGroup('messMenuModal')"><svg class="ic " viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="modal-body pad">
       <div class="toolbar">
         <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="menuSearch" placeholder="Search a dish, e.g. Biryani, Haleem..." oninput="renderMenu()"></div>
-        <button class="pill-btn" id="sweetBtn" onclick="this.classList.toggle('on');renderMenu()">🍬 Sweet days</button>
+        <button class="pill-btn" id="sweetBtn" onclick="this.classList.toggle('on');renderMenu()">Sweet days</button>
       </div>
       <div class="menu-table-container">
         <table class="menu-table">
@@ -274,7 +293,7 @@ footer{text-align:center;margin-top:auto;padding-top:40px;color:#9CA3AF;font-siz
 <!-- TRANSPORT MODAL -->
 <div id="transportGridModal" class="modal-overlay">
   <div class="modal-container">
-    <div class="modal-header"><h3>Transport Network Data</h3><button class="close-btn" onclick="closeModalGroup('transportGridModal')"><i class="fas fa-times"></i></button></div>
+    <div class="modal-header"><h3>Transport Network Data</h3><button class="close-btn" onclick="closeModalGroup('transportGridModal')"><svg class="ic " viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="modal-body pad">
       <div class="toolbar">
         <div class="search"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><input id="routeSearch" placeholder="Find my stop: Batti Chowk, Shalimar, Raiwind..." oninput="renderRoutes()"></div>
@@ -288,7 +307,7 @@ footer{text-align:center;margin-top:auto;padding-top:40px;color:#9CA3AF;font-siz
 <!-- ROUTE POPUP -->
 <div id="routePopup" class="modal-overlay" style="z-index:100005">
   <div class="modal-container" style="max-width:550px;height:auto;max-height:85vh">
-    <div class="modal-header"><h3 id="pop-title">Route</h3><button class="close-btn" onclick="closeModalGroup('routePopup')"><i class="fas fa-times"></i></button></div>
+    <div class="modal-header"><h3 id="pop-title">Route</h3><button class="close-btn" onclick="closeModalGroup('routePopup')"><svg class="ic " viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="modal-body pad">
       <div class="pop-meta"><span id="pop-v"></span><span id="pop-d"></span><span id="pop-c"></span></div>
       <div id="pop-call"></div>
@@ -305,7 +324,7 @@ const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturda
 /* ---------- HERO: greeting, clock ---------- */
 function tick(){
   const n=new Date(),h=n.getHours();
-  $('greet').textContent=h<12?'☀️ Good morning':h<17?'🌤️ Good afternoon':'🌙 Good evening';
+  $('greet').textContent=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
   $('clock').textContent=n.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
   $('dateTxt').textContent=n.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'});
 }
@@ -313,7 +332,7 @@ tick();setInterval(tick,1000);
 
 
 /* ---------- NEXT SHIFT BUS WIDGET ---------- */
-const SHIFTS=[{n:'Morning',e:'☀️',m:405,l:'06:45 AM'},{n:'Evening',e:'🌤️',m:885,l:'02:45 PM'},{n:'Night',e:'🌙',m:1365,l:'10:45 PM'}];
+const SHIFTS=[{n:'Morning',m:405,l:'06:45 AM'},{n:'Evening',m:885,l:'02:45 PM'},{n:'Night',m:1365,l:'10:45 PM'}];
 function renderShift(){
   const n=new Date(),now=n.getHours()*60+n.getMinutes();
   let i=SHIFTS.findIndex(x=>x.m>now);if(i<0)i=0;
@@ -321,10 +340,10 @@ function renderShift(){
   const h=Math.floor(diff/60),m=diff%60;
   $('shiftCard').innerHTML=`
     <span class="tag">Next Shift Bus</span>
-    <div><span class="emo">🚌</span>
+    <div>
     <h3 class="cd">${h?h+'h ':''}${String(m).padStart(2,'0')}m</h3>
     <div class="meta">Reaches the plant at ${SHIFTS[i].l}</div>
-    <div class="shiftrow">${SHIFTS.map((x,k)=>`<span class="sdot ${k===i?'on':''}">${x.e} ${x.n}</span>`).join('')}</div></div>
+    <div class="shiftrow">${SHIFTS.map((x,k)=>`<span class="sdot ${k===i?'on':''}">${x.n}</span>`).join('')}</div></div>
     <div class="note">Shift routes only · tap for all routes</div>`;
 }
 renderShift();setInterval(renderShift,15000);
@@ -333,7 +352,6 @@ renderShift();setInterval(renderShift,15000);
 const MENU=`Mix Vegetable+Roti|Mint Raita|;Dal Mash+Alu Tiki+Roti|Mint Raita|;Chicken Pulao|Mint Raita|Gud Rice;Black Chana+Roti|Salad|;Alu Chicken+Roti|Salad|;Chicken Green Masala+Roti|Salad|;Alu Matar Kari+Roti|Salad|;Kabab Masala+Roti|Salad|;White Channa Egg+Roti|Salad|;Chicken Biryani|Raita|Mutanjan;Mix Vegetable+Roti|Mint Raita|;Dal Channa Fri+Roti|Salad|;Chicken Qorma+Roti|Salad|;Channa Pulao|Mint Raita|;Steam Roast+Mix Dal+Roti|Mint Raita|;Mix Vegetable+Roti|Mint Raita|;Chicken Pulao|Raita|Zarda;Black Chana+Roti|Salad|;Alu Chicken+Roti|Salad|;Chicken Karahi+Roti|Salad|;Mix Vegetable+Roti|Mint Raita|;Chicken Qeema Matar+Roti|Mint Raita|;Haleem+Khameeri Roti|Garnish|;Sindhi Biryani|Raita|Mutanjan;Dal Channa+Roti|Salad|;Alu Matar Kari+Roti|Salad|;Chicken Jalfrezi+Roti|Salad|;Channa Pulao|Mint Raita|;Chapli Kabab+Mix Dal+Roti|Mint Raita|;White Channa Egg+Roti|Salad|`
 .split(';').map((r,i)=>{const[a,b,c]=r.split('|');return{d:i+1,day:DAYS[new Date(2026,3,i+1).getDay()],m:a,s:b,w:c}});
 
-const emo=m=>/biryani|pulao/i.test(m)?'🍛':/haleem/i.test(m)?'🥣':/kabab/i.test(m)?'🍢':/chicken/i.test(m)?'🍗':/dal|chana|channa/i.test(m)?'🫘':'🥘';
 
 function todayPick(){
   const n=new Date();
@@ -344,12 +362,12 @@ function todayPick(){
 
 function renderToday(){
   const{item,exact}=todayPick(),n=new Date();
-  const fri=n.getDay()===5?`<div class="fri">🎉 Friday Special!</div>`:'';
+  const fri=n.getDay()===5?`<div class="fri">Friday Special</div>`:'';
   $('todayCard').innerHTML=`
     <span class="tag">${exact?"Today's Lunch":'Menu Preview · '+item.day}</span>
-    <div><span class="emo">${emo(item.m)}</span>
+    <div>
     <h3>${item.m.replace('+',' + ')}</h3>
-    <div class="meta">${item.s}${item.w?' · 🍬 '+item.w:''}</div></div>
+    <div class="meta">${item.s}${item.w?' · '+item.w:''}</div></div>
     ${fri}
     <div class="note">${exact?'Tap to see the full month':'Based on April 2026 plan · tap for full menu'}</div>`;
 }
@@ -362,9 +380,9 @@ function renderMenu(){
   $('menuBody').innerHTML=rows.length?rows.map(x=>`
     <tr class="${isApr&&x.d===n.getDate()?'today-row':''} ${x.day==='Friday'?'fri':''}">
       <td style="font-weight:600">${x.d}-Apr-26</td><td>${x.day}</td>
-      <td style="font-weight:500">${emo(x.m)} ${x.m}</td><td>${x.s}</td>
+      <td style="font-weight:500">${x.m}</td><td>${x.s}</td>
       <td>${x.w?`<span class="sweet-badge">${x.w}</span>`:'-'}</td></tr>`).join('')
-    :`<tr><td colspan="5" class="empty">No dish found 🍽️</td></tr>`;
+    :`<tr><td colspan="5" class="empty">No dish found</td></tr>`;
 }
 
 /* ---------- TRANSPORT DATA ---------- */

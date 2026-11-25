@@ -207,7 +207,7 @@
     <nav class="top-bar">
         <a href="dashboard.html" class="logo-link"><img src="assets/logo.png" alt="IPAK Logo"></a>
         <div class="header-actions">
-            <i class="fas fa-user-circle user-icon" title="My Profile"></i>
+            <i class="fas fa-user-circle user-icon" id="profileIcon" title="My Profile"></i>
             <button class="logout-btn" onclick="logout()"><i class="fas fa-arrow-right-from-bracket"></i><span>Logout</span></button>
         </div>
     </nav>
@@ -537,8 +537,9 @@
             }
         });
 
-        let myUserId = localStorage.getItem('ipak_user_id');
-        let myUserName = localStorage.getItem('ipak_user_name');
+        const _au = (window.IPAKAuth && IPAKAuth.user()) || {};
+        let myUserId = _au.id ? 'emp_' + _au.id : localStorage.getItem('ipak_user_id');
+        let myUserName = _au.name || localStorage.getItem('ipak_user_name');
         if (!myUserId || !myUserName) {
             myUserId = 'user_' + Math.random().toString(36).substr(2, 9);
             myUserName = prompt("Chat Lounge mein shamil hone kay liye apna naam darj karein:", "");
@@ -619,11 +620,17 @@
             var g = document.getElementById('greet'), d = document.getElementById('dateNow'), t = document.getElementById('timeNow');
             function tick() {
                 var n = new Date(), h = n.getHours();
-                if (g) g.textContent = h < 12 ? 'Good morning' : (h < 17 ? 'Good afternoon' : 'Good evening');
+                var u = (window.IPAKAuth && IPAKAuth.user()) || {};
+                var nm = u.name || '';
+                var hello = h < 12 ? 'Good morning' : (h < 17 ? 'Good afternoon' : 'Good evening');
+                if (g) g.textContent = nm ? hello + ', ' + nm : hello;
                 if (d) d.textContent = n.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
                 if (t) t.textContent = n.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
             }
             tick(); setInterval(tick, 15000);
+            var pi = document.getElementById('profileIcon');
+            var cu = (window.IPAKAuth && IPAKAuth.user()) || {};
+            if (pi && cu.name) pi.title = cu.name + (cu.position ? ' - ' + cu.position : '');
             var dots = document.querySelectorAll('.banner-dots i'), sl = document.querySelectorAll('.banner-slide');
             function sync() { sl.forEach(function (s, i) { if (dots[i]) dots[i].classList.toggle('on', s.classList.contains('active')); }); }
             sync(); setInterval(sync, 400);

@@ -34,7 +34,16 @@
         .welcome { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 20px; }
         .welcome-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--lime-ink); margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
         .welcome-eyebrow::before { content: ''; width: 24px; height: 3px; border-radius: 3px; background: var(--lime); }
-        .welcome h1 { font-size: clamp(1.5rem, 1.6vw + 1rem, 2.4rem); font-weight: 800; color: var(--navy-900); letter-spacing: -.03em; line-height: 1.1; }
+        .welcome h1 { display: flex; flex-direction: column; gap: 2px; line-height: 1.1; letter-spacing: -.03em; }
+        .greet-line { font-size: clamp(1rem, .5vw + .9rem, 1.35rem); font-weight: 500; color: var(--navy); opacity: .7; letter-spacing: -.01em; display: flex; align-items: center; gap: 8px; }
+        .greet-emoji { display: inline-block; transform-origin: 70% 70%; animation: wave 2.4s ease-in-out 1; }
+        @keyframes wave { 0%,60%,100% { transform: rotate(0) } 10%,30% { transform: rotate(14deg) } 20%,40% { transform: rotate(-8deg) } 50% { transform: rotate(10deg) } }
+        .uname { font-size: clamp(1.7rem, 1.8vw + 1rem, 2.6rem); font-weight: 800; color: var(--navy-900); position: relative; width: fit-content; padding-bottom: 6px; }
+        .uname::after { content: ''; position: absolute; left: 0; bottom: 0; width: 56%; height: 4px; border-radius: 4px; background: var(--lime); }
+        .umeta { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; }
+        .umeta span { font-size: 12.5px; font-weight: 600; color: var(--navy); background: var(--navy-50); border: 1px solid var(--navy-100); padding: 4px 11px; border-radius: 999px; }
+        .umeta span:first-child { background: var(--lime-100); border-color: transparent; color: var(--lime-ink); }
+        @media (prefers-reduced-motion: reduce) { .greet-emoji { animation: none; } }
         .clock { text-align: right; display: flex; flex-direction: column; line-height: 1.15; }
         .clock span { font-size: clamp(1.4rem, 1.2vw + 1rem, 2rem); font-weight: 800; color: var(--navy); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
         .clock small { font-size: 13px; color: var(--muted); font-weight: 500; margin-top: 4px; }
@@ -218,7 +227,8 @@
             <section class="welcome">
                 <div>
                     <div class="welcome-eyebrow">Employee Service Portal</div>
-                    <h1><span id="greet">Welcome</span></h1>
+                    <h1><span class="greet-line"><span id="greet">Welcome</span><span class="greet-emoji" aria-hidden="true">👋</span></span><span id="uname" class="uname"></span></h1>
+                    <div id="umeta" class="umeta"></div>
                 </div>
                 <div class="clock"><span id="timeNow"></span><small id="dateNow"></small></div>
             </section>
@@ -623,11 +633,19 @@
                 var u = (window.IPAKAuth && IPAKAuth.user()) || {};
                 var nm = u.name || '';
                 var hello = h < 12 ? 'Good morning' : (h < 17 ? 'Good afternoon' : 'Good evening');
-                if (g) g.textContent = nm ? hello + ', ' + nm : hello;
+                if (g) g.textContent = hello;
                 if (d) d.textContent = n.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
                 if (t) t.textContent = n.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
             }
             tick(); setInterval(tick, 15000);
+            var un = document.getElementById('uname'), um = document.getElementById('umeta');
+            var au = (window.IPAKAuth && IPAKAuth.user()) || {};
+            if (un) un.textContent = au.name || '';
+            if (um) {
+                [au.position, au.dept || au.company].filter(Boolean).forEach(function (t) {
+                    var sp = document.createElement('span'); sp.textContent = t; um.appendChild(sp);
+                });
+            }
             var pi = document.getElementById('profileIcon');
             var cu = (window.IPAKAuth && IPAKAuth.user()) || {};
             if (pi && cu.name) pi.title = cu.name + (cu.position ? ' - ' + cu.position : '');

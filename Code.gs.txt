@@ -78,7 +78,7 @@ function passOk_(stored, given) {
 function fp_(stored) { return sha_('fp|' + String(stored).trim()).slice(0, 10); }
 
 function findUser_(id) {
-  const rows = sheet_().getDataDisplayValues();   // display values => leading zeros bach jaate hain
+const rows = sheet_().getDataRange().getDisplayValues();
   const want = normId_(id);
   for (let i = 1; i < rows.length; i++) {
     if (normId_(rows[i][0]) === want && want) return rows[i];
@@ -150,7 +150,7 @@ function verify_(req) {
   let idx = cache.get('idx');
   if (!idx) {
     const map = {};
-    const rows = sheet_().getDataDisplayValues();
+const rows = sheet_().getDataRange().getDisplayValues();
     for (let i = 1; i < rows.length; i++) map[normId_(rows[i][0])] = fp_(rows[i][1]);
     idx = JSON.stringify(map);
     cache.put('idx', idx, 300);
@@ -171,4 +171,10 @@ function hashAllPasswords() {
     return [(!v || v.indexOf('sha256:') === 0) ? v : 'sha256:' + sha_('ipak|' + v)];
   });
   rng.setNumberFormat('@').setValues(vals);
+}
+function debugSheet() {
+  const sh = sheet_();
+  Logger.log(sh.getParent().getName() + ' / ' + sh.getName() + ' / rows=' + sh.getLastRow());
+  const r = findUser_('0069');
+  Logger.log(r ? 'found: ' + r[2] : 'NOT found');
 }

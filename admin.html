@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="assets/auth.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IPAK HelpDesk - Employee Services</title>
@@ -202,7 +203,7 @@ footer{text-align:center;margin-top:auto;padding-top:40px;color:#9CA3AF;font-siz
   <div class="header-actions">
     <a href="dashboard.html" class="user-icon" title="Back to Dashboard"><svg class="ic " viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a>
     <svg class="ic user-icon" viewBox="0 0 24 24" title="My Profile"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.5c1.5-2.5 3.5-3.5 5.5-3.5s4 1 5.5 3.5"/></svg>
-    <button class="logout-btn" onclick="location.href='index.html'">Logout</button>
+    <button class="logout-btn" onclick="IPAKAuth.logout()">Logout</button>
   </div>
 </nav>
 

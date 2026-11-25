@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="assets/auth.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPAK Portal - Media of Events</title>
@@ -630,7 +631,7 @@ document.querySelectorAll('a, .event-card, button').forEach(el => {
     el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
 });
 
-function logout() { window.location.href = "index.html"; }
+function logout() { IPAKAuth.logout(); }
 </script>
 </body>
 </html>

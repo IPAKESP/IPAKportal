@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-public>
 <head>
+    <script src="assets/auth.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#203265">
@@ -212,8 +213,8 @@
                     </div>
 
                     <div class="input-group">
-                        <label for="email">Corporate Email</label>
-                        <input type="email" id="email" placeholder="name@company.com" autocomplete="username" inputmode="email">
+                        <label for="email">Employee ID</label>
+                        <input type="text" id="email" placeholder="e.g. 00347" autocomplete="username" inputmode="numeric" maxlength="20">
                     </div>
 
                     <div class="input-group">
@@ -229,22 +230,14 @@
 
                     <button id="mainBtn" onclick="submitForm()">Login to Portal</button>
 
-                    <div class="toggle">
-                        <p id="toggleText">New User? <span onclick="switchMode()">Create Account</span></p>
-                    </div>
-
                     <div id="msg" class="msg"></div>
 
-                    <div class="form-foot"><i class="fas fa-lock"></i> Encrypted &amp; secure sign-in</div>
+                    <div class="form-foot"><i class="fas fa-lock"></i> Authorized employees only &middot; Accounts are issued by HR</div>
                 </div>
                 <footer class="site-footer"><div class="sf-inner"><div class="sf-brand"><img src="assets/logo.png" alt="IPORTAL"><span>&copy; 2026 IPAK. All rights reserved.</span></div><div class="sf-credit">Designed and developed by <strong>Team HR</strong></div></div></footer>
             </div>
         </main>
     </div>
-
-    <!-- FIREBASE SCRIPTS -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
     <script>
         // --- SCREENSAVER LOGIC ---
@@ -300,94 +293,46 @@
         // Run the timer every 1 second (1000ms)
         setInterval(timerIncrement, 1000);
 
-        // --- FIREBASE & AUTH LOGIC ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyCg251SA39YSg5p7lZ20Oe4BSzQFB4bm1E",
-            authDomain: "employee-service-portal-b753b.firebaseapp.com",
-            projectId: "employee-service-portal-b753b",
-            storageBucket: "employee-service-portal-b753b.firebasestorage.app",
-            messagingSenderId: "787703437938",
-            appId: "1:787703437938:web:383b6f148067a0590400eb",
-            measurementId: "G-DNMT4J7RGL"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        let mode = "login";
-
+        // --- SECURE LOGIN (Employee ID + Password from HR sheet) ---
         function togglePassword() {
-            const passwordInput = document.getElementById("password");
-            const toggleBtn = document.querySelector(".password-toggle");
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                toggleBtn.innerText = "Hide";
-            } else {
-                passwordInput.type = "password";
-                toggleBtn.innerText = "Show";
-            }
+            const p = document.getElementById("password");
+            const t = document.querySelector(".password-toggle");
+            if (p.type === "password") { p.type = "text"; t.innerText = "Hide"; }
+            else { p.type = "password"; t.innerText = "Show"; }
         }
 
-        function switchMode() {
-            const title = document.getElementById("title");
-            const btn = document.getElementById("mainBtn");
-            const toggleText = document.getElementById("toggleText");
-            const msg = document.getElementById("msg");
-            const rememberBox = document.querySelector(".remember-box");
-            msg.style.display = "none";
-            if (mode === "login") {
-                mode = "signup";
-                title.innerText = "Create Account";
-                btn.innerText = "Register Now";
-                toggleText.innerHTML = 'Already registered? <span onclick="switchMode()">Sign In</span>';
-                rememberBox.style.display = "none";
-            } else {
-                mode = "login";
-                title.innerText = "Service Portal";
-                btn.innerText = "Login to Portal";
-                toggleText.innerHTML = 'New User? <span onclick="switchMode()">Create Account</span>';
-                rememberBox.style.display = "flex";
-            }
+        function safeNext() {
+            const n = new URLSearchParams(location.search).get("next") || "";
+            return /^[a-z0-9_-]+\.html$/i.test(n) && n !== "index.html" ? n : "dashboard.html";
         }
+
+        if (window.IPAKAuth && IPAKAuth.isLoggedIn()) { location.replace(safeNext()); }
 
         function submitForm() {
-            const email = document.getElementById("email").value.trim();
+            const id = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value.trim();
+            const remember = document.getElementById("rememberMe").checked;
             const btn = document.getElementById("mainBtn");
-            if (!email || !password) { showMsg("Please enter both email and password", "error"); return; }
+            if (!id || !password) { showMsg("Employee ID aur Password dono likhein", "error"); return; }
             btn.disabled = true;
-            btn.innerText = "Processing...";
-            const targetURL = "dashboard.html"; 
-
-            if (mode === "signup") {
-                auth.createUserWithEmailAndPassword(email, password)
-                    .then(() => {
-                        showMsg("Account created! Redirecting...", "success");
-                        setTimeout(() => { window.location.href = targetURL; }, 1500);
-                    })
-                    .catch(err => {
-                        showMsg(err.message, "error");
-                        btn.disabled = false;
-                        btn.innerText = "Register Now";
-                    });
-            } else {
-                const rememberMe = document.getElementById("rememberMe").checked;
-                const persistenceType = rememberMe ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION;
-                auth.setPersistence(persistenceType)
-                    .then(() => auth.signInWithEmailAndPassword(email, password))
-                    .then(() => {
-                        showMsg("Credentials Verified!", "success");
-                        setTimeout(() => {
-                            document.getElementById('loader').style.display = 'flex';
-                            setTimeout(() => { window.location.href = targetURL; }, 1000);
-                        }, 500);
-                    })
-                    .catch(err => {
-                        showMsg("Invalid Credentials", "error");
-                        btn.disabled = false;
-                        btn.innerText = "Login to Portal";
-                    });
-            }
+            btn.innerText = "Verifying...";
+            IPAKAuth.login(id, password, remember).then(r => {
+                if (r.ok) {
+                    showMsg("Welcome, " + r.user.name + "!", "success");
+                    document.getElementById("loader").style.display = "flex";
+                    setTimeout(() => { location.replace(safeNext()); }, 600);
+                } else {
+                    showMsg(r.error === "locked"
+                        ? "Bohat zyada ghalat koshishein. " + (r.minutes || 15) + " minute baad dobara try karein."
+                        : "Invalid Employee ID or Password", "error");
+                    btn.disabled = false; btn.innerText = "Login to Portal";
+                }
+            }).catch(() => {
+                showMsg("Connection error. Dobara try karein.", "error");
+                btn.disabled = false; btn.innerText = "Login to Portal";
+            });
         }
+        document.addEventListener("keydown", e => { if (e.key === "Enter") submitForm(); });
 
         function showMsg(text, type) {
             const msg = document.getElementById("msg");

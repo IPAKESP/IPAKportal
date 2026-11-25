@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="assets/auth.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marketplace - Buy & Sell</title>
@@ -196,7 +197,7 @@
             </a>
             <i class="fas fa-lock admin-lock" onclick="toggleAdmin()" title="Admin Mode"></i>
             <i class="fas fa-user-circle user-icon" title="My Profile"></i>
-            <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
+            <button class="logout-btn" onclick="IPAKAuth.logout()">Logout</button>
         </div>
     </nav>
 

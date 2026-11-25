@@ -1,0 +1,174 @@
+/**
+ * IPAK Portal - Secure Login Backend (Google Apps Script)
+ * Sheet columns (row 1 = header):
+ *   A Employee Id | B Password | C Full Name | D Grade | E Position | F Org. Location | G Location | H Company
+ *
+ * Setup:
+ *  1. Sheet kholein -> Extensions -> Apps Script -> yeh poora code paste karein.
+ *  2. Neeche SHEET_ID aur TAB_NAME check karein.
+ *  3. Run -> setupSecret  (sirf ek baar, permissions allow karein).
+ *  4. Deploy -> New deployment -> Web app -> Execute as: Me, Who has access: Anyone -> Deploy.
+ *  5. Jo Web app URL mile woh assets/auth.js ke AUTH_API mein paste karein.
+ *  6. Sheet ka sharing "Restricted" rakhein (Anyone with link NAHI).
+ *  7. Code badalne par: Deploy -> Manage deployments -> pencil -> New version -> Deploy.
+ */
+const SHEET_ID  = '1RpNZ6pWo00DTRea71WUyT3FKICYtYKDvS0qrp4iOQCc';
+const TAB_NAME  = '';                 // khali = pehla tab
+const LOG_TAB   = 'LoginLog';         // login history ka tab (khud ban jata hai)
+const MAX_FAILS = 5;                  // itni ghalat koshishon ke baad lock
+const LOCK_MIN  = 15;                 // lock ka waqt (minutes)
+const SESSION_HOURS = 12;             // normal session
+const REMEMBER_DAYS = 7;              // "Keep me logged in" session
+
+function setupSecret() {
+  const p = PropertiesService.getScriptProperties();
+  if (!p.getProperty('SECRET')) {
+    p.setProperty('SECRET', Utilities.getUuid() + Utilities.getUuid());
+  }
+}
+
+function doPost(e) {
+  try {
+    const req = JSON.parse(e.postData.contents || '{}');
+    if (req.action === 'login')  return out_(login_(req));
+    if (req.action === 'verify') return out_(verify_(req));
+    return out_({ ok: false, error: 'bad_request' });
+  } catch (err) {
+    return out_({ ok: false, error: 'server' });
+  }
+}
+function doGet() { return out_({ ok: true, service: 'IPAK auth' }); }
+
+function out_(o) {
+  return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
+}
+
+/* ---------- helpers ---------- */
+function normId_(v) {                       // "00101" aur "101" dono chalein
+  return String(v == null ? '' : v).trim().replace(/^0+/, '');
+}
+function sheet_() {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  return TAB_NAME ? ss.getSheetByName(TAB_NAME) : ss.getSheets()[0];
+}
+function sha_(s) {
+  return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, s, Utilities.Charset.UTF_8)
+    .map(b => ('0' + (b & 0xff).toString(16)).slice(-2)).join('');
+}
+function hmac_(s) {
+  const secret = PropertiesService.getScriptProperties().getProperty('SECRET');
+  return Utilities.computeHmacSha256Signature(s, secret)
+    .map(b => ('0' + (b & 0xff).toString(16)).slice(-2)).join('');
+}
+function same_(a, b) {                       // constant-time compare
+  a = String(a); b = String(b);
+  if (a.length !== b.length) return false;
+  let r = 0;
+  for (let i = 0; i < a.length; i++) r |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return r === 0;
+}
+/* password match: plain text ya "sha256:<hex>" (hashed) dono support */
+function passOk_(stored, given) {
+  stored = String(stored == null ? '' : stored).trim();
+  given  = String(given == null ? '' : given).trim();
+  if (!stored || !given) return false;
+  if (stored.indexOf('sha256:') === 0) return same_(stored.slice(7), sha_('ipak|' + given));
+  return same_(stored, given);
+}
+function fp_(stored) { return sha_('fp|' + String(stored).trim()).slice(0, 10); }
+
+function findUser_(id) {
+  const rows = sheet_().getDataDisplayValues();   // display values => leading zeros bach jaate hain
+  const want = normId_(id);
+  for (let i = 1; i < rows.length; i++) {
+    if (normId_(rows[i][0]) === want && want) return rows[i];
+  }
+  return null;
+}
+
+/* ---------- login log (password kabhi save nahi hota) ---------- */
+function log_(id, name, result) {
+  try {
+    const ss = SpreadsheetApp.openById(SHEET_ID);
+    let sh = ss.getSheetByName(LOG_TAB);
+    if (!sh) {
+      sh = ss.insertSheet(LOG_TAB);
+      sh.appendRow(['Time', 'Employee ID', 'Name', 'Result']);
+      sh.setFrozenRows(1);
+      sh.getRange('B:B').setNumberFormat('@');    // ID text rahe, zeros na katen
+    }
+    sh.appendRow([new Date(), String(id).slice(0, 20), name || '', result]);
+  } catch (e) { /* log fail ho to login na rukay */ }
+}
+
+/* ---------- login ---------- */
+function login_(req) {
+  const id = String(req.id || '').trim();
+  const pw = String(req.password || '').trim();
+  if (!id || !pw || id.length > 20 || pw.length > 64) return { ok: false, error: 'invalid' };
+
+  const cache = CacheService.getScriptCache();
+  const key = 'f_' + normId_(id);
+  const fails = Number(cache.get(key) || 0);
+  if (fails >= MAX_FAILS) {
+    log_(id, '', 'LOCKED');
+    return { ok: false, error: 'locked', minutes: LOCK_MIN };
+  }
+
+  const row = findUser_(id);
+  if (!row || !passOk_(row[1], pw)) {
+    log_(id, row ? String(row[2]).trim() : '', 'FAILED');
+    cache.put(key, String(fails + 1), LOCK_MIN * 60);
+    Utilities.sleep(700);
+    return { ok: false, error: 'invalid' };
+  }
+  cache.remove(key);
+  log_(id, String(row[2]).trim(), 'SUCCESS');
+
+  const hours = req.remember ? REMEMBER_DAYS * 24 : SESSION_HOURS;
+  const user = {
+    id: String(row[0]).trim(), name: String(row[2]).trim(), grade: String(row[3]).trim(),
+    position: String(row[4]).trim(), dept: String(row[5]).trim(),
+    location: String(row[6]).trim(), company: String(row[7]).trim()
+  };
+  const payload = { n: normId_(row[0]), f: fp_(row[1]), exp: Date.now() + hours * 3600 * 1000 };
+  const body = Utilities.base64EncodeWebSafe(JSON.stringify(payload));
+  return { ok: true, token: body + '.' + hmac_(body), exp: payload.exp, user: user };
+}
+
+/* ---------- verify (har page load par) ---------- */
+function verify_(req) {
+  const t = String(req.token || '').split('.');
+  if (t.length !== 2 || !same_(t[1], hmac_(t[0]))) return { ok: false, error: 'bad_token' };
+  let p;
+  try { p = JSON.parse(Utilities.newBlob(Utilities.base64DecodeWebSafe(t[0])).getDataAsString()); }
+  catch (e) { return { ok: false, error: 'bad_token' }; }
+  if (!p.exp || p.exp < Date.now()) return { ok: false, error: 'expired' };
+
+  // user abhi sheet mein hai aur password change nahi hua? (5 min cache)
+  const cache = CacheService.getScriptCache();
+  let idx = cache.get('idx');
+  if (!idx) {
+    const map = {};
+    const rows = sheet_().getDataDisplayValues();
+    for (let i = 1; i < rows.length; i++) map[normId_(rows[i][0])] = fp_(rows[i][1]);
+    idx = JSON.stringify(map);
+    cache.put('idx', idx, 300);
+  }
+  const map = JSON.parse(idx);
+  if (!map[p.n] || map[p.n] !== p.f) return { ok: false, error: 'revoked' };
+  return { ok: true, exp: p.exp };
+}
+
+/* ---------- optional: sheet ke plain passwords ko hash kar dein ---------- */
+function hashAllPasswords() {
+  const sh = sheet_();
+  const last = sh.getLastRow();
+  if (last < 2) return;
+  const rng = sh.getRange(2, 2, last - 1, 1);
+  const vals = rng.getDisplayValues().map(r => {
+    const v = String(r[0]).trim();
+    return [(!v || v.indexOf('sha256:') === 0) ? v : 'sha256:' + sha_('ipak|' + v)];
+  });
+  rng.setNumberFormat('@').setValues(vals);
+}

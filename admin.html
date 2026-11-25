@@ -280,7 +280,7 @@ footer{text-align:center;margin-top:auto;padding-top:40px;color:#9CA3AF;font-siz
 <!-- MESS MENU MODAL -->
 <div id="messMenuModal" class="modal-overlay">
   <div class="modal-container" style="max-width:1000px">
-    <div class="modal-header"><h3>Monthly Mess Menu - April 2026</h3><button class="close-btn" onclick="closeModalGroup('messMenuModal')"><svg class="ic " viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="modal-header"><h3 id="menuTitle">Monthly Mess Menu</h3><button class="close-btn" onclick="closeModalGroup('messMenuModal')"><svg class="ic " viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="modal-body pad">
       <div class="toolbar">
         <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="menuSearch" placeholder="Search a dish, e.g. Biryani, Haleem..." oninput="renderMenu()"></div>
@@ -354,14 +354,18 @@ function renderShift(){
 }
 renderShift();setInterval(renderShift,15000);
 
-/* ---------- MESS MENU DATA (April 2026) ---------- */
-const MENU=`Mix Vegetable+Roti|Mint Raita|;Dal Mash+Alu Tiki+Roti|Mint Raita|;Chicken Pulao|Mint Raita|Gud Rice;Black Chana+Roti|Salad|;Alu Chicken+Roti|Salad|;Chicken Green Masala+Roti|Salad|;Alu Matar Kari+Roti|Salad|;Kabab Masala+Roti|Salad|;White Channa Egg+Roti|Salad|;Chicken Biryani|Raita|Mutanjan;Mix Vegetable+Roti|Mint Raita|;Dal Channa Fri+Roti|Salad|;Chicken Qorma+Roti|Salad|;Channa Pulao|Mint Raita|;Steam Roast+Mix Dal+Roti|Mint Raita|;Mix Vegetable+Roti|Mint Raita|;Chicken Pulao|Raita|Zarda;Black Chana+Roti|Salad|;Alu Chicken+Roti|Salad|;Chicken Karahi+Roti|Salad|;Mix Vegetable+Roti|Mint Raita|;Chicken Qeema Matar+Roti|Mint Raita|;Haleem+Khameeri Roti|Garnish|;Sindhi Biryani|Raita|Mutanjan;Dal Channa+Roti|Salad|;Alu Matar Kari+Roti|Salad|;Chicken Jalfrezi+Roti|Salad|;Channa Pulao|Mint Raita|;Chapli Kabab+Mix Dal+Roti|Mint Raita|;White Channa Egg+Roti|Salad|`
-.split(';').map((r,i)=>{const[a,b,c]=r.split('|');return{d:i+1,day:DAYS[new Date(2026,3,i+1).getDay()],m:a,s:b,w:c}});
+/* ---------- MESS MENU DATA (change these 3 lines + MENU each month) ---------- */
+const MENU_Y=2026, MENU_M=10;            // M: 0=Jan ... 10=Nov
+const MENU_LABEL='November 2026';
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][MENU_M], YY=String(MENU_Y).slice(2);
+$('menuTitle').textContent='Monthly Mess Menu - '+MENU_LABEL;
 
+const MENU=`Kadhi Pakora+Roti|Mix Salad|;Chicken Karahi+Roti|Mix Salad|;Zeera Rice+Mix Dall+Cutlet|Achar + Kachomer Salad|;Chicken Steam Roast+Mix Dall+Roti|Mint Raita|;Black Chana+Roti|Mix Salad|;Chicken Biryani|Raita|Mutanjan;Chicken Haleem+Khameri Roti|Garnish|;Mix Vegetable+Roti|Mint Raita|Halwa;Chicken White Karahi+Roti|Mix Salad|;Chana Pulao|Mint Raita|;Chicken Kerala+Roti|Mint Raita|;White Chana+Boil Eggs+Roti|Mix Salad|;Beef Pulao|Mint Raita|Gurr Rice;Dall Mash+Cutlet+Roti|Mint Raita|;Aloo Chicken Curry+Roti|Mix Salad|;Chicken Korma+Roti|Mix Salad|;Zeera Rice+Sabut Masoor+Cutlet|Achar + Mix Salad|;Chicken Jalfarazi+Roti|Mix Salad|;Mix Vegetable+Roti|Mix Salad|;Chicken Biryani|Raita|Zarda;Aloo Kofta+Roti|Mint Raita|;Aloo Mater Curry+Roti|Mint Raita|;Chicken Karahi+Roti|Mix Salad|;Black Chana+Roti|Mix Salad|;Chicken Manchurian+Vegetable Rice||;Kadhi Pakora+Roti|Mix Salad|;Afghani Pulao|Mint Raita|Mutanjan;Kabab Masala+Roti|Mix Salad|;Daal Chicken+Roti|Mix Salad|;Beef Nihari+Khameri Roti|Mix Salad|`
+.split(';').map((r,i)=>{const[a,b,c]=r.split('|');return{d:i+1,day:DAYS[new Date(MENU_Y,MENU_M,i+1).getDay()],m:a,s:b,w:c}});
 
 function todayPick(){
   const n=new Date();
-  if(n.getFullYear()===2026&&n.getMonth()===3)return{item:MENU[n.getDate()-1],exact:true};
+  if(n.getFullYear()===MENU_Y&&n.getMonth()===MENU_M)return{item:MENU[n.getDate()-1],exact:true};
   const same=MENU.filter(x=>x.day===DAYS[n.getDay()]);
   return{item:same[Math.min(Math.floor((n.getDate()-1)/7),same.length-1)],exact:false};
 }
@@ -372,21 +376,21 @@ function renderToday(){
   $('todayCard').innerHTML=`
     <span class="tag">${exact?"Today's Lunch":'Menu Preview · '+item.day}</span>
     <div>
-    <h3>${item.m.replace('+',' + ')}</h3>
-    <div class="meta">${item.s}${item.w?' · '+item.w:''}</div></div>
+    <h3>${item.m.replace(/\+/g,' + ')}</h3>
+    <div class="meta">${item.s||''}${item.w?(item.s?' · ':'')+item.w:''}</div></div>
     ${fri}
-    <div class="note">${exact?'Tap to see the full month':'Based on April 2026 plan · tap for full menu'}</div>`;
+    <div class="note">${exact?'Tap to see the full month':'Based on '+MENU_LABEL+' plan · tap for full menu'}</div>`;
 }
 renderToday();
 
 function renderMenu(){
   const q=$('menuSearch').value.trim().toLowerCase(),sw=$('sweetBtn').classList.contains('on');
-  const n=new Date(),isApr=n.getFullYear()===2026&&n.getMonth()===3;
+  const n=new Date(),isCur=n.getFullYear()===MENU_Y&&n.getMonth()===MENU_M;
   const rows=MENU.filter(x=>(!q||(x.m+x.s+x.w+x.day).toLowerCase().includes(q))&&(!sw||x.w));
   $('menuBody').innerHTML=rows.length?rows.map(x=>`
-    <tr class="${isApr&&x.d===n.getDate()?'today-row':''} ${x.day==='Friday'?'fri':''}">
-      <td style="font-weight:600">${x.d}-Apr-26</td><td>${x.day}</td>
-      <td style="font-weight:500">${x.m}</td><td>${x.s}</td>
+    <tr class="${isCur&&x.d===n.getDate()?'today-row':''} ${x.day==='Friday'?'fri':''}">
+      <td style="font-weight:600">${x.d}-${MON}-${YY}</td><td>${x.day}</td>
+      <td style="font-weight:500">${x.m.replace(/\+/g,' + ')}</td><td>${x.s||'-'}</td>
       <td>${x.w?`<span class="sweet-badge">${x.w}</span>`:'-'}</td></tr>`).join('')
     :`<tr><td colspan="5" class="empty">No dish found</td></tr>`;
 }
